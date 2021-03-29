@@ -58,6 +58,12 @@
 		    <artifactId>spring-security-config</artifactId>
 		    <version>${org.springsecurity-version}</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-taglibs</artifactId>
+		    <version>${org.springsecurity-version}</version>
+		</dependency>
 				
 		<!-- AspectJ -->
 		<dependency>
