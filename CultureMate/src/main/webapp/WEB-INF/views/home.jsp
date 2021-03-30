@@ -1,4 +1,6 @@
-<%@ include file="/views/common/header.jsp"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 <h1>
 	Hello world!  
@@ -8,4 +10,4 @@
 
 <p> 환경설정 끝~ 만세~ </p>
 
-<%@ include file="/views/common/footer.jsp"%>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
