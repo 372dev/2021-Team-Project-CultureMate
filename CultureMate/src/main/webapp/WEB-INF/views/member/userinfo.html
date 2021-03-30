@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <title>회원정보수정</title>
+</head>
+<body>
+<section>
+    <div class="userinfo">
+        <form id="memberFrom">
+            <table>
+                <tr>
+                    <th>아이디 : </th>
+                    <td>
+                        <input type="text" name="userId" id="userId" value="admin1234" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이름 : </th>
+                    <td>
+                        <input type="text" name="userName" id="userName" value="관리자" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <th>생년월일 : </th>
+                    <td>
+                        <input type="number" name="dateBirth" id="dateBirth" value="970330" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>주소 : </th>
+                    <td>
+                        api사용
+                    </td>
+                </tr>
+                <tr>
+                    <th>이메일 : </th>
+                    <td>
+                        <input type="email" name="email" id="email" value="cm@gmail.com" required> 
+                    </td>
+                </tr>
+                <tr>
+                    <th>휴대전화 : </th>
+                    <td>
+                        <input type="tel" name="phone" id="phone" value="01023334456" required>
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <input type="button" value="취소">
+                <input type="submit" value="수정">
+            </div>
+        </form>
+        <div>
+            컬처메이트를 더이상 사용하지 않는다면 <a href="">회원탈퇴하기</a>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>
