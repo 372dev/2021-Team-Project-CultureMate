@@ -1,4 +1,4 @@
-package com.kh.cm.mvc.member.model.dao;
+package com.kh.cm.member.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 

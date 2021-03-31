@@ -1,4 +1,4 @@
-package com.kh.cm.mvc.member.model.vo;
+package com.kh.cm.member.model.vo;
 
 import java.sql.Date;
 import java.util.ArrayList;
