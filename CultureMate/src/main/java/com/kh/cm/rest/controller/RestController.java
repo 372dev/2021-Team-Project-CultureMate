@@ -1,5 +1,7 @@
 package com.kh.cm.rest.controller;
 
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.cm.rest.model.vo.ShowList;
-import com.kh.cm.rest.model.vo.ShowListContainer;
-import com.kh.cm.rest.model.service.ShowServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,24 +21,26 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/show")
 public class RestController {
 	
-	@Autowired
-	private ShowServiceImpl showService;
-	
-    @RequestMapping(value = "/getShowList", method = RequestMethod.GET)
+	@RequestMapping(value = "/getShowList", method = RequestMethod.GET)
     public ModelAndView list(
-    		ShowListContainer showListContainer,
-    		RestTemplate restTemplate,
     		ModelAndView model
     		) {
-    	Map<String, String> params = new HashMap<String, int>();
-    	params.put("page", 1);
-
-    	ShowList showList = new ShowList();
-    	showListContainer = restTemplate.getForObject("http://www.kopis.or.kr/openApi/restful/pblprfr?service=fe0b63fcf599492aae0dc065406b676b&stdate=20210329&eddate=20210501&rows=10&cpage={page}", showList);
-
-    	Employee result = restTemplate.getForObject(uri, Employee.class, params);
+		String key = "fe0b63fcf599492aae0dc065406b676b";
+		String stdate = "20210329";
+		String eddate = "20210501";
+		String rows = "10";
+		String cpage = "1";
+		
+        StringBuilder urlBuilder = new StringBuilder("http://www.kopis.or.kr/openApi/restful/pblprfr");
+        urlBuilder.append("?service=" + key);
+        urlBuilder.append("&stdate=" + stdate);
+        urlBuilder.append("&eddate=" + eddate);
+        urlBuilder.append("&rows=" + rows);
+        urlBuilder.append("&cpage=" + cpage);
+//        urlBuilder.append("&" + URLEncoder.encode("shprfnmfct","UTF-8") + "=" + URLEncoder.encode("예술의전당", "UTF-8"));
+        URL url = new URL(urlBuilder.toString());
     	
-		model.addObject("showListContainer", showListContainer);
+		model.addObject("", );
 		model.setViewName("show/showList");
         
         return model;
