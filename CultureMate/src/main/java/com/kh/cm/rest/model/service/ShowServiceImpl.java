@@ -14,6 +14,7 @@ public class ShowServiceImpl implements ShowService {
 	@Autowired
 	private ShowDAO showDao;
 	
+	@Override
 	public List<ShowList> getShowList() {
 		List<ShowList> showList = showDao.getShowList();
 		return showList;
