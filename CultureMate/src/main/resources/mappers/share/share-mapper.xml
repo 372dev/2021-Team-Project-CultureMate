@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.share.model.dao.ShareDao">
+	<sql id="shareListSql">
+		SELECT S.SHARE_ID,
+			   M.ID,
+			   S.SHARE_TITLE,
+			   S.SHARE_CONTENT,
+			   S.SHARE_ORIGINAL_FILENAME,
+			   S.SHARE_COUNT,
+			   S.SHARE_CREATE_DATE,
+			   S.SHARESTATUS
+		FROM SHARE S
+		JOIN MEMBER M ON(S.SHARE_WRITER_ID = M.ID)
+		WHERE S.SHARESTATUS='Y'	   
+	</sql>
+	
+	<sql id="shareReplySql">
+	SELECT SHAREREPLY_ID, SHARE_ID, SHAREWRITER_ID, R.ID, SHAREREPLY_CONTENT, R.SHARE_CREATE_DATE, R.SHAREREPLY_MODIFY_DATE, R.SHARESTATUS
+		FROM SHAREREPLY R 
+	</sql>
+	
+ 	<resultMap type="Share" id="shareResultMap">
+ 		<id property="shareId" column="SHARE_ID" />
+ 		<result property="Id" column="ID"/>
+		<result property="shareTitle" column="SHARE_TITLE"/>
+		<result property="shareContent" column="SHARE_CONTENT"/>
+		<result property="shareOriginalFileName" column="SHARE_ORIGINAL_FILENAME"/>
+		<result property="shareRenamedFileName" column="SHARE_RENAMED_FILENAME"/>
+		<result property="shareCount" column="SHARE_COUNT"/>
+		<result property="shareStatus" column="SHARE_STATUS"/>
+		<result property="shareCreateDate" column="SHARE_CREATE_DATE"/>			
+ 	</resultMap>
+ 	
+ 	<resultMap type="shareReply" id="shareReplyResultMap">
+		<id property="shareReplyId" column="SHAREREPLY_ID"/>
+		<result property="shareId" column="SHARE_ID"/>
+		<result property="shareWriterId" column="SHAREWRITER_ID"/>
+		<result property="Id" column="R_ID"/>
+		<result property="shareReplyContent" column="SHAREREPLY_CONTENT"/>
+		<result property="shareReplyStatus" column="SHAREREPLY_STATUS"/>
+		<result property="shareReplyCreateDate" column="SHAREREPLY_CREATE_DATE"/>
+		<result property="shareReplyModifyDate" column="SHAREREPLY_MODIFY_DATE"/>
+	</resultMap>
+</mapper>
