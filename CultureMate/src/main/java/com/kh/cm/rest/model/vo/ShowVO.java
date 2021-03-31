@@ -2,13 +2,14 @@ package com.kh.cm.rest.model.vo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="db")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ShowList {
-    @XmlElement(name="mt20id")
+public class ShowVO {
+	@XmlAttribute(name="mt20id")
     private String mt20id;
     @XmlElement(name="prfnm")
     private String prfnm;
@@ -26,24 +27,6 @@ public class ShowList {
     private String prfstate;
     @XmlElement(name="openrun")
     private String openrun;
-    
-	public ShowList() {
-		super();
-	}
-	
-	public ShowList(String mt20id, String prfnm, String prfpdfrom, String prfpdto, String fcltynm, String poster,
-			String genrenm, String prfstate, String openrun) {
-		super();
-		this.mt20id = mt20id;
-		this.prfnm = prfnm;
-		this.prfpdfrom = prfpdfrom;
-		this.prfpdto = prfpdto;
-		this.fcltynm = fcltynm;
-		this.poster = poster;
-		this.genrenm = genrenm;
-		this.prfstate = prfstate;
-		this.openrun = openrun;
-	}
 
 	public String getMt20id() {
 		return mt20id;
@@ -99,6 +82,5 @@ public class ShowList {
 	public void setOpenrun(String openrun) {
 		this.openrun = openrun;
 	}
-    
     
 }
