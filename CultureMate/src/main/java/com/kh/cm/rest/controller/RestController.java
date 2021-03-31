@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cm.rest.model.vo.ShowList;
 import com.kh.cm.rest.model.vo.ShowListContainer;
-import com.kh.cm.rest.model.service.ShowService;
+import com.kh.cm.rest.model.service.ShowServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RestController {
 	
 	@Autowired
-	private ShowService showService;
+	private ShowServiceImpl showService;
 	
     @RequestMapping(value = "/getShowList", method = RequestMethod.GET,produces=MediaType.APPLICATION_XML_VALUE)
     public ModelAndView list(

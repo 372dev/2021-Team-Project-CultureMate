@@ -13,6 +13,4 @@ public class ShowDAO {
 		return null;
 	}
 
-	
-	
 }
