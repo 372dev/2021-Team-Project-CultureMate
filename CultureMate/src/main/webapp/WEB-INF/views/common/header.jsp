@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -15,7 +16,7 @@
 
 	<div id="header">
 		<div id="header-container">
-			<img class="cm_logo" src="resources/images/logo.png" alt="">
+			<img class="cm_logo" src="${pageContext.request.contextPath}/resources/images/logo.png" alt="">
 			<div class="sidebtn">
 				<a class="logout btn-secondary" href="">로그아웃</a>
 				<a class="mypage btn-secondary" href="">마이페이지</a>
