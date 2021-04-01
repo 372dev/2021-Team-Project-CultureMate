@@ -12,6 +12,24 @@
 		.card {
 			margin: 10px;
 		}
+		.cardImgWrapper {
+			width: 18rem;
+			height: 24rem;
+			cursor: pointer;
+			position: relative;
+			background-color: gray;
+		}
+		.card-img-top {
+			max-height: 100%;
+			width: 100%;
+			height: auto;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			margin: auto;
+		}
 	</style>
 	<h1>
 		Show!
@@ -24,12 +42,13 @@
 		<c:if test="${showList != null}">
 			<c:forEach var="slvo" items="${ showList }">
 			<div class="card" style="width: 18rem;">
-				<img src="${ slvo.poster }" class="card-img-top" alt="${ slvo.prfnm }">
+				<div class="cardImgWrapper" onclick="location.href='${pageContext.request.contextPath}';">
+					<img src="${ slvo.poster }" class="card-img-top" alt="${ slvo.prfnm }">
+				</div>
 				<div class="card-body">
 					<h5 class="card-title">${ slvo.prfnm }</h5>
 					<p class="card-text">${ slvo.fcltynm }</p>
 					<p class="card-text">${ slvo.prfpdfrom } - ${ slvo.prfpdto }</p>
-					<a href="#" class="btn btn-primary">상세조회</a>
 				</div>
 			</div>
 			</c:forEach>
