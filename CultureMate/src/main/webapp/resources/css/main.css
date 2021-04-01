@@ -124,8 +124,8 @@ body{
 #footer{
     width: 1920px;
     height: 220px;
-    margin-top: 100px;
-    position: absolute;
+    margin-top: 150px;
+    position: relative;
     bottom: 0;
 }
 
