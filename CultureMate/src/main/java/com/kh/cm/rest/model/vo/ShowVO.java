@@ -9,7 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="db")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ShowVO {
-	@XmlAttribute(name="mt20id")
+//	@XmlAttribute(name="mt20id") <- Attribute는 태그의 정보를 가져올 때, Element는 태그로 감싸는 정보를 가져올 때!
+	@XmlElement(name="mt20id")
     private String mt20id;
     @XmlElement(name="prfnm")
     private String prfnm;
