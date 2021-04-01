@@ -21,7 +21,8 @@
 		<div id="header-container">
 			<img class="cm_logo" src="${path}/resources/images/logo.png" alt="">
 			<div class="sidebtn">
-				<a class="logout btn-secondary" href="${path}/login">로그인</a>
+				<a class="enroll btn-secondary" href="${path}/enroll">회원가입</a>
+				<a class="login btn-secondary" href="${path}/login">로그인</a>
 				<a class="mypage btn-secondary" href="">마이페이지</a>
 			</div>
 			<div id="topmenu">
