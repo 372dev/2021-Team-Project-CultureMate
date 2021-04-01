@@ -28,7 +28,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 		
 		log.info("ROLE NAMES: " + roleNames);
 		
-
+		if(roleNames.contains("ROLE_ADMIN")) {
+			response.sendRedirect("admin/view");
+		} else {
+			response.sendRedirect(request.getContextPath() + "/");
+		}
 	}
 
 }
