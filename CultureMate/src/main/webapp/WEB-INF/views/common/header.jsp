@@ -2,6 +2,7 @@
 uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> <%@ taglib
 uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> <%@ page
 language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -15,32 +16,38 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   </head>
   <body>
     <div id="header">
-      <img class="cm_logo" src="resources/images/logo.png" alt="" />
-      <div class="sidebtn">
-        <a class="logout btn-secondary" href="">로그아웃</a>
-        <a class="mypage btn-secondary" href="">마이페이지</a>
-      </div>
-      <div id="topmenu">
-        <div class="list list01">
-          <a href="">공연</a>
-          <div class="list01_under under">
-            <a href="">뮤지컬</a>
-            <a href="">콘서트</a>
-            <a href="">연극</a>
+      <div id="header-container">
+        <img
+          class="cm_logo"
+          src="${pageContext.request.contextPath}/resources/images/logo.png"
+          alt=""
+        />
+        <div class="sidebtn">
+          <a class="logout btn-secondary" href="">로그아웃</a>
+          <a class="mypage btn-secondary" href="">마이페이지</a>
+        </div>
+        <div id="topmenu">
+          <div class="list list01">
+            <a href="">공연</a>
+            <div class="list01_under under">
+              <a href="">뮤지컬</a>
+              <a href="">콘서트</a>
+              <a href="">연극</a>
+            </div>
           </div>
-        </div>
-        <div class="list list02">
-          <a href="">메이트</a>
-          <div class="list02_under under">
-            <a href="">같이가요</a>
-            <a href="">티켓나눔</a>
+          <div class="list list02">
+            <a href="">메이트</a>
+            <div class="list02_under under">
+              <a href="">같이가요</a>
+              <a href="">티켓나눔</a>
+            </div>
           </div>
-        </div>
-        <div class="list list03">
-          <a href="">이벤트</a>
-        </div>
-        <div class="list list04">
-          <a href="">고객센터</a>
+          <div class="list list03">
+            <a href="">이벤트</a>
+          </div>
+          <div class="list list04">
+            <a href="">고객센터</a>
+          </div>
         </div>
       </div>
       <div class="line"></div>
