@@ -1,4 +1,4 @@
-package com.kh.cm.rest.controller;
+package com.kh.cm.show.controller;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.cm.rest.model.vo.ShowListVO;
-import com.kh.cm.rest.model.vo.ShowVO;
+import com.kh.cm.show.model.vo.ShowListVO;
+import com.kh.cm.show.model.vo.ShowVO;
 
 //import lombok.extern.slf4j.Slf4j;
 
@@ -53,6 +53,7 @@ public class RestController {
     	
     	RestTemplate restTemplate = new RestTemplate();
     	ShowListVO showList = restTemplate.getForObject(uri, ShowListVO.class);
+    
     	
     	List<ShowVO> result = showList.getShowInfo();
     	

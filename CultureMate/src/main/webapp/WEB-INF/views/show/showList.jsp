@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<c:set var="path" value="${pageContext.request.contextPath }" />
 
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 	<style>
@@ -35,23 +36,24 @@
 			color: gray;
 		}
 	</style>
-	
-	<form>
-  		<label for="prfstate01">공연예정</label>
+
+	<form id="showSearchOption">
 		<input type="radio" id="prfstate01" name="prfstate" value="01" checked>
+		<label for="prfstate01">공연예정</label>
+		<input type="radio" id="prfstate02" name="prfstate" value="02">
   		<label for="prfstate02">공연중</label>
-		<input type="radio" id="prfstate02" name="prfstate" value="02" checked>
+		<input type="radio" id="prfstate03" name="prfstate" value="03">
   		<label for="prfstate03">공연완료</label>
-		<input type="radio" id="prfstate03" name="prfstate" value="03" checked>
 		<br>
-  		<label for="shcate01">뮤지컬</label>
 		<input type="radio" id="shcate01" name="shcate" value="AAAB" checked>
+  		<label for="shcate01">뮤지컬</label>
+		<input type="radio" id="shcate02" name="shcate" value="AAAA">
   		<label for="shcate02">연극</label>
-		<input type="radio" id="shcate02" name="shcate" value="AAAA" checked>
+		<input type="radio" id="shcate03" name="shcate" value="CCCA">
   		<label for="shcate03">클래식</label>
-		<input type="radio" id="shcate03" name="shcate" value="CCCA" checked>
 		<br>
-		
+		<label for="stdate">검색 시작일</label>
+		<input type="date" id="stdate" name="stdate">
 		
 		<button id="submitSearchForm">검색</button>
 	</form>
@@ -63,7 +65,7 @@
 		<c:if test="${showList != null}">
 			<c:forEach var="slvo" items="${ showList }">
 			<div class="card" style="width: 18rem;">
-				<div class="cardImgWrapper" onclick="location.href='${pageContext.request.contextPath}';">
+				<div class="cardImgWrapper" onclick="location.href='${ path }';">
 					<img src="${ slvo.poster }" class="card-img-top" alt="${ slvo.prfnm }">
 				</div>
 				<div class="card-body">
@@ -75,5 +77,24 @@
 			</c:forEach>
 		</c:if>
 	</div>
+	
+	<script>
+	$('#submitSearchForm').on('click', function () {
+//		$.ajax({
+//			type : "GET",
+//			url : "/show/getShowList",
+//			data : {
+//				$('#showSearchOption').serialize();
+//			},
+//			error : function(error) {
+//				console.log("error");
+//			},
+//			success : function(data) {
+//				console.log("success");
+//			}
+//		});
+		console.log($('#showSearchOption').serialize());
+	})
+	</script>
 	
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

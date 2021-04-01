@@ -1,4 +1,4 @@
-package com.kh.cm.rest.model.vo;
+package com.kh.cm.show.model.vo;
 
 import java.util.List;
 
