@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Member implements UserDetails{
 
-	private static final long serialVersionUID = 6252276693498055788L;
-	
+	private static final long serialVersionUID = 1L;
+
 	private int id;
 	
 	private String userId;
@@ -35,7 +35,11 @@ public class Member implements UserDetails{
 	
 	private String gender;
 	
+	private String email;
+	
 	private String phone;
+	
+	private String cardInfo;
 	
 	private String postcode;
 	

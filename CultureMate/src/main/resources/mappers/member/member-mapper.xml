@@ -3,6 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.kh.cm.member.model.dao.MemberDao">
+
 	<resultMap type="Member" id="memberResultMap">
 		<id property="id" column="id" />
 		<result property="userId" column="USER_ID" />
@@ -20,4 +21,24 @@
 		<result property="rank" column="RANK" />
 		<result property="status" column="STATUS" />
 	</resultMap>
+	
+	<select id="selectUserInfoOne" parameterType="string" resultMap="memberResultMap">
+		SELECT
+			ID,
+			USER_ID,
+			PASSWORD,
+			USER_NICK,
+			USER_NAME,
+			USER_ROLE,
+			DATE_BIRTH,
+			GENDER,
+			PHONE,
+			POSTCODE,
+			ADDRESS,
+			DETAIL_ADDR,
+			EXTRA_ADDR,
+			RANK
+		FROM MEMBER
+		WHERE USER_ID = #{userId}
+	</select>
 </mapper>
