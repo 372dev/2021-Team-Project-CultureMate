@@ -1,7 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> <%@ taglib
 uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> <%@ taglib
-uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> <%@ page
+uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> <%@ taglib
+uri="http://www.springframework.org/security/tags" prefix="security" %> <%@ page
 language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<c:set var="path" value="${pageContext.request.contextPath }" />
 
 <html>
   <head>
@@ -11,19 +14,15 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="resources/css/main.css" />
+    <link rel="stylesheet" href="${path}/resources/css/main.css" />
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div id="header">
       <div id="header-container">
-        <img
-          class="cm_logo"
-          src="${pageContext.request.contextPath}/resources/images/logo.png"
-          alt=""
-        />
+        <img class="cm_logo" src="${path}/resources/images/logo.png" alt="" />
         <div class="sidebtn">
-          <a class="logout btn-secondary" href="">로그아웃</a>
+          <a class="logout btn-secondary" href="">로그인</a>
           <a class="mypage btn-secondary" href="">마이페이지</a>
         </div>
         <div id="topmenu">
