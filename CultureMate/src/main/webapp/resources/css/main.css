@@ -6,35 +6,51 @@
 
 /*-----------------헤더-----------------*/
 
+body{
+    width: 1920px;
+    height: 100%;
+    min-height: 1080px;
+    position: relative;
+}
+
 #header{
-    width: 100%;
+    width: 1920px;
     height: 100px;
     position: relative;
     margin-bottom: 50px;
 }
 
-#header > *{
+#header-container{
+    width: 1200px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#header-container > *{
     position: absolute;
 }
 
-#header a{
+#header-container a{
     text-decoration: none;
 }
 
-#header > .cm_logo{
+#header-container > .cm_logo{
     width: 200px;
     top: 60px;
-    left: 10%;
+    left: 0;
 }
 
-#header > .sidebtn{
+#header-container > .sidebtn{
     top: 20px;
-    right: 10%;
-    width: 210px;
+    right: 0;
+    width: 320px;
     height: 50px;
 }
 
-#header > .sidebtn > *{
+#header-container > .sidebtn > *{
     width: 100px;
     height: 30px;
     float: right;
@@ -45,13 +61,17 @@
     font-weight: 400;
 }
 
-#header > .sidebtn > .mypage {
+#header-container > .sidebtn > .mypage {
+    margin-right: 10px;
+}
+
+#header-container > .sidebtn > .login {
     margin-right: 10px;
 }
 
 #topmenu{
     top: 60px;
-    right: 10%;
+    right: 0;
     width: 340px;
     height: 25px;
     display: flex;
@@ -106,18 +126,27 @@
 /*-------------푸터--------------------*/
 
 #footer{
-    width: 100%;
+    width: 1920px;
     height: 220px;
-    margin-top: 100px;
-    /*background-color: #87ceeb;*/
+    margin-top: 150px;
     position: relative;
+    bottom: 0;
 }
 
-#footer > *{
+#footer-container{
+    width: 1200px;
+    height: 220px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#footer-container > *{
     position: absolute;
 }
 
-#footer *{
+#footer-container *{
     font-family: 'Noto Sans KR', sans-serif;
 }
 
@@ -128,13 +157,13 @@
     background-color: lightgray;
 }
 
-#footer > .cm_logo {
+#footer-container > .cm_logo {
     width: 200px;
     top: 60px;
-    left: 10%;
+    left: 0;
 }
 
-#footer > .text01{
+#footer-container > .text01{
     top: 15px;
     font-size: 14px;
     font-weight: 300;
@@ -142,13 +171,13 @@
     width: 300px;
 }
 
-#footer > .text01 > p{
+#footer-container > .text01 > p{
     font-weight: 400;
 }
 
-#footer > .text02 {
+#footer-container > .text02 {
     top: 15px;
-    right: 10%;
+    right: 0;
     font-size: 14px;
     font-weight: 300;
 }
