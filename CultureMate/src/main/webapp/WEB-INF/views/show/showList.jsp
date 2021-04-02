@@ -57,10 +57,10 @@
 				$('#showSearchOption').serialize();
 			},
 			error : function(error) {
-				console.log("error");
+				console.log("ajax-error");
 			},
 			success : function(data) {
-				console.log("success");
+				console.log("ajax-success");
 			}
 		});
 	})
