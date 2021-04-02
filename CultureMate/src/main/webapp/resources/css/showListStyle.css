@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+.showList {
+	display: flex;
+	flex-wrap: wrap;
+}
+.card {
+	margin: 10px;
+}
+.cardImgWrapper {
+	width: 18rem;
+	height: 24rem;
+	cursor: pointer;
+	position: relative;
+	background-color: GAINSBORO;
+}
+.card-img-top {
+	max-height: 100%;
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+.fclname {
+	font-weight: bold;
+	color: gray;
+}

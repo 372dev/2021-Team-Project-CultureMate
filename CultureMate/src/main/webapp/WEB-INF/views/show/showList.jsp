@@ -3,39 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="path" value="${pageContext.request.contextPath }" />
-
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-	<style>
-		.showList {
-			display: flex;
-			flex-wrap: wrap;
-		}
-		.card {
-			margin: 10px;
-		}
-		.cardImgWrapper {
-			width: 18rem;
-			height: 24rem;
-			cursor: pointer;
-			position: relative;
-			background-color: GAINSBORO;
-		}
-		.card-img-top {
-			max-height: 100%;
-			width: 100%;
-			height: auto;
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			margin: auto;
-		}
-		.fclname {
-			font-weight: bold;
-			color: gray;
-		}
-	</style>
+
+	<link rel="stylesheet" href="${path}/resources/css/showListStyle.css" />
 
 	<form id="showSearchOption">
 		<input type="radio" id="prfstate01" name="prfstate" value="01" checked>
@@ -80,20 +50,19 @@
 	
 	<script>
 	$('#submitSearchForm').on('click', function () {
-//		$.ajax({
-//			type : "GET",
-//			url : "/show/getShowList",
-//			data : {
-//				$('#showSearchOption').serialize();
-//			},
-//			error : function(error) {
-//				console.log("error");
-//			},
-//			success : function(data) {
-//				console.log("success");
-//			}
-//		});
-		console.log($('#showSearchOption').serialize());
+		$.ajax({
+			type : "GET",
+			url : "/show/getShowList",
+			data : {
+				$('#showSearchOption').serialize();
+			},
+			error : function(error) {
+				console.log("error");
+			},
+			success : function(data) {
+				console.log("success");
+			}
+		});
 	})
 	</script>
 	
