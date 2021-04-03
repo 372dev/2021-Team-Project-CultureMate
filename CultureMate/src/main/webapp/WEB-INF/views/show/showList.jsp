@@ -2,12 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<c:set var="path" value="${pageContext.request.contextPath }" />
+<c:set var="path" value="${ pageContext.request.contextPath }" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-	<link rel="stylesheet" href="${path}/resources/css/showListStyle.css" />
+	<link rel="stylesheet" href="${ path }/resources/css/showListStyle.css" />
 
-	<form id="showSearchOption">
+	<div id="showSearchOption">
 		<input type="radio" id="prfstate01" name="prfstate" value="01" checked>
 		<label for="prfstate01">공연예정</label>
 		<input type="radio" id="prfstate02" name="prfstate" value="02">
@@ -22,17 +22,14 @@
 		<input type="radio" id="shcate03" name="shcate" value="CCCA">
   		<label for="shcate03">클래식</label>
 		<br>
-		<label for="stdate">검색 시작일</label>
-		<input type="date" id="stdate" name="stdate">
-		
 		<button id="submitSearchForm">검색</button>
-	</form>
+	</div>
 	
-	<div class="showList">
-		<c:if test="${showList == null}">
+	<div id="showListDiv">
+		<c:if test="${ showList == null }">
 			<p>조회된 게시물이 없습니다.</p>
 		</c:if>
-		<c:if test="${showList != null}">
+		<c:if test="${ showList != null }">
 			<c:forEach var="slvo" items="${ showList }">
 			<div class="card" style="width: 18rem;">
 				<div class="cardImgWrapper" onclick="location.href='${ path }';">
@@ -47,23 +44,50 @@
 			</c:forEach>
 		</c:if>
 	</div>
-	
+
 	<script>
 	$('#submitSearchForm').on('click', function () {
+		var prfstateVal = $('input[name="prfstate"]:checked').val();
+		var shcateVal = $('input[name="shcate"]:checked').val();
 		$.ajax({
 			type : "GET",
-			url : "/show/getShowList",
+			url : "/cm/show/ajaxShowList",
 			data : {
-				$('#showSearchOption').serialize();
+				"prfstate" : prfstateVal,
+				"shcate" : shcateVal
 			},
 			error : function(error) {
 				console.log("ajax-error");
 			},
-			success : function(data) {
+			success : function(result) {
 				console.log("ajax-success");
+				if(result) {
+					console.log(result);
+					$("#showListDiv").empty();
+					var toAdd = '';
+					if(result == null) {
+						console.log("result == null");
+						toAdd += "<p>검색 조건에 맞는 게시물이 없습니다.</p>";
+					} else {
+						console.log("result != null");
+						for(i = 0; i < result.length; i++) {
+							toAdd += '<div class="card" style="width: 18rem;">';
+							toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }' + '\';">';
+							toAdd += '<img src="' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
+							toAdd += '</div>';
+							toAdd += '<div class="card-body">';
+							toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
+							toAdd += '<p class="card-text fclname">' + result[i].fcltynm + '</p>';
+							toAdd += '<p class="card-text">' + result[i].prfpdfrom + ' - ' + result[i].prfpdto + '</p>';
+							toAdd += '</div>';
+							toAdd += '</div>';
+						}
+					}
+					$("#showListDiv").append(toAdd);
+				}
 			}
 		});
 	})
 	</script>
-	
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
