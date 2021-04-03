@@ -5,7 +5,7 @@
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-	<link rel="stylesheet" href="${ path }/resources/css/showListStyle.css" />
+	<link rel="stylesheet" href="${ path }/resources/css/showListStyle.css?v=1" />
 
 	<div id="showSearchOption">
 		<input type="radio" id="prfstate01" name="prfstate" value="01" checked>
@@ -25,13 +25,13 @@
 		<button id="submitSearchForm">검색</button>
 	</div>
 	
-	<div id="showListDiv">
+	<div id="showListDiv" class="showListDiv">
 		<c:if test="${ showList == null }">
 			<p>조회된 게시물이 없습니다.</p>
 		</c:if>
 		<c:if test="${ showList != null }">
 			<c:forEach var="slvo" items="${ showList }">
-			<div class="card" style="width: 18rem;">
+			<div class="card">
 				<div class="cardImgWrapper" onclick="location.href='${ path }';">
 					<img src="${ slvo.poster }" class="card-img-top" alt="${ slvo.prfnm }">
 				</div>

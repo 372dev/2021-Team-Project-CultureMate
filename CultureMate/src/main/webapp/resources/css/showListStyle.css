@@ -1,11 +1,12 @@
 @charset "UTF-8";
 
-.showList {
+.showListDiv {
 	display: flex;
 	flex-wrap: wrap;
 }
 .card {
 	margin: 10px;
+	width: 18rem;
 }
 .cardImgWrapper {
 	width: 18rem;
