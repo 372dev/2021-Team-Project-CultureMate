@@ -25,7 +25,7 @@
 		<button id="submitSearchForm">검색</button>
 	</div>
 	
-	<div id="showListDiv" class="showListDiv">
+	<div id="showListDiv" class="ListDiv">
 		<c:if test="${ showList == null }">
 			<p>조회된 게시물이 없습니다.</p>
 		</c:if>
@@ -37,7 +37,7 @@
 				</div>
 				<div class="card-body">
 					<h5 class="card-title">${ slvo.prfnm }</h5>
-					<p class="card-text fclname">${ slvo.fcltynm }</p>
+					<p class="card-text subTitle">${ slvo.fcltynm }</p>
 					<p class="card-text">${ slvo.prfpdfrom } - ${ slvo.prfpdto }</p>
 				</div>
 			</div>
@@ -77,7 +77,7 @@
 							toAdd += '</div>';
 							toAdd += '<div class="card-body">';
 							toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
-							toAdd += '<p class="card-text fclname">' + result[i].fcltynm + '</p>';
+							toAdd += '<p class="card-text subTitle">' + result[i].fcltynm + '</p>';
 							toAdd += '<p class="card-text">' + result[i].prfpdfrom + ' - ' + result[i].prfpdto + '</p>';
 							toAdd += '</div>';
 							toAdd += '</div>';

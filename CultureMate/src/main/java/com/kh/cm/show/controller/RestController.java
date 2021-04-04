@@ -53,6 +53,25 @@ public class RestController {
         urlBuilder.append("&stdate=" + stdate);
         urlBuilder.append("&eddate=" + eddate);
         urlBuilder.append("&rows=10&cpage=1");
+        /*	공연 조회 페이지 갱신 방식 1.
+         * 	최초에 10개의 공연 조회
+         * 	하단의 더 보기 버튼을 누르면 (혹은 스크롤 하는 것 만으로)
+         * 	밑으로 10개씩 공연이 더 추가된다.
+         * 
+         * 	공연 조회 페이지 갱신 방식 2.
+         * 	공연 조회 페이지에서 10개의 공연 조회
+         * 	더 보기(검색) 버튼을 누르면
+         * 	공연 검색 페이지로 이동, 공연 전부 조회
+         * 
+         * 	공연 조회 페이지 갱신 방식 3.
+         * 	처음 부터 모든 공연 조회
+         * 
+         * 	! 버튼 갱신 이벤트 사용 시 더 불러올 값이 없을 경우엔?
+         * 	DOM childElementCount Property를 통해 조건문으로 버튼 감추기
+         * 
+         * 	! 스크롤 갱신 이벤트 사용 시
+         *  DOM scrollHeight Property 이용
+         */
 //        urlBuilder.append("&shcate=" + shcate);
 
         String url = urlBuilder.toString();
