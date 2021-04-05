@@ -19,6 +19,26 @@ public class CsController {
 		
 }
 
+
+		@RequestMapping(value = "/cscenter/csfaq", method = {RequestMethod.GET})
+		public void csfaq() {
+			
+	}
+		
+		@RequestMapping(value = "/cscenter/questionlist", method = {RequestMethod.GET})
+		public void csQuestlist() {
+			
+	}
+		
+		@RequestMapping(value = "/cscenter/qnacontent", method = {RequestMethod.GET})
+		public void cscontent() {
+			
+	}
+		@RequestMapping(value = "/cscenter/notice", method = {RequestMethod.GET})
+		public void csnotice() {
+			
+	}
+
 }
 		
 	
