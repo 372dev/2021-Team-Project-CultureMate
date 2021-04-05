@@ -22,7 +22,7 @@
 		</div>
 		<div class="line"></div>
 	</div>
-
+	</div>
 </body>
 </html>
 
