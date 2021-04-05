@@ -9,7 +9,9 @@ private int shareReplyId;
 	
 	private int shareReplyeplyWriterId;
 	
-	private String Id;
+	private int Id;
+	
+	private String userNick;
 	
 	private String shareReplyContent;
 	

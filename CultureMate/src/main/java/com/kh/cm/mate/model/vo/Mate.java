@@ -20,6 +20,12 @@ public class Mate {
 	
 	private int Id;
 	
+	private String userNick;
+	
+	private String mateShow;
+	
+	private String mateLocation;
+	
 	private String mateTitle;
 	
 	private String mateContent;	
@@ -29,6 +35,8 @@ public class Mate {
 	private Date mateModifyDate;
 	
 	private String mateGender;
+	
+	private String mateAge;
 	
 	private String mateNum;
 	

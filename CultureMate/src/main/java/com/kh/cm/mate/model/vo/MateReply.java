@@ -16,7 +16,9 @@ public class MateReply {
 	
 	private int mateReplyeplyWriterId;
 	
-	private String Id;
+	private int Id;
+	
+	private String userNick;
 	
 	private String mateReplyContent;
 	

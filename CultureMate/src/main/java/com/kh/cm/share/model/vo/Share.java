@@ -17,9 +17,15 @@ public class Share {
 	
 	private int Id;
 	
+	private String userNick;
+	
 	private String shareTitle;
 	
+	private String shareShow;
+	
 	private String shareContent;
+	
+	private String shareOpen;
 	
 	private String shareOriginalFileName;
 	
