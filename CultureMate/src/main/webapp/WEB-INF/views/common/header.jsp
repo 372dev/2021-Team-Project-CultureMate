@@ -15,10 +15,11 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="${path}/resources/css/main.css" />
-    <script src="${ path }/resources/js/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js" ></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   </head>
   <body>
+  	<div class="bodyContainer">
     <div id="header">
       <div id="header-container">
         <img class="cm_logo" src="${path}/resources/images/logo.png" alt="" />
