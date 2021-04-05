@@ -8,17 +8,13 @@ import com.kh.cm.member.model.vo.Member;
 @Mapper
 public interface MemberDao {
 
-	Member selectUserInfoOne(@Param("userId") String username);
-
-	Member selectMember(String userId);
+	Member selectMember(@Param("userId") String userId);
 	
 	int insertMember(Member member);
 	
 	int updateMember(Member member);
 	
 	int deleteMember(String userId);
-	
-	int insertCardInfo(String userId);
 	
 	Member findId(String userName, String email, String phone);
 	

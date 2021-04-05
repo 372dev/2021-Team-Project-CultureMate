@@ -15,15 +15,18 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	
-	@Autowired
 	private MemberDao memberDao;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	
+	// 로그인
 	@Override
 	public Member login(String userId, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		Member loginMember = memberDao.selectMember(userId);
+		
+		return loginMember != null && passwordEncoder.matches(password, loginMember.getPassword()) ? loginMember : null;
 	}
 
 	@Override
@@ -31,38 +34,29 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectMember(userId);
 	}
 
+	// 회원가입
 	@Override
 	@Transactional
 	public int saveMember(Member member) {
 		int result = 0;
 		
-		if(member.getId() != 0) {
-			result = memberDao.updateMember(member);
-		} else {
-			member.setPassword(passwordEncoder.encode(member.getPassword()));
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
 			
-			result = memberDao.insertMember(member);
-		}
-		
+		result = memberDao.insertMember(member);
+
 		return result;
 	}
 
 	@Override
 	public boolean validate(String userId) {
-		// TODO Auto-generated method stub
-		return false;
+		Member member = memberDao.selectMember(userId);
+		
+		return member != null;
 	}
 
 	@Override
 	public int deleteMember(String userId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int saveCardInfo(String cardInfo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return memberDao.deleteMember(userId);
 	}
 
 	@Override

@@ -13,8 +13,6 @@ public interface MemberService {
 	
 	int deleteMember(String userId);
 	
-	int saveCardInfo(String cardInfo);
-	
 	Member findId(String userName, String email, String phone);
 	
 	Member findPwd(String userId, String userName, String email, String phone);
