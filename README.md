@@ -1,3 +1,3 @@
 # CultureMate
-Project Culture Mate - Team No Regrets
+Project Culture Mate - Team No Regrets  
 Spring MCV Web Application
