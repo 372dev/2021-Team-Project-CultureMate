@@ -28,7 +28,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
         </div>
         <div id="topmenu">
           <div class="list list01">
-            <a href="">공연</a>
+            <a href="${ path }/show/showList">공연</a>
             <div class="list01_under under">
               <a href="">뮤지컬</a>
               <a href="">콘서트</a>

@@ -23,7 +23,7 @@ import com.kh.cm.show.model.vo.ShowVO;
 @RequestMapping("/show")
 public class RestController {
 
-    @RequestMapping(value = "/getShowList", method = RequestMethod.GET)
+    @RequestMapping(value = "/showList", method = RequestMethod.GET)
     public ModelAndView list(
     		ModelAndView model
 //    		@RequestParam("genre") String genre

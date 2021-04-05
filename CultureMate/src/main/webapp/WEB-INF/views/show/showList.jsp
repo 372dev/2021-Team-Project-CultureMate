@@ -71,7 +71,7 @@
 					} else {
 						console.log("result != null");
 						for(i = 0; i < result.length; i++) {
-							toAdd += '<div class="card" style="width: 18rem;">';
+							toAdd += '<div class="card">';
 							toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }' + '\';">';
 							toAdd += '<img src="' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
 							toAdd += '</div>';

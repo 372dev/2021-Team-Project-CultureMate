@@ -33,9 +33,9 @@ public class BoxOfficeController {
 
         StringBuilder urlBuilder = new StringBuilder("http://www.kopis.or.kr/openApi/restful/boxoffice");
         urlBuilder.append("?service=" + key);
-        urlBuilder.append("&ststype=" + "month");
-        urlBuilder.append("&stdate=" + date);
-        urlBuilder.append("&catecode" + "AAAB");
+        urlBuilder.append("&ststype=" + "week");
+        urlBuilder.append("&date=" + date);
+        urlBuilder.append("&catecode=" + "AAAB");
 
         String url = urlBuilder.toString();
 

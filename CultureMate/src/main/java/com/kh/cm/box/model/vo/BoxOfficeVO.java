@@ -28,5 +28,66 @@ public class BoxOfficeVO {
 	private String poster;
 	@XmlElement(name="mt20id")
     private String mt20id;
+	public String getRnum() {
+		return rnum;
+	}
+	public void setRnum(String rnum) {
+		this.rnum = rnum;
+	}
+	public String getCate() {
+		return cate;
+	}
+	public void setCate(String cate) {
+		this.cate = cate;
+	}
+	public String getPrfnm() {
+		return prfnm;
+	}
+	public void setPrfnm(String prfnm) {
+		this.prfnm = prfnm;
+	}
+	public String getPrfpd() {
+		return prfpd;
+	}
+	public void setPrfpd(String prfpd) {
+		this.prfpd = prfpd;
+	}
+	public String getPrfplcnm() {
+		return prfplcnm;
+	}
+	public void setPrfplcnm(String prfplcnm) {
+		this.prfplcnm = prfplcnm;
+	}
+	public String getSeatcnt() {
+		return seatcnt;
+	}
+	public void setSeatcnt(String seatcnt) {
+		this.seatcnt = seatcnt;
+	}
+	public String getPrfdtcnt() {
+		return prfdtcnt;
+	}
+	public void setPrfdtcnt(String prfdtcnt) {
+		this.prfdtcnt = prfdtcnt;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public String getPoster() {
+		return poster;
+	}
+	public void setPoster(String poster) {
+		this.poster = poster;
+	}
+	public String getMt20id() {
+		return mt20id;
+	}
+	public void setMt20id(String mt20id) {
+		this.mt20id = mt20id;
+	}
 
+	
 }

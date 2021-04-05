@@ -17,7 +17,7 @@
 			<div class="card">
 			<!-- 여기에 div + rnum 추가해서 position 잡고 순위 상단 모서리 표시 -->
 				<div class="cardImgWrapper" onclick="location.href='${ path }';">
-					<img src="${ bovo.poster }" class="card-img-top" alt="${ bovo.prfnm }">
+					<img src="http://www.kopis.or.kr${ bovo.poster }" class="card-img-top" alt="${ bovo.prfnm }">
 				</div>
 				<div class="card-body">
 					<h5 class="card-title">${ bovo.prfnm }</h5>
