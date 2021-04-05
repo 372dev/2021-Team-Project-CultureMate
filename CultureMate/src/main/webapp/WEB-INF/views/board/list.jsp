@@ -19,7 +19,7 @@
 				<td><c:out value="${i}"/></td>
 				<td><c:out value="${array[i]}"/></td>
 				<td><c:out value="${array1[i]}"/></td>
-				<td> <a href="${path}/show/view?name=${array4[i]}"><img alt="" src="<c:out value="${array2[i]}"/>" width="200px" height="200px"></a></td>
+				<td> <a href="${path}/show/restview?name=${array4[i]}"><img alt="" src="<c:out value="${array2[i]}"/>" width="200px" height="200px"></a></td>
 					<td><c:out value="${array3[i]}"/></td>
 			</tr>	
 			</c:forEach>
