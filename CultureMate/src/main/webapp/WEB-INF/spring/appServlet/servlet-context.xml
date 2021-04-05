@@ -35,17 +35,4 @@
 	<context:component-scan base-package="com.kh.cm" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
-	
-	<interceptors>
-		<interceptor>
-			<!-- TODO 로그인 체크 인터셉터 추후 추가 -->
-			<mapping path="/member/**"/>
-			
-			<exclude-mapping path="/member/login"/>
-			<exclude-mapping path="/member/enroll"/>
-			<exclude-mapping path="/member/idCheck"/>
-			
-			<beans:bean id="loginCheckInterceptor" class="com.kh.cm.common.interceptor.LoginCheckInterceptor" />
-		</interceptor>
-	</interceptors>
 </beans:beans>

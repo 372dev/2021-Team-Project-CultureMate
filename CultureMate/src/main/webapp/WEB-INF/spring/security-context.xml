@@ -8,5 +8,53 @@
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-
+	
+	<bean id="customLoginSuccess" class="com.kh.cm.security.handler.LoginSuccessHandler"/>
+	
+	<bean id="custonLoginFailure" class="com.kh.cm.security.handler.LoginFailureHandler"/>
+	
+	<bean id="customMemberService" class="com.kh.cm.security.service.MemberDetailService" />
+	
+	
+	<security:http pattern="/resources/**" security="none" />
+	
+	<security:http auto-config="true" use-expressions="true">
+		<security:intercept-url pattern="/login" access="permitAll" />
+		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/member/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/enroll" access="isAnonymous()" />
+		
+		<!-- 
+			authentication-success-handler-ref : 로그인 성공 시 default-target-url이 아닌 handler로 redirect
+			authentication-failure-handler-ref : 로그인 실패 시 authentication-failure-url이 아닌 handler로 redirect
+		-->
+		<security:form-login
+			login-page="/login"
+			username-parameter="userId"
+			password-parameter="password"
+			authentication-success-handler-ref="customLoginSuccess" 
+			authentication-failure-handler-ref="custonLoginFailure" 
+		/>
+		
+		<security:logout
+			logout-url="/logout"
+			logout-success-url="/"
+		/>
+		
+		<!-- 권한이 없어서 금지된 URI 접속 시 보여줄 페이지(403 에러 페이지 대체) -->
+		<security:access-denied-handler error-page="/" />	
+		
+		<security:remember-me key="cmweb" token-validity-seconds="2419200" />
+		
+		<security:session-management invalid-session-url="/login">
+			<security:concurrency-control max-sessions="1" expired-url="/login" />
+		</security:session-management>
+	</security:http>
+	
+	
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="customMemberService">
+			<security:password-encoder ref="bcryptPasswordEncoder" />
+		</security:authentication-provider>
+	</security:authentication-manager>
 </beans>
