@@ -26,7 +26,7 @@ public class BoxOfficeController {
     		ModelAndView model
     		) {
     	String key = "fe0b63fcf599492aae0dc065406b676b";
-    	
+
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     	Calendar currDate = new GregorianCalendar();
 		String date = dateFormat.format(currDate.getTime());
@@ -35,21 +35,32 @@ public class BoxOfficeController {
         urlBuilder.append("?service=" + key);
         urlBuilder.append("&ststype=" + "week");
         urlBuilder.append("&date=" + date);
-        urlBuilder.append("&catecode=" + "AAAB");
 
         String url = urlBuilder.toString();
 
+        String mUrl = url + "&catecode=" + "AAAB";
+        String pUrl = url + "&catecode=" + "AAAA";
+        String cUrl = url + "&catecode=" + "CCCA";
+        
     	RestTemplate restTemplate = new RestTemplate();
-    	BoxOfficeListVO boxOfficeList = restTemplate.getForObject(url, BoxOfficeListVO.class);
-    	System.out.println(boxOfficeList);
+    	BoxOfficeListVO musicalBOList = restTemplate.getForObject(mUrl, BoxOfficeListVO.class);
+    	BoxOfficeListVO playBOList = restTemplate.getForObject(pUrl, BoxOfficeListVO.class);
+    	BoxOfficeListVO classicBOList = restTemplate.getForObject(cUrl, BoxOfficeListVO.class);
+    	
+    	List<BoxOfficeVO> mResult = musicalBOList.getBoxInfo();
+    	List<BoxOfficeVO> pResult = playBOList.getBoxInfo();
+    	List<BoxOfficeVO> cResult = classicBOList.getBoxInfo();
+    	
+    	System.out.println(mResult.size());
+    	System.out.println(pResult.size());
+    	System.out.println(cResult.size());
 
-    	List<BoxOfficeVO> result = boxOfficeList.getBoxInfo();
-    	System.out.println(result);
-
-		model.addObject("boxOfficeList", result);
+		model.addObject("musicalBOList", mResult);
+		model.addObject("playBOList", pResult);
+		model.addObject("classicBOList", cResult);
 		model.setViewName("box/boxOffice");
 
         return model;
     }
-
+    
 }

@@ -29,7 +29,7 @@ public class RestController {
 //    		@RequestParam("genre") String genre
     		) {
     	String key = "fe0b63fcf599492aae0dc065406b676b";
-    	
+
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     	Calendar currDate = new GregorianCalendar();
     	Calendar nextDate = new GregorianCalendar();
