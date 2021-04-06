@@ -14,27 +14,27 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class CsController {
 
-	@RequestMapping(value = "/cscenter/list", method = {RequestMethod.GET})
+	@RequestMapping(value = "/help/csmain", method = {RequestMethod.GET})
 	public void cslist() {
 		
 }
 
 
-		@RequestMapping(value = "/cscenter/csfaq", method = {RequestMethod.GET})
+		@RequestMapping(value = "/help/csfaq", method = {RequestMethod.GET})
 		public void csfaq() {
 			
 	}
 		
-		@RequestMapping(value = "/cscenter/questionlist", method = {RequestMethod.GET})
+		@RequestMapping(value = "/help/questionlist", method = {RequestMethod.GET})
 		public void csQuestlist() {
 			
 	}
 		
-		@RequestMapping(value = "/cscenter/qnacontent", method = {RequestMethod.GET})
+		@RequestMapping(value = "/help/qnacontent", method = {RequestMethod.GET})
 		public void cscontent() {
 			
 	}
-		@RequestMapping(value = "/cscenter/notice", method = {RequestMethod.GET})
+		@RequestMapping(value = "/help/notice", method = {RequestMethod.GET})
 		public void csnotice() {
 			
 	}
