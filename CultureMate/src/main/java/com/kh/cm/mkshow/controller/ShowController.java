@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ShowController {
 	
 	//지도 위치 출력 위한 위도 경도 리턴 함수
-	private static String[] getPlace(String mt10id) {
+	private static List<PlaceDTO> getPlace(String mt10id) {
 		
 		String data[] = new String[2];
 	
@@ -46,7 +46,7 @@ public class ShowController {
         System.out.println("위도 : " + data[0]);
         System.out.println("경도 : " + data[1]);
         
-		return data;
+		return result;
 	}
 	
 	@RequestMapping(value = "/restview", method = RequestMethod.GET)
@@ -55,8 +55,7 @@ public class ShowController {
 		String addr = "http://www.kopis.or.kr/openApi/restful/pblprfr/";
 	    String serviceKey = "54aff7444a924def99fc5e93ad99952d";
 	    String parameter = name + "?service=";
-		String[] place = new String[2];
-		
+		 List<PlaceDTO> place;
 	    String uri = addr + parameter + serviceKey;
          
         // RestTemplate 생성
@@ -72,8 +71,8 @@ public class ShowController {
         System.out.println("0배열 : " + result.get(0).getMt10id());
         
         place = getPlace(result.get(0).getMt10id());
-        System.out.println("위도 : " + place[0]);
-        System.out.println("경도 : " + place[1]);
+       // System.out.println("위도 : " + place[0]);
+        //System.out.println("경도 : " + place[1]);
         
        if(result.get(0).getStyurls() != null) { 
     	   int max = result.get(0).getStyurls().getStyurl().length;

@@ -18,7 +18,6 @@
 	
 	.rn-03 {
     margin-top: 40px;
-    margin-left: 400px;
     overflow: hidden;
     padding-bottom: 50px;
     position: relative;
@@ -71,7 +70,6 @@
 }
 
 .title{
-	margin-left: 400px;
 	border-bottom: solid 1px;
 	width: 1181px;
 }
@@ -83,12 +81,11 @@
 
 .bls_tbbk {
     margin: 30px 0 20px;
-    margin-left: 400px;
 }
 
 .bls_tbls.c3 {
     margin-right: -1%;
-    width: 1181px;
+    width: 100%;
 }
 
 .bls_tbls {
@@ -143,11 +140,9 @@ ul, ol, li, dl, dt, dd {
 
 .bxo_vcb {
     margin-top: 35px;
-    margin-left: 400px;
 }
 
 #plcMap{
-	 margin-left: 400px;
 	 box-sizing: content-box;
 }
 
@@ -155,6 +150,75 @@ ul, ol, li, dl, dt, dd {
 	font-size: 13px;
 
 	
+}
+
+.pt{
+	width: 100%;
+}
+
+.pt th{
+	border: solid 1px;
+}
+
+.pt td{
+border: solid 1px;
+}
+
+
+
+
+.rn{
+	position: absolute;
+    width: 238px;
+    padding-left: 1px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+    font-family: 'Noto Sans KR','NanumBarunGothic','맑은 고딕','Malgun Gothic',sans-serif;
+}
+
+.rn-1{
+    margin-left: 240px;
+    clear: right;
+    font-size: 14px;
+    line-height: 28px;
+    color: #555;
+    padding: 0 0 85px 3px;
+    letter-spacing: -0.03em;
+}
+
+.rn-2{
+    padding: 33px 0 15px 0;
+    margin-left: -3px;
+}
+
+.re-ta{
+	padding: 33px 0 15px 0;
+    margin-left: -3px;
+}
+
+.re-ta table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.re-ta table th {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background: #fbe5d5;
+    text-align: center;
+    font-size: 15px;
+    color: #333;
+    padding: 8px 0 3px 0;
+}
+
+.re-ta table td {
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    padding: 6px 0 5px 0;
+    vertical-align: middle;
 }
 
 
@@ -232,7 +296,11 @@ ul, ol, li, dl, dt, dd {
 			</div>
 			</div><!--rn-03-right-->
 			</div>
-		</div><!--rn-03-->
+		<!-- 
+		</div>
+		 --> 
+		
+		
 		
 		
 		
@@ -251,6 +319,7 @@ ul, ol, li, dl, dt, dd {
 		<div class="bxo_vcb">			
             <div class="detailArea">
             		<c:out value="${show.sty}"/>
+            		<br>
 					<c:forEach var="i" begin="0" end="${max}">
 					<img alt="" src="${show.styurls.styurl[i]}"><br>
 					</c:forEach>
@@ -260,12 +329,53 @@ ul, ol, li, dl, dt, dd {
 		<!--공연장 정보-->
         <div class="bxo_vcb" style="display: none">
 			<div class="tib">
-				<h4 class="nb_tit1">
-				공연장정보
+				<h4 class="nb_tit1" >
+				공연장 정보
 				</h4>
+				
+		<table class="pt">
+        <tr>
+          <th>공연기간</th>
+          <td>
+          	<c:if test="${show.prfpdfrom != null}">
+				<c:out value="${show.prfpdfrom}"/> ~ <c:out value="${show.prfpdto}"/>
+			</c:if>
+			<c:if test="${show.prfpdfrom == null}">
+				<c:out value="정보가 없습니다."/> 
+			</c:if>
+		</td>
+        </tr>
+        <tr>
+          <th>최석수</th>
+          <td>
+          	<c:out value="${place.get(0).seatscale}"/> 
+          </td>
+        </tr>
+        <tr>
+          <th>시설특성</th>
+          <td>
+          	<c:out value="${place.get(0).fcltychartr}"/>
+          </td>
+        </tr>
+          <tr>
+          <th>주소</th>
+          <td>
+          	<c:out value="${place.get(0).adres}"/>
+          </td>
+        </tr>
+          <tr>
+          <th>홈페이지</th>
+          <td>
+			<c:out value="${place.get(0).relateurl}"/>
+          </td>
+        </tr>
+   		</table>
+   		
 			</div>
+			<br>
+			<h3 style="text-align: center;">공연장 위치</h3>
 		</div>
-		<div id="plcMap" style="width:500px;height:400px;" ></div>
+		<div id="plcMap" style="width:100%;height:400px;" ></div>
 		
 		
 		<div class="bxo_vcb" style="display: none">
@@ -278,8 +388,42 @@ ul, ol, li, dl, dt, dd {
 			<div class="tib">
 				<h4 class="nb_tit1">환불 정보</h4>
 			</div>
-		</div>
+			<div class="rn">
+			예매
+			</div>
+			<div class="rn-1">
+			예매는 PC, 모바일, 고객센터 를 통해 신용카드, 가상계좌(무통장 입금), CM머니, CM상품권, 예치금 등으로 예매하실 수 있습니다.<br>
+			(단, 상품마다 사용 가능한 결제 수단이 다르게 적용될 수 있으니 상품 상세페이지 안내 사항을 확인해주세요.)<br>
+			무통장입금 결제 선택 시 입금 마감시간은 예매일 익일 밤 11시 29분까지입니다. 입금 마감시간 내 미입금 된 경우 예매가 자동 취소됩니다.<br>
+			(단, 상품에 따라 예매 당일 밤 11시 29분에 마감되는 경우가 있으니 예매 전후 반드시 확인해주시기 바랍니다.)<br>
+			예매수수료는 다음과 같습니다.<br>
+			<div class="re-ta">
+			<table >
+				<tr> 
+					<th>장르 </th>
+					<th> PC / 모바일</th>
+					<th> 전화예매</th>
+				</tr>
+				<tr> 
+					<td>콘서트, 뮤지컬, 클래식, 국악, 무용 </td>
+					<td>장당 1,000원</td>
+					<td rowspan="3"> 장당 2,000원</td>
+				</tr>
+				<tr> 
+					<td>연극, 전시 </td>
+					<td>장당 500원</td>
+				</tr>
+				<tr> 
+					<td>체험, 행사 </td>
+					<td>장당 300원</td>
+				</tr>
+			</table>
+			</div>
 			
+			</div>
+			
+		</div>
+		
 		</section>
 			
 			
@@ -288,7 +432,7 @@ ul, ol, li, dl, dt, dd {
 <script>
 		var mapContainer = document.getElementById('plcMap'), // 지도를 표시할 div 
 		    mapOption = {
-				center: new kakao.maps.LatLng(${place[0]}, ${place[1]}), // 지도의 중심좌표
+				center: new kakao.maps.LatLng(${place.get(0).la}, ${place.get(0).lo}), // 지도의 중심좌표
 		        level: 4, // 지도의 확대 레벨
 		        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
 		    }; 
@@ -298,7 +442,7 @@ ul, ol, li, dl, dt, dd {
 
 		// 지도에 마커를 생성하고 표시한다
 		var marker = new kakao.maps.Marker({
-		    position: new kakao.maps.LatLng(${place[0]}, ${place[1]}), // 마커의 좌표
+		    position: new kakao.maps.LatLng(${place.get(0).la}, ${place.get(0).lo}), // 마커의 좌표
 		    map: map // 마커를 표시할 지도 객체
 		});
 
@@ -309,7 +453,8 @@ ul, ol, li, dl, dt, dd {
 
 		// 인포윈도우를 지도에 표시한다
 		infowindow.open(map, marker);
-
+		
+		
 		</script>
 	
 <script type="text/javascript">
