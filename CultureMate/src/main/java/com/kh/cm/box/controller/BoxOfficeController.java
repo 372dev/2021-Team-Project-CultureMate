@@ -57,13 +57,20 @@ public class BoxOfficeController {
 	    	List<BoxOfficeVO> result = musicalBOList.getBoxInfo().subList(0, 10);
 	    	List<BoxOfficeVO> pResult = playBOList.getBoxInfo().subList(0, 10);
 	    	List<BoxOfficeVO> cResult = classicBOList.getBoxInfo().subList(0, 10);
-	    	System.out.println("musical : " + !result.isEmpty());
-	    	System.out.println("play : " + result.addAll(pResult));
-	    	System.out.println("classic : " + result.addAll(cResult));
+	    	
+	    	System.out.println("musical is not empty : " + !result.isEmpty());
+	    	System.out.println("play appended : " + result.addAll(pResult));
+	    	System.out.println("classic appended : " + result.addAll(cResult));
+	    	
 	    	log.info("List<VO> : " + result.toString());
-	    	stat = service.saveBO(result);
-	    	log.info("saved : " + stat + " List<>.length : " + result.size());
-	    	log.info("stat : " + stat);
+	    	log.info("result.size() : " + result.size() + " -> 30? proceed");
+	    	if(result.size() == 30) {
+		    	service.truncateBO();
+		    	stat = service.saveBO(result);
+		    	log.info("saveBO status : " + stat);
+	    	} else {
+	    		log.info("result.size() is less than 30");
+	    	}
     	}
 	}
 }

@@ -19,6 +19,10 @@
 	</resultMap>
 -->
 
+	<delete id="truncateBO">
+		TRUNCATE table BOXOFFICE
+	</delete>
+
 	<update id="writeBO" parameterType="java.util.List">
 		<foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM SYS.DUAL" >
 		INTO BOXOFFICE (

@@ -10,5 +10,7 @@ import com.kh.cm.box.model.vo.BoxOfficeVO;
 public interface BoxOfficeDAO {
 
 	int writeBO(List<BoxOfficeVO> BoxOfficeVO);
+
+	void truncateBO();
 	
 }

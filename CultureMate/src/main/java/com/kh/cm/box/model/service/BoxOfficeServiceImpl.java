@@ -20,10 +20,14 @@ public class BoxOfficeServiceImpl implements BoxOfficeService {
 	@Override
 	@Transactional
 	public int saveBO(List<BoxOfficeVO> bo) {
-		
-		log.info("Entered Service - saveBO");
+		log.info("run writeBO");
 		return boxOfficeDAO.writeBO(bo);
-//		return 1;
+	}
+
+	@Override
+	public void truncateBO() {
+		log.info("run truncateBO");
+		boxOfficeDAO.truncateBO();
 	}
 
 }
