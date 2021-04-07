@@ -439,7 +439,7 @@ a#btn-insert {
 					</p>
 					<textarea name="reviewContent" cols="100" rows="4" onfocus="" id="reviewContent"></textarea>
 					<input type="hidden" id="mt20id" name="mt20id" value="${result.get(0).mt20id}">
-					<a href='#'  id="btn-insert" onClick="fn_comment('${result.get(0).mt20id}')" class="btn pull-right btn-success">등록</a>
+					<a href=''  id="btn-insert" onClick="fn_comment()" class="btn pull-right btn-success">등록</a>
 				</form>
 			</div>
 			<br>
@@ -507,15 +507,17 @@ a#btn-insert {
 <!-- 댓글 작성 ajax -->
 <script type="text/javascript">
 
-function fn_comment(code){
+function fn_comment(){
     console.log("에이작스 호출");
     $.ajax({
         type:'POST',
         url : "<c:url value='/review/add.do'/>",
         data:$("#reply_form").serialize(),
         success : function(data){
+        	console.log("불러오기 성공!!");
             if(data=="success")
             {
+            	console.log("불러오기 성공!!");
                 getCommentList();
                 $("#reviewContent").val("");
             }
