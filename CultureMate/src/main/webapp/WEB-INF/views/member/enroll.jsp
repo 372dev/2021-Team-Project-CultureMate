@@ -1,13 +1,33 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
-<link rel="stylesheet" href="resources/css/memberEnroll.css">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<c:set var="path" value="${pageContext.request.contextPath }" />
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>CultureMate</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="${path}/resources/css/main.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  </head>
+<link rel="stylesheet" href="resources/css/memberEnroll.css">
+<body>
+<header>
+<img class="cm_logo" src="${path}/resources/images/logo.png" alt="">
+</header>
 <section>
   <form class="form-horizontal" method="POST">
       <div class="form-group">
           <label for="provision" class="col-lg-2 control-label">회원가입약관</label>
-          <div class="col-lg-10" id="provision">
+          <div class="col-lg-10" id="terms">
               <textarea class="form-control" rows="8" style="resize:none">
 컬처메이트 약관 동의
 
@@ -78,13 +98,13 @@
            </textarea>
                   <div class="radio">
                       <label>
-                          <input type="radio" id="provisionYn" name="provisionYn" value="Y" autofocus="autofocus" checked>
+                          <input type="radio" id="termsYn" name="termsYn" value="Y" autofocus="autofocus" checked>
                           동의합니다.
                       </label>
                   </div>
                   <div class="radio">
                       <label>
-                          <input type="radio" id="provisionYn" name="provisionYn" value="N">
+                          <input type="radio" id="termsYn" name="termsYn" value="N">
                           동의하지 않습니다.
                       </label>
                   </div>
@@ -258,6 +278,19 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
 
 
 <script>
+	$("#reg_submit").on("click", function(){
+		var radios = $(":radio[value='Y']");
+		
+		for(var i = 0; i < radios.length; i++){
+			var $this = $(radios[i]);
+			if(!$this.is(":checked")){
+				alert("반드시 동의해야 합니다.");
+				$this.focus();
+				return;
+			}
+		}
+	});
+	
 
 	// 모든 공백 체크 정규식
 	var empJ = /\s/g;
@@ -281,11 +314,11 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
 			url : '${pageContext.request.contextPath}/member/idCheck?userId=' + userId,
 			type : 'get',
 			success : function(data){
-				console.log(data);
+				console.log("1: 중복 / 0: 중복아님 : " + data);
 				
 				if(data == 1){
 					// 아이디 중복
-					$("#id_check").html("사용중인 아이디입니다.");
+					$("#id_check").text("사용중인 아이디입니다.");
 					$("#id_check").css("color", "red");
 					$("#reg_submit").attr("disabled", true);
 				} else {
@@ -459,6 +492,7 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
 	
 </script>
 
+<!-- Daum Postcode API Script -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function sample6_execDaumPostcode() {
@@ -510,4 +544,7 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
     }
 </script>
 </section>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+</body>
+<footer>
+
+</footer>

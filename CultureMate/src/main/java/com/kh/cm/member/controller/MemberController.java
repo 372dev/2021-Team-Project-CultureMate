@@ -97,11 +97,6 @@ public class MemberController {
 			model.setViewName("common/msg");
 			
 			return model;
-			
-//			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//			member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
-//			memberDao.insertMember(member);
-//			return "redirect:/";
 		}
 		
 		// 아이디 중복검사
@@ -110,6 +105,14 @@ public class MemberController {
 		public int validate(@RequestParam("userId") String userId) {
 			
 			return service.validate(userId);
+		}
+		
+		// 마이페이지 요청
+		@RequestMapping(value="myPage", method = {RequestMethod.GET})
+		public String myPageGet() {
+			log.info("마이페이지 get 요청");
+			
+			return "member/myPage";
 		}
 		
 		// 회원정보 수정
@@ -141,6 +144,14 @@ public class MemberController {
 			model.setViewName("common/msg");
 			
 			return model;
+		}
+		
+		// 회원탈퇴 GET 요청
+		@RequestMapping(value="withdrawl", method = {RequestMethod.GET})
+		public String withdrawl() {
+			log.info("회원탈퇴 페이지 get 요청");
+			
+			return "member/withdrawl";
 		}
 		
 		// 회원 탈퇴

@@ -46,8 +46,10 @@
 	</select>
 	
 	
-	<select id="validate" parameterType="int">
-		SELECT COUNT(*) FROM MEMBER WHERE USER_ID = #{userId}
+	<select id="validate" resultType="int">
+		SELECT COUNT(*) 
+		FROM MEMBER 
+		WHERE USER_ID = #{userId}
 	</select>
 	
 	<insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
