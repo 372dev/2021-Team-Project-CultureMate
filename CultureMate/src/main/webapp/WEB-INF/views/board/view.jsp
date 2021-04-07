@@ -221,6 +221,51 @@ border: solid 1px;
     vertical-align: middle;
 }
 
+div#comment-container {
+  height: 200px;
+  background: #C9E6D1;
+  padding: 5px;
+  border: solid 1px; 
+}
+
+div#comment-container button#btn-insert {
+  width: 100px;
+  height: 100px;
+  color: black;
+  background-color: white;
+  position: relative;
+  top: -45px;
+}
+
+/*댓글테이블*/
+table#tbl-comment {
+  border-collapse: collapse;
+  clear: both;
+  width: 100%;
+}
+
+table#tbl-comment tr td {
+  border-bottom: 1px solid;
+  text-align: left;
+  width: 1000px;
+}
+
+table#tbl-comment sub.comment-writer {
+  color: navy;
+  font-size: 14px;
+}
+
+table#tbl-comment sub.comment-date {
+  color: tomato;
+  font-size: 10px;
+}
+
+#star a{ text-decoration: none; color: gray; } #star a.on{ color: red; }
+
+a#btn-insert {
+    margin-bottom: 30px;
+    /* top: -10px; */
+}
 
 </style>
 			<section>
@@ -382,6 +427,38 @@ border: solid 1px;
 			<div class="tib">
 				<h4 class="nb_tit1">관람 후기</h4>
 			</div>
+			<div id="comment-container">
+				<div> 게시판 운영규정에 맞지 않는 글은 사전 통보없이 삭제될 수 있습니다.  </div>
+				<form method="post" id="reply_form">
+					<P id="star"> 
+					<a  value="1">★</a> 
+					<a  value="2">★</a> 
+					<a  value="3">★</a> 
+					<a  value="4">★</a> 
+					<a  value="5">★</a> 
+					</p>
+					<textarea name="reviewContent" cols="100" rows="4" onfocus="" id="reviewContent"></textarea>
+					<input type="hidden" id="mt20id" name="mt20id" value="${result.get(0).mt20id}">
+					<a href='#'  id="btn-insert" onClick="fn_comment('${result.get(0).mt20id}')" class="btn pull-right btn-success">등록</a>
+				</form>
+			</div>
+			<br>
+			<table id="tbl-comment">
+			<!-- for문을 사용하여 댓글수만큼 출럭 가능하게 구현하기 -->
+			<tr class="level1">
+					<td><sub class="comment-writer"> 작성자: 김민규	</sub> 
+					<sub class="comment-date"> 2021.04.06	</sub>
+					<a id="deletereply" href="">삭제</a>
+					 <br><br> 
+					 여기에 내용이 작성될 예정입니다.
+					<br><br>
+					</td>
+				</tr>
+			</table>
+			
+			<div>
+			
+			</div>
 		</div>
 		
 		<div class="bxo_vcb" style="display: none" >
@@ -426,6 +503,93 @@ border: solid 1px;
 		
 		</section>
 			
+
+<!-- 댓글 작성 ajax -->
+<script type="text/javascript">
+
+function fn_comment(code){
+    console.log("에이작스 호출");
+    $.ajax({
+        type:'POST',
+        url : "<c:url value='/review/add.do'/>",
+        data:$("#reply_form").serialize(),
+        success : function(data){
+            if(data=="success")
+            {
+                getCommentList();
+                $("#reviewContent").val("");
+            }
+        },
+        error:function(request,status,error){
+       }
+        
+    });
+}
+
+
+$(function(){
+    console.log("aaaar?");
+    getCommentList();
+    
+});
+
+
+
+
+/**
+ * 댓글 불러오기(Ajax)
+ */
+function getCommentList(){
+    
+    $.ajax({
+        type:'GET',
+        url : "<c:url value='/review/list.do'/>",
+        dataType : "json",
+        data:$("#reply_form").serialize(),
+        contentType: "charset=UTF-8", 
+        success : function(data){
+            
+            var html = "";
+            var cCnt = data.length;
+            
+            if(data.length > 0){
+			
+                for(i=0; i<data.length; i++){
+                    html += "<tr class='level1'>";
+                    html += "<td><sub class='comment-writer'>" + data[i].id + "</sub> ";
+                    html += "<sub class='comment-date'>" +data[i].reviewDate + "</sub>" ;
+                    html += "<a id='deletereply' href=''>삭제</a> <br><br>"  + data[i].reviewContent + " <br><br></td></tr>" ;
+                }
+                
+            } else {
+                
+                html += "<div>";
+                html += "<div><table class='table'><h6><strong>등록된 댓글이 없습니다.</strong></h6>";
+                html += "</table></div>";
+                html += "</div>";
+                
+            }
+            
+         //   $("#cCnt").html(cCnt);
+            $("#tbl-comment").html(html);
+            
+        },
+        error:function(request,status,error){
+            
+       }
+        
+    });
+}
+</script>
+
+		
+<script type="text/javascript">
+$('#star a').click(function(){ 
+	$(this).parent().children("a").removeClass("on"); 
+	$(this).addClass("on").prevAll("a").addClass("on"); 
+	console.log($(this).attr("value")); });
+
+</script>		
 			
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3350da83d3aa1ab8eefb3c639de15502"></script>
 		
@@ -494,6 +658,8 @@ $.each(tabMenu, function(index, value) {
 });
 
 $("#plcMap").hide();
+
+
 </script>
 
 
