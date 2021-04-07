@@ -1,21 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 
 <section>
-
-	<form class="loginForm" method="POST" action="${ path }/login">
-	
-		아이디 : <input type="text" name="userId" placeholder="아이디" /> <br/>
-		비밀번호 : <input type="password" name="password" placeholder="비밀번호" /> <br/>
-		<label>로그인 유지 : <input type="checkbox" name="remember-me" /></label>
-		<input type="submit" value="로그인" />
-
-		<security:csrfInput/>		
+ <div class="wrapper">
+	<form method="post" action="${path}/member/login">
+		<div class="col-md-3 col-md-offset-3">
+			<input type="text" name="userId" class="form-control" placeholder="아이디" required autofocus>
+		</div>
+		
+		<div class="col-sm-3">
+			<input type="password" name="password" class="form-control" placeholder="비밀번호" required>
+		</div>
+		
+		<div id="remember" class="checkbox">
+			<label>
+				<input type="checkbox" value="remember-me">로그인 유지
+			</label>
+		</div>
+		
+		<button class="btn btn-lg btn-success btn-block btn-login">로그인</button>
 	</form>
+	<a href="#" class="forgot-password">
+		비밀번호 찾기
+	</a>
+ </div>
 </section>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
