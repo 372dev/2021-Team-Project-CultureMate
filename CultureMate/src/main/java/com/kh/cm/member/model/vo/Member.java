@@ -15,10 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member implements UserDetails{
-
-	private static final long serialVersionUID = 1L;
-
+public class Member {
+	
 	private int id;
 	
 	private String userId;
@@ -39,8 +37,6 @@ public class Member implements UserDetails{
 	
 	private String phone;
 	
-	private String cardInfo;
-	
 	private String postcode;
 	
 	private String address;
@@ -52,52 +48,4 @@ public class Member implements UserDetails{
 	private String rank;
 	
 	private String status;
-	
-	
-	
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-		
-		authorities.add(new SimpleGrantedAuthority(userRole));
-		
-		return authorities;
-	}
-	
-	
-	@Override
-	public String getPassword() {
-		return this.password;
-	}
-	
-	
-	@Override
-	public String getUsername() {
-		return this.userId;
-	}
-	
-	
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-	
-	
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-	
-	
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-	
-	
-	@Override
-	public boolean isEnabled() {
-		return this.status.equals("Y");
-	}
-
 }
