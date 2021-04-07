@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 public class Share {
 	private int shareId;
 	
-	private int shareWriterId;
+	private int shareWriteId;
 	
-	private int Id;
+	private int id;
 	
 	private String userNick;
 	

@@ -2,14 +2,23 @@ package com.kh.cm.share.model.vo;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ShareReply {
-private int shareReplyId;
+	private int shareReplyId;
 	
 	private int shareId;
 	
-	private int shareReplyeplyWriterId;
+	private int shareReplyWriteId;
 	
-	private int Id;
+	private int shareReplyGroup;
+	
+	private int id;
 	
 	private String userNick;
 	
@@ -18,4 +27,6 @@ private int shareReplyId;
     private Date shareReplyCreateDate;
 	
     private Date shareReplyModifyDate;
+    
+    private String shareReplyStatus;
 }

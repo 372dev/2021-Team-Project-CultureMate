@@ -39,8 +39,11 @@
      #shareView-tr>td:nth-child(4){
      	width: 300px;
      }
+     #shareView-tr>td:nth-child(6){
+     	width: 200px;
+     }
     #shareView-tr>td{
-    	padding:10px;
+    	padding:7px;
     	width:100px;
     }
     #shareView-tr1>td{
@@ -54,7 +57,7 @@
 		background: yellowgreen;
 		color: white;
 		position:relative;
-		top:-30px;
+		top:-28px;
 	}
     #shareButton{
      	height:35px;
@@ -63,6 +66,69 @@
 		background: yellowgreen;
 		color: white;
   }	
+  
+/*댓글테이블*/
+table#tbl-comment {
+	width:580px; 
+	margin:0 auto; 
+	border-collapse:collapse; 
+	clear:both; 
+} 
+
+table#tbl-comment tr td {
+	border-bottom:1px solid; 
+	border-top:1px solid; 
+	padding:5px; 
+	text-align:left; 
+	line-height:120%;
+}
+
+table#tbl-comment tr td:first-of-type {
+	padding: 5px 5px 5px 50px;
+}
+
+table#tbl-comment tr td:last-of-type {
+	text-align:left; 
+	width: 100px;
+}
+
+table#tbl-comment button.btn-reply {
+	display:none;
+}
+
+table#tbl-comment button.btn-update {
+	display:none;
+}
+table#tbl-comment button.btn-delete {
+	display:none;
+}
+
+table#tbl-comment tr:hover {
+	background:lightgray;
+}
+
+table#tbl-comment tr:hover button.btn-reply {
+	display:inline;
+}
+
+table#tbl-comment tr:hover button.btn-update {
+	display:inline;
+}
+table#tbl-comment tr:hover button.btn-delete {
+	display:inline;
+}
+
+table#tbl-comment sub.comment-writer {
+	vertical-align: top;
+	color:navy; 
+	font-size:14px
+}
+
+table#tbl-comment sub.comment-date {
+	vertical-align: top;
+	color:lightgray;
+	font-size:10px
+}
    
 </style>
 <section id="shareSection">
@@ -74,13 +140,13 @@
 		    <hr>
 		     <table id="shareView-tbl">
 		        <tr id="shareView-tr">
-		            <td>${share.shareId}번호</td>
-		            <td>${share.shareShow}분류</td>
-		            <td>${share.shareOpen}나눔중</td>
-		            <td>${share.shareTitle}제목</td>	
-		            <td>${share.userNick}작성자</td>	           
-		            <td>${share.shareCreateDate}날짜</td>	           
-		            <td>${share.count}조회수</td>			            
+		            <td>${share.shareId}</td>
+		            <td>${share.shareShow}</td>
+		            <td>${share.shareOpen}</td>
+		            <td>${share.shareTitle}</td>	
+		            <td>${share.userNick}</td>	           
+		            <td>${share.shareCreateDate}</td>	           
+		            <td>${share.shareCount}</td>			            
 		        </tr>
 			<tr id="shareView-tr1">
 				<td colspan="7">티켓 인증</td>				
@@ -113,7 +179,6 @@
 			</tr>
 		   <tr id="shareView-tr1">
 		       <td colspan="7">
-		       내용
 		       ${share.shareContent}
 		    </td>
 		</tr>
@@ -130,9 +195,9 @@
 		<div id="comment-container">
 	    	<div class="comment-editor">
 	    		<br>
-	    		<form action="${path }/mate/reply/write" method="post">
+	    		<form action="${path}/share/reply/write" method="post">
 	    			<input type="hidden" name="shareId" id="shareId" value="${share.shareId}">
-	    			<input type="hidden" name="writer" value='${loginMember != null ? loginMember.Id : "" }'>
+	    			<input type="hidden" name="writer" value='${loginMember != null ? loginMember.id : "" }'>
 					<textarea style="height: 70px;border-radius:5px;" name="content" cols="55" rows="3" onfocus="checkLogin()"></textarea>
 					<button type="submit" id="btn-insert">등록</button>	    			
 	    		</form>
@@ -141,19 +206,47 @@
 		<table id="tbl-comment">
 		    	<c:forEach var = "shareReply" items="${shareReplies}">
 			    	<tr class="level1">
+			    <!-- 	<c:if test="${ !empty loginMember && (loginMember.id == shareReply.id || loginMember.userRole == 'ROLE_ADMIN')}">
+			    </c:if>
+			     --> 
+			     	<c:if test="${shareReply.shareReplyId== shareReply.shareReplyGroup }">
 			    		<td>
 			    			<sub class="comment-writer">${shareReply.userNick}</sub>
-			    			<sub class="comment-date">${shareReply.shareReplyCreateDate}</sub>
+			    			<sub class="comment-date">${shareReply.shareReplyCreateDate}</sub> 
 			    			<br>
 			    			<c:out value="${shareReply.shareReplyContent}"></c:out>
 			    		</td>
+		    		</c:if>
+			    	<!--	<c:if test= "${empty loginMember || loginMember.id != shareReply.id}">
+				    		<td>
+				    			<c:out value="비밀댓글입니다."></c:out>
+				    		</td>	
+		    		</c:if>
+		    		  -->
 			    		<td>
-		    		    <c:if test="${ !empty loginMember && (loginMember.Id == shareReply.Id || loginMember.userRole == 'ROLE_ADMIN')}">
+			    		
+		    		    <c:if test="${ !empty loginMember && (loginMember.id == shareReply.id || loginMember.userRole == 'ROLE_ADMIN')}">
+		    				<button class="btn-update" onclick="updateShareReply()">수정</button>
+		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>
+		    			</c:if>
+			    		</td>
+			    	</tr>	
+	    		    <c:if test="${shareReply.shareReplyId != shareReply.shareReplyGroup }">			    				
+			    	<tr class="level2">	    	
+			    		<td>
+			    			<sub class="comment-writer">→${shareReply.userNick}</sub>
+			    			<sub class="comment-date">${shareReply.shareReplyCreateDate}</sub> 
+			    			<br>
+			    			<c:out value="${shareReply.shareReplyContent}"></c:out>
+			    		</td>			    		
+			    		<td>
+		    		    <c:if test="${ !empty loginMember && (loginMember.id == shareReply.id || loginMember.userRole == 'ROLE_ADMIN')}">
 		    				<button class="btn-update" onclick="updateShareReply()">수정</button>
 		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>
 		    			</c:if>
 			    		</td>
 			    	</tr>
+			    	</c:if>		    	
 		    	</c:forEach>
 		    </table>	
 	</div>

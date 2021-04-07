@@ -6,7 +6,7 @@
 <style>
      #shareSection {
 	     min-height: 800px;
-	     width: 1280px;
+	     width: 1000px;
 	     margin: 0 auto;
 	}
     #shareList-container{ 
@@ -40,9 +40,15 @@
     #shareList-tr>td:nth-child(4){
     	width: 300px;
     }
+    #shareList-tr>td:nth-child(6){
+    	width: 200px;
+    }
     #shareList-tr>td{
-    	padding: 15px;
-    	width:80px;
+    	padding: 10px;
+    	width:100px;
+    }
+     .searchButton{
+       vertical-align: top;
     }
 </style>
 <section id="shareSection">
@@ -51,15 +57,20 @@
 			        <h1>티켓 나눔</h1>
 			        <h4>&nbsp; - 공연 티켓 괌</h4>
 		    	</div>
-		 <div id="share-Search">
+ <div id="share-Search">
+	<form name="form1" method="post" action="${path}/share/list.do">
 		<select id="searchShare" style="border-radius:5px;height:30px;">
-            	<option value="작성자">작성자</option>
-            	<option value="제목">제목</option>
-           		<option value="내용">내용</option>
-	 	</select> 
-      		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" id="searchText" placeholder="내용을 입력하세요">
-     	 	   <button style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" onclick="search();">검색</button>      
-		</div>      
+            	<option value="userNick"<c:if test="${map.searchShare == 'userNick'}">
+            			selected</c:if>>작성자</option>
+            	<option value="userNick"<c:if test="${map.searchShare == 'shareTitle'}">
+            			selected</c:if>>제목</option>
+            	<option value="userNick"<c:if test="${map.searchShare == 'shareContent'}">
+            			selected</c:if>>내용</option>
+	 		</select> 
+	 		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" placeholder="내용을 입력하세요" value="${map.keyword}">
+		     <input class="searchButton" id="searchButton" type="submit" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;">검색</input>      
+	</form>     	 	 
+</div>      
 		    	
 		    <hr>		
 		<table id="shareList-tbl">
@@ -82,17 +93,17 @@
 			<c:if test="${shareList != null}"> 
 				<c:forEach var="share" items="${shareList}">
 					<tr id="shareList-tr">
-						<td><c:out value="${share.shareId}"/></td>
-						<td><c:out value=" ${share.shareOpen }"/></td>
+						<td><c:out value="${share.shareId}"/></td>				
                         <td><c:out value="${share.shareShow}"/></td>
+                        <td><c:out value="${share.shareOpen }"/></td>
 						<td>
-							<a href="${path}/mate/view?shareId=${share.shareId}">
+							<a href="${path}/share/view?shareId=${share.shareId}">
 								<c:out value="${share.shareTitle}"/>
 							</a>
 						</td>
                         <td><c:out value="${share.userNick}"/></td>
                         <td><c:out value="${share.shareCreateDate}"/></td>
-                        <td><c:out value="${share.count}"/></td>
+                        <td><c:out value="${share.shareCount}"/></td>
                      </tr>
                 </c:forEach>
               </c:if>
@@ -128,18 +139,30 @@
   </div>
 </section>
 <script type="text/javascript">
-function search() {
-	var searchShare = document.getElementById("searchMate").value;
-	var page = document.getElementById("pageInfo").value;
-	var searchText = document.getElementById("searchText").value;
-	
-	if(searchMate === '작성자'){
-		location.href="${path}/share/list?userNick="+ searchText+ "&page=" + page ;	
-	}else if(searchMate === '제목'){
-		location.href="${path}/share/list?mateTitle="+ searchText+ "&page=" + page ;	
-	}else{
-		location.href="${path}/share/list?mateContent="+ searchText+ "&page=" + page ;	
+	/*
+	*$(document).on('click', '#searchButton', function(e) {
+	    e.preventDefault();
+	    var url = "${pageContext.request.contextPath}/share/list";
+	    url = url + "?searchShare=" + $('searchShare').val();
+	    url = url + "&keyword=" + $('#keyword').val();
+	    location.href = url;
+	    console.log(url);
+	});
+	*/
+/*
+ * function search() {
+		var searchShare = document.getElementById("searchShare").value;
+		var page = document.getElementById("pageInfo").value;
+		var searchText = document.getElementById("searchText").value;
+		
+		if(searchShare === '작성자'){
+			location.href="${path}/share/list/find?userNick="+ searchText+ "&page=" + page ;	
+		}else if(searchShare === '제목'){
+			location.href="${path}/share/list/find?shareTitle="+ searchText+ "&page=" + page ;	
+		}else{
+			location.href="${path}/share/list/find?shareContent="+ searchText+ "&page=" + page ;	
+		}
 	}
-}
+ */
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

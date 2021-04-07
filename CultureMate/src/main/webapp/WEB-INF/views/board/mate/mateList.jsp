@@ -36,13 +36,21 @@
    		border-bottom: 1px solid lightgray;
      	border-top: 1px solid lightgray;
     }
-    #mateList-tr>td:nth-child(7){
+    #mateList-tr>td:nth-child(6){
     	width: 300px;
+    }
+    #mateList-tr>td:nth-child(8){
+    	width: 200px;
     }
     #mateList-tr>td{
     	padding: 5px;
     	width:80px;
     }
+    .searchButton{
+       vertical-align: top;
+    }
+    
+ 
 </style>
 <section id="mateSection">
 	
@@ -58,8 +66,7 @@
            		<option value="내용">내용</option>
 	 	</select> 
       		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" id="searchText" placeholder="내용을 입력하세요">
-      		 <button style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" onclick="search();">검색</button>     
-      		 <button class="btn btn-secondary btn-sm" onclick="search();">검색</button>     
+      		 <button class="searchButton" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" onclick="search();">검색</button>     
 		</div>      
 		    	
 		    <hr>		

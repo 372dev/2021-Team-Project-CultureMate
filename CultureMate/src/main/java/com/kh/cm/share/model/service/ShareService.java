@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.share.model.vo.Share;
+import com.kh.cm.share.model.vo.ShareReply;
 
 public interface ShareService {
 
@@ -15,4 +16,12 @@ public interface ShareService {
 
 	Share findShareByShareId(int shareId);
 
+	List<ShareReply> findShareReplyByShareId(int shareId);
+
+	boolean updateShareCount(int shareId);
+
+	List<Share> getFindShare(String searchShare, String keyword, int start, int end);
+
+
+	
 }
