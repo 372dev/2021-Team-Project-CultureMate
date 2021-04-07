@@ -9,5 +9,7 @@ public interface BoxOfficeService {
 	int saveBO(List<BoxOfficeVO> bo);
 
 	int truncateBO();
+
+	List<BoxOfficeVO> getBOList(String shcate);
 	
 }

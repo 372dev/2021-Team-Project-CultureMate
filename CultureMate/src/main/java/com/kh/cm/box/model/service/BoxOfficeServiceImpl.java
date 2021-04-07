@@ -30,4 +30,10 @@ public class BoxOfficeServiceImpl implements BoxOfficeService {
 		return boxOfficeDAO.truncateBO();
 	}
 
+	@Override
+	public List<BoxOfficeVO> getBOList(String shcate) {
+		log.info("run getBOList");
+		return boxOfficeDAO.readBO(shcate);
+	}
+
 }

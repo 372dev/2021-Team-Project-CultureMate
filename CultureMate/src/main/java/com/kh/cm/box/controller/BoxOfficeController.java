@@ -18,8 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.cm.box.model.service.BoxOfficeService;
 import com.kh.cm.box.model.vo.BoxOfficeListVO;
 import com.kh.cm.box.model.vo.BoxOfficeVO;
-import com.kh.cm.show.model.vo.ShowListVO;
-import com.kh.cm.show.model.vo.ShowVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +31,7 @@ public class BoxOfficeController {
     public static List<BoxOfficeVO> readBOList() {
         return null;
     }
-    
+
     @RequestMapping(value = "/show/boList", method = RequestMethod.GET)
     public ModelAndView BOList(
     		ModelAndView model,
@@ -43,7 +41,6 @@ public class BoxOfficeController {
 		
 		String shcate = null;
 		if(genre != null) {
-		} else {
 			if(genre.toString().equals("musical")) {
 				shcate = "뮤지컬";
 			} else if(genre.toString().equals("play")) {
@@ -52,15 +49,17 @@ public class BoxOfficeController {
 				shcate = "클래식";
 			}
 		}
-		
+
     	List<BoxOfficeVO> result = null;
+    	
+    	result = service.getBOList(shcate);
 
 		model.addObject("boList", result);
 		model.setViewName("show/boList");
 
         return model;
     }
-    
+
 	@Scheduled(fixedDelay = 3600000)
 	public void writeBOList() {
     	String key = "fe0b63fcf599492aae0dc065406b676b";
