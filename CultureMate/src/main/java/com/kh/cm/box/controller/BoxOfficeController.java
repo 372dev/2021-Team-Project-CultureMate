@@ -62,7 +62,7 @@ public class BoxOfficeController {
 	    	System.out.println("classic : " + result.addAll(cResult));
 	    	log.info("List<VO> : " + result.toString());
 	    	stat = service.saveBO(result);
-	    	log.info("saved : " + stat + " List<VO>.length : " + result.size());
+	    	log.info("saved : " + stat + " List<>.length : " + result.size());
 	    	log.info("stat : " + stat);
     	}
 	}
