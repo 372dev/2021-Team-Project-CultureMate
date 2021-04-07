@@ -8,6 +8,6 @@ public interface BoxOfficeService {
 
 	int saveBO(List<BoxOfficeVO> bo);
 
-	void truncateBO();
+	int truncateBO();
 	
 }

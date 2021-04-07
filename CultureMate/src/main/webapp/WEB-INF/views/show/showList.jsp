@@ -38,7 +38,7 @@
 				<div class="card-body">
 					<h5 class="card-title">${ slvo.prfnm }</h5>
 					<p class="card-text subTitle">${ slvo.fcltynm }</p>
-					<p class="card-text">${ slvo.prfpdfrom } - ${ slvo.prfpdto }</p>
+					<p class="card-text">${ slvo.prfpdfrom } ~ ${ slvo.prfpdto }</p>
 				</div>
 			</div>
 			</c:forEach>
@@ -78,7 +78,7 @@
 							toAdd += '<div class="card-body">';
 							toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
 							toAdd += '<p class="card-text subTitle">' + result[i].fcltynm + '</p>';
-							toAdd += '<p class="card-text">' + result[i].prfpdfrom + ' - ' + result[i].prfpdto + '</p>';
+							toAdd += '<p class="card-text">' + result[i].prfpdfrom + ' ~ ' + result[i].prfpdto + '</p>';
 							toAdd += '</div>';
 							toAdd += '</div>';
 						}

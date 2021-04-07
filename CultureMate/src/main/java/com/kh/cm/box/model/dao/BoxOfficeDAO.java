@@ -11,6 +11,6 @@ public interface BoxOfficeDAO {
 
 	int writeBO(List<BoxOfficeVO> BoxOfficeVO);
 
-	void truncateBO();
+	int truncateBO();
 	
 }

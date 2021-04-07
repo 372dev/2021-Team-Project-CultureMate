@@ -25,9 +25,9 @@ public class BoxOfficeServiceImpl implements BoxOfficeService {
 	}
 
 	@Override
-	public void truncateBO() {
+	public int truncateBO() {
 		log.info("run truncateBO");
-		boxOfficeDAO.truncateBO();
+		return boxOfficeDAO.truncateBO();
 	}
 
 }

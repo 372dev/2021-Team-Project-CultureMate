@@ -9,11 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cm.box.model.service.BoxOfficeService;
 import com.kh.cm.box.model.vo.BoxOfficeListVO;
 import com.kh.cm.box.model.vo.BoxOfficeVO;
+import com.kh.cm.show.model.vo.ShowListVO;
+import com.kh.cm.show.model.vo.ShowVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +34,34 @@ public class BoxOfficeController {
         return null;
     }
     
-	@Scheduled(fixedDelay = 60000)
+    @RequestMapping(value = "/show/boList", method = RequestMethod.GET)
+    public ModelAndView BOList(
+    		ModelAndView model,
+    		@RequestParam(value = "genre", required = false) String genre
+    		) {
+    	log.info("Controller started. set genre : " + genre);
+		
+		String shcate = null;
+		if(genre != null) {
+		} else {
+			if(genre.toString().equals("musical")) {
+				shcate = "뮤지컬";
+			} else if(genre.toString().equals("play")) {
+				shcate = "연극";
+			} else if(genre.toString().equals("classic")) {
+				shcate = "클래식";
+			}
+		}
+		
+    	List<BoxOfficeVO> result = null;
+
+		model.addObject("boList", result);
+		model.setViewName("show/boList");
+
+        return model;
+    }
+    
+	@Scheduled(fixedDelay = 3600000)
 	public void writeBOList() {
     	String key = "fe0b63fcf599492aae0dc065406b676b";
 
@@ -53,6 +86,7 @@ public class BoxOfficeController {
     	BoxOfficeListVO classicBOList = restTemplate.getForObject(cUrl, BoxOfficeListVO.class);
     	log.info("RestTemplate DONE!!");
     	int stat = -1;
+    	int trunc = -1;
     	if(musicalBOList != null) {
 	    	List<BoxOfficeVO> result = musicalBOList.getBoxInfo().subList(0, 10);
 	    	List<BoxOfficeVO> pResult = playBOList.getBoxInfo().subList(0, 10);
@@ -65,12 +99,13 @@ public class BoxOfficeController {
 	    	log.info("List<VO> : " + result.toString());
 	    	log.info("result.size() : " + result.size() + " -> 30? proceed");
 	    	if(result.size() == 30) {
-		    	service.truncateBO();
+		    	trunc = service.truncateBO();
 		    	stat = service.saveBO(result);
-		    	log.info("saveBO status : " + stat);
 	    	} else {
 	    		log.info("result.size() is less than 30");
 	    	}
+	    	log.info("truncateBO status : " + trunc);
+	    	log.info("saveBO status : " + stat);
     	}
 	}
 }
