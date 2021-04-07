@@ -3,9 +3,27 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.kh.cm.member.model.dao.MemberDao">
+	<sql id="selectMemberSql">
+		SELECT ID,
+			   USER_ID,
+			   PASSWORD,
+			   USER_NICK,
+			   USER_NAME,
+			   USER_ROLE,
+			   DATE_BIRTH,
+			   GENDER,
+			   PHONE,
+			   POSTCODE,
+			   ADDRESS,
+			   DETAIL_ADDR,
+			   EXTRA_ADDR,
+			   RANK
+		FROM MEMBER
+		WHERE STATUS = 'Y'
+	</sql>
 
 	<resultMap type="Member" id="memberResultMap">
-		<id property="id" column="id" />
+		<id property="id" column="ID" />
 		<result property="userId" column="USER_ID" />
 		<result property="password" column="PASSWORD" />
 		<result property="userNick" column="USER_NICK" />
@@ -22,23 +40,74 @@
 		<result property="status" column="STATUS" />
 	</resultMap>
 	
-	<select id="selectUserInfoOne" parameterType="string" resultMap="memberResultMap">
-		SELECT
-			ID,
-			USER_ID,
-			PASSWORD,
-			USER_NICK,
-			USER_NAME,
-			USER_ROLE,
-			DATE_BIRTH,
-			GENDER,
-			PHONE,
-			POSTCODE,
-			ADDRESS,
-			DETAIL_ADDR,
-			EXTRA_ADDR,
-			RANK
-		FROM MEMBER
-		WHERE USER_ID = #{userId}
+	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSql"></include>
+		AND USER_ID = #{userId}
 	</select>
+	
+	
+	<select id="validate" parameterType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE USER_ID = #{userId}
+	</select>
+	
+	<insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+		INSERT INTO MEMBER (
+			   ID,
+			   USER_ID,
+			   PASSWORD,
+			   USER_NICK,
+			   USER_NAME,
+			   USER_ROLE,
+			   DATE_BIRTH,
+			   GENDER,
+			   PHONE,
+			   EMAIL,
+			   POSTCODE,
+			   ADDRESS,
+			   DETAIL_ADDR,
+			   EXTRA_ADDR,
+			   RANK,
+			   STATUS
+		) VALUES (
+			   MEM_SEQ.NEXTVAL,
+			   #{userId},
+			   #{password},
+			   #{userNick},
+			   #{userName},
+			   DEFAULT,
+			   #{dateBirth},
+			   #{gender},
+			   #{phone},
+			   #{email},
+			   #{postcode},
+			   #{address},
+			   #{detailAddr},
+			   #{extraAddr},
+			   DEFAULT,
+			   DEFAULT
+		)
+	</insert>
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER
+		SET	
+			USER_NICK = #{userNick},
+			PASSWORD = #{password},
+			PHONE = #{phone},
+			EMAIL = #{email},
+			POSTCODE = #{postcode},
+			ADDRESS = #{address},
+			DETAIL_ADDR = #{detailAddr},
+			EXTRA_ADDR = #{extraAddr}
+		WHERE 
+			USER_ID = #{userId}
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		UPDATE MEMBER
+		SET
+			STATUS = 'N'
+		WHERE
+			USER_ID = #{userId}
+	</delete>
 </mapper>

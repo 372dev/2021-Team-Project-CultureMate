@@ -10,6 +10,8 @@ public interface MemberDao {
 
 	Member selectMember(@Param("userId") String userId);
 	
+	int validate(String userId);
+	
 	int insertMember(Member member);
 	
 	int updateMember(Member member);
@@ -21,4 +23,5 @@ public interface MemberDao {
 	Member findPwd(String userId, String userName, String email, String phone);
 	
 	int updatePwd(String userId, String password);
+
 }

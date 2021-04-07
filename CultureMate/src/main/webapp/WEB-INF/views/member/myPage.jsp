@@ -1,26 +1,31 @@
+<%@ page import="com.kh.cm.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+
+<%
+	Member member = (Member) request.getAttribute("member");
+%>
 <section>
-    <div class="userinfo">
+    <div class="myPage">
         <form id="memberForm">
             <table>
                 <tr>
                     <th>아이디 : </th>
                     <td>
-                        <input type="text" name="userId" id="userId" value="admin1234" readonly>
+                        <input type="text" name="userId" id="userId" value="<%= member.getUserId() %>" readonly>
                     </td>
                 </tr>
                 <tr>
                     <th>이름 : </th>
                     <td>
-                        <input type="text" name="userName" id="userName" value="관리자" readonly>
+                        <input type="text" name="userName" id="userName" value="<%= member.getUserName() %>" readonly>
                     </td>
                 </tr>
                 <tr>
                     <th>생년월일 : </th>
                     <td>
-                        <input type="number" name="dateBirth" id="dateBirth" value="970330" required>
+                        <input type="number" name="dateBirth" id="dateBirth" value="<%= member.getDateBirth() %>" required>
                     </td>
                 </tr>
                 <tr>
@@ -32,13 +37,13 @@
                 <tr>
                     <th>이메일 : </th>
                     <td>
-                        <input type="email" name="email" id="email" value="cm@gmail.com" required> 
+                        <input type="email" name="email" id="email" value="<%= member.getEmail() %>" required> 
                     </td>
                 </tr>
                 <tr>
                     <th>휴대전화 : </th>
                     <td>
-                        <input type="tel" name="phone" id="phone" value="01023334456" required>
+                        <input type="tel" name="phone" id="phone" value="<%= member.getPhone() %>" required>
                     </td>
                 </tr>
             </table>

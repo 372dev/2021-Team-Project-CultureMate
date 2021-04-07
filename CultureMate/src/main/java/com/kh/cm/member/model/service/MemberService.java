@@ -9,8 +9,6 @@ public interface MemberService {
 	
 	int saveMember(Member member);
 	
-	boolean validate(String userId);
-	
 	int deleteMember(String userId);
 	
 	Member findId(String userName, String email, String phone);
@@ -18,4 +16,6 @@ public interface MemberService {
 	Member findPwd(String userId, String userName, String email, String phone);
 	
 	int changePwd(String userId, String password);
+
+	int validate(String userId);
 }

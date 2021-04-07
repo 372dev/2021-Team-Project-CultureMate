@@ -47,34 +47,34 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
-	@Override
-	public boolean validate(String userId) {
-		Member member = memberDao.selectMember(userId);
-		
-		return member != null;
-	}
-
+	// 회원탈퇴
 	@Override
 	public int deleteMember(String userId) {
 		return memberDao.deleteMember(userId);
 	}
 
+	// 아이디 찾기
 	@Override
 	public Member findId(String userName, String email, String phone) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	// 비밀번호 찾기
 	@Override
 	public Member findPwd(String userId, String userName, String email, String phone) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	// 비밀번호 변경
 	@Override
 	public int changePwd(String userId, String password) {
-		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	// 아이디 중복 체크
+	@Override
+	public int validate(String userId) {
+		return memberDao.validate(userId);
 	}
 
 }

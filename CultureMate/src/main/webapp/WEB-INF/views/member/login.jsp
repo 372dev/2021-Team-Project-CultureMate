@@ -5,36 +5,28 @@
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 
 <section>
-
-		<form class="loginForm" method="POST" action="${ path }/member/login">
-		  <div class="form-group">
-		    <label for="inputId" class="col-sm-2 control-label">아이디</label>
-		    <div class="col-sm-3">
-		      <input type="text" class="form-control" name="userId" placeholder="아이디">
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <label for="inputPassword" class="col-sm-2 control-label">비밀번호</label>
-		    <div class="col-sm-3">
-		      <input type="password" class="form-control" name="password" placeholder="비밀번호">
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <div class="col-sm-offset-2 col-sm-10">
-		      <div class="checkbox">
-		        <label>
-		          <input type="checkbox" name="remember-me"> 로그인 유지
-		        </label>
-		      </div>
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <div class="col-sm-offset-2 col-sm-10">
-		      <input type="submit" value="로그인" />
-		    </div>
-		  </div>
-		</form>
+ <div class="wrapper">
+	<form method="post" action="${path}/member/login">
+		<div class="col-md-3 col-md-offset-3">
+			<input type="text" name="userId" class="form-control" placeholder="아이디" required autofocus>
+		</div>
 		
+		<div class="col-sm-3">
+			<input type="password" name="password" class="form-control" placeholder="비밀번호" required>
+		</div>
+		
+		<div id="remember" class="checkbox">
+			<label>
+				<input type="checkbox" value="remember-me">로그인 유지
+			</label>
+		</div>
+		
+		<button class="btn btn-lg btn-success btn-block btn-login">로그인</button>
+	</form>
+	<a href="#" class="forgot-password">
+		비밀번호 찾기
+	</a>
+ </div>
 </section>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

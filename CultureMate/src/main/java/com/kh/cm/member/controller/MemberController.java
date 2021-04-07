@@ -35,8 +35,8 @@ public class MemberController {
 		@Autowired
 		MemberDao memberDao;
 
-		@GetMapping("/login")
-		public String loginView() {
+		@RequestMapping(value="login", method = {RequestMethod.GET})
+		public String loginGET() {
 			log.info("로그인 페이지 요청");
 			
 			return "member/login";
@@ -72,14 +72,14 @@ public class MemberController {
 			return "redirect:/";
 		}
 		
-		@GetMapping("/enroll")
-		public String enrollView() {
+		@RequestMapping(value="enroll", method = {RequestMethod.GET})
+		public String enrollGET() {
 			log.info("회원가입 페이지 요청");
 			
 			return "member/enroll";
 		}
 		
-		@RequestMapping(value="member/enroll", method = {RequestMethod.POST})
+		@RequestMapping(value="/enroll", method = {RequestMethod.POST})
 		public ModelAndView enroll(ModelAndView model, @ModelAttribute Member member) {
 			
 			int result = service.saveMember(member);
@@ -104,42 +104,66 @@ public class MemberController {
 //			return "redirect:/";
 		}
 		
-		@RequestMapping("/member/idCheck")
-		@ResponseBody
-		public Object idCheck(@RequestParam("userId") String userId) {
-			log.info("User ID : {}", userId);
+		// 아이디 중복검사
+		@RequestMapping(value = "/member/idCheck", method = {RequestMethod.GET})
+		@ResponseBody // 추가 안해주면 enroll.jsp로 메소드의 결과 반환되지 않음
+		public int validate(@RequestParam("userId") String userId) {
 			
-			Map<String, Object> map = new HashMap<String, Object>();
-			
-			map.put("validate", service.validate(userId));
-			
-			return map;
+			return service.validate(userId);
 		}
 		
-		@RequestMapping("/member/delete")
-		public ModelAndView deleteMember(ModelAndView model, @SessionAttribute(name="loginMember", required = false) Member loginMember, 
-				@RequestParam("userId") String userId) {
-		int result = 0;
-		
-		if(loginMember != null) {
-			if(loginMember.getUserId().equals(userId)) {
-				result = service.deleteMember(userId);
+		// 회원정보 수정
+		@RequestMapping("/member/update")
+		public ModelAndView updateMember(ModelAndView model, 
+										@SessionAttribute(name = "loginMember", required = false) Member loginMember, 
+										@ModelAttribute Member member) {
+			
+			int result = 0;
+			
+			if(loginMember.getUserId().equals(member.getUserId())){
+				member.setId(loginMember.getId());
+				
+				result = service.saveMember(member);
 				
 				if(result > 0) {
-					model.addObject("msg", "정상적으로 탈퇴되었습니다.");
-					model.addObject("location", "/");
+					model.addObject("loginMember", service.findMemberByUserId(loginMember.getUserId()));
+					model.addObject("msg", "회원정보 수정을 완료했습니다.");
+					model.addObject("location", "/member/myPage");
 				} else {
-					model.addObject("msg", "회원가입에 실패하였습니다.");
+					model.addObject("msg", "회원정보 수정에 실패했습니다.");
 					model.addObject("location", "/member/myPage");
 				}
 			} else {
 				model.addObject("msg", "잘못된 접근입니다.");
 				model.addObject("location", "/");
-			} 
-		} else {
-			model.addObject("msg", "로그인 후 정보를 수정해주세요.");
-			model.addObject("location", "/");
+			}
+			
+			model.setViewName("common/msg");
+			
+			return model;
 		}
+		
+		// 회원 탈퇴
+		@RequestMapping("/member/delete")
+		public ModelAndView deleteMember(ModelAndView model, 
+										@SessionAttribute(name="loginMember", required = false) Member loginMember, 
+										@RequestParam("userId") String userId) {
+		int result = 0;
+		
+		if(loginMember.getUserId().equals(userId)) {
+			result = service.deleteMember(userId);
+			
+			if(result > 0) {
+				model.addObject("msg", "정상적으로 탈퇴되었습니다.");
+				model.addObject("location", "/");
+			} else {
+				model.addObject("msg", "회원가입에 실패하였습니다.");
+				model.addObject("location", "/member/myPage");
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/");
+		} 
 		
 		model.setViewName("common/msg");
 		
