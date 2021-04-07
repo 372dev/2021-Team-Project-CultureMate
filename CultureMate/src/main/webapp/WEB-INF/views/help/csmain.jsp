@@ -8,7 +8,7 @@
 	<p>고객센터</p>
 	<ul class="nav nav-pills">
 		<li class="nav-item"><a class="nav-link active" 
-			href="${path}/help/csmain">자주묻는질문 & FAQ</a></li>
+			href="${path}/help/csmain">자주묻는질문(FAQ)</a></li>
 		<li class="nav-item"><a class="nav-link"
 			href="${path}/help/notice ">공지사항</a></li>
 		<li class="nav-item"><a class="nav-link"
@@ -31,30 +31,8 @@
 
 	<hr>
 
-
-
 	<h5>
-		<strong>자주 묻는 질문 TOP5</strong>
-	</h5>
-	<div class="table-responsive">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>분류</th>
-					<th>제목</th>
-				</tr>
-			</thead>
-			<tbody>
-				<td>내용</td>
-				<td>내용</td>
-				<td>내용</td>
-			</tbody>
-		</table>
-	</div>
-
-	<h5>
-		<strong>FAQ</strong>
+		<strong>자주 묻는 질문(FAQ) TOP5</strong>  <button type="button" onclick="location.href ='${path}/help/cswrite'">글쓰기</button>
 	</h5>
 	<div class="row">
 		<div class="col">
