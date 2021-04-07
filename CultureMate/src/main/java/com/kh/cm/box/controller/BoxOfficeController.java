@@ -5,26 +5,31 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.cm.box.model.service.BoxOfficeService;
 import com.kh.cm.box.model.vo.BoxOfficeListVO;
 import com.kh.cm.box.model.vo.BoxOfficeVO;
 
-//import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 
-//@Slf4j
+@Slf4j
 @Controller
-@RequestMapping("/box")
+@EnableScheduling
 public class BoxOfficeController {
+	@Autowired
+	private BoxOfficeService service;
 
-    @RequestMapping(value = "/boxOffice", method = RequestMethod.GET)
-    public ModelAndView list(
-    		ModelAndView model
-    		) {
+    public static List<BoxOfficeVO> readBOList() {
+        return null;
+    }
+    
+	@Scheduled(fixedDelay = 60000)
+	public void writeBOList() {
     	String key = "fe0b63fcf599492aae0dc065406b676b";
 
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -46,21 +51,19 @@ public class BoxOfficeController {
     	BoxOfficeListVO musicalBOList = restTemplate.getForObject(mUrl, BoxOfficeListVO.class);
     	BoxOfficeListVO playBOList = restTemplate.getForObject(pUrl, BoxOfficeListVO.class);
     	BoxOfficeListVO classicBOList = restTemplate.getForObject(cUrl, BoxOfficeListVO.class);
-    	
-    	List<BoxOfficeVO> mResult = musicalBOList.getBoxInfo();
-    	List<BoxOfficeVO> pResult = playBOList.getBoxInfo();
-    	List<BoxOfficeVO> cResult = classicBOList.getBoxInfo();
-    	
-    	System.out.println(mResult.size());
-    	System.out.println(pResult.size());
-    	System.out.println(cResult.size());
-
-		model.addObject("musicalBOList", mResult);
-		model.addObject("playBOList", pResult);
-		model.addObject("classicBOList", cResult);
-		model.setViewName("box/boxOffice");
-
-        return model;
-    }
-    
+    	log.info("RestTemplate DONE!!");
+    	int stat = -1;
+    	if(musicalBOList != null) {
+	    	List<BoxOfficeVO> result = musicalBOList.getBoxInfo().subList(0, 10);
+	    	List<BoxOfficeVO> pResult = playBOList.getBoxInfo().subList(0, 10);
+	    	List<BoxOfficeVO> cResult = classicBOList.getBoxInfo().subList(0, 10);
+	    	System.out.println("musical : " + !result.isEmpty());
+	    	System.out.println("play : " + result.addAll(pResult));
+	    	System.out.println("classic : " + result.addAll(cResult));
+	    	log.info("List<VO> : " + result.toString());
+	    	stat = service.saveBO(result);
+	    	log.info("saved : " + stat + " List<VO>.length : " + result.size());
+	    	log.info("stat : " + stat);
+    	}
+	}
 }

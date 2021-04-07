@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.cm.box.model.dao.BoxOfficeDAO">
+
+<!--
+	<resultMap type="com.kh.cm.box.model.vo.BoxOfficeVO" id="boxOfficeResultMap">
+		<id property="mt20id" column="MT20ID" />
+		<result property="area" column="AREA" />
+		<result property="prfdtcnt" column="PRFDTCNT" />
+		<result property="prfpd" column="PRFPD" />
+		<result property="cate" column="CATE" />
+		<result property="prfplcnm" column="PRFPLCNM" />
+		<result property="prfnm" column="PRFNM" />
+		<result property="rnum" column="RNUM" />
+		<result property="seatcnt" column="SEATCNT" />
+		<result property="poster" column="POSTER" />
+	</resultMap>
+-->
+<!--	
+	<insert id="writeBO" parameterType="java.util.List">
+		INSERT INTO BOXOFFICE (
+			MT20ID
+			, AREA
+			, PRFDTCNT
+			, PRFPD
+			, CATE
+			, PRFPLCNM
+			, PRFNM
+			, RNUM
+			, SEATCNT
+			, POSTER
+		) VALUES
+		<foreach item="item" index="index" collection="list" separator=",">
+		(
+			${item.mt20id}
+			, ${item.area}
+			, ${item.prfdtcnt}
+			, ${item.prfpd}
+			, ${item.cate}
+			, ${item.prfplcnm}
+			, ${item.prfnm}
+			, ${item.rnum}
+			, ${item.seatcnt}
+			, ${item.poster}
+		)
+		</foreach>
+	</insert>
+-->
+
+	<update id="writeBO" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" >
+		INTO BOXOFFICE (
+			MT20ID
+			, AREA
+			, PRFDTCNT
+			, PRFPD
+			, CATE
+			, PRFPLCNM
+			, PRFNM
+			, RNUM
+			, SEATCNT
+			, POSTER
+		) VALUES (
+			${item.mt20id}
+			, ${item.area}
+			, ${item.prfdtcnt}
+			, ${item.prfpd}
+			, ${item.cate}
+			, ${item.prfplcnm}
+			, ${item.prfnm}
+			, ${item.rnum}
+			, ${item.seatcnt}
+			, ${item.poster}
+		)
+		</foreach>
+	</update>
+</mapper>
