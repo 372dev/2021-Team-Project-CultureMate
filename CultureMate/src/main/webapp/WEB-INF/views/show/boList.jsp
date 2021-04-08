@@ -33,6 +33,6 @@
 	</div>
 	
 	<script>
-		
-	</script>
+		var genre = null;
+	</script>	
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

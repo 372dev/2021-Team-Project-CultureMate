@@ -25,9 +25,10 @@ public class ShowListController {
     @RequestMapping(value = "/show/showList", method = RequestMethod.GET)
     public ModelAndView list(
     		ModelAndView model,
-    		@RequestParam(value = "title", required = false) String title
+    		@RequestParam(value = "title", required = false) String title,
+    		@RequestParam(value = "genre", required = false) String genre
     		) {
-    	log.info("Controller started. searching title : " + title);
+    	log.info("Controller started. searching title : " + title + " genre : " + genre);
     	String key = "fe0b63fcf599492aae0dc065406b676b";
 
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -37,17 +38,17 @@ public class ShowListController {
 
 		String stdate = dateFormat.format(currDate.getTime());
 		String eddate = dateFormat.format(nextDate.getTime());
-		
-//		String shcate = null;
-//		if(genre != null) {
-//			if(genre.toString().equals("musical")) {
-//				shcate = "AAAB";
-//			} else if(genre.toString().equals("play")) {
-//				shcate = "AAAA";
-//			} else if(genre.toString().equals("classic")) {
-//				shcate = "CCCA";
-//			}
-//		}
+
+		String shcate = null;
+		if(genre != null) {
+			if(genre.toString().equals("musical")) {
+				shcate = "AAAB";
+			} else if(genre.toString().equals("play")) {
+				shcate = "AAAA";
+			} else if(genre.toString().equals("classic")) {
+				shcate = "CCCA";
+			}
+		}
 		
 		String shprfnm = null;
 		if(title != null) {
@@ -58,11 +59,12 @@ public class ShowListController {
         urlBuilder.append("?service=" + key);
         urlBuilder.append("&stdate=" + stdate);
         urlBuilder.append("&eddate=" + eddate);
-        urlBuilder.append("&rows=100&cpage=1");
-//        if(shcate != null) {
-//        	urlBuilder.append("&shcate=" + shcate);
-//        	log.info("showList - genre selected");
-//        }
+        urlBuilder.append("&prfstate=" + "02|03");
+        urlBuilder.append("&rows=199&cpage=1");
+        if(shcate != null) {
+        	urlBuilder.append("&shcate=" + shcate);
+        	log.info("showList - genre selected");
+        }
         if(shprfnm != null) {
         	urlBuilder.append("&shprfnm=" + shprfnm);
         	log.info("showList - title selected");
@@ -85,11 +87,18 @@ public class ShowListController {
     @RequestMapping(value = "/show/ajaxShowList", method = RequestMethod.GET)
     public List<ShowVO> ajaxShowList(
     		@RequestParam("prfstate") String prfstate,
-    		@RequestParam("shcate") String shcate
+    		@RequestParam("shcate") String shcate,
+    		@RequestParam("shprfnm") String shprfnm
     		) {
-		System.out.println("prfstate : " + prfstate + " / shcate : " + shcate);
+    	log.info("Controller started. searching title : " + shprfnm + " genre : " + shcate + " status : " + prfstate);
 
 		String key = "fe0b63fcf599492aae0dc065406b676b";
+		
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+    	Calendar currDate = new GregorianCalendar();
+    	Calendar nextDate = new GregorianCalendar();
+    	nextDate.add(Calendar.MONTH, 1);
+		
 		String stdate = "20210401";
 		String eddate = "20210501";
 
@@ -97,7 +106,7 @@ public class ShowListController {
         urlBuilder.append("?service=" + key);
         urlBuilder.append("&stdate=" + stdate);
         urlBuilder.append("&eddate=" + eddate);
-        urlBuilder.append("&rows=99&cpage=1");
+        urlBuilder.append("&rows=199&cpage=1");
         urlBuilder.append("&shcate=" + shcate);
         urlBuilder.append("&prfstate=" + prfstate);
 

@@ -32,13 +32,13 @@
 		<c:if test="${ showList != null }">
 			<c:forEach var="slvo" items="${ showList }">
 			<div class="card">
-				<div class="cardImgWrapper" onclick="location.href='${ path }';">
+				<div class="cardImgWrapper" onclick="location.href='${ path }/show/restview?name=${slvo.mt20id}';">
 					<img src="${ slvo.poster }" class="card-img-top" alt="${ slvo.prfnm }">
 				</div>
 				<div class="card-body">
 					<h5 class="card-title">${ slvo.prfnm }</h5>
 					<p class="card-text subTitle">${ slvo.fcltynm }</p>
-					<p class="card-text">${ slvo.prfpdfrom } ~ ${ slvo.prfpdto }</p>
+					<p class="card-text">${ slvo.prfpdfrom }~${ slvo.prfpdto }</p>
 				</div>
 			</div>
 			</c:forEach>
