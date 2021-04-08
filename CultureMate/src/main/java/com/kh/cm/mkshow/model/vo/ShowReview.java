@@ -27,6 +27,7 @@ public class ShowReview {
 	
 	private int id;
 	
+	private String userNick;
 	
 
 }

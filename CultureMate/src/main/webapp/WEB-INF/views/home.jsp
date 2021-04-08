@@ -9,6 +9,7 @@
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
+<c:out value="${loginMember.id}"/>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

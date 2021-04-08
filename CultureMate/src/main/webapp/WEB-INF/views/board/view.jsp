@@ -439,8 +439,12 @@ a#btn-insert {
 					</p>
 					<textarea name="reviewContent" cols="100" rows="4" onfocus="" id="reviewContent"></textarea>
 					<input type="hidden" id="mt20id" name="mt20id" value="${result.get(0).mt20id}">
+					<input type="hidden" id="id" name="id" value="${loginMember.id}">
+					<input type="hidden" id="userNick" name="userNick" value="${loginMember.userNick}">
+					<!-- 
 					<input type="hidden" id="reviewRating" name="reviewRating" value="">
-					<a href=''  id="btn-insert" onClick="fn_comment()" class="btn pull-right btn-success">등록</a>
+					 -->
+					<a  id="btn-insert" onClick="fn_comment()" class="btn pull-right btn-success">등록</a>
 				</form>
 			</div>
 			<br>
@@ -559,7 +563,7 @@ function getCommentList(){
 			
                 for(i=0; i<data.length; i++){
                     html += "<tr class='level1'>";
-                    html += "<td><sub class='comment-writer'>" + data[i].id + "</sub> ";
+                    html += "<td><sub class='comment-writer'>" + data[i].userNick + "</sub> ";
                     html += "<sub class='comment-date'>" +data[i].reviewDate + "</sub>" ;
                     html += "<a id='deletereply' href=''>삭제</a> <br><br>"  + data[i].reviewContent + " <br><br></td></tr>" ;
                 }

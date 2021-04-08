@@ -34,7 +34,8 @@
   			DEFAULT,
   			5,
   			DEFAULT,
-  			100
+  			${id},
+  			${userNick}
  		)
   	</insert>
 	

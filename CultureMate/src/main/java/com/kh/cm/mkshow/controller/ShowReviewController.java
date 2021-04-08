@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.mkshow.model.service.ShowReviewService;
 import com.kh.cm.mkshow.model.vo.ShowReview;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,7 @@ public class ShowReviewController {
 	@RequestMapping(value = "/add.do",  method = {RequestMethod.POST})
 	public String ajax_addComment(
 			@ModelAttribute("review") ShowReview review,
+			@SessionAttribute(name="loginMember", required = false) Member loginMember,
 			HttpServletRequest request) {
 
 		System.out.println("내용값 ? : " + review.getReviewContent());
