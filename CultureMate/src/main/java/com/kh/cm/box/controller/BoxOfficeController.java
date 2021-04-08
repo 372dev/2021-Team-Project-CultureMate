@@ -33,27 +33,28 @@ public class BoxOfficeController {
     }
 
     @RequestMapping(value = "/show/boList", method = RequestMethod.GET)
-    public ModelAndView BOList(
+    public ModelAndView showBOList(
     		ModelAndView model,
     		@RequestParam(value = "genre", required = false) String genre
     		) {
     	log.info("Controller started. set genre : " + genre);
 		
-		String shcate = null;
+		String cate = null;
 		if(genre != null) {
 			if(genre.toString().equals("musical")) {
-				shcate = "뮤지컬";
+				cate = "뮤지컬";
 			} else if(genre.toString().equals("play")) {
-				shcate = "연극";
+				cate = "연극";
 			} else if(genre.toString().equals("classic")) {
-				shcate = "클래식";
+				cate = "클래식";
 			}
 		}
 
     	List<BoxOfficeVO> result = null;
     	
-    	result = service.getBOList(shcate);
+    	result = service.getBOList(cate);
 
+    	model.addObject("cate", cate);
 		model.addObject("boList", result);
 		model.setViewName("show/boList");
 

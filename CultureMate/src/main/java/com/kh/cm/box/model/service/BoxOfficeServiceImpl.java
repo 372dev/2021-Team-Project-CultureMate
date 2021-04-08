@@ -31,9 +31,9 @@ public class BoxOfficeServiceImpl implements BoxOfficeService {
 	}
 
 	@Override
-	public List<BoxOfficeVO> getBOList(String shcate) {
+	public List<BoxOfficeVO> getBOList(String cate) {
 		log.info("run getBOList");
-		return boxOfficeDAO.readBO(shcate);
+		return boxOfficeDAO.readBO(cate);
 	}
 
 }

@@ -20,39 +20,37 @@
   </head>
   <body>
   	<div class="bodyContainer">
-    <div id="header">
-      <div id="header-container">
-        <img class="cm_logo" src="${path}/resources/images/logo.png" alt="" />
-        <div class="sidebtn">
-				<a class="enroll btn-secondary" href="${path}/enroll">회원가입</a>
-				<a class="login btn-secondary" href="${path}/login">로그인</a>
-				<a class="mypage btn-secondary" href="">마이페이지</a>
-        </div>
-        <div id="topmenu">
-          <div class="list list01">
-            <a href="${ path }/show/showList">공연</a>
-            <div class="list01_under under">
-              <a href="">뮤지컬</a>
-              <a href="">콘서트</a>
-              <a href="">연극</a>
-            </div>
-          </div>
-          <div class="list list02">
-            <a href="">메이트</a>
-            <div class="list02_under under">
-              <a href="">같이가요</a>
-              <a href="">티켓나눔</a>
-            </div>
-          </div>
-          <div class="list list03">
-            <a href="">이벤트</a>
-          </div>
-          <div class="list list04">
-            <a href="">고객센터</a>
-          </div>
-        </div>
-      </div>
-      <div class="line"></div>
-    </div>
-  </body>
-</html>
+	    <div id="header">
+	      <div id="header-container">
+	        <img class="cm_logo" src="${path}/resources/images/logo.png" alt="" />
+	        <div class="sidebtn">
+					<a class="enroll btn-secondary" href="${path}/enroll">회원가입</a>
+					<a class="login btn-secondary" href="${path}/login">로그인</a>
+					<a class="mypage btn-secondary" href="">마이페이지</a>
+	        </div>
+	        <div id="topmenu">
+	          <div class="list list01">
+	            <a href="${ path }/show/showList">공연</a>
+	            <div class="list01_under under">
+	              <a href="${ path }/show/boList?genre=musical">뮤지컬</a>
+	              <a href="${ path }/show/boList?genre=play">연극</a>
+	              <a href="${ path }/show/boList?genre=musical">클래식</a>
+	            </div>
+	          </div>
+	          <div class="list list02">
+	            <a href="">메이트</a>
+	            <div class="list02_under under">
+	              <a href="">같이가요</a>
+	              <a href="">티켓나눔</a>
+	            </div>
+	          </div>
+	          <div class="list list03">
+	            <a href="">이벤트</a>
+	          </div>
+	          <div class="list list04">
+	            <a href="">고객센터</a>
+	          </div>
+	        </div>
+	      </div>
+	      <div class="line"></div>
+	    </div>

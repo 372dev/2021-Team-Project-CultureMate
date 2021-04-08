@@ -10,6 +10,6 @@ public interface BoxOfficeService {
 
 	int truncateBO();
 
-	List<BoxOfficeVO> getBOList(String shcate);
+	List<BoxOfficeVO> getBOList(String cate);
 	
 }

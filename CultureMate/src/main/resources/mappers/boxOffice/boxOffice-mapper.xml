@@ -4,7 +4,6 @@
 
 <mapper namespace="com.kh.cm.box.model.dao.BoxOfficeDAO">
 
-<!--
 	<resultMap type="com.kh.cm.box.model.vo.BoxOfficeVO" id="boxOfficeResultMap">
 		<id property="mt20id" column="MT20ID" />
 		<result property="area" column="AREA" />
@@ -17,7 +16,21 @@
 		<result property="seatcnt" column="SEATCNT" />
 		<result property="poster" column="POSTER" />
 	</resultMap>
--->
+
+	<select id="readBO" parameterType="String" resultMap="boxOfficeResultMap">
+		SELECT MT20ID,
+		       AREA,
+		       PRFDTCNT,
+		       PRFPD,
+		       CATE,
+		       PRFPLCNM,
+		       PRFNM,
+		       RNUM,
+		       SEATCNT,
+		       POSTER
+		FROM BOXOFFICE
+		WHERE CATE='${cate}'
+	</select>
 
 	<delete id="truncateBO">
 		TRUNCATE table BOXOFFICE

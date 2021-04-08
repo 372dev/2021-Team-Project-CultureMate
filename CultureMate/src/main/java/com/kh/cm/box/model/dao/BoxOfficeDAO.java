@@ -13,6 +13,6 @@ public interface BoxOfficeDAO {
 
 	int truncateBO();
 
-	List<BoxOfficeVO> readBO(String shcate);
+	List<BoxOfficeVO> readBO(String cate);
 	
 }
