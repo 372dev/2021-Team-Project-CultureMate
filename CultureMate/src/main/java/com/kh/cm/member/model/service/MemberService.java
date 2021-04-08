@@ -18,4 +18,6 @@ public interface MemberService {
 	int changePwd(String userId, String password);
 
 	int validate(String userId);
+
+	int updateMember(Member member);
 }

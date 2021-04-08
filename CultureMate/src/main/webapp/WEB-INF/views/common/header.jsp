@@ -26,7 +26,7 @@
         <div class="sidebtn">
 				<a class="enroll btn-secondary" href="${path}/enroll">회원가입</a>
 				<a class="login btn-secondary" href="${path}/login">로그인</a>
-				<a class="mypage btn-secondary" href="${path}/myPage">마이페이지</a>
+				<a class="mypage btn-secondary" href="${path}/member/myPage">마이페이지</a>
         </div>
         <div id="topmenu">
           <div class="list list01">

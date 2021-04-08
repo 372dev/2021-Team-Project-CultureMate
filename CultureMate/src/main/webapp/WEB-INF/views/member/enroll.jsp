@@ -1,31 +1,38 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-<c:set var="path" value="${pageContext.request.contextPath }" />
-
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>CultureMate</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-    />
-    <link rel="stylesheet" href="${path}/resources/css/main.css" />
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js" ></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  </head>
-<link rel="stylesheet" href="resources/css/memberEnroll.css">
-<body>
-<header>
-<img class="cm_logo" src="${path}/resources/images/logo.png" alt="">
-</header>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<style>
+	section{
+		margin-left: 150px;
+	}
+	
+	.d_form.mini{
+		width: 7em;
+	}
+	
+	.d_form{
+		margin: .2em 0;
+		font-size: 1em;
+		padding: .5em;
+		border: 1px solid #ccc;
+		border-color: #dbdbdb #d2d2d2 #d0d0d0 #d2d2d3;
+		box-shadow: insert 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
+		vertical-align: middle;
+		line-height: 1.25em;
+		outline: 0;
+		width: 20em;
+	}
+	
+	.d_form.large{
+		width: 40.3em;
+	}
+	
+	.col-lg-2.control-label{
+		font-weight: bold;
+	}
+</style>
 <section>
-  <form class="form-horizontal" method="POST">
-      <div class="form-group">
+	<div class="form-group">
           <label for="provision" class="col-lg-2 control-label">회원가입약관</label>
           <div class="col-lg-10" id="terms">
               <textarea class="form-control" rows="8" style="resize:none">
@@ -95,17 +102,11 @@
 •	공지 일자: 2021년 3월 30일
 •	적용 일자: 2021년 3월 30일
 컬처메이트 서비스와 관련하여 궁금하신 사항이 있으시면 고객센터(대표번호: 1234-5678/ 평일 09:00~18:00)로 문의 주시기 바랍니다.
-           </textarea>
-                  <div class="radio">
+           </textarea><br>
+                  <div class="checkbox">
                       <label>
-                          <input type="radio" id="termsYn" name="termsYn" value="Y" autofocus="autofocus" checked>
-                          동의합니다.
-                      </label>
-                  </div>
-                  <div class="radio">
-                      <label>
-                          <input type="radio" id="termsYn" name="termsYn" value="N">
-                          동의하지 않습니다.
+                          <input type="checkbox" id="c1" name="check">
+                          동의합니다.(필수)
                       </label>
                   </div>
               </div>
@@ -164,23 +165,17 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
 
 4. 개인정보 수집 및 이용 동의를 거부할 권리
 이용자는 개인정보의 수집 및 이용 동의를 거부할 권리가 있습니다. 회원가입 시 수집하는 최소한의 개인정보, 즉, 필수 항목에 대한 수집 및 이용 동의를 거부하실 경우, 회원가입이 어려울 수 있습니다.
-          </textarea>
-                 <div class="radio">
+          </textarea><br>
+             <div class="checkbox">
                      <label>
-                         <input type="radio" id="memberInfoYn" name="memberInfoYn" value="Y" checked>
-                         동의합니다.
-                     </label>
-                 </div>
-                 <div class="radio">
-                     <label>
-                         <input type="radio" id="memberInfoYn" name="memberInfoYn" value="N">
-                         동의하지 않습니다.
+                         <input type="checkbox" id="c2" name="check">
+                         동의합니다. (필수)
                      </label>
                  </div>
              </div>
           </div>
-          
-          
+
+  <form class="form-horizontal" method="POST">
           <!-- 회원 가입 정보 입력 구간 -->
           <div class="form-group">
               <label for="userId" class="col-lg-2 control-label">아이디</label>
@@ -261,39 +256,23 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
           <div class="form-group">
               <label for="inputAddress" class="col-lg-2 control-label">주소</label>
               <div class="col-lg-10">
-					<input type="text" id="sample6_postcode" name="postcode" placeholder="우편번호" required>
-					<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-					<input type="text" id="sample6_address" name="address" placeholder="주소" required><br>
-					<input type="text" id="sample6_detailAddress" name="detailAddr" placeholder="상세주소" required >
-					<input type="text" id="sample6_extraAddress" name="extraAddr" placeholder="참고항목" >
+					<input type="text" id="daum_postcode" name="postcode"  class="d_form mini" placeholder="우편번호" required>
+					<input type="button" onclick="execDaumPostcode()" class="btn btn-primary" value="우편번호 찾기"><br>
+					<input type="text" id="daum_address" name="address" class="d_form large" placeholder="주소" required><br>
+					<input type="text" id="daum_detailAddress" name="detailAddr" class="d_form" placeholder="상세주소" required >
+					<input type="text" id="daum_extraAddress" name="extraAddr" class="d_form" placeholder="참고항목" >
               </div>
           </div>
           
           <div class="form-group">
               <div class="col-lg-offset-2 col-lg-10">
-                  <button type="submit" class="btn btn-primary px-3" id="reg_submit">가입하기</button>
+                  <button type="submit" class="btn btn-success px-3" id="reg_submit">가입하기</button>
               </div>
           </div>
       </form>
+</section>
 
-
-<script>
-	$("#reg_submit").on("click", function(){
-		var radios = $(":radio[value='Y']");
-		
-		for(var i = 0; i < radios.length; i++){
-			var $this = $(radios[i]);
-			if(!$this.is(":checked")){
-				alert("반드시 동의해야 합니다.");
-				$this.focus();
-				return;
-			}
-		}
-	});
-	
-
-	// 모든 공백 체크 정규식
-	var empJ = /\s/g;
+<script>	
 	// 아이디 정규식
 	var idJ = /^[a-z0-9]{6,15}$/;
 	// 비밀번호 정규식
@@ -310,9 +289,11 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
 	// 아이디 유효성 검사
 	$("#userId").blur(function(){
 		var userId = $('#userId').val();
+		
 		$.ajax({
-			url : '${pageContext.request.contextPath}/member/idCheck?userId=' + userId,
-			type : 'get',
+			url : '${pageContext.request.contextPath}/member/idCheck',
+			type : 'GET',
+			data : {"userId" : userId},
 			success : function(data){
 				console.log("1: 중복 / 0: 중복아님 : " + data);
 				
@@ -328,11 +309,11 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
 						$("#reg_submit").attr("disabled", false);
 						
 					} else if(userId == ""){
-						$("#id_check").html("아이디를 입력해주세요.");
+						$("#id_check").text("아이디를 입력해주세요.");
 						$("#id_check").css("color", "red");
 						$("#reg_submit").attr("disabled", true);
 					} else {
-						$("#id_check").html("아이디는 소문자와 숫자 6~15자리만 가능합니다.");
+						$("#id_check").text("아이디는 소문자와 숫자 6~15자리만 가능합니다.");
 						$("#id_check").css("color", "red");
 						$("#reg_submit").attr("disabled", true);
 					}
@@ -342,6 +323,7 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
 				console.log("실패");
 			}
 		});
+	});
 		
 		// 비밀번호 유효성 검사
 		// 1. 정규식 체크
@@ -358,12 +340,13 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
 		
 		// 2. 비밀번호 일치 확인
 		$("#passwordCheck").blur(function(){
-			if($("#password").val() != $(this).val()){
+			if($("#password").val().trim() === ($("#passwordCheck").val().trim())){
+				console.log('비밀번호 일치');
+				$("#pwd_check2").text('');
+			} else {
+				console.log('비밀번호 불일치');
 				$("#pwd_check2").text("비밀번호가 일치하지 않습니다.");
 				$("#pwd_check2").css("color", "red");
-			} else {
-				$("#pwd_check2").text("비밀번호가 일치합니다.");
-				$("#pwd_check2").css("color", "green");
 			}
 		});
 		
@@ -391,85 +374,78 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
 		
 		// 생년월일 유효성 검사
 		$("#dateBirth").blur(function(){
+			// 입력한 생년월일 값
 			var dateStr = $(this).val();
-			var year = Number(dateStr.substr(0,4)); // 입력한 값의 0~4자리 (연도)
-			var month = Number(dateStr.substr(4,2)); // 입력한 값의 2번째 자리부터 2자리 (월)
-			var day = Number(dateStr.substr(6,2)); // 입력한 값의 4번쨰 자리부터 2자리 (일)
-			var today = new Date(); // 날짜 변수 선언
-			var yearNow = today.getFullYear(); // 올해 연도(2021)
+			var inputYear = Number(dateStr.substr(0,4)); 
 			
-			if(dateStr.length <= 8) {
-				// 연도의 경우 1900 보다 작거나 yearNow 보다 크면 false를 반환
-				if(1900 > year || year > yearNow){
-					$("#birth_check").text("생년월일을 확인해주세요.");
-					$("#birth_check").css("color", "red");
-					
-				// 월의 경우 1보다 작거나 12보다 크면 false를 반환
-				} else if(month < 1 || month > 12) {
-					$("#birth_check").text("생년월일을 확인해주세요.");
-					$("#birth_check").css("color", "red");
-				
-				// 날짜의 경우 1보다 작거나 31보다 크면 false를 반환
-				} else if(day < 1 || day > 31) {
-					$("#birth_check").text("생년월일을 확인해주세요.");
-					$("#birth_check").css("color", "red");
-				
-				// 4, 6, 9, 11월의 경우 30일까지 있음
-				} else if((month == 4 || month == 6 || month == 9 || month == 11) && day == 31){
-					$("#birth_check").text("생년월일을 확인해주세요.");
-					$("#birth_check").css("color", "red");
-				
-				// 2월의 경우 4년마다 29일까지 있음
-				} else if(month == 2){
-					var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 = 0)); // 윤년
-					
-					if(day > 29 || (day == 29 && !isleap)){
-						$("#birth_check").text("생년월일을 확인해주세요.");
-						$("#birth_check").css("color", "red");
-					} else {
-						$("#birth_check").text('');
-						birthJ = true;
-					}
-					
-				} else {
-					$("#birth_check").text('');
-					birthJ = true;
-				}
-				
-			} else {
-				// 입력된 생년월일이 8글자를 초과할 때
+			// 현재 날짜
+			var now = new Date();
+			var year= now.getFullYear();
+			var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+			var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+			              
+			var today_val = year + '-' + mon + '-' + day;
+			$(this).val(today_val);
+			
+			// 연도의 경우 1900 보다 작거나 yearNow 보다 크면 false를 반환
+			if(1900 > year || dateStr > today_val){
+				console.log('생일이 1900년도 보다 작거나 현재보다 크면 false를 반환');
 				$("#birth_check").text("생년월일을 확인해주세요.");
 				$("#birth_check").css("color", "red");
-			});
-	});
+			
+			} else {
+					$("#birth_check").text('');
+					birthJ = true;
+			}		
+		});
 	
 	// 가입하기 실행 버튼 유효성 검사
 	var inval_Arr = new Array(5).fill(false);
+	
 	$("#reg_submit").click(function(){
+		
+		if($("#c1").prop("checked") && $("#c2").prop("checked")){
+			console.log('체크');
+			$("#reg_submit").prop("disabled", false); // 버튼 활성화
+			
+		} else {
+			console.log('c1 체크 c2체크X');
+			alert('이용약관에 모두 동의해주시기 바랍니다.');
+			//$("#reg_submit").prop("disabled", true); // 버튼 비활성화
+			event.preventDefault();
+			document.getElementById("c1").focus();
+		} 
+	
+		
+		// 비밀번호
 		if(($("#password").val() == ($("#passwordCheck").val())) && pwJ.text($("#password").val())){
 			inval_Arr[0] = true;	
 		} else {
 			inval_Arr[0] = false;
 		}
 		
+		// 사용자이름
 		if(nameJ.test($("#userName").val())){
 			inval_Arr[1] = true;
 		} else {
 			inval_Arr[1] = false;
 		}
 		
+		// 이메일
 		if(mailJ.test($("#email").val())){
 			inval_Arr[2] = true;
 		} else {
 			inval_Arr[2] = false;
 		}
 		
+		// 핸드폰번호
 		if(phoneJ.test($("#phone").val())){
 			inval_Arr[3] = true;
 		} else {
 			inval_Arr[3] = false;
 		}
 		
+		// 생일
 		if(birthJ) {
 			inval_Arr[4] = true;
 		} else {
@@ -477,19 +453,21 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
 		}
 		
 		var validAll = true;
+		
 		for(var i = 0; i < inval_Arr.length; i++){
 			if(inval_Arr[i] == false) {
 				validAll = false;
+				break;
 			}
 		}
 		
-		if(validAll){
-			alert("가입하신 이메일로 인증 메일을 보냈으니 확인해주세요.");
+		if(validAll = true){
+			$("#reg_submit").prop("disabled", false);
 		} else {
 			alert("입력한 정보들을 다시 한 번 확인해주세요.");
+			event.preventDefault();
 		}
 	});
-	
 </script>
 
 <!-- Daum Postcode API Script -->
@@ -528,23 +506,20 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
                         extraAddr = ' (' + extraAddr + ')';
                     }
                     // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("sample6_extraAddress").value = extraAddr;
+                    document.getElementById("daum_extraAddress").value = extraAddr;
                 
                 } else {
-                    document.getElementById("sample6_extraAddress").value = '';
+                    document.getElementById("daum_extraAddress").value = '';
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample6_postcode').value = data.zonecode;
-                document.getElementById("sample6_address").value = addr;
+                document.getElementById('daum_postcode').value = data.zonecode;
+                document.getElementById("daum_address").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
+                document.getElementById("daum_detailAddress").focus();
             }
         }).open();
     }
 </script>
-</section>
-</body>
-<footer>
 
-</footer>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>

@@ -94,15 +94,16 @@
 		UPDATE MEMBER
 		SET	
 			USER_NICK = #{userNick},
-			PASSWORD = #{password},
-			PHONE = #{phone},
 			EMAIL = #{email},
+			PHONE = #{phone},
 			POSTCODE = #{postcode},
 			ADDRESS = #{address},
 			DETAIL_ADDR = #{detailAddr},
 			EXTRA_ADDR = #{extraAddr}
 		WHERE 
 			USER_ID = #{userId}
+		AND
+			PASSWORD = #{password}
 	</update>
 	
 	<delete id="deleteMember" parameterType="string">

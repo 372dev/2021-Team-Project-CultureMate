@@ -108,13 +108,14 @@ public class MemberController {
 		}
 		
 		// 마이페이지 요청
-		@RequestMapping(value="myPage", method = {RequestMethod.GET})
+		@RequestMapping(value="/member/myPage", method = {RequestMethod.GET})
 		public String myPageGet() {
 			log.info("마이페이지 get 요청");
 			
 			return "member/myPage";
 		}
 		
+
 		// 회원정보 수정
 		@RequestMapping("/member/update")
 		public ModelAndView updateMember(ModelAndView model, 
@@ -123,10 +124,10 @@ public class MemberController {
 			
 			int result = 0;
 			
-			if(loginMember.getUserId().equals(member.getUserId())){
+			if(loginMember.getUserId().equals(member.getUserId()) && loginMember.getPassword().equals(member.getPassword())){
 				member.setId(loginMember.getId());
 				
-				result = service.saveMember(member);
+				result = service.updateMember(member);
 				
 				if(result > 0) {
 					model.addObject("loginMember", service.findMemberByUserId(loginMember.getUserId()));
@@ -146,12 +147,21 @@ public class MemberController {
 			return model;
 		}
 		
+		// 비밀번호 변경 페이지 요청
+		@RequestMapping(value="/member/updatePwd", method = {RequestMethod.GET})
+		public String updatePwdGet() {
+			log.info("비밀번호 변경페이지 get 요청");
+			
+			return "member/updatePwd";
+		}
+		
+		
 		// 회원탈퇴 GET 요청
-		@RequestMapping(value="withdrawl", method = {RequestMethod.GET})
+		@RequestMapping(value="/member/withdrawal", method = {RequestMethod.GET})
 		public String withdrawl() {
 			log.info("회원탈퇴 페이지 get 요청");
 			
-			return "member/withdrawl";
+			return "member/withdrawal";
 		}
 		
 		// 회원 탈퇴

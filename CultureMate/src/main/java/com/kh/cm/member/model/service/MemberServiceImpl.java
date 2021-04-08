@@ -77,4 +77,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.validate(userId);
 	}
 
+	// 회원정보 수정
+	@Override
+	public int updateMember(Member member) {
+		return memberDao.updateMember(member);
+	}
+
 }
