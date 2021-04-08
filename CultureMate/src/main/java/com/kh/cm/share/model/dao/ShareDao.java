@@ -27,4 +27,6 @@ public interface ShareDao {
 
 	List<Share> selectFindShareList(String searchShare, String keyword, int start, int end);
 
+	int deleteShare(int shareId);
+
 }

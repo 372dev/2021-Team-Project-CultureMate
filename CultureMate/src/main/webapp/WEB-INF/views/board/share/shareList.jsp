@@ -19,7 +19,10 @@
     #share-Title{
         text-align: left;
     }
-    #share-Search{
+    #share-Search1{
+    	float: left;
+    }
+    #share-Search2{
     	text-align: right;
     }
     #shareList-frm{
@@ -56,8 +59,16 @@
 		<div id="share-Title">
 			        <h1>티켓 나눔</h1>
 			        <h4>&nbsp; - 공연 티켓 괌</h4>
+		 
 		    	</div>
- <div id="share-Search">
+		   <div id="share-Search">
+		 <div id="share-Search1">
+		 	 <c:if test="${loginMember != null}">
+			<button type="button" id="btn-insert" style="border-radius:5px;border:0.5px solid;height:30px;width:70px;font-size:10pt;background-color: #6c757d; color:white;"
+			onclick="location.href ='${path}/share/write'">글쓰기</button>
+		</c:if>
+		 </div>   	
+ <div id="share-Search2">
 	<form name="form1" method="post" action="${path}/share/list.do">
 		<select id="searchShare" style="border-radius:5px;height:30px;">
             	<option value="userNick"<c:if test="${map.searchShare == 'userNick'}">
@@ -68,10 +79,10 @@
             			selected</c:if>>내용</option>
 	 		</select> 
 	 		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" placeholder="내용을 입력하세요" value="${map.keyword}">
-		     <input class="searchButton" id="searchButton" type="submit" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;">검색</input>      
+		     <input class="searchButton" id="searchButton" type="submit" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" value="검색"></input>      
 	</form>     	 	 
 </div>      
-		    	
+</div> 			    	
 		    <hr>		
 		<table id="shareList-tbl">
 			<tr id="shareList-tr">
@@ -108,10 +119,7 @@
                 </c:forEach>
               </c:if>
           </table>              
-			 <c:if test="${loginMember != null}">
-			<button type="button" id="btn-insert"
-			onclick="location.href ='${path}/share/write'">글쓰기</button>
-		</c:if>
+			
 		<br>
 		<div id="pageBar">
 			<!-- 맨 처음으로 -->

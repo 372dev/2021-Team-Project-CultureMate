@@ -59,7 +59,7 @@
 		position:relative;
 		top:-28px;
 	}
-    #shareButton{
+    .shareButton{
      	height:35px;
 	  	border: none;
 		border-radius: 5px;
@@ -155,7 +155,7 @@ table#tbl-comment sub.comment-date {
 				<td colspan="7">
 			<c:if test="${ !empty share.shareOriginalFileName }">
 				<a href="javascript:fileDownload('${share.shareOriginalFileName}', '${share.shareRenamedFileName}');">		
-					<img src="${path}/images/file.png" width="20" height="20">
+					<img src="${path}/resources/images/img.png" width="20" height="20">
 					<c:out value="${share.shareOriginalFileName}" />
 				</a>
 				<script>
@@ -179,19 +179,26 @@ table#tbl-comment sub.comment-date {
 			</tr>
 		   <tr id="shareView-tr1">
 		       <td colspan="7">
-		       ${share.shareContent}
+		       <div style="height:200px;width:400px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;">
+		       	 ${share.shareContent}
+		       </div>
+		     
 		    </td>
 		</tr>
-		</table>
-		 <br>
-		 <%--글작성자/관리자인경우 수정삭제 가능 --%>
-		  <c:if test="${ !empty loginMember && (loginMember.Id == share.Id || loginMember.userRole == 'ROLE_ADMIN')}">  
-				    <button id="shareButton" type="button" onclick="updateMate()">수정하기</button> &nbsp;
+		<tr>
+			<td colspan="7">
+				<c:if test="${ !empty loginMember && (loginMember.userNick == share.userNick || loginMember.userRole == 'ROLE_ADMIN')}">  
+			    <button class="shareButton" id="update" type="button" onclick="location.replace('${path}/share/update?shareId=${share.shareId}')">수정하기</button> &nbsp;
+			     
 			</c:if>	    
-				    <button id="shareButton" type="button" onclick="location.replace('${path}/share/list')">목록으로</button> &nbsp;
-			<c:if test="${ !empty loginMember && (loginMember.Id == mate.Id || loginMember.userRole == 'ROLE_ADMIN')}">  	    
-				    <button id="shareButton" type="button" onclick="deleteShare()">삭제하기</button>
+				    <button class="shareButton" type="button" onclick="location.replace('${path}/share/list')">목록으로</button> &nbsp;
+			<c:if test="${ !empty loginMember && (loginMember.userNick == share.userNick || loginMember.userRole == 'ROLE_ADMIN')}">  	    
+				    <button  class="shareButton" id="delete" type="button" onclick="location.replace('${path}/share/delete?shareId=${share.shareId}')">삭제하기</button>
 			</c:if>	
+			</td>
+		</tr>
+		</table>
+	<br>
 		<div id="comment-container">
 	    	<div class="comment-editor">
 	    		<br>
@@ -253,21 +260,13 @@ table#tbl-comment sub.comment-date {
 </section>
 <script>
 	function updateShare(){
-			location.href = "${path}/share/update?shareId=${share.shareId}";
+			location.replace('${path}/share/update?shareId=${share.shareId}');
 	}
-		
-	function deleteShare(){		
+	
+	function deleteShare (){		
 		if(confirm("게시글을 삭제 하시겠습니까?")){
 			location.replace('${path}/share/delete?shareId=${share.shareId}');
-		}
-	}
-		
-	function checkLogin() {
-		if(${ loginMember } == null){
-			alert("로그인 후 이용해주세요!");
-	//		$("#userId").focus();
-		}
-	}
+		}	
 	
 	function updateShareReply(){
 		if(confirm("댓글을 수정 하시겠습니까?")){

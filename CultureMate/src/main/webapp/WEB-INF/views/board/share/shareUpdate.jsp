@@ -94,14 +94,14 @@
 		        		<input style="border-radius:5px;height:28px;border:1px solid;width:80px;" type="text" name="userNick" id="userNick" value="${loginMember.userNick }" readonly>
 		        	</td>          
 		            <td>${share.shareCreateDate}날짜</td>	           
-		            <td>${share.count}조회수</td>			            
+		            <td>${share.shareCount}조회수</td>			            
 		        </tr>
 		<tr id="shareUpdate-tr1">
 	        <td colspan="7">티켓 인증 올리기</td>			        
 	    </tr>
    	     <tr id="shareUpdate-tr1">
 	        <td colspan="7">
-	        	<input style="height:28px;" type="file" name="upfile">
+	        	<input style="height:28px;" type="file" name="reloadFile">
         	<c:if test="${ !empty share.shareOriginalFileName }">
 				<br>현재 업로드한 파일 : 
 				<a href="${ path }/resources/upload/board/${ share.shareRenamedFileName }" download="${ share.shareOriginalFileName }">
@@ -117,8 +117,8 @@
 		</tr>
 		</table>
 		<br>
-			<button id="shareButton" type="submit">수정하기</button>&nbsp;
-		    <button id="shareButton" type="button" onclick="location.replace('${path}/mate/list')">목록으로</button>&nbsp;		
+			<button id="shareButton" type="submit" value="수정학기">수정하기</button>&nbsp;
+		    <button id="shareButton" type="button" onclick="location.replace('${path}/share/list')">목록으로</button>&nbsp;		
 		    <button id="shareButton" type="button" onclick="history.back()">취소하기</button>
 		</form>
 	 </div>	

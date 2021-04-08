@@ -166,7 +166,7 @@
   		INSERT INTO SHAREBOARD 
   		VALUES(
   			SEQ_SHARE_ID.NEXTVAL,
-  			#{shareWriteNo},
+  			#{shareWriteId},
   			#{shareOpen},
   			#{shareShow},
   			#{shareTitle},
@@ -187,7 +187,7 @@
   				SEQ_SHAREREPLY_ID.NEXTVAL,
 	  			#{shareId},
 	  			#{shareReplyWriteId},
-	  			SEQ_SHAREREPLY_ID.NEXTVAL,
+	  			SEQ_SHAREREPLY_ID.NEXTVAL, <!-- shareReplyGroup -->
 	  			#{shareReplyContent},
 	  			DEFAULT,
 	  			SYSDATE,

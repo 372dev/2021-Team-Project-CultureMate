@@ -72,5 +72,11 @@ public class ShareServiceImpl implements ShareService {
 		return shareDao.selectFindShareList(searchShare, keyword, start, end);
 	}
 
+	@Override
+	public int deleteShare(int shareId) {
+	
+		return shareDao.deleteShare(shareId);
+	}
+
 
 }

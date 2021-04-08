@@ -2,11 +2,11 @@ package com.kh.cm.share.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cm.common.util.PageInfo;
+import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.share.model.service.ShareService;
 import com.kh.cm.share.model.vo.Share;
 import com.kh.cm.share.model.vo.ShareReply;
@@ -48,10 +48,10 @@ public class ShareController {
 	public String shareWriteView( ) {
 		return "board/share/shareWrite";
 	}	
-	@RequestMapping(value="/update", method = {RequestMethod.GET}) 
-	public String shareUpdate( ) {
-		return "board/share/shareUpdate";
-	}
+//	@RequestMapping(value="/update", method = {RequestMethod.GET}) 
+//	public String shareUpdate( ) {
+//		return "board/share/shareUpdate";
+//	}
 //	@RequestMapping(value="/list", method = {RequestMethod.GET}) 
 //	public String shareList( ) {
 //		return "board/share/shareList";
@@ -127,102 +127,194 @@ public class ShareController {
 
 	
 	
-//	@RequestMapping(value="/write", method = {RequestMethod.POST}) 
-//	public ModelAndView shareWrite(ModelAndView model,
-//			@SessionAttribute(name="loginMember", required=false) Member loginMember,
-//			HttpServletRequest request, Share share,
-//					@RequestParam("upfile") MultipartFile upfile) {
-//		
-//		int result = 0;
-//		
-//		if(loginMember.getId().equals(share.getId())) {
-//				share.setShareWriterId(loginMember.getId());
-//				
-//				if(upfile != null && !upfile.isEmpty()) {
-//			
-//			String renameFileName = saveFile(upfile,request);
-//			
-//			System.out.println(renameFileName);
-//			
-//			if(renameFileName != null) {
-//				share.setShareOriginalFileName(upfile.getOriginalFilename());
-//				share.setShareRenamedFileName(renameFileName);
-//			}
-//		}
-//		
-//		result = service.saveShare(share);
-//		
-//		if(result > 0) {
-//			model.addObject("msg", "나눔글 등록에 성공했습니다.");
-//			model.addObject("location", "/share/list");
-//		} else {
-//			model.addObject("msg", "나눔글 등록에 실패했습니다.");
-//			model.addObject("location", "/share/list");
-//		}
-//	} else {
-//		model.addObject("msg", "잘못된 접근입니다.");
-//		model.addObject("location", "/");
-//		
-//	}	
-//		model.setViewName("/common/msg");
-//		
-//		return model;
-//}
-//
-//	@RequestMapping(value="/fileDown", method ={RequestMethod.GET})
-//	public ResponseEntity<Resource> fileDown(
-//		@RequestParam("oriname") String oriname, @RequestParam("rename")String rename
-//		,@RequestHeader(name ="user-agent") String header) {
-//	
-//	try {
-//		Resource resource = resourceLoader.getResource("resources/upload/board/" + rename);
-//		File file = resource.getFile();
-//		boolean isMSIE = header.indexOf("MSIE") != -1 || header.indexOf("Trident") != -1;
-//		String encodeRename = "";
-//		
-//	//	if(!file.exists()) {
-//	//		
-//	//	}
-//		
-//		if(isMSIE) {
-//			encodeRename = URLEncoder.encode(oriname, "UTF-8");
-//			encodeRename = encodeRename.replaceAll("\\+", "%20");
-//		} else { 
-//			encodeRename = new String(oriname.getBytes("UTF-8"), "ISO-8859-1");			
-//		}		
-//		
-//		return ResponseEntity.ok() 
-//				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + encodeRename + "\"")
-//				.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()))
-//				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM.toString())
-//				.body(resource);
-//	} catch (IOException e) {
-//		e.printStackTrace();					
-//		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//	} 
-//		
-//	}
-//
-//	private String saveFile(MultipartFile upfile, HttpServletRequest request) {
-//		
-//		return null;
-//	}
-//
-//	@RequestMapping(value="/update", method = {RequestMethod.GET}) 
-//	public ModelAndView shareUpdateView(ModelAndView model, @RequestParam("shareId") int shareId) {
-//		Share share = service.findShareByShareId(shareId);
-//		
-//		model.addObject("share", share);
-//		model.setViewName("/board/share/shareUpdate");
-//		
-//		return model;
-//	}
-//	
-//
-//	@RequestMapping(value="/update", method = {RequestMethod.POST}) 
-//	public ModelAndView shareUpdate(ModelAndView model, @RequestParam("reloadFile")) {
-//		return "board/share/shareUpdate";
-//	}
-//	
+	@RequestMapping(value="/write", method = {RequestMethod.POST}) 
+	public ModelAndView shareWrite(ModelAndView model,
+			@SessionAttribute(name="loginMember", required=false) Member loginMember,
+			HttpServletRequest request, Share share,
+					@RequestParam("upfile") MultipartFile upfile) {
+		
+		int result = 0;
+				
+		if(loginMember.getUserNick().equals(share.getUserNick())) {
+			share.setShareWriteId(loginMember.getId());
+				
+				if(upfile != null && !upfile.isEmpty()) {
+			
+			String renameFileName = saveFile(upfile,request);
+			
+			System.out.println(renameFileName);
+			
+			if(renameFileName != null) {
+				share.setShareOriginalFileName(upfile.getOriginalFilename());
+				share.setShareRenamedFileName(renameFileName);
+			}
+		}
+		
+		result = service.saveShare(share);
+		
+		if(result > 0) {
+			model.addObject("msg", "나눔글 등록에 성공했습니다.");
+			model.addObject("location", "/share/list");
+		} else {
+			model.addObject("msg", "나눔글 등록에 실패했습니다.");
+			model.addObject("location", "/share/list");
+		}
+	} else {
+		model.addObject("msg", "잘못된 접근입니다.");
+		model.addObject("location", "/");
+		
+	}	
+		model.setViewName("/common/msg");
+		
+		return model;
+}
+
+	@RequestMapping(value="/fileDown", method ={RequestMethod.GET})
+	public ResponseEntity<Resource> fileDown(
+		@RequestParam("oriname") String oriname, @RequestParam("rename")String rename
+		,@RequestHeader(name ="user-agent") String header) {
+	
+	try {
+		Resource resource = resourceLoader.getResource("resources/upload/board/" + rename);
+		File file = resource.getFile();
+		boolean isMSIE = header.indexOf("MSIE") != -1 || header.indexOf("Trident") != -1;
+		String encodeRename = "";
+		
+	//	if(!file.exists()) {
+	//		
+	//	}
+		
+		if(isMSIE) {
+			encodeRename = URLEncoder.encode(oriname, "UTF-8");
+			encodeRename = encodeRename.replaceAll("\\+", "%20");
+		} else { 
+			encodeRename = new String(oriname.getBytes("UTF-8"), "ISO-8859-1");			
+		}		
+		
+		return ResponseEntity.ok() 
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + encodeRename + "\"")
+				.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()))
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM.toString())
+				.body(resource);
+	} catch (IOException e) {
+		e.printStackTrace();					
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+	} 
+		
+	}
+
+	private String saveFile(MultipartFile file, HttpServletRequest request) {
+		String rootPath = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = rootPath + "/upload/board"; 
+		String originalFileName = file.getOriginalFilename();
+		// 파일 네임을 다시 만들어줌~~
+		String renameFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmmss")) + 
+				originalFileName.substring(originalFileName.lastIndexOf("."));
+		String renamePath = savePath + "/" + renameFileName;
+		
+
+		log.debug("Root Path : " + rootPath);
+		log.debug("Save Path : " + savePath);
+
+		// Save Path가 실제로 존재하지 않으면 폴더를 생성하는 로직
+		File folder = new File(savePath);
+
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		try {
+			// 사용자가 업로드한 파일 데이터를 지정한 파일에 저장한다.
+			file.transferTo(new File(renamePath));
+		} catch (IOException e) {
+			System.out.println("파일 전송 에러 : " + e.getMessage());
+			e.printStackTrace();
+		}
+
+
+		return renameFileName;
+	}
+
+	@RequestMapping(value="/update", method = {RequestMethod.GET}) 
+	public ModelAndView shareUpdateView(ModelAndView model, @RequestParam("shareId") int shareId) {
+		Share share = service.findShareByShareId(shareId);
+		
+		model.addObject("share", share);
+		model.setViewName("/board/share/shareUpdate");
+		
+		return model;
+	}
+	
+
+	@RequestMapping(value="/update", method = {RequestMethod.POST}) 
+	public ModelAndView shareUpdate(@SessionAttribute(name = "loginMember", required=false) Member loginMember, Share share, ModelAndView model,@RequestParam("reloadFile") MultipartFile reloadFile, HttpServletRequest request) {
+		
+		int result = 0;
+		
+		if(loginMember.getUserNick().equals(loginMember.getUserNick())) {
+			if(reloadFile != null && !reloadFile.isEmpty()) {
+				if(share.getShareRenamedFileName() != null) {
+					// 기존에 저장된 파일 삭제							// 경로알기위해
+					deleteFile(share.getShareRenamedFileName(), request);
+				} 
+				String renameFileName = saveFile(reloadFile, request); // 기존에 파일이 없었으면 그냥 save
+				
+				if(renameFileName != null) {
+					share.setShareOriginalFileName(reloadFile.getOriginalFilename());
+					share.setShareRenamedFileName(renameFileName);
+				}
+			}
+			
+			result = service.saveShare(share);
+			
+			if(result > 0) {
+				model.addObject("msg", "게시글이 정상적으로 수정되었습니다.");
+				model.addObject("location", "/share/view?shareId=" + share.getShareId());
+			} else {
+				model.addObject("msg", "게시글 수정에 실패하였습니다.");
+				model.addObject("location", "/share/list");
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/");
+		}
+		
+		model.setViewName("common/msg");
+				
+		return model;
+	}
+	
+	private void deleteFile(String fileName, HttpServletRequest request) {
+		String rootPath = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = rootPath + "/upload/board"; 
+		
+		log.debug("Root Path : " + rootPath);
+		log.debug("Save Path : " + savePath);
+		
+		File file = new File(savePath + "/" + fileName);
+		
+		if(file.exists()) {
+			file.delete();
+		}
+		
+	}
+	
+	@RequestMapping(value ="/delete", method ={RequestMethod.GET})
+	private ModelAndView delete(ModelAndView model, @RequestParam("shareId") int shareId ) {
+		int result = 0;
+		
+		result = service.deleteShare(shareId);
+		
+		if(result > 0) {
+			model.addObject("msg", "게시글이 삭제되었습니다.");
+			model.addObject("location", "/share/list");
+		} else {
+			model.addObject("msg", "게시글 삭제에 실패했습니다.");
+			model.addObject("location", "/");
+		}
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 
 }

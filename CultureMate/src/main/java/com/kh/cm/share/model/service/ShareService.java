@@ -22,6 +22,8 @@ public interface ShareService {
 
 	List<Share> getFindShare(String searchShare, String keyword, int start, int end);
 
+	int deleteShare(int shareId);
+
 
 	
 }

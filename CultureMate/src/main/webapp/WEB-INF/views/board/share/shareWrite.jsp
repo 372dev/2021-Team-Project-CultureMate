@@ -54,7 +54,7 @@
 			        <h4>&nbsp; - 공연 티켓 괌</h4>
 		    	</div>
 		    <hr>
-		    <form action="${path}/share/write" id="shareWrite-frm" method="post" >
+		    <form action="${path}/share/write" id="shareWrite-frm" method="post" enctype="multipart/form-data" >
 		     <table id="shareWrite-tbl">
 		        <tr id="shareWrite-tr1">
 			        <td>
@@ -83,15 +83,15 @@
 		        	<input style="height:28px;" type="file" name="upfile">
 	        	</td>
 			  </tr>  
-		   <t id="shareWrite-tr1">
+		   <tr id="shareWrite-tr1">
 		       <td colspan="4">
-		       <textarea style="border-radius:5px; name="shareContent" id="shareContent" cols="80" rows="10"></textarea>
+		       <textarea style="border-radius:5px;" name="shareContent" id="shareContent" cols="80" rows="10"></textarea>
 		    </td>
 		</tr>
 		</table>
 		<br>
-			<button id="shareButton" type="button" onclick="writeShare()">등록하기</button> &nbsp;
-		    <button id="shareButton" type="button" onclick="location.replace('${path}/share/list')">목록으로</button>
+			<input id="shareButton" type="submit" value="등록하기"></input> &nbsp;
+		    <input id="shareButton" type="button" onclick="location.replace('${path}/share/list')" value="목록으로"></input>
 		</form>
 	 </div>	
 </section>
