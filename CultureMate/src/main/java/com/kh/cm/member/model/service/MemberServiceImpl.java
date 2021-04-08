@@ -15,15 +15,18 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	
-	@Autowired
 	private MemberDao memberDao;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	
+	// 로그인
 	@Override
 	public Member login(String userId, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		Member loginMember = memberDao.selectMember(userId);
+		
+		return loginMember != null && passwordEncoder.matches(password, loginMember.getPassword()) ? loginMember : null;
 	}
 
 	@Override
@@ -31,56 +34,47 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectMember(userId);
 	}
 
+	// 회원가입
 	@Override
 	@Transactional
 	public int saveMember(Member member) {
 		int result = 0;
 		
-		if(member.getId() != 0) {
-			result = memberDao.updateMember(member);
-		} else {
-			member.setPassword(passwordEncoder.encode(member.getPassword()));
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
 			
-			result = memberDao.insertMember(member);
-		}
-		
+		result = memberDao.insertMember(member);
+
 		return result;
 	}
 
-	@Override
-	public boolean validate(String userId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	// 회원탈퇴
 	@Override
 	public int deleteMember(String userId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return memberDao.deleteMember(userId);
 	}
 
-	@Override
-	public int saveCardInfo(String cardInfo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	// 아이디 찾기
 	@Override
 	public Member findId(String userName, String email, String phone) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	// 비밀번호 찾기
 	@Override
 	public Member findPwd(String userId, String userName, String email, String phone) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	// 비밀번호 변경
 	@Override
 	public int changePwd(String userId, String password) {
-		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	// 아이디 중복 체크
+	@Override
+	public int validate(String userId) {
+		return memberDao.validate(userId);
 	}
 
 }
