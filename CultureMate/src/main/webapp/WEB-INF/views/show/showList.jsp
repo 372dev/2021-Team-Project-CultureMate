@@ -6,23 +6,28 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 	<link rel="stylesheet" href="${ path }/resources/css/showListStyle.css?v=1" />
-
-	<div id="showSearchOption">
-		<input type="radio" id="prfstate01" name="prfstate" value="01" checked>
-		<label for="prfstate01">공연예정</label>
-		<input type="radio" id="prfstate02" name="prfstate" value="02">
-  		<label for="prfstate02">공연중</label>
-		<input type="radio" id="prfstate03" name="prfstate" value="03">
-  		<label for="prfstate03">공연완료</label>
-		<br>
-		<input type="radio" id="shcate01" name="shcate" value="AAAB" checked>
-  		<label for="shcate01">뮤지컬</label>
-		<input type="radio" id="shcate02" name="shcate" value="AAAA">
-  		<label for="shcate02">연극</label>
-		<input type="radio" id="shcate03" name="shcate" value="CCCA">
-  		<label for="shcate03">클래식</label>
-		<br>
-		<button id="submitSearchForm">검색</button>
+	<div class="searchOptionContainer">
+		<div id="showSearchOption">
+			<input type="radio" id="prfstate01" name="prfstate" value="01" checked>
+			<label for="prfstate01">공연예정</label>
+			<input type="radio" id="prfstate02" name="prfstate" value="02">
+	  		<label for="prfstate02">공연중</label>
+			<input type="radio" id="prfstate03" name="prfstate" value="03">
+	  		<label for="prfstate03">공연완료</label>
+			<br>
+			<input type="radio" id="shcate01" name="shcate" value="AAAB" checked>
+	  		<label for="shcate01">뮤지컬</label>
+			<input type="radio" id="shcate02" name="shcate" value="AAAA">
+	  		<label for="shcate02">연극</label>
+			<input type="radio" id="shcate03" name="shcate" value="CCCA">
+	  		<label for="shcate03">클래식</label>
+			<br>
+			<label for="showTitle">공연명</label>
+			<input type="text" id="title" name="showTitle">
+			<button id="submitSearchForm" class="btn" type="button">상세 검색</button>
+		</div>
+		<hr>
+		<button class="btn" type="button">숨기기</button>
 	</div>
 	
 	<div id="showListDiv" class="ListDiv">
@@ -72,7 +77,7 @@
 						console.log("result != null");
 						for(i = 0; i < result.length; i++) {
 							toAdd += '<div class="card">';
-							toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }' + '\';">';
+							toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }/show/restview?name=' + result[i].mt20id + '\';">';
 							toAdd += '<img src="' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
 							toAdd += '</div>';
 							toAdd += '<div class="card-body">';

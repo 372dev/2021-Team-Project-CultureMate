@@ -99,8 +99,8 @@ public class ShowListController {
     	Calendar nextDate = new GregorianCalendar();
     	nextDate.add(Calendar.MONTH, 1);
 		
-		String stdate = "20210401";
-		String eddate = "20210501";
+		String stdate = dateFormat.format(currDate.getTime());
+		String eddate = dateFormat.format(nextDate.getTime());
 
         StringBuilder urlBuilder = new StringBuilder("http://www.kopis.or.kr/openApi/restful/pblprfr");
         urlBuilder.append("?service=" + key);
@@ -109,10 +109,12 @@ public class ShowListController {
         urlBuilder.append("&rows=199&cpage=1");
         urlBuilder.append("&shcate=" + shcate);
         urlBuilder.append("&prfstate=" + prfstate);
+        
+        if(shprfnm != null) {
+            urlBuilder.append("&shprfnm=" + shprfnm);
+        }
 
         String url = urlBuilder.toString();
-
-        System.out.println(url);
 
 		RestTemplate restTemplate = new RestTemplate();
 		ShowListVO ajaxShowList = restTemplate.getForObject(url, ShowListVO.class);
