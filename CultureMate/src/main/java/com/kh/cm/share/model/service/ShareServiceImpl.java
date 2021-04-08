@@ -78,5 +78,30 @@ public class ShareServiceImpl implements ShareService {
 		return shareDao.deleteShare(shareId);
 	}
 
+	@Override
+	@Transactional
+	public int saveShareReply(ShareReply shareReply) {
+			int result = 0;
+			
+			if(shareReply.getShareReplyId() != 0) {
+				result = shareDao.updateShareReply(shareReply);
+			} else {
+				result = shareDao.insertShareReply(shareReply);
+			}
+		return result;
+	}
+
+	@Override
+	public int getShareReplyCount(int shareId) {
+		
+		return shareDao.selectReplyCount(shareId);
+	}
+
+	@Override
+	public int deleteShareReply(int shareReplyId) {
+		
+		return shareDao.deleteShareReply(shareReplyId);
+	}
+
 
 }

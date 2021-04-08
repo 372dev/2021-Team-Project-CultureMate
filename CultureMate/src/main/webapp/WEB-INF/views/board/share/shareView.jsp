@@ -204,7 +204,7 @@ table#tbl-comment sub.comment-date {
 	    		<br>
 	    		<form action="${path}/share/reply/write" method="post">
 	    			<input type="hidden" name="shareId" id="shareId" value="${share.shareId}">
-	    			<input type="hidden" name="writer" value='${loginMember != null ? loginMember.id : "" }'>
+	    			<input type="hidden" name="writer" value='${loginMember != null ? loginMember.userNick : "" }'>
 					<textarea style="height: 70px;border-radius:5px;" name="content" cols="55" rows="3" onfocus="checkLogin()"></textarea>
 					<button type="submit" id="btn-insert">등록</button>	    			
 	    		</form>
@@ -216,7 +216,7 @@ table#tbl-comment sub.comment-date {
 			    <!-- 	<c:if test="${ !empty loginMember && (loginMember.id == shareReply.id || loginMember.userRole == 'ROLE_ADMIN')}">
 			    </c:if>
 			     --> 
-			     	<c:if test="${shareReply.shareReplyId== shareReply.shareReplyGroup }">
+			     	<c:if test="${shareReply.shareReplyId == shareReply.shareReplyGroup }">
 			    		<td>
 			    			<sub class="comment-writer">${shareReply.userNick}</sub>
 			    			<sub class="comment-date">${shareReply.shareReplyCreateDate}</sub> 
@@ -230,11 +230,11 @@ table#tbl-comment sub.comment-date {
 				    		</td>	
 		    		</c:if>
 		    		  -->
-			    		<td>
-			    		
-		    		    <c:if test="${ !empty loginMember && (loginMember.id == shareReply.id || loginMember.userRole == 'ROLE_ADMIN')}">
-		    				<button class="btn-update" onclick="updateShareReply()">수정</button>
+			    		<td>			    		
+		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
+		    		    	<button class="btn-update" onclick="updateShareReply()">수정</button>
 		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>
+		    				
 		    			</c:if>
 			    		</td>
 			    	</tr>	
@@ -247,36 +247,51 @@ table#tbl-comment sub.comment-date {
 			    			<c:out value="${shareReply.shareReplyContent}"></c:out>
 			    		</td>			    		
 			    		<td>
-		    		    <c:if test="${ !empty loginMember && (loginMember.id == shareReply.id || loginMember.userRole == 'ROLE_ADMIN')}">
+		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    				<button class="btn-update" onclick="updateShareReply()">수정</button>
-		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>
+		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>		    				
 		    			</c:if>
 			    		</td>
 			    	</tr>
-			    	</c:if>		    	
+			    	</c:if>			    	
 		    	</c:forEach>
-		    </table>	
+		    </table>
+		    <div id="pageBar">
+			<!-- 맨 처음으로 -->
+			<button onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=1'">&lt;&lt;</button>
+			
+			<!-- 이전 페이지로 -->
+			<button onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.prvePage}'">&lt;</button>
+
+			<!--  10개 페이지 목록 -->
+			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+				<c:if test="${status.current == pageInfo.currentPage}">
+					<button disabled><c:out value="${status.current}"/></button>
+   				</c:if>
+				<c:if test="${status.current != pageInfo.currentPage}">
+					<button onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${status.current}'"><c:out value="${status.current}"/></button>
+   				</c:if>
+			</c:forEach>
+			
+			<!-- 다음 페이지로 -->
+			<button onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.nextPage}'">&gt;</button>
+			
+			<!-- 맨 끝으로 -->
+			<button onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.maxPage}'">&gt;&gt;</button>
+		</div>	
 	</div>
-</section>
-<script>
-	function updateShare(){
-			location.replace('${path}/share/update?shareId=${share.shareId}');
-	}
-	
-	function deleteShare (){		
-		if(confirm("게시글을 삭제 하시겠습니까?")){
-			location.replace('${path}/share/delete?shareId=${share.shareId}');
-		}	
-	
+	<script>
 	function updateShareReply(){
 		if(confirm("댓글을 수정 하시겠습니까?")){
 			location.href= '${path}/share/reply/update?shareReplyId=${shareReply.shareReplyId}';
 		}
 	}
-	function deleteshareReply(){
+	function deleteShareReply(){
 		if(confirm("댓글을 삭제 하시겠습니까?")){
-			location.replace('${path}/share/reply/delete?shareReplyId=${shareReply.shareReplyId}');
+			location.href = '${path}/share/reply/delete?shareReplyId=${shareReply.shareReplyId}';
 		}
 	}
 </script>
+</section>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

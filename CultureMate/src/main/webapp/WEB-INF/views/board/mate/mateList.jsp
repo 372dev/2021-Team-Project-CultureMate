@@ -60,14 +60,27 @@
 			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
 		    	</div>
 		 <div id="mate-Search">
-		<select id="searchMate" style="border-radius:5px;height:30px;">
-            	<option value="작성자">작성자</option>
-            	<option value="제목">제목</option>
-           		<option value="내용">내용</option>
-	 	</select> 
-      		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" id="searchText" placeholder="내용을 입력하세요">
-      		 <button class="searchButton" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" onclick="search();">검색</button>     
-		</div>      
+		 <div id="mate-Search1">
+		 	 <c:if test="${loginMember != null}">
+			<button type="button" id="btn-insert" style="border-radius:5px;border:0.5px solid;height:30px;width:70px;font-size:10pt;background-color: #6c757d; color:white;"
+			onclick="location.href ='${path}/mate/write'">글쓰기</button>
+		</c:if>
+		 </div>   	
+ <div id="share-Search2">
+	<form name="form1" method="post" action="${path}/mate/list.do">
+		<select id="searchShare" style="border-radius:5px;height:30px;">
+            	<option value="userNick"<c:if test="${map.searchMate == 'userNick'}">
+            			selected</c:if>>작성자</option>
+            	<option value="userNick"<c:if test="${map.searchMate == 'mateTitle'}">
+            			selected</c:if>>제목</option>
+            	<option value="userNick"<c:if test="${map.searchMate == 'mateContent'}">
+            			selected</c:if>>내용</option>
+	 		</select> 
+	 		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" placeholder="내용을 입력하세요" value="${map.keyword}">
+		     <input class="searchButton" id="searchButton" type="submit" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" value="검색"></input>      
+	</form>     	 	 
+</div>      
+</div> 			    	
 		    	
 		    <hr>		
 		<table id="mateList-tbl">

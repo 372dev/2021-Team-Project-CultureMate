@@ -48,14 +48,6 @@ public class ShareController {
 	public String shareWriteView( ) {
 		return "board/share/shareWrite";
 	}	
-//	@RequestMapping(value="/update", method = {RequestMethod.GET}) 
-//	public String shareUpdate( ) {
-//		return "board/share/shareUpdate";
-//	}
-//	@RequestMapping(value="/list", method = {RequestMethod.GET}) 
-//	public String shareList( ) {
-//		return "board/share/shareList";
-//	}
 
 	@RequestMapping(value="/list", method = {RequestMethod.GET}) 
 	public ModelAndView shareList(ModelAndView model,
@@ -111,13 +103,19 @@ public class ShareController {
 //	}
 	
 	@RequestMapping(value="/view", method = {RequestMethod.GET}) 
-	public ModelAndView shareView(@RequestParam("shareId")int shareId, ModelAndView model) {
+	public ModelAndView shareView(@RequestParam("shareId")int shareId, ModelAndView model,
+			@RequestParam(value="page", required=false, defaultValue="1") int page,
+			@RequestParam(value="listlimit", required=false, defaultValue="3") int listLimit) {
 		Share share = service.findShareByShareId(shareId);
 		List<ShareReply> shareReplies = service.findShareReplyByShareId(shareId);
 		boolean updateShareCount = service.updateShareCount(shareId);
+		int shareReplyCount = service.getShareReplyCount(shareId);
+		
+		PageInfo pageInfo = new PageInfo(page, 5, shareReplyCount, 3);
 			
 		model.addObject("share", share);
 		model.addObject("shareReplies", shareReplies);
+		model.addObject("pageInfo", pageInfo);
 		model.setViewName("/board/share/shareView");
 		
 		System.out.println(shareReplies);
@@ -180,10 +178,6 @@ public class ShareController {
 		boolean isMSIE = header.indexOf("MSIE") != -1 || header.indexOf("Trident") != -1;
 		String encodeRename = "";
 		
-	//	if(!file.exists()) {
-	//		
-	//	}
-		
 		if(isMSIE) {
 			encodeRename = URLEncoder.encode(oriname, "UTF-8");
 			encodeRename = encodeRename.replaceAll("\\+", "%20");
@@ -207,7 +201,6 @@ public class ShareController {
 		String rootPath = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = rootPath + "/upload/board"; 
 		String originalFileName = file.getOriginalFilename();
-		// 파일 네임을 다시 만들어줌~~
 		String renameFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmmss")) + 
 				originalFileName.substring(originalFileName.lastIndexOf("."));
 		String renamePath = savePath + "/" + renameFileName;
@@ -216,7 +209,6 @@ public class ShareController {
 		log.debug("Root Path : " + rootPath);
 		log.debug("Save Path : " + savePath);
 
-		// Save Path가 실제로 존재하지 않으면 폴더를 생성하는 로직
 		File folder = new File(savePath);
 
 		if(!folder.exists()) {
@@ -224,7 +216,6 @@ public class ShareController {
 		}
 		
 		try {
-			// 사용자가 업로드한 파일 데이터를 지정한 파일에 저장한다.
 			file.transferTo(new File(renamePath));
 		} catch (IOException e) {
 			System.out.println("파일 전송 에러 : " + e.getMessage());
@@ -254,7 +245,6 @@ public class ShareController {
 		if(loginMember.getUserNick().equals(loginMember.getUserNick())) {
 			if(reloadFile != null && !reloadFile.isEmpty()) {
 				if(share.getShareRenamedFileName() != null) {
-					// 기존에 저장된 파일 삭제							// 경로알기위해
 					deleteFile(share.getShareRenamedFileName(), request);
 				} 
 				String renameFileName = saveFile(reloadFile, request); // 기존에 파일이 없었으면 그냥 save
@@ -316,5 +306,57 @@ public class ShareController {
 		
 		return model;
 	}
+	
+	@RequestMapping(value = "/reply/write", method={RequestMethod.POST})
+	public ModelAndView writeReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
+				@RequestParam(name ="shareId") int shareId,@RequestParam(name ="writer") String writer,
+				@RequestParam(name ="content") String content, ShareReply shareReply,
+				ModelAndView model) {
+		int result = 0;
+		
+		if(loginMember.getUserNick().equals(writer)) {
+			shareReply.setShareId(shareId);
+			shareReply.setShareReplyContent(content);
+			shareReply.setShareReplyWriteId(loginMember.getId());
+			
+			result = service.saveShareReply(shareReply);
+			
+			if(result > 0) {
+				model.addObject("msg", "댓글 등록에 성공했습니다.");
+				model.addObject("location", "/share/view?shareId=" + shareReply.getShareId());
+			} else {
+				model.addObject("msg", "댓글 등록에 실패했습니다.");
+				model.addObject("location", "/share/list");
+				
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/share/list");
+		}
+		
+		model.setViewName("common/msg");
+		return model;
+	}
+	
+	@RequestMapping(value ="/reply/delete", method ={RequestMethod.GET})
+	public ModelAndView deleteReply(ModelAndView model, ShareReply shareReply , @RequestParam(name="shareReplyId") int shareReplyId) {
+		// @RequestParam(name ="boardNO") ,defaultValue="207"
+		int result = 0;
+		
+		result = service.deleteShareReply(shareReplyId);
+		
+		if(result > 0) {
+			
+			model.addObject("msg", "댓글이 삭제되었습니다.");
+			model.addObject("location", "/share/view?shareId=" + shareReply.getShareId());
+		} else {
+			model.addObject("msg", "댓글 삭제에 실패했습니다.");
+			model.addObject("location", "/share/list");
+		}
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
 
 }

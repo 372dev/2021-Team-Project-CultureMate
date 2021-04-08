@@ -24,6 +24,12 @@ public interface ShareService {
 
 	int deleteShare(int shareId);
 
+	int saveShareReply(ShareReply shareReply);
+
+	int getShareReplyCount(int shareId);
+
+	int deleteShareReply(int shareReplyId);
+
 
 	
 }

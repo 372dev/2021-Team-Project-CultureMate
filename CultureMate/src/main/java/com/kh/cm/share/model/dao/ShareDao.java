@@ -29,4 +29,12 @@ public interface ShareDao {
 
 	int deleteShare(int shareId);
 
+	int updateShareReply(ShareReply shareReply);
+
+	int insertShareReply(ShareReply shareReply);
+
+	int selectReplyCount(int shareId);
+
+	int deleteShareReply(int shareReplyId);
+
 }

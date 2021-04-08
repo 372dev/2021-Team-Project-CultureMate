@@ -126,6 +126,12 @@
 		WHERE STATUS='Y'
 	</select>
 	
+	<select id="selectReplyCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM SHAREREPLY
+		WHERE STATUS='Y' AND SHARE_ID = #{shareId}
+	</select>
+	
 	<select id="selectShareDetail" parameterType="_int" resultMap="shareDetailResultMap">
 		SELECT S.SHARE_ID,
 	       M.USER_NICK AS S_USER_NICK,
@@ -180,7 +186,7 @@
  		)
   	</insert>
   	
-  	<insert id="inserShareReply"  parameterType="map"
+  	<insert id="insertShareReply"  parameterType="map"
   		useGeneratedKeys="true" keyProperty="shareReplyId" keyColumn="SHAREREPLY_ID">
   			INSERT INTO SHAREREPLY
   			VALUES (
@@ -219,5 +225,13 @@
 			STATUS = 'N'
 		WHERE 
 			SHARE_ID=#{shareId}	
+	</update>
+	
+	<update id="deleteShareReply" parameterType="_int">
+		UPDATE SHAREREPLY
+		SET
+			STATUS = 'N'
+		WHERE 
+			SHAREREPLY_ID=#{shareReplyId}	
 	</update>
 </mapper>
