@@ -439,6 +439,7 @@ a#btn-insert {
 					</p>
 					<textarea name="reviewContent" cols="100" rows="4" onfocus="" id="reviewContent"></textarea>
 					<input type="hidden" id="mt20id" name="mt20id" value="${result.get(0).mt20id}">
+					<input type="hidden" id="reviewRating" name="reviewRating" value="">
 					<a href=''  id="btn-insert" onClick="fn_comment()" class="btn pull-right btn-success">등록</a>
 				</form>
 			</div>
