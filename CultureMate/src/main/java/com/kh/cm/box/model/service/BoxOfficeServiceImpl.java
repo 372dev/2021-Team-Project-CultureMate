@@ -32,7 +32,7 @@ public class BoxOfficeServiceImpl implements BoxOfficeService {
 
 	@Override
 	public List<BoxOfficeVO> getBOList(String cate) {
-		log.info("run getBOList");
+		log.info("run getBOList, cate : " + cate);
 		return boxOfficeDAO.readBO(cate);
 	}
 

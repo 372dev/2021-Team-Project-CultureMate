@@ -34,7 +34,7 @@
 	            <div class="list01_under under">
 	              <a href="${ path }/show/boList?genre=musical">뮤지컬</a>
 	              <a href="${ path }/show/boList?genre=play">연극</a>
-	              <a href="${ path }/show/boList?genre=musical">클래식</a>
+	              <a href="${ path }/show/boList?genre=classic">클래식</a>
 	            </div>
 	          </div>
 	          <div class="list list02">

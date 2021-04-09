@@ -24,7 +24,7 @@
 			<br>
 			<label for="showTitle">공연명</label>
 			<input type="text" id="title" name="showTitle">
-			<button id="submitSearchForm" class="btn" type="button">상세 검색</button>
+			<button id="submitSearchForm" class="btn">상세 검색</button>
 		</div>
 		<hr>
 		<button class="btn" type="button">숨기기</button>
@@ -54,12 +54,14 @@
 	$('#submitSearchForm').on('click', function () {
 		var prfstateVal = $('input[name="prfstate"]:checked').val();
 		var shcateVal = $('input[name="shcate"]:checked').val();
+		var shprfnm = $('showTitle').val();
 		$.ajax({
 			type : "GET",
 			url : "/cm/show/ajaxShowList",
 			data : {
 				"prfstate" : prfstateVal,
-				"shcate" : shcateVal
+				"shcate" : shcateVal,
+				"shprfnm" : shprfnm,
 			},
 			error : function(error) {
 				console.log("ajax-error");

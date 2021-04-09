@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -27,19 +28,30 @@ import lombok.extern.slf4j.Slf4j;
 public class BoxOfficeController {
 	@Autowired
 	private BoxOfficeService service;
-
-    public static List<BoxOfficeVO> readBOList() {
-        return null;
-    }
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView home(Locale locale, ModelAndView model/*, @AuthenticationPrincipal Member member */) {
+		log.info("home started");
+		List<BoxOfficeVO> mbo = readBOList("뮤지컬");
+		List<BoxOfficeVO> pbo = readBOList("연극");
+		List<BoxOfficeVO> cbo = readBOList("클래식");
+		
+		model.addObject("mbo", mbo);
+		model.addObject("pbo", pbo);
+		model.addObject("cbo", cbo);
+		model.setViewName("home");
+		
+		return model;
+	}
 
     @RequestMapping(value = "/show/boList", method = RequestMethod.GET)
     public ModelAndView showBOList(
     		ModelAndView model,
     		@RequestParam(value = "genre", required = false) String genre
     		) {
-    	log.info("Controller started. set genre : " + genre);
+    	log.info("showBOList started. set genre : " + genre);
 		
-		String cate = null;
+    	String cate = null;
 		if(genre != null) {
 			if(genre.toString().equals("musical")) {
 				cate = "뮤지컬";
@@ -49,10 +61,8 @@ public class BoxOfficeController {
 				cate = "클래식";
 			}
 		}
-
-    	List<BoxOfficeVO> result = null;
     	
-    	result = service.getBOList(cate);
+    	List<BoxOfficeVO> result = readBOList(cate);
 
     	model.addObject("cate", cate);
 		model.addObject("boList", result);
@@ -60,9 +70,20 @@ public class BoxOfficeController {
 
         return model;
     }
+    
+    public List<BoxOfficeVO> readBOList(String cate) {
+    	log.info("readBOList started. set genre : " + cate);
+
+    	List<BoxOfficeVO> result = null;
+    	
+    	result = service.getBOList(cate);
+    	
+    	return result;
+    }
 
 	@Scheduled(fixedDelay = 3600000)
 	public void writeBOList() {
+		log.info("writeBOList started. set delay : 3600000");
     	String key = "fe0b63fcf599492aae0dc065406b676b";
 
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
