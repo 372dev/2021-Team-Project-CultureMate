@@ -73,8 +73,8 @@
 				<input type="hidden" name="shareOriginalFileName" value = "${share.shareOriginalFileName}">
 				<input type="hidden" name="shareRenamedFileName" value = "${share.shareRenamedFileName}">
 			
-     	<table id="shareUpdate-tbl">
-		 <tr id="shareUpdate-tr">
+	     	<table id="shareUpdate-tbl">
+			 <tr id="shareUpdate-tr">
 		            <td>${share.shareId}번호</td>		           
 		            <td>
 			        <select style="border-radius:5px;height:28px;" name="shareShow" id="shareShow">

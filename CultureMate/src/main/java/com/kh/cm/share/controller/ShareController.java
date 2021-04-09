@@ -339,7 +339,8 @@ public class ShareController {
 	}
 	
 	@RequestMapping(value ="/reply/delete", method ={RequestMethod.GET})
-	public ModelAndView deleteReply(ModelAndView model, ShareReply shareReply , @RequestParam(name="shareReplyId") int shareReplyId) {
+	public ModelAndView deleteReply(ModelAndView model, ShareReply shareReply , @RequestParam(name="shareReplyId") int shareReplyId
+			, @RequestParam(name="shareId") int shareId) {
 		// @RequestParam(name ="boardNO") ,defaultValue="207"
 		int result = 0;
 		
@@ -348,7 +349,7 @@ public class ShareController {
 		if(result > 0) {
 			
 			model.addObject("msg", "댓글이 삭제되었습니다.");
-			model.addObject("location", "/share/view?shareId=" + shareReply.getShareId());
+			model.addObject("location", "/share/view?shareId=" + shareId);
 		} else {
 			model.addObject("msg", "댓글 삭제에 실패했습니다.");
 			model.addObject("location", "/share/list");

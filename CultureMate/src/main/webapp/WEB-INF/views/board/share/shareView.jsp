@@ -1,8 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@page import="com.kh.cm.share.model.vo.Share"%>
+<%@page import="com.kh.cm.share.model.vo.ShareReply"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<%
+	Share share = (Share)request.getAttribute("share");
+	List<ShareReply> shareReplies = (List)request.getAttribute("shareReplies");
+%>
 <style>
     #shareSection {
 	     min-height: 800px;
@@ -232,6 +240,8 @@ table#tbl-comment sub.comment-date {
 		    		  -->
 			    		<td>			    		
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
+		    		    	<input type="hidden" name="shareReplyId" id="shareReplyId" value="${shareReply.shareReplyId }">
+		    		    	<input type="hidden" name="shareId" value="${shareReply.shareId }">
 		    		    	<button class="btn-update" onclick="updateShareReply()">수정</button>
 		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>
 		    				
@@ -248,6 +258,8 @@ table#tbl-comment sub.comment-date {
 			    		</td>			    		
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
+		    		    	<input type="hidden" name="shareReplyId" value="${shareReply.shareReplyId }">
+		    		    	<input type="hidden" name="shareId" value="${shareReply.shareId }">
 		    				<button class="btn-update" onclick="updateShareReply()">수정</button>
 		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>		    				
 		    			</c:if>
@@ -287,8 +299,9 @@ table#tbl-comment sub.comment-date {
 		}
 	}
 	function deleteShareReply(){
+		var shareReplyId = document.getElementById("#shareReplyId").value;
 		if(confirm("댓글을 삭제 하시겠습니까?")){
-			location.href = '${path}/share/reply/delete?shareReplyId=${shareReply.shareReplyId}';
+			location.href = '${path}/share/reply/delete?shareId=' + <%=share.getShareId()%> + '&shareReplyId=' + shareReplyId;
 		}
 	}
 </script>
