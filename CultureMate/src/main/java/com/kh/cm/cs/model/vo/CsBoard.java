@@ -10,19 +10,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CsBoard {
-	private int qnaBoardId;
+	private int csBoardId;
 	
-	private int qnaBoardWriteNo;
+	private int csWriteNo;
+	
+	private String Id;
 
-	private String qnaTitle;
+	private String csTitle;
 	
-	private String qnaContent;
+	private String csContent;
 	
-	private Date qnaDate;
+	private String csboardOriginalFileName;
 	
-	private String status;
+	private String csboardRenamedFileName;
 	
-	private int qnaReadCount;
+	private String csstatus;
+	
+	private Date csboardCreateDate;
+	
+	private int csReadCount;
 	
 
 }

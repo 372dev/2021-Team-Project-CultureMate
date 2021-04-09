@@ -6,13 +6,30 @@
  
 <div>
     <h2>게시판 작성</h2>
-		<form action='${path}/board/write' method="post" enctype="multipart/form-data">
+		<form action='${path}/help/cswrite' method="post" enctype="multipart/form-data">
 			<table id='tbl-board'>
+				<tr>
+					<div class="qnalist">
+		               <label style="font-size: large;">문의유형</label>
+		              
+		                   <select name="national">
+		                       <option selected>질문유형</option>
+		                           <option value="ko">전체보기</option>
+		                           <option value="ch">환불</option>
+		                           <option value="jp">구매/결제</option>
+		                           <option value="jp">메이트/소모임</option>
+		                           <option value="jp">기타</option>
+		                   </select>
+		            </div>
+				</tr>
 				<tr>
 					<th>제목</th>
 					<td><input type="text" name="boardTitle" id="title"></td>
 				</tr>
-
+				<tr>
+					<th>작성자</th>
+					<td><input type="text" name="userId" value="${ loginMember.userId }" readonly></td>
+				</tr>
 				<tr>
 					<th>첨부파일1</th>
 					<td><input type="file" name="upfile"></td>

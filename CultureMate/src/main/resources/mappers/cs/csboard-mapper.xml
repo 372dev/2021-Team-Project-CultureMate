@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.cm.cs.model.dao.CsBoardDao">
+	<sql id="csBoardListSql">
+		SELECT C.CS_ID,
+		       M.ID,
+		       C.CS_TITLE,
+		       C.CS_CONTENT,
+		       C.CS_ORIGINAL_FILENAME,
+		       C.CS_READCOUNT,
+		       C.CS_CREATE_DATE,
+		       C.CS_STATUS
+		FROM CS_BOARD C
+		JOIN MEMBER M ON(C.CS_WRITER_NO = M.ID)		
+		WHERE C.CS_STATUS='Y'	
+	</sql>
+
+	<resultMap type="CsBoard" id="csBoardResultMap">
+		<id property="csBoardId" column="CS_ID"/>
+		<result property="csWriteNo" column="CS_WRITER_NO"/>
+		<result property="Id" column="ID"/>
+		<result property="csTitle" column="CS_TITLE"/>
+		<result property="csContent" column="CS_CONTENT"/>
+		<result property="csboardOriginalFileName" column="CS_ORIGINAL_FILENAME"/>
+		<result property="csboardRenamedFileName" column="CS_RENAMED_FILENAME"/>
+		<result property="csstatus" column="CS_STATUS"/>
+		<result property="csboardCreateDate" column="CS_CREATE_DATE"/>	
+		<result property="csReadCount" column="CS_COUNT"/>	
+	</resultMap>
+	
+	<select id="selectCsBoardList" parameterType="map" resultMap="csBoardResultMap">
+		<include refid="csBoardListSql"></include>
+		ORDER BY C.CS_ID DESC
+	</select>
+	
+	<select id="selectCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM CS_BOARD
+		WHERE CS_STATUS='Y'
+	</select>	 	
+	 
+	<insert id="insertCsBoard" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="csBoardId" keyColumn="CS_ID">
+  		
+  		INSERT INTO CS_BOARD 
+  		VALUES(
+  			SEQ_CS_ID.NEXTVAL,
+  			#{csWriteNo},
+  			#{csTitle},
+  			#{csContent},
+  			#{csboardOriginalFileName},
+  			#{csboardRenamedFileName},
+  			DEFAULT,
+  			DEFAULT,
+  			DEFAULT,
+  			DEFAULT
+ 		)
+  	</insert>
+  	
+	<update id="updateCsBoard" parameterType="CsBoard">
+		UPDATE CS_BOARD 
+		SET 
+			CS_TITLE=#{csBoardTitle},
+			CS_CONTENT=#{csBoardContent},
+			<if test="csboardOriginalFileName != null">
+				CS_ORIGINAL_FILENAME=#{csBoardOriginalFileName},
+			</if>
+			<if test="csboardRenamedFileName != null">
+				CS_RENAMED_FILENAME=#{csBoardRenamedFileName},
+			</if>
+			CS_MODIFY_DATE=SYSDATE 
+		WHERE 
+			CS_ID=#{csBoardId}
+	</update>	
+</mapper>

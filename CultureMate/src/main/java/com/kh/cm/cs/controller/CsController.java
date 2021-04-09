@@ -1,8 +1,7 @@
 package com.kh.cm.cs.controller;
 
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,7 +10,9 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.cm.cs.model.service.CsBoardService;
 import com.kh.cm.cs.model.vo.CsBoard;
+import com.kh.cm.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,48 +20,67 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/csboard")
+@RequestMapping("/help")
 public class CsController {
-
-	@RequestMapping(value = "/help/csmain", method = {RequestMethod.GET})
+	@Autowired
+	private CsBoardService service; 
+	
+	@RequestMapping(value = "/csmain", method = {RequestMethod.GET})
 	public void cslist() {
 		
 }
 
 
-		@RequestMapping(value = "/help/csfaq", method = {RequestMethod.GET})
+		@RequestMapping(value = "/csfaq", method = {RequestMethod.GET})
 		public void csfaq() {
 			
 	}
 		
-		@RequestMapping(value = "/help/questionlist", method = {RequestMethod.GET})
+		@RequestMapping(value = "/questionlist", method = {RequestMethod.GET})
 		public void csQuestlist() {
 			
 	}
 		
-		@RequestMapping(value = "/help/qnacontent", method = {RequestMethod.GET})
+		@RequestMapping(value = "/qnacontent", method = {RequestMethod.GET})
 		public void cscontent() {
 			
 	}
-		@RequestMapping(value = "/help/notice", method = {RequestMethod.GET})
+		@RequestMapping(value = "/notice", method = {RequestMethod.GET})
 		public void csnotice() {
 			
 	}
-		@RequestMapping(value = "/help/cswrite", method = {RequestMethod.GET})
+		@RequestMapping(value = "/cswrite", method = {RequestMethod.GET})
 		public void cswriteView() {
 			
        
 		}	
 		
-//		@RequestMapping(value = "/help/cswrite", method = {RequestMethod.POST})
-//		public ModelAndView cswrite(
-//				@SessionAttribute(name = "loginMember", required = false)
-//				HttpServletRequest request, CsBoard csboard,
-//				@RequestParam("upfile")MultipartFile upfile, ModelAndView model ) {
-//			
-//		}
-}
+		@RequestMapping(value = "/cswrite", method = {RequestMethod.POST})
+		public ModelAndView cswrite(
+				@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+				CsBoard csboard, ModelAndView model ) {
+			
+			System.out.println(csboard);
+			
+			int result = 0;
+			
+			if(loginMember.getUserId().equals(csboard.getId())) {
+				csboard.setCsWriteNo(loginMember.getId());
 				
+			}else {
+				model.addObject("msg", "잘못된 접근입니다.");
+				model.addObject("loaction", "/");
+			}
+			
+	         result = service.saveCsBoard(csboard);
+ 		
+ 		     model.setViewName("common/msg");
+ 		
+ 		return model;
+		}
+				
+}
+		
 
 
 		
