@@ -57,7 +57,7 @@
 	<h2>${ mbo[0].cate } 주간 박스 오피스</h2>
 	<div>
 		<button id="reLocToBoList">
-			더 보기(상세 검색)
+			더 보기
 		</button>
 	</div>
 	<div id="boListDiv" class="ListDiv">
@@ -65,7 +65,7 @@
 			<p>조회된 게시물이 없습니다.</p>
 		</c:if>
 		<c:if test="${ mbo != null }">
-			<c:forEach var="mboVO" items="${ mbo }" begin="0" end="4">
+			<c:forEach var="mboVO" items="${ mbo }" begin="0" end="3">
 			<div class="card">
 				<div class="cardImgWrapper" onclick="location.href='${ path }/show/restview?name=${mboVO.mt20id}';">
 					<img src="http://www.kopis.or.kr${ mboVO.poster }" class="card-img-top" alt="${ mboVO.prfnm }">
@@ -82,7 +82,7 @@
 	<h2>${ pbo[0].cate } 주간 박스 오피스</h2>
 	<div>
 		<button id="reLocToBoList">
-			더 보기(상세 검색)
+			더 보기
 		</button>
 	</div>
 	<div id="boListDiv" class="ListDiv">
@@ -90,7 +90,7 @@
 			<p>조회된 게시물이 없습니다.</p>
 		</c:if>
 		<c:if test="${ pbo != null }">
-			<c:forEach var="pboVO" items="${ pbo }" begin="0" end="4">
+			<c:forEach var="pboVO" items="${ pbo }" begin="0" end="3">
 			<div class="card">
 				<div class="cardImgWrapper" onclick="location.href='${ path }/show/restview?name=${pboVO.mt20id}';">
 					<img src="http://www.kopis.or.kr${ pboVO.poster }" class="card-img-top" alt="${ pboVO.prfnm }">
@@ -107,7 +107,7 @@
 	<h2>${ cbo[0].cate } 주간 박스 오피스</h2>
 	<div>
 		<button id="reLocToBoList">
-			더 보기(상세 검색)
+			더 보기
 		</button>
 	</div>
 	<div id="boListDiv" class="ListDiv">
@@ -115,7 +115,7 @@
 			<p>조회된 게시물이 없습니다.</p>
 		</c:if>
 		<c:if test="${ cbo != null }">
-			<c:forEach var="cboVO" items="${ cbo }" begin="0" end="4">
+			<c:forEach var="cboVO" items="${ cbo }" begin="0" end="3">
 			<div class="card">
 				<div class="cardImgWrapper" onclick="location.href='${ path }/show/restview?name=${cboVO.mt20id}';">
 					<img src="http://www.kopis.or.kr${ cboVO.poster }" class="card-img-top" alt="${ cboVO.prfnm }">
