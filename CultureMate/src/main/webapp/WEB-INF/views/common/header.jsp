@@ -22,7 +22,9 @@
   	<div class="bodyContainer">
     <div id="header">
       <div id="header-container">
-        <img class="cm_logo" src="${path}/resources/images/logo.png" alt="" />
+        <a class="cm_logo" href="${path}/">
+          <img src="${path}/resources/images/logo.png" alt=""/>
+        </a>
         <div class="sidebtn">
 				<a class="enroll btn-secondary" href="${path}/enroll">회원가입</a>
 				<a class="login btn-secondary" href="${path}/login">로그인</a>
