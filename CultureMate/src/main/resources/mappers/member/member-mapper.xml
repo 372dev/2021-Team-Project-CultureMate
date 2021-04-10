@@ -38,6 +38,7 @@
 		<result property="extraAddr" column="EXTRA_ADDR" />
 		<result property="rank" column="RANK" />
 		<result property="status" column="STATUS" />
+		<result property="authkey" column="AUTHKEY" />
 	</resultMap>
 	
 	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
@@ -45,10 +46,15 @@
 		AND USER_ID = #{userId}
 	</select>
 	
-	
 	<select id="validate" resultType="int">
 		SELECT COUNT(*) 
 		FROM MEMBER 
+		WHERE USER_ID = #{userId}
+	</select>
+	
+	<select id="checkAuth" parameterType="Member" resultMap="memberResultMap">
+		SELECT AUTHKEY
+		FROM MEMBER
 		WHERE USER_ID = #{userId}
 	</select>
 	
@@ -69,7 +75,8 @@
 			   DETAIL_ADDR,
 			   EXTRA_ADDR,
 			   RANK,
-			   STATUS
+			   STATUS,
+			   AUTHKEY
 		) VALUES (
 			   MEM_SEQ.NEXTVAL,
 			   #{userId},
@@ -85,6 +92,7 @@
 			   #{address},
 			   #{detailAddr},
 			   #{extraAddr},
+			   DEFAULT,
 			   DEFAULT,
 			   DEFAULT
 		)
@@ -104,6 +112,22 @@
 			USER_ID = #{userId}
 		AND
 			PASSWORD = #{password}
+	</update>
+	
+	<update id="updateAuthkey" parameterType="Member">
+		UPDATE MEMBER
+		SET 
+			AUTHKEY = #{authkey}
+		WHERE 
+			USER_ID = #{userId}
+	</update>
+	
+	<update id="successAuthkey" parameterType="string">
+		UPDATE MEMBER
+		SET 
+			STATUS = 'Y'
+		WHERE 
+			USER_ID = #{userId}
 	</update>
 	
 	<delete id="deleteMember" parameterType="string">

@@ -1,14 +1,8 @@
 package com.kh.cm.member.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +28,7 @@ public class MemberController {
 		
 		@Autowired
 		MemberDao memberDao;
+		
 
 		@RequestMapping(value="login", method = {RequestMethod.GET})
 		public String loginGET() {
@@ -87,7 +82,7 @@ public class MemberController {
 			log.info(member.toString());
 			
 			if(result > 0) {
-				model.addObject("msg", "회원가입이 성공적으로 완료되었습니다.");
+				model.addObject("msg", "회원가입이 성공적으로 완료되었습니다. 이메일 인증을 완료해주세요 :)");
 				model.addObject("location", "/");
 			} else {
 				model.addObject("msg", "회원가입에 실패하였습니다.");
@@ -98,6 +93,29 @@ public class MemberController {
 			
 			return model;
 		}
+
+		// 이메일 인증키 확인
+		@RequestMapping(value="/emailConfirm", method= {RequestMethod.GET})
+		public String emailConfirm(@RequestParam("authkey") String authkey , ModelAndView model) {
+			Member member = new Member(); 
+			member = service.userAuth(authkey);
+			
+			if(authkey == null) {
+				model.addObject("msg", "인증키가 잘못되었습니다. 다시 인증해주세요.");
+				model.addObject("location", "/");
+			}
+			
+			if(member == null) {
+				model.addObject("msg", "잘못된 접근입니다. 다시 인증해주세요.");
+				model.addObject("location", "/");
+			}
+			
+			model.addObject("member", member);
+			model.setViewName("common/msg");
+			
+			return "/member/emailConfirm";
+		}
+
 		
 		// 아이디 중복검사
 		@RequestMapping(value = "/member/idCheck", method = {RequestMethod.GET})

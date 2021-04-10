@@ -20,4 +20,9 @@ public interface MemberService {
 	int validate(String userId);
 
 	int updateMember(Member member);
+
+	Member userAuth(String authkey);
+
+	void sendMail(Member member) throws Exception;
+
 }

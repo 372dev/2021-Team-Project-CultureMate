@@ -2,16 +2,15 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-<c:set var="path" value="${ pageContext.request.contextPath }" />
 
 <section>
  <div class="wrapper">
-	<form method="post" action="${path}/member/login">
-		<div class="col-md-3 col-md-offset-3">
+	<form class="loginForm" method="post" action="${path}/member/login">
+		<div class="col-md-5 col-md-offset-3">
 			<input type="text" name="userId" class="form-control" placeholder="아이디" required autofocus>
 		</div>
 		
-		<div class="col-sm-3">
+		<div class="col-md-5 col-md-offset-3">
 			<input type="password" name="password" class="form-control" placeholder="비밀번호" required>
 		</div>
 		

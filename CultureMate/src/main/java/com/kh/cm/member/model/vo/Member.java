@@ -41,4 +41,7 @@ public class Member {
 	private String rank;
 	
 	private String status;
+	
+	private String authkey;
+	
 }
