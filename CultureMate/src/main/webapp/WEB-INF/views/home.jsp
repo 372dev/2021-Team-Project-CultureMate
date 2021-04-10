@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 
-    <link rel="stylesheet" href="${path}/resources/css/home.css" />
+    <link rel="stylesheet" href="${ path }/resources/css/home.css" />
 	<link rel="stylesheet" href="${ path }/resources/css/showListStyle.css?v=1" />
 	<link
       rel="stylesheet"
@@ -54,83 +54,50 @@
 	        </a>
 		</div>
 	</div>
-	<h2>${ mbo[0].cate } 주간 박스 오피스</h2>
-	<div>
-		<button id="reLocToBoList">
-			더 보기
-		</button>
-	</div>
-	<div id="boListDiv" class="ListDiv">
-		<c:if test="${ mbo == null }">
-			<p>조회된 게시물이 없습니다.</p>
-		</c:if>
-		<c:if test="${ mbo != null }">
-			<c:forEach var="mboVO" items="${ mbo }" begin="0" end="3">
-			<div class="card">
-				<div class="cardImgWrapper" onclick="location.href='${ path }/show/restview?name=${mboVO.mt20id}';">
-					<img src="http://www.kopis.or.kr${ mboVO.poster }" class="card-img-top" alt="${ mboVO.prfnm }">
-				</div>
-				<div class="card-body">
-					<h5 class="card-title">${ mboVO.prfnm }</h5>
-					<p class="card-text subTitle">${ mboVO.prfplcnm }</p>
-					<p class="card-text">${ mboVO.prfpd }</p>
-				</div>
-			</div>
-			</c:forEach>
-		</c:if>
-	</div>
-	<h2>${ pbo[0].cate } 주간 박스 오피스</h2>
-	<div>
-		<button id="reLocToBoList">
-			더 보기
-		</button>
-	</div>
-	<div id="boListDiv" class="ListDiv">
-		<c:if test="${ pbo == null }">
-			<p>조회된 게시물이 없습니다.</p>
-		</c:if>
-		<c:if test="${ pbo != null }">
-			<c:forEach var="pboVO" items="${ pbo }" begin="0" end="3">
-			<div class="card">
-				<div class="cardImgWrapper" onclick="location.href='${ path }/show/restview?name=${pboVO.mt20id}';">
-					<img src="http://www.kopis.or.kr${ pboVO.poster }" class="card-img-top" alt="${ pboVO.prfnm }">
-				</div>
-				<div class="card-body">
-					<h5 class="card-title">${ pboVO.prfnm }</h5>
-					<p class="card-text subTitle">${ pboVO.prfplcnm }</p>
-					<p class="card-text">${ pboVO.prfpd }</p>
-				</div>
-			</div>
-			</c:forEach>
-		</c:if>
-	</div>
-	<h2>${ cbo[0].cate } 주간 박스 오피스</h2>
-	<div>
-		<button id="reLocToBoList">
-			더 보기
-		</button>
-	</div>
-	<div id="boListDiv" class="ListDiv">
-		<c:if test="${ cbo == null }">
-			<p>조회된 게시물이 없습니다.</p>
-		</c:if>
-		<c:if test="${ cbo != null }">
-			<c:forEach var="cboVO" items="${ cbo }" begin="0" end="3">
-			<div class="card">
-				<div class="cardImgWrapper" onclick="location.href='${ path }/show/restview?name=${cboVO.mt20id}';">
-					<img src="http://www.kopis.or.kr${ cboVO.poster }" class="card-img-top" alt="${ cboVO.prfnm }">
-				</div>
-				<div class="card-body">
-					<h5 class="card-title">${ cboVO.prfnm }</h5>
-					<p class="card-text subTitle">${ cboVO.prfplcnm }</p>
-					<p class="card-text">${ cboVO.prfpd }</p>
-				</div>
-			</div>
-			</c:forEach>
-		</c:if>
-	</div>
+	<div id="boContainer"></div>
 	
 	<script>
-		var genre = null;
+		$(document).ready(ajaxCall("m")).ready(ajaxCall("p")).ready(ajaxCall("c"));
+			
+		function ajaxCall(genre) {
+			$.ajax({
+				type : "GET",
+				url : "/cm/show/ajaxBoList",
+				data : {
+					"genre" : genre,
+				},
+				error : function(error) {
+					console.log("ajax-error : " + error);
+				},
+				success : function(result) {
+					console.log("ajax-success");
+					if(result) {
+						var toAdd = '';
+						if(result == null) {
+							console.log("result == null");
+							toAdd += "<div><p>박스 오피스에 일시적으로 접근이 불가합니다. 관리자에게 문의해 주세요.</p>";
+						} else {
+							console.log("result != null");
+							toAdd += '<div class="boTitle"><h2>' + result[0].cate + ' 주간 박스 오피스</h2></div>';
+							toAdd += '<div class="ListDiv">';
+							for(i = 0; i < 5; i++) {
+								toAdd += '<div class="card">';
+								toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }/show/restview?name=' + result[i].mt20id + '\';">';
+								toAdd += '<img src="http://www.kopis.or.kr' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
+								toAdd += '</div>';
+								toAdd += '<div class="card-body">';
+								toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
+								toAdd += '<p class="card-text subTitle">' + result[i].prfplcnm + '</p>';
+								toAdd += '<p class="card-text">' + result[i].prfpd + '</p>';
+								toAdd += '</div>';
+								toAdd += '</div>';
+							}
+						}
+						toAdd += '</div>';
+						$("#boContainer").append(toAdd);
+					}
+				}
+			});
+		}
 	</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

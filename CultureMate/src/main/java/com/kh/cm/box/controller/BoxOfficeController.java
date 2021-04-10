@@ -13,12 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cm.box.model.service.BoxOfficeService;
 import com.kh.cm.box.model.vo.BoxOfficeListVO;
 import com.kh.cm.box.model.vo.BoxOfficeVO;
+import com.kh.cm.show.model.vo.ShowVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,21 +31,6 @@ public class BoxOfficeController {
 	@Autowired
 	private BoxOfficeService service;
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(Locale locale, ModelAndView model/*, @AuthenticationPrincipal Member member */) {
-		log.info("home started");
-		List<BoxOfficeVO> mbo = readBOList("뮤지컬");
-		List<BoxOfficeVO> pbo = readBOList("연극");
-		List<BoxOfficeVO> cbo = readBOList("클래식");
-		
-		model.addObject("mbo", mbo);
-		model.addObject("pbo", pbo);
-		model.addObject("cbo", cbo);
-		model.setViewName("home");
-		
-		return model;
-	}
-
     @RequestMapping(value = "/show/boList", method = RequestMethod.GET)
     public ModelAndView showBOList(
     		ModelAndView model,
@@ -128,5 +115,26 @@ public class BoxOfficeController {
 	    	log.info("truncateBO status : " + trunc);
 	    	log.info("saveBO status : " + stat);
     	}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/show/ajaxBoList", method = RequestMethod.GET)
+	public List<BoxOfficeVO> home(
+    		@RequestParam("genre") String genre
+			) {
+		List<BoxOfficeVO> bo = null;
+		
+		switch(genre) {
+		case "m":
+			bo = readBOList("뮤지컬");
+			break;
+		case "p":
+			bo = readBOList("연극");
+			break;
+		case "c":
+			bo = readBOList("클래식");
+		}
+		
+		return bo;
 	}
 }
