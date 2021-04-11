@@ -6,6 +6,7 @@
 <h1>결제를 완료했습니다.</h1>
 
 예매번호 : ${ ticket_num } <br>
+공연명 : ${ prfnm } <br>
 회원아이디 : ${ user_id } <br>
 인원수 : ${ ticket_qty } <br>
 티켓가격 : ${ pcseguidance } <br>

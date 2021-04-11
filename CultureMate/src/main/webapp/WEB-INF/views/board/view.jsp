@@ -337,14 +337,24 @@ a#btn-insert {
 						<br>
 					</dl>
 				</div>
-				
+				<button id="ticketing" class="btn btn-primary" onclick="openSeatSelect()">예매하기</button>
+				<form id="ticketing_form" action='${path}/ticket/ticketing' method="post">
+					<input type="text" id="form_mt20id" name="mt20id" value="${show.mt20id}">
+					<input type="text" id="form_prfnm" name="prfnm" value="${show.prfnm}">
+					<input type="text" id="form_id" name="id" value="${ loginMember.id }">
+					<input type="text" id="form_userId" name="user_id" value="${ loginMember.userId }">
+					<input type="text" id="form_ticket_qty" name="ticket_qty" value="">
+					<input type="text" id="form_pcseguidance" name="pcseguidance" value="">
+					<input type="text" id="form_ticket_seat" name="ticket_seat" value="">
+				</form>
 			</div>
 			</div><!--rn-03-right-->
 			</div>
-		<!-- 
+		<!--
 		</div>
-		 --> 
-		
+		 -->
+
+
 		
 		
 		
@@ -503,6 +513,46 @@ a#btn-insert {
 		</div>
 		
 		</section>
+
+<script>
+	var before="${show.pcseguidance}"
+	var price = before.replace(/[^0-9]/g,'');
+	var form_pcseguidance = document.getElementById("form_pcseguidance");
+
+	var logincheck = document.getElementById("form_userId").value;
+
+	form_pcseguidance.value = price;
+
+	function openSeatSelect(){
+		if(!logincheck) {
+			alert("로그인 후 이용 가능합니다.");
+			location.href="${path}/login";
+		} else {
+			window.open("${path}/ticket/ticketing/seat",
+					"SeatSelect", "width=700, height=450, resizable = no, scrollbars = no");
+		}
+	}
+
+
+	// 테스트, 나중에 지울것
+	var form_mt20id = document.getElementById("form_mt20id");
+	var form_prfnm = document.getElementById("form_prfnm");
+	var form_id = document.getElementById("form_id");
+	var form_userId = document.getElementById("form_userId");
+	var form_ticket_qty = document.getElementById("form_ticket_qty");
+	var form_pcseguidance = document.getElementById("form_pcseguidance");
+	var form_ticket_seat = document.getElementById("form_ticket_seat");
+
+	function valueTest() {
+		console.log("form_mt20id : " + form_mt20id.value);
+		console.log("form_prfnm : " + form_prfnm.value);
+		console.log("form_id : " + form_id.value);
+		console.log("form_userId : " + form_userId.value);
+		console.log("form_ticket_qty.value : " + form_ticket_qty.value);
+		console.log("form_pcseguidance.value : " + form_pcseguidance.value);
+		console.log("form_ticket_seat.value : " + form_ticket_seat.value);
+	}
+</script>
 			
 
 <!-- 댓글 작성 ajax -->
