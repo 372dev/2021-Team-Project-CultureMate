@@ -34,7 +34,7 @@ public class ShowListController {
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     	Calendar currDate = new GregorianCalendar();
     	Calendar nextDate = new GregorianCalendar();
-    	nextDate.add(Calendar.MONTH, 1);
+    	nextDate.add(Calendar.WEEK_OF_YEAR, 2);
 
 		String stdate = dateFormat.format(currDate.getTime());
 		String eddate = dateFormat.format(nextDate.getTime());
@@ -59,8 +59,8 @@ public class ShowListController {
         urlBuilder.append("?service=" + key);
         urlBuilder.append("&stdate=" + stdate);
         urlBuilder.append("&eddate=" + eddate);
-        urlBuilder.append("&prfstate=" + "02|03");
-        urlBuilder.append("&rows=199&cpage=1");
+        urlBuilder.append("&prfstate=" + "02");
+        urlBuilder.append("&rows=99&cpage=1");
         if(shcate != null) {
         	urlBuilder.append("&shcate=" + shcate);
         	log.info("showList - genre selected");
@@ -71,7 +71,7 @@ public class ShowListController {
         }
         
         String url = urlBuilder.toString();
-
+        log.info("request : " + url);
     	RestTemplate restTemplate = new RestTemplate();
     	ShowListVO showList = restTemplate.getForObject(url, ShowListVO.class);
 
@@ -98,7 +98,7 @@ public class ShowListController {
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     	Calendar currDate = new GregorianCalendar();
     	Calendar nextDate = new GregorianCalendar();
-    	nextDate.add(Calendar.MONTH, 1);
+    	nextDate.add(Calendar.WEEK_OF_YEAR, 2);
 		
 		String stdate = dateFormat.format(currDate.getTime());
 		String eddate = dateFormat.format(nextDate.getTime());
