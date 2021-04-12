@@ -16,15 +16,17 @@ import lombok.ToString;
 public class Mate {
 	private int mateId;
 	
-	private int mateWriterId;
+	private int mateWriteId;
 	
 	private int Id;
+	
+//	private String mt20id;
 	
 	private String userNick;
 	
 	private String mateShow;
 	
-	private String mateLocation;
+	private String mateLoc;
 	
 	private String mateTitle;
 	
@@ -44,7 +46,7 @@ public class Mate {
 	
 	private String mateStatus;
 	
-	private String mateCount;
+	private int mateCount;
 	
 	private List<MateReply> mateReplies;
 	

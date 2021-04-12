@@ -16,7 +16,7 @@ public interface ShareService {
 
 	Share findShareByShareId(int shareId);
 
-	List<ShareReply> findShareReplyByShareId(int shareId);
+//	List<ShareReply> findShareReplyByShareId(int shareId);
 
 	boolean updateShareCount(int shareId);
 
@@ -29,6 +29,8 @@ public interface ShareService {
 	int getShareReplyCount(int shareId);
 
 	int deleteShareReply(int shareReplyId);
+
+	List<ShareReply> findShareReplyByShareId(int shareId, PageInfo pageInfo);
 
 
 	

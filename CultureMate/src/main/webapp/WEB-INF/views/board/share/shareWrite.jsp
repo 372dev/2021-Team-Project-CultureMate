@@ -85,7 +85,7 @@
 			  </tr>  
 		   <tr id="shareWrite-tr1">
 		       <td colspan="4">
-		       <textarea style="border-radius:5px;" name="shareContent" id="shareContent" cols="80" rows="10"></textarea>
+		       <textarea style="border-radius:5px;" name="shareContent" id="shareContent" cols="80" rows="10" wrap="hard"></textarea>
 		    </td>
 		</tr>
 		</table>

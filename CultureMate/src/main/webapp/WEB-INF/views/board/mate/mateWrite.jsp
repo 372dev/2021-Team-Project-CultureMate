@@ -13,7 +13,7 @@
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 800px;
+		height: 900px;
    
     }
     #mate-Title{
@@ -52,7 +52,7 @@
 			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
 		    	</div>
 		    <hr>
-		    <form action="${path}/mate/write" id="mateWrite-frm" method="post" enctype="multipart/form-data">
+		    <form action="${path}/mate/write" id="mateWrite-frm" method="post">
 		     <table id="mateWrite-tbl">
 		        <tr id="mateWrite-tr1">
 		        	 <td>
@@ -73,12 +73,23 @@
 		          
 		        </tr>	     
 		       <tr>
-		          <td colspan="4">API</td> 
+		          <td colspan="4">API
+		  <!--       <div class="card">
+				<div class="cardImgWrapper" onclick="location.href='${path}/show/restview?name=${showList.mt20id}';">
+					<img src="${ showList.poster }" class="card-img-top" alt="${ showList.prfnm }">
+				</div>
+				<div class="card-body">
+					<h5 class="card-title">${ showList.prfnm }</h5>
+					<p class="card-text subTitle">${ showList.fcltynm }</p>
+					<p class="card-text">${ showList.prfpdfrom } - ${ showList.prfpdto }</p>
+				</div>
+			</div>
+			 -->  
+		          </td> 
 		        </tr>
 		    <tr>
 		    <td>
-		   <select name="mateAge" id="mateAge" style="border-radius:5px;height:28px;">
-		            <option value="">연령대</option>
+		   <select name="mateAge" id="mateAge" style="border-radius:5px;height:28px;width: 70px;">
 		            <option value="10대">10대</option>
 		            <option value="20대">20대</option>
 		            <option value="30대">30대</option>
@@ -86,22 +97,36 @@
 		            <option value="50대 이상">50대 이상</option>
 		    </select>
 		    </td>
-		    <td colspan="2">
-		    	<select name="martGender" id="mateGender" style="border-radius:5px;height:28px;">
-						<option value="">성별</option>
+		    <td>
+		    	<select name="mateGender" id="mateGender" style="border-radius:5px;height:28px;width: 110px;">
 						<option value="여성">여성</option>
 						<option value="남성">남성</option>
 						<option value="아무나 환영">아무나 환영</option>
 					</select>
 			</td>
 			<td>		
-					<select name="mateNum" id="mateNum" style="border-radius:5px;height:28px;">
-			        <option value="">인원수</option>
+					<select name="mateNum" id="mateNum" style="border-radius:5px;height:28px;width: 100px;">
 			        <option value="1명">1명</option>
 			        <option value="5명 이하">5명 이하</option>
 			        <option value="10명 이하">10명 이하</option>
 			        <option value="15명 이하">15명 이하</option>
 				</select>
+			</td>
+			<td>		
+			<select name="mateLoc" id="mateLoc" style="border-radius:5px;height:28px;width: 90px;" required>
+	                <option value="서울">서울</option>
+	                <option value="경기도">경기도</option>
+	                <option value="강원도">강원도</option>
+	                <option value="충청북도">충청북도</option>
+	                <option value="충청남도">충청남도</option>
+	                <option value="전라북도">전라북도</option>
+	                <option value="전라남도">전라남도</option>
+	                <option value="경상북도">경상북도</option>
+	                <option value="경상남도">경상남도</option>
+	                <option value="제주도">제주도</option>
+	                <option value="을릉도">을릉도</option>
+	                <option value="독도">독도</option>
+            </select>				
 			</td>
 			</tr>
 		<!--  	<tr>
@@ -127,12 +152,12 @@
 			</tr> -->
 		    <tr>
 			     <td colspan="4">
-			       <textarea style="border-radius:5px" name="mateContent" id="mateContent" cols="80" rows="10"></textarea>
+			       <textarea style="border-radius:5px" name="mateContent" id="mateContent" cols="80" rows="10" wrap="hard"></textarea>
 			    </td>
 			</tr>			
 		 </table>
 		 <br>
-		  	<button id="mateButton" type="button" onclick="writeMate()">등록하기</button> &nbsp;
+		  	<button id="mateButton" type="submit" onclick="location.replace('${path}/mate/write')">등록하기</button> &nbsp;
     	    <button id="mateButton" type="button" onclick="location.replace('${path}/mate/list')">목록으로</button>		
 	  </form>
 	 </div>	

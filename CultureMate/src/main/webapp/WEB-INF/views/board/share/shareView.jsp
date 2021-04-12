@@ -23,7 +23,7 @@
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 800px;
+		height: 900px;
    
     }
     #share-Title{
@@ -268,6 +268,7 @@ table#tbl-comment sub.comment-date {
 			    	</c:if>			    	
 		    	</c:forEach>
 		    </table>
+		    <br>
 		    <div id="pageBar">
 			<!-- 맨 처음으로 -->
 			<button onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=1'">&lt;&lt;</button>

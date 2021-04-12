@@ -20,7 +20,7 @@
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 800px;
+		height: 900px;
    
     }
     #mateTitle{
@@ -74,7 +74,7 @@
 		   		<input type="hidden" name="mateId" value = "${mate.mateId}">
 		     <table id="mateUpdate-tbl">
 		       <tr id="mateUpdate-tr">
-		       	<td>${mate.mateId}번호</td>
+		       	<td>${mate.mateId}</td>
 		        	<td>
 				        <select name="mateShow" id="mateShow" style="border-radius:5px;height:28px;">
 				            <option value="뮤지컬">뮤지컬</option>
@@ -91,40 +91,55 @@
 		            <td><input style="border-radius:5px;height:28px;border:1px solid; width:200px;" type="text" name="mateTitle" id="mateTitle" value="${mate.mateTitle }"></td>		            
 		            <td> <input style="border-radius:5px;height:28px;border:1px solid; width:80px;" type="text" name="userNick" value="${loginMember.userNick }" readonly> </td>
 		                               
-		            <td>${mate.mateCreateDate}날짜</td>	           
-		            <td>${mate.count}조회수</td>	  
+		            <td>${mate.mateCreateDate}</td>	           
+		            <td>${mate.mateCount}</td>	  
 		        </tr>
 		       <tr id="mateUpdate-tr1">
 		          <td colspan="7">API</td> 
 		        </tr>
-		    <tr id="mateUpdate-tr1">
-		     <td colspan="7">
-			   <select name="mateAge" id="mateAge" style="border-radius:5px;height:28px;">
-			            <option value="">연령대</option>
-			            <option value="10대">10대</option>
-			            <option value="20대">20대</option>
-			            <option value="30대">30대</option>
-			            <option value="40대">40대</option>
-			            <option value="50대 이상">50대 이상</option>
-			    </select>
-			    <select name="martGender" id="mateGender" style="border-radius:5px;height:28px;">
-						<option value="">성별</option>
+		    <tr id="mateUpdate-tr1">		     
+		    <td colspan="7">
+		   <select name="mateAge" id="mateAge" style="border-radius:5px;height:28px;width: 70px;">
+		            <option value="10대">10대</option>
+		            <option value="20대">20대</option>
+		            <option value="30대">30대</option>
+		            <option value="40대">40대</option>
+		            <option value="50대 이상">50대 이상</option>
+		    </select>
+		    
+		    <select name="mateGender" id="mateGender" style="border-radius:5px;height:28px;width: 100px;">
 						<option value="여성">여성</option>
 						<option value="남성">남성</option>
 						<option value="아무나 환영">아무나 환영</option>
-				</select>
-				<select name="mateNum" id="mateNum" style="border-radius:5px;height:28px;">
-			        <option value="">인원수</option>
+					</select>
+					
+			<select name="mateNum" id="mateNum" style="border-radius:5px;height:28px;width: 100px;">
 			        <option value="1명">1명</option>
 			        <option value="5명 이하">5명 이하</option>
 			        <option value="10명 이하">10명 이하</option>
 			        <option value="15명 이하">15명 이하</option>
-				</select>
+				</select>	
+				
+			<select name="mateLoc" id="mateLoc" style="border-radius:5px;height:28px;width: 90px;" required>
+	                <option value="서울">서울</option>
+	                <option value="경기도">경기도</option>
+	                <option value="강원도">강원도</option>
+	                <option value="충청북도">충청북도</option>
+	                <option value="충청남도">충청남도</option>
+	                <option value="전라북도">전라북도</option>
+	                <option value="전라남도">전라남도</option>
+	                <option value="경상북도">경상북도</option>
+	                <option value="경상남도">경상남도</option>
+	                <option value="제주도">제주도</option>
+	                <option value="을릉도">을릉도</option>
+	                <option value="독도">독도</option>
+            </select>				
 		    </td>
+		   
 			</tr>
 		   <tr id="mateUpdate-tr1">
 		       <td colspan="7">
-		       <textarea style="border-radius:5px" name="mateContent" id="mateContent" cols="80" rows="10">${mate.mateContent }</textarea>
+		       <textarea style="border-radius:5px" name="mateContent" id="mateContent" cols="80" rows="10" wrap="hard">${mate.mateContent }</textarea>
 		    </td>
 		</tr>
 		</table>

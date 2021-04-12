@@ -54,11 +54,11 @@ public class ShareServiceImpl implements ShareService {
 		return shareDao.selectShareDetail(shareId);
 	}
 
-	@Override
-	public List<ShareReply> findShareReplyByShareId(int shareId) {
-			
-		return shareDao.selectShareReplyList(shareId);
-	}
+//	@Override
+//	public List<ShareReply> findShareReplyByShareId(int shareId) {
+//			
+//		return shareDao.selectShareReplyList(shareId);
+//	}
 
 	@Override
 	public boolean updateShareCount(int shareId) {
@@ -101,6 +101,13 @@ public class ShareServiceImpl implements ShareService {
 	public int deleteShareReply(int shareReplyId) {
 		
 		return shareDao.deleteShareReply(shareReplyId);
+	}
+
+	@Override
+	public List<ShareReply> findShareReplyByShareId(int shareId, PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		return shareDao.selectShareReplyList(shareId,rowBounds);
 	}
 
 

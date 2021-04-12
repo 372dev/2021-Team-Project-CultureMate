@@ -14,9 +14,11 @@ public class MateReply {
 	
 	private int mateId;
 	
-	private int mateReplyeplyWriterId;
+	private int mateReplyWriteId;
 	
 	private int Id;
+	
+	private int mateReplyGroup;
 	
 	private String userNick;
 	
@@ -25,4 +27,6 @@ public class MateReply {
     private Date mateReplyCreateDate;
 	
     private Date mateReplyModifyDate;
+    
+    private String mateReplyStatus;
 }

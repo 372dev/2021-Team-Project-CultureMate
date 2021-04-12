@@ -107,11 +107,15 @@ public class ShareController {
 			@RequestParam(value="page", required=false, defaultValue="1") int page,
 			@RequestParam(value="listlimit", required=false, defaultValue="3") int listLimit) {
 		Share share = service.findShareByShareId(shareId);
-		List<ShareReply> shareReplies = service.findShareReplyByShareId(shareId);
+		
+//		List<ShareReply> shareReplies = service.findShareReplyByShareId(shareId);
 		boolean updateShareCount = service.updateShareCount(shareId);
 		int shareReplyCount = service.getShareReplyCount(shareId);
 		
 		PageInfo pageInfo = new PageInfo(page, 5, shareReplyCount, 3);
+		List<ShareReply> shareReplies = service.findShareReplyByShareId(shareId, pageInfo);
+		
+//		shareReplies = service.findShareReplyByShareId(pageInfo);
 			
 		model.addObject("share", share);
 		model.addObject("shareReplies", shareReplies);

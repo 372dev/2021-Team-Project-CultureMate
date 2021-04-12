@@ -13,13 +13,19 @@
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 800px;
+		height: 900px;
    
     }
     #mate-Title{
         text-align: left;
     }
     #mate-Search{
+    	text-align: right;
+    }
+     #mate-Search1{
+    	float: left;
+    }
+    #mate-Search2{
     	text-align: right;
     }
     #mateList-frm{
@@ -36,10 +42,19 @@
    		border-bottom: 1px solid lightgray;
      	border-top: 1px solid lightgray;
     }
-    #mateList-tr>td:nth-child(6){
+    #mateList-tr>td:nth-child(8){
     	width: 300px;
     }
-    #mateList-tr>td:nth-child(8){
+    #mateList-tr>td:nth-child(3){
+    	width: 130px;
+    }
+    #mateList-tr>td:nth-child(4){
+    	width: 130px;
+    }
+    #mateList-tr>td:nth-child(6){
+    	width: 130px;
+    }
+    #mateList-tr>td:nth-child(10){
     	width: 200px;
     }
     #mateList-tr>td{
@@ -66,9 +81,9 @@
 			onclick="location.href ='${path}/mate/write'">글쓰기</button>
 		</c:if>
 		 </div>   	
- <div id="share-Search2">
+ <div id="mate-Search2">
 	<form name="form1" method="post" action="${path}/mate/list.do">
-		<select id="searchShare" style="border-radius:5px;height:30px;">
+		<select id="searchMate" style="border-radius:5px;height:30px;">
             	<option value="userNick"<c:if test="${map.searchMate == 'userNick'}">
             			selected</c:if>>작성자</option>
             	<option value="userNick"<c:if test="${map.searchMate == 'mateTitle'}">
@@ -78,8 +93,8 @@
 	 		</select> 
 	 		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" placeholder="내용을 입력하세요" value="${map.keyword}">
 		     <input class="searchButton" id="searchButton" type="submit" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" value="검색"></input>      
-	</form>     	 	 
-</div>      
+		</form>     	 	 
+	</div>      
 </div> 			    	
 		    	
 		    <hr>		
@@ -90,6 +105,8 @@
 				<td>모집상태</td>			
 				<td>모집성별</td>
 				<td>연령대</td>
+				<td>인원수</td>
+				<td>지역</td>
 				<td>제목</td>
 				<td>작성자</td>
 				<td>날짜</td>
@@ -97,7 +114,7 @@
 			</tr>
             <c:if test="${mateList == null}">
 				<tr id="mateList-tr">
-					<td colspan="10">
+					<td colspan="11">
 						조회된 게시글이 없습니다.
 					</td>
 				</tr>	
@@ -111,23 +128,19 @@
                         <td><c:out value="${mate.mateGender}"/></td>
                         <td><c:out value="${mate.mateAge}"/></td>
                         <td><c:out value="${mate.mateNum}"/></td>
+                        <td><c:out value="${mate.mateLoc}"/></td>
 						<td>
 							<a href="${path}/mate/view?mateId=${mate.mateId}">
-								<c:out value="${mate.mateTitle}"/> 제목
+								<c:out value="${mate.mateTitle}"/>
 							</a>
 						</td>
 						<td><c:out value="${mate.userNick}"/></td>
                         <td><c:out value=" ${mate.mateCreateDate}"/></td>
-                        <td><c:out value="${mate.count}"/></td>
+                        <td><c:out value="${mate.mateCount}"/></td>
                         </tr>
                         </c:forEach>
                      </c:if>    
                  </table>
-              
-              <c:if test="${loginMember != null}">
-			<button type="button" id="btn-insert"
-			onclick="location.href ='${path}/mate/write'">글쓰기</button>
-		</c:if>	
 		<br>
 		<div id="pageBar">
 			<!-- 맨 처음으로 -->

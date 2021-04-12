@@ -21,7 +21,7 @@ public interface ShareDao {
 
 	int insertShare(Share share);
 
-	List<ShareReply> selectShareReplyList(int shareId);
+//	List<ShareReply> selectShareReplyList(int shareId);
 
 	boolean updateShareCount(int shareId);
 
@@ -36,5 +36,7 @@ public interface ShareDao {
 	int selectReplyCount(int shareId);
 
 	int deleteShareReply(int shareReplyId);
+
+	List<ShareReply> selectShareReplyList(int shareId, RowBounds rowBounds);
 
 }

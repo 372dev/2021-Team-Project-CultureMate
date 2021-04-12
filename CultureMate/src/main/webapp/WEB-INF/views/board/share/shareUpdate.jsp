@@ -15,7 +15,7 @@
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 800px;
+		height: 900px;
    
     }
     #shareTitle{
@@ -75,7 +75,7 @@
 			
 	     	<table id="shareUpdate-tbl">
 			 <tr id="shareUpdate-tr">
-		            <td>${share.shareId}번호</td>		           
+		            <td>${share.shareId}</td>		           
 		            <td>
 			        <select style="border-radius:5px;height:28px;" name="shareShow" id="shareShow">
 			            <option value="뮤지컬">뮤지컬</option>
@@ -93,8 +93,8 @@
 		            <td>
 		        		<input style="border-radius:5px;height:28px;border:1px solid;width:80px;" type="text" name="userNick" id="userNick" value="${loginMember.userNick }" readonly>
 		        	</td>          
-		            <td>${share.shareCreateDate}날짜</td>	           
-		            <td>${share.shareCount}조회수</td>			            
+		            <td>${share.shareCreateDate}</td>	           
+		            <td>${share.shareCount}</td>			            
 		        </tr>
 		<tr id="shareUpdate-tr1">
 	        <td colspan="7">티켓 인증 올리기</td>			        
@@ -112,7 +112,7 @@
 	     </tr>
 		  <tr id="shareUpdate-tr1">
 		       <td colspan="7">
-		       <textarea style="border-radius:5px;" name="shareContent" id="shareContent" cols="80" rows="10">${share.shareContent}</textarea>
+		       <textarea style="border-radius:5px;" name="shareContent" id="shareContent" cols="80" rows="10" wrap="hard">${share.shareContent}</textarea>
 		       </td>
 		</tr>
 		</table>
