@@ -11,7 +11,7 @@
 		<li class="nav-item"><a class="nav-link"
 			href="${path}/help/notice ">공지사항</a></li>
 		<li class="nav-item"><a class="nav-link"
-			href="${path}/help/questionlist">1:1문의</a></li>
+			href="${path}/help/qnalist">1:1문의</a></li>
 	</ul>
 
       <h3>공지사항</h3>

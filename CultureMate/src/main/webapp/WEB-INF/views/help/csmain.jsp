@@ -6,13 +6,14 @@
 
 <div class="col">
 	<p>고객센터</p>
+	<form>
 	<ul class="nav nav-pills">
 		<li class="nav-item"><a class="nav-link active" 
 			href="${path}/help/csmain">자주묻는질문(FAQ)</a></li>
 		<li class="nav-item"><a class="nav-link"
 			href="${path}/help/notice ">공지사항</a></li>
 		<li class="nav-item"><a class="nav-link"
-			href="${path}/help/questionlist">1:1문의</a></li>
+			href="${path}/help/qnalist">1:1문의</a></li>
 	</ul>
 
 
@@ -32,57 +33,66 @@
 	<hr>
 
 	<h5>
-		<strong>자주 묻는 질문(FAQ) TOP5</strong>  <button type="button" onclick="location.href ='${path}/help/cswrite'">글쓰기</button>
+		<strong>자주 묻는 질문(FAQ)</strong>  
+		<button type="button" onclick="location.href ='${path}/help/cswrite'">글쓰기</button>
 	</h5>
 	<div class="row">
 		<div class="col">
 			<ul class="nav nav-tabs">
-				<li class="nav-item1"><a class="nav-link active"
-					data-toggle="tab" href="#qwe">전체보기</a></li>
-				<li class="nav-item1"><a class="nav-link" data-toggle="tab"
-					href="#asd">환불</a></li>
-				<li class="nav-item1"><a class="nav-link" data-toggle="tab"
-					href="#zxc">구매/결제</a></li>
-				<li class="nav-item1"><a class="nav-link" data-toggle="tab"
-					href="#dfg">메이트/소모임</a></li>
-				<li class="nav-item1"><a class="nav-link" data-toggle="tab"
-					href="#hjk">기타</a></li>
+				<li class="nav-item1">
+				<a class="nav-link active" data-toggle="tab" href="#qwe">전체보기</a>
+				</li>
+				<li class="nav-item1">
+				<a class="nav-link" data-toggle="tab" href="#asd">환불</a>
+				</li>
+				<li class="nav-item1">
+				<a class="nav-link" data-toggle="tab" href="#zxc">구매/결제</a>
+				</li>
+				<li class="nav-item1">
+				<a class="nav-link" data-toggle="tab" href="#dfg">메이트/소모임</a>
+				</li>
+				<li class="nav-item1">
+				<a class="nav-link" data-toggle="tab" href="#hjk">기타</a>
+				</li>
 			</ul>
-
+            
+            
 			<div class="tab-content">
 				<div class="tab-pane fade show active" id="qwe">
 					<div class="table-responsive">
 						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th>번호</th>
+					 <tr>
 									<th>분류</th>
 									<th>제목</th>
 								</tr>
-							</thead>
-							<tbody>
-								<td>내용</td>
-								<td>내용</td>
-								<td>내용</td>
-							</tbody>
+							    <c:if test="${csmain != null}">
+							    <c:forEach var="help" items="${csmain} ">
+                                <tr>
+								<td><c:out value="${csmain.csboardType}"/></td>
+								<td><a><c:out value="${csmain.csboardTitle}"/></a>
+								</td>
+                                </tr>
+							</c:forEach>
+							</c:if>
 						</table>
 					</div>
 				</div>
-
+     
+			     
 				<div class="tab-pane fade" id="asd">
 					<div class="table-responsive">
 						<table class="table table-hover">
 							<thead>
 								<tr>
-									<th>번호</th>
 									<th>분류</th>
 									<th>제목</th>
 								</tr>
 							</thead>
 							<tbody>
+							   <tr>
 								<td>내용</td>
-								<td>내용</td>
-								<td>내용</td>
+								<td><a href="#">내용</a></td>
+							   </tr>	
 							</tbody>
 						</table>
 					</div>
@@ -93,15 +103,15 @@
 						<table class="table table-hover">
 							<thead>
 								<tr>
-									<th>번호</th>
 									<th>분류</th>
 									<th>제목</th>
 								</tr>
 							</thead>
 							<tbody>
+							<tr>
 								<td>내용</td>
-								<td>내용</td>
-								<td>내용</td>
+								<td><a href="#">내용</a></td>
+							   </tr>		
 							</tbody>
 						</table>
 					</div>
@@ -112,15 +122,15 @@
 						<table class="table table-hover">
 							<thead>
 								<tr>
-									<th>번호</th>
-									<th>분류</th>
-									<th>제목</th>
-								</tr>
+								<td>내용</td>
+								<td><a href="#">내용</a></td>
+							   </tr>	
 							</thead>
 							<tbody>
+							   <tr>
 								<td>내용</td>
-								<td>내용</td>
-								<td>내용</td>
+								<td><a href="#">내용</a></td>
+							   </tr>	
 							</tbody>
 						</table>
 					</div>
@@ -131,15 +141,15 @@
 						<table class="table table-hover">
 							<thead>
 								<tr>
-									<th>번호</th>
 									<th>분류</th>
 									<th>제목</th>
 								</tr>
 							</thead>
 							<tbody>
+                              <tr>
 								<td>내용</td>
-								<td>내용</td>
-								<td>내용</td>
+								<td><a href="#">내용</a></td>
+							   </tr>	
 							</tbody>
 						</table>
 					</div>
@@ -148,6 +158,31 @@
 			</div>
 
 		</div>
+		
 	</div>
+	<div id="pageBar">
+						<!-- 맨 처음으로 -->
+						<button onclick="location.href='${path}/help/csmain?page=1'">&lt;&lt;</button>
+						
+						<!-- 이전 페이지로 -->
+						<button onclick="location.href='${path}/help/csmain?page=${pageInfo.prvePage}'">&lt;</button>
+			
+						<!--  10개 페이지 목록 -->
+						<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+							<c:if test="${status.current == pageInfo.currentPage}">
+								<button disabled><c:out value="${status.current}"/></button>
+			   				</c:if>
+							<c:if test="${status.current != pageInfo.currentPage}">
+								<button onclick="location.href='${path}/help/csmain?page=${status.current}'"><c:out value="${status.current}"/></button>
+			   				</c:if>
+						</c:forEach>
+						
+						<!-- 다음 페이지로 -->
+						<button onclick="location.href='${path}/help/csmain?page=${pageInfo.nextPage}'">&gt;</button>
+						
+						<!-- 맨 끝으로 -->
+						<button onclick="location.href='${path}/help/csmain?page=${pageInfo.maxPage}'">&gt;&gt;</button>
+					</div>
+					</form>
 </div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>

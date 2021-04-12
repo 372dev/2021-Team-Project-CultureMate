@@ -9,22 +9,32 @@
 		<form action='${path}/help/cswrite' method="post" enctype="multipart/form-data">
 			<table id='tbl-board'>
 				<tr>
-					<div class="qnalist">
-		               <label style="font-size: large;">문의유형</label>
+					<div class="cslist">
+		               <label style="font-size: large;">게시글종류</label>
 		              
-		                   <select name="national">
-		                       <option selected>질문유형</option>
-		                           <option value="ko">전체보기</option>
-		                           <option value="ch">환불</option>
-		                           <option value="jp">구매/결제</option>
-		                           <option value="jp">메이트/소모임</option>
-		                           <option value="jp">기타</option>
+		                   <select name="csboardKind">
+		                       <option selected>종류</option>
+		                           <option value="all">전체보기</option>
+		                           <option value="faq">FAQ</option>
+		                           <option value="noti">공지사항</option>
+		                   </select>
+		            </div>
+		            <div class="faqlist">
+		               <label style="font-size: large;">게시글유형</label>
+		              
+		                   <select name="csboardType">
+		                       <option selected>유형</option>
+		                           <option value="all">전체보기</option>
+		                           <option value="횐불">환불</option>
+		                           <option value="구매">구매/결제</option>
+		                           <option value="메이트">메이트/소모임</option>
+		                           <option value="기타">기타</option>
 		                   </select>
 		            </div>
 				</tr>
 				<tr>
 					<th>제목</th>
-					<td><input type="text" name="boardTitle" id="title"></td>
+					<td><input type="text" name="csboardTitle" id="title"></td>
 				</tr>
 				<tr>
 					<th>작성자</th>
@@ -32,12 +42,12 @@
 				</tr>
 				<tr>
 					<th>첨부파일1</th>
-					<td><input type="file" name="upfile"></td>
+					<td><input type="file" name="upfile" value=""></td>
 					
 				</tr>
 				<tr>
 					<th>내용</th>
-					<td><textarea name="boardContent" cols="50" rows="15" ></textarea></td>
+					<td><textarea name="csboardContent" cols="50" rows="15" ></textarea></td>
 				</tr>
 				<tr>
 					<th colspan="2">

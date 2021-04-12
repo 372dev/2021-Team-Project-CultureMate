@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/help/csmain.jsp"%>
 <link rel="stylesheet" href="${path}/resources/css/cscenter.css">
     <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
@@ -8,22 +7,20 @@
 
 <div class="col">
 	<p>고객센터</p>
+	<form action='${path}/help/qnacontent' method="post" enctype="multipart/form-data">
 	<ul class="nav nav-pills">
 		<li class="nav-item"><a class="nav-link active" 
 			href="${path}/help/csmain">자주묻는질문 & FAQ</a></li>
 		<li class="nav-item"><a class="nav-link"
 			href="${path}/help/notice ">공지사항</a></li>
 		<li class="nav-item"><a class="nav-link"
-			href="${path}/help/questionlist">1:1문의</a></li>
+			href="${path}/help/qnalist">1:1문의</a></li>
 	</ul>
     
-
-      <h5>나의 문의내역</h5>
-
       <nav>
         <ul>
-          <li><a href="#">문의내역</a></li>
-          <li><a href="#">문의하기</a></li>
+          <li><a href="${path}/help/qnalist">문의내역</a></li>
+          <li><a href="${path}/help/qnacontent">문의하기</a></li>
           
         </ul>
       </nav>
@@ -31,29 +28,31 @@
        <hr>
 
        <h3>1:1 문의</h3>
-
+       
+    
        <div class="cs_qna">
            <div class="qnalist">
                <label style="font-size: large;">문의유형</label>
               
-                   <select name="national">
+                   <select name="qnaType">
                        <option selected>문의유형선택</option>
-                           <option value="ko">환불</option>
-                           <option value="ch">구매/결제</option>
-                           <option value="jp">예약</option>
-                           <option value="jp">메이트/소모임</option>
-                           <option value="jp">기타</option>
+                           <option value="공연">공연</option>
+                           <option value="메이트">메이트 게시판</option>
+                      
                    </select>
            </div>
-
+            <div>
+					<lable style="font-size: large;">작성자</label>
+					<input type="text" name="userId" value="${ loginMember.userId }" readonly>
+           </div>
            <div class="qnaname">
                <label style="font-size: large;"  >문의제목</label>
-               <input type="text"  name="rev_id">
+               <input type="text"  name="qnaTitle">
            </div>
 
       
            <div id="msgBody" class="qnacontent">
-               <textarea cols="90" rows="15" placeholder="내용을 입력해주세요."></textarea>
+               <textarea name="qnaContent" cols="90" rows="15" placeholder="내용을 입력해주세요."></textarea>
            </div>
       </div>
       
@@ -71,11 +70,11 @@
       </div>
    
            <div class="qnabtn">
-           <input type="button" value="목록으로">
-           <input type="button" value="확인">
+           <input type="submit" value="등록">
+           <input type="reset" value="취소">
           </div>
        </div>
 
-
+</form>
     
     <%@ include file="/WEB-INF/views/common/footer.jsp"%>
