@@ -153,7 +153,7 @@ table#tbl-comment sub.comment-date {
 		            <td>${share.shareOpen}</td>
 		            <td>${share.shareTitle}</td>	
 		            <td>${share.userNick}</td>	           
-		            <td>${share.shareCreateDate}</td>	           
+		            <td><fmt:formatDate value="${share.shareCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>	           
 		            <td>${share.shareCount}</td>			            
 		        </tr>
 			<tr id="shareView-tr1">
@@ -183,11 +183,11 @@ table#tbl-comment sub.comment-date {
 			</td>
 			</tr>
 			<tr>
-				<td colspan="7"><img style="width: 400px;height: 150px;" alt="" src="${path}/resources/upload/board/${share.shareRenamedFileName} "></td>
+				<td colspan="7"><img style="width: 400px;height: 200px;" alt="" src="${path}/resources/upload/board/${share.shareRenamedFileName} "></td>
 			</tr>
 		   <tr id="shareView-tr1">
 		       <td colspan="7">
-		       <div style="height:200px;width:400px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;">
+		       <div style="height:200px;width:500px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;">
 		       	 ${share.shareContent}
 		       </div>
 		     

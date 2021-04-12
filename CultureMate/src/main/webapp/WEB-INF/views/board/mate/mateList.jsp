@@ -49,7 +49,7 @@
     	width: 130px;
     }
     #mateList-tr>td:nth-child(4){
-    	width: 130px;
+    	width: 150px;
     }
     #mateList-tr>td:nth-child(6){
     	width: 130px;
@@ -58,7 +58,7 @@
     	width: 200px;
     }
     #mateList-tr>td{
-    	padding: 5px;
+    	padding: 6px;
     	width:80px;
     }
     .searchButton{
@@ -109,7 +109,7 @@
 				<td>지역</td>
 				<td>제목</td>
 				<td>작성자</td>
-				<td>날짜</td>
+				<td>작성일</td>
 				<td>조회수</td>
 			</tr>
             <c:if test="${mateList == null}">
@@ -135,7 +135,7 @@
 							</a>
 						</td>
 						<td><c:out value="${mate.userNick}"/></td>
-                        <td><c:out value=" ${mate.mateCreateDate}"/></td>
+					<td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>                     
                         <td><c:out value="${mate.mateCount}"/></td>
                         </tr>
                         </c:forEach>

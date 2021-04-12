@@ -345,7 +345,7 @@ a#btn-insert {
 		</div>
 		 --> 
 		
-		<button onclick="location.replace('${path}/mate/write')">글쓰기</button>
+		
 		
 		
 		

@@ -91,7 +91,7 @@
 				<td>나눔상태</td>	
 				<td>제목</td>
 				<td>작성자</td>
-				<td>날짜</td>
+				<td>작성일</td>
 				<td>조회수</td>
 			</tr>
             <c:if test="${shareList == null}">
@@ -113,7 +113,7 @@
 							</a>
 						</td>
                         <td><c:out value="${share.userNick}"/></td>
-                        <td><c:out value="${share.shareCreateDate}"/></td>
+                        <td><fmt:formatDate value="${share.shareCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>
                         <td><c:out value="${share.shareCount}"/></td>
                      </tr>
                 </c:forEach>

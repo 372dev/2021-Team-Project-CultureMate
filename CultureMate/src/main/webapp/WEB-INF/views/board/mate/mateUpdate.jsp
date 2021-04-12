@@ -91,7 +91,7 @@
 		            <td><input style="border-radius:5px;height:28px;border:1px solid; width:200px;" type="text" name="mateTitle" id="mateTitle" value="${mate.mateTitle }"></td>		            
 		            <td> <input style="border-radius:5px;height:28px;border:1px solid; width:80px;" type="text" name="userNick" value="${loginMember.userNick }" readonly> </td>
 		                               
-		            <td>${mate.mateCreateDate}</td>	           
+		            		            <td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>	           
 		            <td>${mate.mateCount}</td>	  
 		        </tr>
 		       <tr id="mateUpdate-tr1">

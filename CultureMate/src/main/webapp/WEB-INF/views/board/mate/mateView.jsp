@@ -153,7 +153,7 @@ table#tbl-comment sub.comment-date {
 		        	<td>${mate.mateLoc}</td>			        		        	
 		            <td>${mate.mateTitle}</td>	
 		           	<td>${mate.userNick }</td>	                     
-		            <td>${mate.mateCreateDate}</td>	           
+		            <td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>	           
 		            <td>${mate.mateCount}</td>	           
 		        </tr>		       
 		    <tr id="mateView-tr1">
