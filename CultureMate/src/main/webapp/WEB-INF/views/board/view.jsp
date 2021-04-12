@@ -421,7 +421,6 @@ text-align: center;
 			</div>
 			<div id="cal">
 			<div id="datepicker" ></div>
-			<button type="button" class="btn btn-success" id="re-button">예매하기</button>
 			<button id="ticketing" class="btn btn-primary" onclick="openSeatSelect()">예매하기</button>
 				<form id="ticketing_form" action='${path}/ticket/ticketing' method="post">
 					<input type="hidden" id="form_mt20id" name="mt20id" value="${show.mt20id}">
@@ -431,7 +430,7 @@ text-align: center;
 					<input type="hidden" id="form_ticket_qty" name="ticket_qty" value="">
 					<input type="hidden" id="form_pcseguidance" name="pcseguidance" value="">
 					<input type="hidden" id="form_ticket_seat" name="ticket_seat" value="">
-					<input type="hidden" id="my_hidden_input" va>
+					<input type="hidden" id="my_hidden_input" value=""> <!-- 달력 값을 받는 인풋 (ex:2021-04-14) -->
 				</form>
 			</div>
 			</div>
@@ -809,6 +808,7 @@ text-align: center;
 		    $('#my_hidden_input').val(
 		        $('#datepicker').datepicker('getFormattedDate')
 		    );
+		    console.log($('#my_hidden_input').val());
 		});
 	</script>
 	
