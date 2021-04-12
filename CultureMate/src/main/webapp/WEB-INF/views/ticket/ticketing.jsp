@@ -8,16 +8,33 @@
 	#form_ticketing{
 		display: none;
 	}
+
+	#form_ticketing_fail{
+		display: none;
+	}
+
+	#waiting{
+		height: 560px;
+	}
 </style>
+
+<div id="waiting">
+
+</div>
 
 <form id="form_ticketing" action='${path}/ticket/ticketing/success' method="post">
 	<input type="text" id="form_mt20id" name="mt20id" value="${mt20id}">
 	<input type="text" id="form_prfnm" name="prfnm" value="${prfnm}">
+	<input type="text" id="form_ticket_date" name="ticket_date" value="${ticket_date}">
 	<input type="text" id="form_id" name="id" value="${ id }">
 	<input type="text" id="form_userId" name="user_id" value="${ user_id }">
 	<input type="text" id="form_ticket_qty" name="ticket_qty" value="${ ticket_qty }">
 	<input type="text" id="form_pcseguidance" name="pcseguidance" value="${ pcseguidance }">
 	<input type="text" id="form_ticket_seat" name="ticket_seat" value="${ ticket_seat }">
+</form>
+
+<form id="form_ticketing_fail" action="${path}/ticket/ticketing/fail" method="post">
+	<input type="text" id="form_mt20id_fail" name="mt20id" value="${mt20id}">
 </form>
 
 <script>
@@ -41,8 +58,9 @@
 		} else {
 			msg = '결제에 실패하였습니다.';
 			msg += '에러내용 : ' + rsp.error_msg;
-			location.href="${path}/ticket/ticketing/fail";
 			alert(msg);
+
+			$('#form_ticketing_fail').submit();
 		}
 	});
 </script>
