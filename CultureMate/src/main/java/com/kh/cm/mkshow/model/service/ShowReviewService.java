@@ -10,4 +10,8 @@ public interface ShowReviewService  {
 
 	int saveReview(ShowReview review);
 
+	int delReview(int no);
+
+	List<ShowReview> findReviewWriter(int no);
+
 }
