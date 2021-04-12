@@ -14,7 +14,7 @@
 		<c:if test="${ boList != null }">
 			<c:forEach var="blvo" items="${ boList }">
 			<div class="card">
-				<div class="cardImgWrapper" onclick="location.href='${ path }';">
+				<div class="cardImgWrapper" onclick="location.href='${ path }/show/restview?name=${ blvo.mt20id }';">
 					<img src="http://www.kopis.or.kr${ blvo.poster }" class="card-img-top" alt="${ blvo.prfnm }">
 				</div>
 				<div class="card-body">
