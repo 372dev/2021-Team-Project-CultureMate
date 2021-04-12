@@ -6,27 +6,33 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 	<link rel="stylesheet" href="${ path }/resources/css/showListStyle.css?v=1" />
-	<h1>Box Office</h1>
-	<div id="boxOfficeListDiv" class="ListDiv">
-		<h2>Musical</h2>
-		<c:if test="${ boxOfficeList == null }">
-			<p>Failed to load</p>
+	<h1>${ cate } 주간 박스 오피스</h1>
+	<div id="boListDiv" class="ListDiv">
+		<c:if test="${ boList == null }">
+			<p>조회된 게시물이 없습니다.</p>
 		</c:if>
-		<c:if test="${ boxOfficeList != null }">
-			<c:forEach var="bovo" items="${ boxOfficeList }" end="4">
+		<c:if test="${ boList != null }">
+			<c:forEach var="blvo" items="${ boList }">
 			<div class="card">
-			<!-- 여기에 div + rnum 추가해서 position 잡고 순위 상단 모서리 표시 -->
 				<div class="cardImgWrapper" onclick="location.href='${ path }';">
-					<img src="http://www.kopis.or.kr${ bovo.poster }" class="card-img-top" alt="${ bovo.prfnm }">
+					<img src="http://www.kopis.or.kr${ blvo.poster }" class="card-img-top" alt="${ blvo.prfnm }">
 				</div>
 				<div class="card-body">
-					<h5 class="card-title">${ bovo.prfnm }</h5>
-					<p class="card-text subTitle">${ bovo.area }</p>
-					<p class="card-text">${ bovo.prfpd }</p>
+					<h5 class="card-title">${ blvo.prfnm }</h5>
+					<p class="card-text subTitle">${ blvo.prfplcnm }</p>
+					<p class="card-text">${ blvo.prfpd }</p>
 				</div>
 			</div>
 			</c:forEach>
 		</c:if>
 	</div>
-
+	<div>
+		<button id="reLocToShowList">
+			더 보기(상세 검색)
+		</button>
+	</div>
+	
+	<script>
+		var genre = null;
+	</script>	
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

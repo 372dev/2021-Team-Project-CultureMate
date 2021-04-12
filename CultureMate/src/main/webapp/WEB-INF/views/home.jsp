@@ -1,16 +1,104 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 
-<h1>
-	Hello world!  
-</h1>
+    <link rel="stylesheet" href="${ path }/resources/css/home.css" />
+	<link rel="stylesheet" href="${ path }/resources/css/showListStyle.css?v=1" />
+	<link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
-<P>  The time on the server is ${serverTime}. </P>
-
-
-
-
+    <div class="topDiv">
+    	<div class="sideMenuDiv">menu<br>tree<br>menu<br>tree<br>menu<br>tree<br></div>
+		<div id="myCarousel" class="carousel slide carouselDiv" data-ride="carousel">
+	        <ol class="carousel-indicators">
+	          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+	          <li data-target="#myCarousel" data-slide-to="1"></li>
+	          <li data-target="#myCarousel" data-slide-to="2"></li>
+	        </ol>
+	        <div class="carousel-inner">
+	          <div class="carousel-item active">
+	          	<a href="">
+		          	<img
+		              src="https://dummyimage.com/1000x300/ffe812/000.png&text=Hello"
+		              alt="First Slide"
+		            />
+	            </a>
+	          </div>
+	          <div class="carousel-item">
+	          	<a href="">
+		            <img
+		              src="https://dummyimage.com/1000x300/ffe812/000.png&text=How"
+		              alt="Second Slide"
+		            />
+		        </a>
+	          </div>
+	          <div class="carousel-item">
+	          	<a href="">
+		            <img
+		              src="https://dummyimage.com/1000x300/ffe812/000.png&text=RU"
+		              alt="Third Slide"
+		            />
+	            </a>
+	          </div>
+	        </div>
+	        <!-- Carousel controls -->
+	        <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+	          <span class="carousel-control-prev-icon"></span>
+	        </a>
+	        <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+	          <span class="carousel-control-next-icon"></span>
+	        </a>
+		</div>
+	</div>
+	<div id="boContainer"></div>
+	
+	<script>
+		$(document).ready(ajaxCall("m")).ready(ajaxCall("p")).ready(ajaxCall("c"));
+			
+		function ajaxCall(genre) {
+			$.ajax({
+				type : "GET",
+				async: false,
+				url : "/cm/show/ajaxBoList",
+				data : {
+					"genre" : genre,
+				},
+				error : function(error) {
+					console.log("ajax-error : " + error);
+				},
+				success : function(result) {
+					console.log("ajax-success");
+					if(result) {
+						var toAdd = '';
+						if(result == null) {
+							console.log("result == null");
+							toAdd += "<div><p>박스 오피스에 일시적으로 접근이 불가합니다. 관리자에게 문의해 주세요.</p>";
+						} else {
+							console.log("result != null");
+							toAdd += '<div class="boTitle"><h2>' + result[0].cate + ' 주간 박스 오피스</h2></div>';
+							toAdd += '<div class="ListDiv">';
+							for(i = 0; i < 5; i++) {
+								toAdd += '<div class="card">';
+								toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }/show/restview?name=' + result[i].mt20id + '\';">';
+								toAdd += '<img src="http://www.kopis.or.kr' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
+								toAdd += '</div>';
+								toAdd += '<div class="card-body">';
+								toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
+								toAdd += '<p class="card-text subTitle">' + result[i].prfplcnm + '</p>';
+								toAdd += '<p class="card-text">' + result[i].prfpd + '</p>';
+								toAdd += '</div>';
+								toAdd += '</div>';
+							}
+						}
+						toAdd += '</div>';
+						$("#boContainer").append(toAdd);
+					}
+				}
+			});
+		}
+	</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
