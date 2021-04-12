@@ -57,11 +57,12 @@
 	<div id="boContainer"></div>
 	
 	<script>
-		$(document).ready(ajaxCall("m")).delay(100).ready(ajaxCall("p")).delay(100).ready(ajaxCall("c"));
+		$(document).ready(ajaxCall("m")).ready(ajaxCall("p")).ready(ajaxCall("c"));
 			
 		function ajaxCall(genre) {
 			$.ajax({
 				type : "GET",
+				async: false,
 				url : "/cm/show/ajaxBoList",
 				data : {
 					"genre" : genre,

@@ -23,7 +23,7 @@
 	  		<label for="shcate03">클래식</label>
 			<br>
 			<label for="showTitle">공연명</label>
-			<input type="text" id="title" name="showTitle">
+			<input type="text" id="showTitle" name="showTitle">
 			<button id="submitSearchForm" class="btn">상세 검색</button>
 		</div>
 		<hr>
@@ -54,7 +54,7 @@
 	$('#submitSearchForm').on('click', function () {
 		var prfstateVal = $('input[name="prfstate"]:checked').val();
 		var shcateVal = $('input[name="shcate"]:checked').val();
-		var shprfnm = $('showTitle').val();
+		var shprfnm = $('#showTitle').val();
 		$.ajax({
 			type : "GET",
 			url : "/cm/show/ajaxShowList",
@@ -68,29 +68,27 @@
 			},
 			success : function(result) {
 				console.log("ajax-success");
-				if(result) {
-					$("#showListDiv").empty();
-					var toAdd = '';
-					if(result == null) {
-						console.log("result == null");
-						toAdd += "<p>검색 조건에 맞는 게시물이 없습니다.</p>";
-					} else {
-						console.log("result != null");
-						for(i = 0; i < result.length; i++) {
-							toAdd += '<div class="card">';
-							toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }/show/restview?name=' + result[i].mt20id + '\';">';
-							toAdd += '<img src="' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
-							toAdd += '</div>';
-							toAdd += '<div class="card-body">';
-							toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
-							toAdd += '<p class="card-text subTitle">' + result[i].fcltynm + '</p>';
-							toAdd += '<p class="card-text">' + result[i].prfpdfrom + ' ~ ' + result[i].prfpdto + '</p>';
-							toAdd += '</div>';
-							toAdd += '</div>';
-						}
+				$("#showListDiv").empty();
+				var toAdd = '';
+				if(result == null || $.isEmptyObject(result)) {
+					console.log("no result");
+					toAdd += "<p>검색 조건에 맞는 게시물이 없습니다.</p>";
+				} else {
+					console.log("result != null");
+					for(i = 0; i < result.length; i++) {
+						toAdd += '<div class="card">';
+						toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }/show/restview?name=' + result[i].mt20id + '\';">';
+						toAdd += '<img src="' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
+						toAdd += '</div>';
+						toAdd += '<div class="card-body">';
+						toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
+						toAdd += '<p class="card-text subTitle">' + result[i].fcltynm + '</p>';
+						toAdd += '<p class="card-text">' + result[i].prfpdfrom + ' ~ ' + result[i].prfpdto + '</p>';
+						toAdd += '</div>';
+						toAdd += '</div>';
 					}
-					$("#showListDiv").append(toAdd);
 				}
+				$("#showListDiv").append(toAdd);
 			}
 		});
 	})

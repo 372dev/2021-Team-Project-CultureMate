@@ -90,6 +90,7 @@ public class ShowListController {
     		@RequestParam("shcate") String shcate,
     		@RequestParam("shprfnm") String shprfnm
     		) {
+    	if(shprfnm.trim().equals("")) shprfnm = null;
     	log.info("Controller started. searching title : " + shprfnm + " genre : " + shcate + " status : " + prfstate);
 
 		String key = "fe0b63fcf599492aae0dc065406b676b";
@@ -106,7 +107,7 @@ public class ShowListController {
         urlBuilder.append("?service=" + key);
         urlBuilder.append("&stdate=" + stdate);
         urlBuilder.append("&eddate=" + eddate);
-        urlBuilder.append("&rows=199&cpage=1");
+        urlBuilder.append("&rows=99&cpage=1");
         urlBuilder.append("&shcate=" + shcate);
         urlBuilder.append("&prfstate=" + prfstate);
         
@@ -115,7 +116,7 @@ public class ShowListController {
         }
 
         String url = urlBuilder.toString();
-
+        log.info("request : " + url);
 		RestTemplate restTemplate = new RestTemplate();
 		ShowListVO ajaxShowList = restTemplate.getForObject(url, ShowListVO.class);
 
