@@ -783,6 +783,7 @@ text-align: center;
 		        $('#datepicker').datepicker('getFormattedDate')
 		       
 		    );
+		    console.log($('#my_hidden_input').val());
 		});
 	</script>
 	
