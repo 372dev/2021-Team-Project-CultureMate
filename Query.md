@@ -275,7 +275,7 @@ COMMENT ON COLUMN CSBOARD.CSBOARD_MODIFY_DATE IS '게시글수정날짜';
 COMMENT ON COLUMN CSBOARD.CSBOARD_COUNT IS '조회수';
 
 COMMIT;
-
+```
 -----------------------------------------------------------------------
 
 ## QNABOARD 테이블
@@ -307,3 +307,4 @@ COMMENT ON COLUMN QNA_BOARD.QNA_MODIFY_DATE IS 'QNA수정날짜';
 COMMENT ON COLUMN QNA_BOARD.STATUS IS 'QNA상태';
 
 COMMIT;
+```
