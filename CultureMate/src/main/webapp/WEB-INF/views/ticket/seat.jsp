@@ -227,10 +227,6 @@
 
             self.close();
         }
-
-
-        // opener.location.href='http://naver.com/';
-        // window.close();
     </script>
 
 </body>

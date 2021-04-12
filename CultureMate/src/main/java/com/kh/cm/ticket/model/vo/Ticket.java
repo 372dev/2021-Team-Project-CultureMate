@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 public class Ticket {
 	private int ticket_num;
 	
-	private int mt20id;
+	private String mt20id;
+	
+	private String prfnm;
 	
 	private int id;
 	
 	private String user_id;
-	
-	private int pi_num;
 	
 	private int ticket_qty;
 	
@@ -27,7 +27,7 @@ public class Ticket {
 	
 	private Date change_time;
 	
-	private String pspcseguidance;
+	private String pcseguidance;
 	
 	private String ticket_seat;
 	

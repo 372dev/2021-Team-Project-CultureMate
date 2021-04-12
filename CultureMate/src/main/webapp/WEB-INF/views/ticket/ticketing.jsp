@@ -21,25 +21,6 @@
 </form>
 
 <script>
-	// 테스트, 나중에 지울것
-	var form_mt20id = document.getElementById("form_mt20id");
-	var form_prfnm = document.getElementById("form_prfnm");
-	var form_id = document.getElementById("form_id");
-	var form_userId = document.getElementById("form_userId");
-	var form_ticket_qty = document.getElementById("form_ticket_qty");
-	var form_pcseguidance = document.getElementById("form_pcseguidance");
-	var form_ticket_seat = document.getElementById("form_ticket_seat");
-
-	console.log("form_mt20id : " + form_mt20id.value);
-	console.log("form_prfnm : " + form_prfnm.value);
-	console.log("form_id : " + form_id.value);
-	console.log("form_userId : " + form_userId.value);
-	console.log("form_ticket_qty.value : " + form_ticket_qty.value);
-	console.log("form_pcseguidance.value : " + form_pcseguidance.value);
-	console.log("form_ticket_seat.value : " + form_ticket_seat.value);
-</script>
-
-<script>
 	IMP.init('imp48086653');
 
 	IMP.request_pay({

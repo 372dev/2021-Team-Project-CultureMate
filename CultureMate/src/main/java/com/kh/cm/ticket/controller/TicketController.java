@@ -63,20 +63,39 @@ public class TicketController {
 	}
 	
 	@RequestMapping(value = "ticket/ticketing/success",  method = {RequestMethod.POST})
-	public ModelAndView success(HttpServletRequest request, ModelAndView model, 
+	public ModelAndView success(HttpServletRequest request, ModelAndView model, Ticket ticket, 
 			@RequestParam("mt20id") String mt20id, @RequestParam("prfnm") String prfnm,   
 			@RequestParam("id") int id, @RequestParam("user_id") String user_id, 
 			@RequestParam("ticket_qty") int ticket_qty, 
 			@RequestParam("pcseguidance") String pcseguidance, @RequestParam("ticket_seat") List<String> ticket_seat) {
 		
-		model.setViewName("ticket/success");
-		model.addObject("mt20id", mt20id);
-		model.addObject("prfnm", prfnm);
-		model.addObject("id", id);
-		model.addObject("user_id", user_id);
-		model.addObject("ticket_qty", ticket_qty);
-		model.addObject("pcseguidance", pcseguidance);
-		model.addObject("ticket_seat", ticket_seat);
+		ticket.setMt20id(mt20id);
+		ticket.setPrfnm(prfnm);
+		ticket.setId(id);
+		ticket.setUser_id(user_id);
+		ticket.setTicket_qty(ticket_qty);
+		ticket.setPcseguidance(pcseguidance);
+		ticket.setTicket_seat(String.join(",", ticket_seat));
+		
+		int result = ticketservice.saveTicket(ticket);
+		
+		if(result > 0) {
+			model.setViewName("ticket/success");
+			model.addObject("mt20id", mt20id);
+			model.addObject("prfnm", prfnm);
+			model.addObject("id", id);
+			model.addObject("user_id", user_id);
+			model.addObject("ticket_qty", ticket_qty);
+			model.addObject("pcseguidance", pcseguidance);
+			model.addObject("ticket_seat", ticket_seat);
+			
+			int ticket_num = ticket.getTicket_num();
+			model.addObject("ticket_num", ticket_num);
+			
+		} else {
+			model.addObject("msg", "결제가 정상적으로 이루어지지 않았습니다.");
+			model.addObject("location", "${path}/ticket/ticketing/fail");
+		}
 		
 		System.out.println("controller_success_model : " + model);
 		
@@ -92,7 +111,16 @@ public class TicketController {
 		return model;
 	}
 	
-	
+	@RequestMapping(value = "myPage/ticket", method = {RequestMethod.GET})
+	public ModelAndView mypage_ticket(ModelAndView model) {
+		
+		List<Ticket> ticket = null;
+		
+		
+		model.setViewName("ticket/list");
+		
+		return model;
+	}
 	
 	
 	

@@ -13,10 +13,8 @@
 		<div class="col-md-3 ">
 		     <div class="list-group ">
               <a href="#" class="list-group-item list-group-item-action active">회원정보 수정</a>
-              <a href="#" class="list-group-item list-group-item-action">예매내역</a>
+              <a href="${ path }/myPage/ticket" class="list-group-item list-group-item-action">예매내역</a>
               <a href="#" class="list-group-item list-group-item-action">활동관리</a>
-              <a href="#" class="list-group-item list-group-item-action">포인트충전</a>
-              <a href="#" class="list-group-item list-group-item-action">결제정보관리</a>
             </div> 
 		</div>
 		<div class="col-md-9">

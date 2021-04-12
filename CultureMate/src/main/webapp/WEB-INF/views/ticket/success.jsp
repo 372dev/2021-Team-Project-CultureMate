@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-
 <h1>결제를 완료했습니다.</h1>
 
 예매번호 : ${ ticket_num } <br>
