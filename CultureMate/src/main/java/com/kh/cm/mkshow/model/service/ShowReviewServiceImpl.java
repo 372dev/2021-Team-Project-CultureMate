@@ -30,5 +30,17 @@ public class ShowReviewServiceImpl implements ShowReviewService {
 		return showDao.saveReview(review);
 	}
 
+	@Override
+	public int delReview(int no) {
+		// TODO Auto-generated method stub
+		return showDao.delReview(no);
+	}
+
+	@Override
+	public List<ShowReview> findReviewWriter(int no) {
+
+		return showDao.findUserNick(no);
+	}
+
 	
 }

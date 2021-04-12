@@ -8,8 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class ShowReview {
 	private int reviewID;
 	
@@ -27,6 +27,7 @@ public class ShowReview {
 	
 	private int id;
 	
+	private String userNick;
 	
 
 }
