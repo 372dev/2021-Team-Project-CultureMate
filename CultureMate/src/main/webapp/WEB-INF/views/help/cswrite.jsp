@@ -16,7 +16,7 @@
 		                       <option selected>종류</option>
 		                           <option value="all">전체보기</option>
 		                           <option value="faq">FAQ</option>
-		                           <option value="noti">공지사항</option>
+		                           <option value="notice">공지사항</option>
 		                   </select>
 		            </div>
 		            <div class="faqlist">

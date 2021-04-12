@@ -16,11 +16,11 @@
 			href="${path}/help/qnalist">1:1문의</a></li>
 	</ul>
       <h5>나의 문의내역</h5>
+      
       <nav>
         <ul>
           <li><a href="${path}/help/qnalist">문의내역</a></li>
           <li><a href="${path}/help/qnacontent">문의하기</a></li>
-      
         </ul>
       </nav>
 

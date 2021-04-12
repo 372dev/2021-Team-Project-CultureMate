@@ -43,7 +43,7 @@
 				<a class="nav-link active" data-toggle="tab" href="#qwe">전체보기</a>
 				</li>
 				<li class="nav-item1">
-				<a class="nav-link" data-toggle="tab" href="#asd">환불</a>
+				<a class="nav-link" data-toggle="tab" href="#asd" >환불</a>
 				</li>
 				<li class="nav-item1">
 				<a class="nav-link" data-toggle="tab" href="#zxc">구매/결제</a>
@@ -65,16 +65,44 @@
 									<th>분류</th>
 									<th>제목</th>
 								</tr>
+					
 							    <c:if test="${csmain != null}">
-							    <c:forEach var="help" items="${csmain} ">
+							      <c:forEach var="csboard" items="${csmain} ">
                                 <tr>
-								<td><c:out value="${csmain.csboardType}"/></td>
-								<td><a><c:out value="${csmain.csboardTitle}"/></a>
-								</td>
+								   <td><c:out value="${csboard.csboardType}"/></td>
+								   <td>
+								   <a href="${path}/help/faqview?csboardId=${csboard.csboardId}">
+								   <c:out value="${csboard.csboardTitle}"/>
+								   </a>
+								   </td>
                                 </tr>
 							</c:forEach>
 							</c:if>
 						</table>
+						
+						<div id="pageBar">
+						<!-- 맨 처음으로 -->
+						<button onclick="location.href='${path}/help/csmain?page=1'">&lt;&lt;</button>
+						
+						<!-- 이전 페이지로 -->
+						<button onclick="location.href='${path}/help/csmain?page=${pageInfo.prvePage}'">&lt;</button>
+			
+						<!--  10개 페이지 목록 -->
+						<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+							<c:if test="${status.current == pageInfo.currentPage}">
+								<button disabled><c:out value="${status.current}"/></button>
+			   				</c:if>
+							<c:if test="${status.current != pageInfo.currentPage}">
+								<button onclick="location.href='${path}/help/csmain?page=${status.current}'"><c:out value="${status.current}"/></button>
+			   				</c:if>
+						</c:forEach>
+						
+						<!-- 다음 페이지로 -->
+						<button onclick="location.href='${path}/help/csmain?page=${pageInfo.nextPage}'">&gt;</button>
+						
+						<!-- 맨 끝으로 -->
+						<button onclick="location.href='${path}/help/csmain?page=${pageInfo.maxPage}'">&gt;&gt;</button>
+					</div>
 					</div>
 				</div>
      
@@ -160,29 +188,5 @@
 		</div>
 		
 	</div>
-	<div id="pageBar">
-						<!-- 맨 처음으로 -->
-						<button onclick="location.href='${path}/help/csmain?page=1'">&lt;&lt;</button>
-						
-						<!-- 이전 페이지로 -->
-						<button onclick="location.href='${path}/help/csmain?page=${pageInfo.prvePage}'">&lt;</button>
-			
-						<!--  10개 페이지 목록 -->
-						<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
-							<c:if test="${status.current == pageInfo.currentPage}">
-								<button disabled><c:out value="${status.current}"/></button>
-			   				</c:if>
-							<c:if test="${status.current != pageInfo.currentPage}">
-								<button onclick="location.href='${path}/help/csmain?page=${status.current}'"><c:out value="${status.current}"/></button>
-			   				</c:if>
-						</c:forEach>
-						
-						<!-- 다음 페이지로 -->
-						<button onclick="location.href='${path}/help/csmain?page=${pageInfo.nextPage}'">&gt;</button>
-						
-						<!-- 맨 끝으로 -->
-						<button onclick="location.href='${path}/help/csmain?page=${pageInfo.maxPage}'">&gt;&gt;</button>
-					</div>
-					</form>
 </div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>

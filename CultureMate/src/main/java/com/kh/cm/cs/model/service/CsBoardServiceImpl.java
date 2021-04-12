@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.cs.model.dao.CsBoardDao;
 import com.kh.cm.cs.model.vo.CsBoard;
-import com.kh.mvc.common.util.PageInfo;
+
 
 import lombok.extern.slf4j.Slf4j;
 

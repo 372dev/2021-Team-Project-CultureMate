@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.cs.model.service.CsBoardService;
 import com.kh.cm.cs.model.vo.CsBoard;
 import com.kh.cm.member.model.vo.Member;
-import com.kh.mvc.common.util.PageInfo;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,9 +47,9 @@ public class CsController {
 		
 		  System.out.println(boardCount);
 		
-		  list = service.getCsBoardList(pageInfo);
+		list = service.getCsBoardList(pageInfo);
 				
-		model.addObject("list", list);
+		model.addObject("cslist", list);
 		model.addObject("pageInfo", pageInfo);
 		model.setViewName("help/csmain");;
 		return model;

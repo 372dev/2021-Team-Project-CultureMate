@@ -2,8 +2,9 @@ package com.kh.cm.cs.model.service;
 
 import java.util.List;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.cs.model.vo.CsBoard;
-import com.kh.mvc.common.util.PageInfo;
+
 
 public interface CsBoardService {
 
