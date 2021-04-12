@@ -7,6 +7,7 @@
 		<id property="ticket_num" column="TICKET_NUM"/>
 		<result property="mt20id" column="MT20ID"/>
 		<result property="prfnm" column="PRFNM"/>
+		<result property="ticket_date" column="TICKET_DATE"/>
 		<result property="id" column="ID"/>
 		<result property="user_id" column="USER_ID"/>
 		<result property="ticket_qty" column="TICKET_QTY"/>
@@ -22,6 +23,7 @@
 		    TICKET_NUM, 
 		    MT20ID, 
 		    PRFNM, 
+		    TICKET_DATE, 
 		    ID, 
 		    USER_ID, 
 		    TICKET_QTY, 
@@ -34,6 +36,7 @@
 		    SEQ_TICKET_NO.NEXTVAL, 
 		    #{mt20id}, 
 		    #{prfnm}, 
+		    #{ticket_date}, 
 		    #{id}, 
 		    #{user_id}, 
 		    #{ticket_qty}, 
