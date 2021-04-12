@@ -16,7 +16,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.kr.min.js"></script>
 
-<link rel="stylesheet" href="${path}/css/index.css">
+
 <link rel="stylesheet" href="${path}/css/slick.css">
 <link rel="stylesheet" href="${path}/css/slick-theme.css">
 <script src="${path}/js/slick.js"></script>
@@ -309,6 +309,42 @@ div#datepicker {
 #re-button{
  margin-left: 110px;
  margin-top: 50px;
+}
+
+#today_text{
+text-align: center;
+
+}
+
+.text_today {
+	display: inline-block;
+    top: 35px;
+    transform: translateX(-50%);
+    font-family: var(--font);
+    font-size: 25px;
+    text-align: center;
+   
+}
+
+#today {
+    width: 100%;
+    height: 350px;
+   text-align: center;
+    display: inline-block;
+}
+
+#today .list {
+    text-align: center;
+    width: 250px;
+    height: 330px;
+}
+
+#today .list01, .list03, .list05 {
+   
+}
+
+#today .list02, .list04, .list06 {
+   
 }
 
 
