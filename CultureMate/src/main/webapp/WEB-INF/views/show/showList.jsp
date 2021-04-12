@@ -69,7 +69,6 @@
 			success : function(result) {
 				console.log("ajax-success");
 				if(result) {
-					console.log(result);
 					$("#showListDiv").empty();
 					var toAdd = '';
 					if(result == null) {
