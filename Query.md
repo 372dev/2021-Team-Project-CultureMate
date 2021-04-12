@@ -235,6 +235,8 @@ CREATE TABLE SHAREREPLY(
 
 CREATE SEQUENCE SEQ_SHAREREPLY_ID;
 ```
+-----------------------------------------------------------------------
+
 ## CSBOARD 테이블
 
 CREATE TABLE CSBOARD (
@@ -272,6 +274,8 @@ COMMENT ON COLUMN CSBOARD.CSBOARD_MODIFY_DATE IS '게시글수정날짜';
 COMMENT ON COLUMN CSBOARD.CSBOARD_COUNT IS '조회수';
 
 COMMIT;
+
+-----------------------------------------------------------------------
 
 ## QNABOARD 테이블
 
