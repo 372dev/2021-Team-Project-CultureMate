@@ -85,4 +85,10 @@ public class MateServiceImpl implements MateService {
 		
 	}
 
+	@Override
+	public int deleteMateReply(int mateReplyId) {
+		
+		return mateDao.deleteMateReply(mateReplyId);
+	}
+
 }

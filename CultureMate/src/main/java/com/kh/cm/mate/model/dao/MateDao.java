@@ -33,6 +33,8 @@ public interface MateDao {
 
 	int insertMateReply(MateReply mateReply);
 
+	int deleteMateReply(int mateReplyId);
+
 	
 
 }

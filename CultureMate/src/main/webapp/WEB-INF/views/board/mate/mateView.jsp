@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@page import="com.kh.cm.mate.model.vo.Mate"%>
+<%
+	Mate mate = (Mate)request.getAttribute("mate");	
+%>
 <style>
      #mateSection {
 	     min-height: 800px;
@@ -176,11 +180,11 @@ table#tbl-comment sub.comment-date {
 		 <div id="comment-container">
 	    	<div class="comment-editor">
 	    	<br>
-	    		<form action="${path }/mate/reply/write" method="post">
+	    		<form action="${path }/mate/reply/write" method="post" onsubmit="return checkEmpty()">
 	    			<input type="hidden" name="mateId" value="${mate.mateId}">
 	    			<input type="hidden" name="writer" value='${loginMember != null ? loginMember.userNick : "" }'>
-					<textarea style="border-radius:5px;height:70px;" name="content" cols="55" rows="3" onfocus="checkLogin()"></textarea>
-					<button type="submit" id="btn-insert">등록</button>	    			
+					<textarea style="border-radius:5px;height:70px;" id="content" name="content" cols="55" rows="3" onclick="checkEmpty()"></textarea>
+					<button type="submit" id="btn-insert" onclick="return checkLogin()">등록</button>	    			
 	    		</form>
 	    	</div>
 	    </div>
@@ -195,7 +199,8 @@ table#tbl-comment sub.comment-date {
 			    		</td>
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
-		    		    	<input type="hidden" name="mateReplyNo" id="mateReplyNo" value="${matereply.relyNo}">
+		    		    	<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
+		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
 		    				<button class="btn-update" onclick="updateMateReply()">수정</button>
 		    				<button class="btn-delete" onclick="deleteMateReply()">삭제</button>
 		    			</c:if>
@@ -207,12 +212,12 @@ table#tbl-comment sub.comment-date {
 			    			<sub class="comment-writer">&nbsp;&nbsp;RE:${mateReply.userNick}</sub>
 			    			<sub class="comment-date">${mateReply.mateReplyCreateDate}</sub> 
 			    			<br>
-			    			&nbsp;&nbsp;<c:out value="→${mateReply.mateReplyContent}"></c:out>
+			    			&nbsp;&nbsp;→<c:out value="${mateReply.mateReplyContent}"></c:out>
 			    		</td>			    		
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
-		    		    	<input type="hidden" name="mateReplyId" value="${mateReply.mateReplyId }">
-		    		    	<input type="hidden" name="mateId" value="${shareReply.shareId }">
+		    		    	<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
+		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
 		    				<button class="btn-update" onclick="updateMateReply()">수정</button>
 		    				<button class="btn-delete" onclick="deleteMateReply()">삭제</button>		    				
 		    			</c:if>
@@ -221,6 +226,10 @@ table#tbl-comment sub.comment-date {
 			    	</c:if>			    	
 		    	</c:forEach>
 		    </table>
+		    	<form name="replyUpdateFrm">
+		    		<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
+		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
+		    	</form>
 		     <br>
 		    <div id="pageBar">
 			<!-- 맨 처음으로 -->
@@ -245,29 +254,31 @@ table#tbl-comment sub.comment-date {
 			<!-- 맨 끝으로 -->
 			<button onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.maxPage}'">&gt;&gt;</button>	
 	 </div>
-	</div>
-	 <script>
-	/*
-	function checkLogin() {
-		if(${ loginMember } == null){
-			alert("로그인 후 이용해주세요!");
-	//		$("#userId").focus();
+	 <script type="text/javascript">
+	 function checkEmpty() {
+			var content = $("#content").val();
+			if( content == ""  || content == null || content == '&nbsp;' || content == '<p>&nbsp;</p>') {
+				alert('입력값이 없습니다.');
+				return false;
+			}
 		}
-	}
+	 
+	 function checkLogin() {
+			if(${empty loginMember}) {
+				alert("로그인 후 댓글등록이 가능합니다.");
+				return false;
+			}
+		}
 	
-	*/
-	function updateMateReply(){
-		if(confirm("댓글을 수정 하시겠습니까?")){
-		location.href= '${path}/mate/reply/update?mateReplyId=${mateReply.mateReplyId}';
-		}
-	}
 	function deleteMateReply(){
-		var mateReplyNo = document.getElementById("mateReplyNo").value;
+		var mateReplyId = $("#mateReplyId").val();
 		if(confirm("댓글을 삭제 하시겠습니까?")){
-			location.replace('${path}/mate/reply/delete?mateReplyId=' + mateReplyNo);
+			location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + mateReplyId);
 		}
 	}
-</script> 	
+	</script>
+	</div>
+
 </section>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

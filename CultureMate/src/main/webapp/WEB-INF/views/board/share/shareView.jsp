@@ -2,14 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@page import="com.kh.cm.share.model.vo.Share"%>
-<%@page import="com.kh.cm.share.model.vo.ShareReply"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <%
-	Share share = (Share)request.getAttribute("share");
-	List<ShareReply> shareReplies = (List)request.getAttribute("shareReplies");
+	Share share = (Share)request.getAttribute("share");	
 %>
 <style>
     #shareSection {
@@ -210,12 +208,13 @@ table#tbl-comment sub.comment-date {
 		<div id="comment-container">
 	    	<div class="comment-editor">
 	    		<br>
-	    		<form action="${path}/share/reply/write" method="post">
+	    		<form action="${path}/share/reply/write" method="post" onsubmit="return checkEmpty()">
 	    			<input type="hidden" name="shareId" id="shareId" value="${share.shareId}">
 	    			<input type="hidden" name="writer" value='${loginMember != null ? loginMember.userNick : "" }'>
-					<textarea style="height: 70px;border-radius:5px;" name="content" cols="55" rows="3" onfocus="checkLogin()"></textarea>
-					<button type="submit" id="btn-insert">등록</button>	    			
+					<textarea style="height: 70px;border-radius:5px;" id="content" name="content" cols="55" rows="3" onclick="checkEmpty()"></textarea>
+			  		<button type="submit" id="btn-insert" onclick="return checkLogin()" >등록</button>	  	
 	    		</form>
+	    		
 	    	</div>
 	    </div>
 		<table id="tbl-comment">
@@ -241,7 +240,8 @@ table#tbl-comment sub.comment-date {
 			    		<td>			    		
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input type="hidden" name="shareReplyId" id="shareReplyId" value="${shareReply.shareReplyId }">
-		    		    	<input type="hidden" name="shareId" value="${shareReply.shareId }">
+		    		    	<input type="hidden" name="shareId" id="shareReplyId" value="${shareReply.shareId }">
+		    		    
 		    		    	<button class="btn-update" onclick="updateShareReply()">수정</button>
 		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>
 		    				
@@ -251,10 +251,10 @@ table#tbl-comment sub.comment-date {
 	    		    <c:if test="${shareReply.shareReplyId != shareReply.shareReplyGroup }">			    				
 			    	<tr class="level2">	    	
 			    		<td>
-			    			<sub class="comment-writer">→${shareReply.userNick}</sub>
+			    			<sub class="comment-writer">&nbsp;&nbsp;RE:${shareReply.userNick}</sub>
 			    			<sub class="comment-date">${shareReply.shareReplyCreateDate}</sub> 
 			    			<br>
-			    			<c:out value="${shareReply.shareReplyContent}"></c:out>
+			    			&nbsp;&nbsp;→<c:out value="${shareReply.shareReplyContent}"></c:out>
 			    		</td>			    		
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
@@ -294,13 +294,27 @@ table#tbl-comment sub.comment-date {
 		</div>	
 	</div>
 	<script>
+	function checkEmpty() {
+		var content = $("#content").val();
+		if( content == ""  || content == null || content == '&nbsp;' || content == '<p>&nbsp;</p>') {
+			alert('입력값이 없습니다.');
+			return false;
+		}
+	}
+	
+	function checkLogin() {
+		if(${empty loginMember}) {
+			alert("로그인 후 댓글등록이 가능합니다.");
+			return false;
+		}
+	}
 	function updateShareReply(){
 		if(confirm("댓글을 수정 하시겠습니까?")){
 			location.href= '${path}/share/reply/update?shareReplyId=${shareReply.shareReplyId}';
 		}
 	}
 	function deleteShareReply(){
-		var shareReplyId = document.getElementById("#shareReplyId").value;
+		var shareReplyId = $("#shareReplyId").val();
 		if(confirm("댓글을 삭제 하시겠습니까?")){
 			location.href = '${path}/share/reply/delete?shareId=' + <%=share.getShareId()%> + '&shareReplyId=' + shareReplyId;
 		}

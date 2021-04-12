@@ -25,6 +25,8 @@ public interface MateService {
 	int deleteMate(int mateId);
 
 	int saveMateReply(MateReply mateReply);
+
+	int deleteMateReply(int mateReplyId);
 	
 
 	
