@@ -238,6 +238,7 @@ CREATE SEQUENCE SEQ_SHAREREPLY_ID;
 -----------------------------------------------------------------------
 
 ## CSBOARD 테이블
+```sql
 
 CREATE TABLE CSBOARD (
  CSBOARD_ID NUMBER,
@@ -278,7 +279,7 @@ COMMIT;
 -----------------------------------------------------------------------
 
 ## QNABOARD 테이블
-
+```sql
 CREATE TABLE QNA_BOARD (
  QNA_ID NUMBER,
  QNA_WRITERNO NUMBER,
