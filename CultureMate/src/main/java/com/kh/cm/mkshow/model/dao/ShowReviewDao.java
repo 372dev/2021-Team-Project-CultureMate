@@ -14,4 +14,8 @@ public interface ShowReviewDao {
 
 	int saveReview(ShowReview review);
 
+	int delReview(int no);
+
+	List<ShowReview> findUserNick(int no);
+
 }

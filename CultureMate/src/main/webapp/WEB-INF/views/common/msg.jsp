@@ -11,9 +11,9 @@
 </head>
 <body>
 	<script>
-		alert('${msg}')
+		alert('${msg}');
 		
-		location.replace("${pageContext.request.contextPath}${location}")
+		location.replace("${pageContext.request.contextPath}${location}");
 	</script>
 </body>
 </html>

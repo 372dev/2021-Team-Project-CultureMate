@@ -1,5 +1,8 @@
 package com.kh.cm.mkshow.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +13,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cm.mkshow.model.service.ShowReviewService;
+import com.kh.cm.mkshow.model.vo.MemberDTO;
+import com.kh.cm.mkshow.model.vo.MemberListDTO;
 import com.kh.cm.mkshow.model.vo.PlaceDTO;
 import com.kh.cm.mkshow.model.vo.PlaceListDTO;
 import com.kh.cm.mkshow.model.vo.ShowDTO;
 import com.kh.cm.mkshow.model.vo.ShowListDTO;
 import com.kh.cm.mkshow.model.vo.ShowReview;
+import com.kh.cm.mkshow.model.vo.ShowStyDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,6 +62,37 @@ public class ShowController {
 		return result;
 	}
 	
+		private static List<MemberDTO> getList(String shcate) {
+		
+		String data[] = new String[2];
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+	    Calendar currDate = new GregorianCalendar();
+    	Calendar nextDate = new GregorianCalendar();
+    	nextDate.add(Calendar.MONTH, 1);
+    	
+    	
+		String stdate = dateFormat.format(currDate.getTime());
+		String eddate = dateFormat.format(nextDate.getTime());
+		
+		 String addr = "http://www.kopis.or.kr/openApi/restful/pblprfr?service=";
+		 String serviceKey = "54aff7444a924def99fc5e93ad99952d";
+		 String parameter = "&stdate=" + stdate + "&eddate=" + eddate + "&rows=10&cpage=1" + "&shcate=" + shcate;
+		 
+		 String uri = addr + serviceKey + parameter;
+			
+        // 오브젝트로 결과값 받아오기
+	    RestTemplate restTemplate = new RestTemplate();
+        
+        // 오브젝트로 결과값 받아오기
+	    MemberListDTO memberList = restTemplate.getForObject(uri, MemberListDTO.class);
+        
+        
+        // 회원 정보 리스트
+        List<MemberDTO> result = memberList.getMemberInfo();
+        
+		return result;
+	}
+	
 	@RequestMapping(value = "/restview", method = RequestMethod.GET)
     public ModelAndView showView(ModelAndView model, String name) {
         // Xml데이터를 response받을 API주소
@@ -67,6 +104,7 @@ public class ShowController {
 	    int replylength = 0;
 		 
 		 
+	    
 		 String uri = addr + parameter + serviceKey;
          
 	  
@@ -107,6 +145,21 @@ public class ShowController {
     	   model.addObject("max", max);
        }
         
+       
+       String type = "";
+       if(result.get(0).getGenrenm().equals("연극")) {
+    	   type = "AAAA";
+       }else if(result.get(0).getGenrenm().equals("뮤지컬")) {
+    	   type = "AAAB";
+       }else {
+    	   type = "CCCA";
+       }
+       List<MemberDTO> slist = getList(type);
+       System.out.println("목록1" + slist.get(0).getPrfnm());
+       
+       model.addObject("slist",slist);
+       model.addObject("review", review);
+       model.addObject("replylength", replylength-1);
         model.addObject("place", place);
         model.addObject("prfruntimesize", result.get(0).getPrfruntime().length());
         model.addObject("pcseguidancesize", result.get(0).getPcseguidance().length());
