@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+.topDiv {
+	width : 1200px;
+	height : 300px;
+	border : 1px solid blue;
+	display : flex;
+}
+
+.sideMenuDiv {
+	width : 200px;
+	height : 300px;
+	boder : 1px solid green;
+}
+
+.carousel {
+  background: #2f4357;
+}
+.carousel-item {
+  text-align: center;
+  height: 300px; /* Prevent carousel from being distorted if for some reason image doesn't load */
+}
+
+.carouselDiv {
+	width: 1000px;
+	height : 300px;
+	boder : 1px solid green;
+}
