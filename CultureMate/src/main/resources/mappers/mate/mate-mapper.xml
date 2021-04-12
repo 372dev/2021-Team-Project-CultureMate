@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.cm.mate.model.dao.MateDao">
+ <sql id="mateListSql">
+ 	SELECT B.MATE_ID,
+ 		B.MATE_OPEN,
+ 		B.MATE_SHOW,
+ 		B.MATE_GENDER,
+ 		B.MATE_AGE,
+ 		B.MATE_NUM,
+ 		B.MATE_LOC,
+ 		B.MATE_TITLE,
+ 		M.USER_NICK,			 
+	 B.MATE_CREATE_DATE,
+	   B.MATE_COUNT,
+	   B.STATUS
+	FROM MATEBOARD B
+	JOIN MEMBER M ON(B.MATE_WRITER_ID = M.ID)
+	WHERE B.STATUS='Y'	 
+ </sql>
+ 
+ <sql id="mateReplySql">
+	SELECT MATEREPLY_ID, MATE_ID, USER_NICK, MATEREPLY_GROUP, MATEREPLY_CONTENT, R.MATEREPLY_CREATE_DATE, R.MATEREPLY_MODIFY_DATE, R.STATUS
+		FROM MATEREPLY R 
+		JOIN MEMBER M ON(R.MATEREPLY_WRITER_ID = M.ID)
+		WHERE R.STATUS='Y' 
+</sql>
+
+<resultMap type="Mate" id="mateResultMap">
+ 		<id property="mateId" column="MATE_ID" />
+ 		<result property="userNick" column="USER_NICK"/>
+ 		<result property="mateOpen" column="MATE_OPEN"/>
+ 		<result property="mateShow" column="MATE_SHOW"/>
+ 		<result property="mateGender" column="MATE_GENDER"/>
+ 		<result property="mateAge" column="MATE_AGE"/>
+ 		<result property="mateNum" column="MATE_NUM"/>
+ 		<result property="mateLoc" column="MATE_LOC"/>
+		<result property="mateTitle" column="MATE_TITLE"/>
+		<result property="mateContent" column="MATE_CONTENT"/>
+		<result property="mateCount" column="MATE_COUNT"/>
+		<result property="mateStatus" column="STATUS"/>
+		<result property="mateCreateDate" column="MATE_CREATE_DATE"/>			
+ 	</resultMap>
+ 	
+ 	<resultMap type="Mate" id="mateDetailResultMap">
+		<id property="mateId" column="MATE_ID" />
+ 		<result property="userNick" column="B_USER_NICK"/>
+ 		<result property="mateOpen" column="MATE_OPEN"/>
+ 		<result property="mateShow" column="MATE_SHOW"/>
+ 		<result property="mateGender" column="MATE_GENDER"/>
+ 		<result property="mateAge" column="MATE_AGE"/>
+ 		<result property="mateNum" column="MATE_NUM"/>
+ 		<result property="mateLoc" column="MATE_LOC"/>
+		<result property="mateTitle" column="MATE_TITLE"/>
+		<result property="mateContent" column="MATE_CONTENT"/>
+		<result property="mateCount" column="MATE_COUNT"/>
+		<result property="mateStatus" column="STATUS"/>
+		<result property="mateCreateDate" column="MATE_CREATE_DATE"/>
+		<collection property="mateReplies" javaType="java.util.ArrayList" resultMap="mateReplyResultMap"/>	
+	</resultMap>
+	
+	<resultMap type="MateReply" id="mateReplyResultMap">
+		<id property="mateReplyId" column="MATEREPLY_ID"/>
+		<result property="mateId" column="MATE_ID"/>
+		<result property="userNick" column="USER_NICK"/>
+		<result property="mateReplyGroup" column="MATEREPLY_GROUP"/>
+		<result property="mateReplyContent" column="MATEREPLY_CONTENT"/>
+		<result property="mateReplyStatus" column="R_STATUS"/>
+		<result property="mateReplyCreateDate" column="MATEREPLY_CREATE_DATE"/>
+		<result property="mateReplyModifyDate" column="MATEREPLY_MODIFY_DATE"/>
+	</resultMap>
+	
+	<select id="selectMateList" parameterType="map" resultMap="mateResultMap">
+		<include refid="mateListSql"></include>
+		ORDER BY B.MATE_ID DESC
+	</select>
+	
+	<select id="selectMateReplyList" parameterType="map" resultMap="mateReplyResultMap">
+		<include refid="mateReplySql"></include>
+		AND MATE_ID = #{mateId}
+		ORDER BY MATEREPLY_GROUP ASC, R.MATEREPLY_CREATE_DATE ASC
+	</select>
+	
+	<select id="selectMateCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MATEBOARD
+		WHERE STATUS='Y'
+	</select>
+	
+	<select id="selectReplyCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MATEREPLY
+		WHERE STATUS='Y' AND MATE_ID = #{mateId}
+	</select>
+	
+	<select id="selectMateDetail" parameterType="_int" resultMap="mateDetailResultMap">
+		SELECT B.MATE_ID,
+	       M.USER_NICK AS B_USER_NICK,
+	       B.MATE_OPEN,
+	       B.MATE_SHOW,
+	       B.MATE_GENDER,
+	       B.MATE_AGE,
+	       B.MATE_NUM,
+	       B.MATE_LOC,
+	       B.MATE_TITLE,
+	       B.MATE_CONTENT,
+	       B.MATE_COUNT,
+	       B.MATE_CREATE_DATE,
+	       B.STATUS AS B_STATUS,
+	          R.MATEREPLY_ID, 
+	          R.MATE_ID, 
+	          M2.USER_NICK AS R_USER_NICK, 
+	          R.MATEREPLY_CONTENT, 
+	          R.MATEREPLY_CREATE_DATE, 
+	          R.MATEREPLY_MODIFY_DATE, 
+	          R.STATUS AS R_STATUS
+	      FROM MATEBOARD B
+	      JOIN MEMBER M ON(B.MATE_WRITER_ID = M.ID)
+	      LEFT OUTER JOIN MATEREPLY R ON(B.MATE_ID = R.MATE_ID)
+	      LEFT OUTER JOIN MEMBER M2 ON(R.MATEREPLY_WRITER_ID = M2.ID)
+	      WHERE B.STATUS='Y' AND B.MATE_ID=#{mateId}
+	</select>
+	
+	<update id="updateMateCount" parameterType="_int">
+		UPDATE MATEBOARD
+		SET
+			MATE_COUNT=MATE_COUNT+1
+		WHERE MATE_ID=#{mateId}	
+	</update>	
+	
+	<insert id="insertMate" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="mateId" keyColumn="MATE_ID">
+  		
+  		INSERT INTO MATEBOARD VALUES (
+		        SEQ_MATE_ID.NEXTVAL,
+		        #{mateWriteId},
+		        #{mateOpen},
+		        #{mateShow},
+		        #{mateAge},
+		        #{mateGender},
+		        #{mateNum},
+		        #{mateLoc}, 
+		        #{mateTitle},
+		        #{mateContent},             
+		        DEFAULT,
+		        DEFAULT,
+		        SYSDATE,
+		        SYSDATE
+)
+  	</insert>
+  	
+  	<insert id="insertMateReply"  parameterType="map"
+  		useGeneratedKeys="true" keyProperty="mateReplyId" keyColumn="MATEREPLY_ID">
+  			INSERT INTO MATEREPLY
+  			VALUES (
+  				SEQ_MATEREPLY_ID.NEXTVAL,
+	  			#{mateId},
+	  			#{mateReplyWriteId},
+	  			SEQ_MATEREPLY_ID.NEXTVAL,
+	  			#{mateReplyContent},
+	  			DEFAULT,
+	  			SYSDATE,
+	  			SYSDATE
+  			)
+  		</insert>
+  		
+  		<update id="updateMate" parameterType="Mate">
+		UPDATE MATEBOARD
+		SET 
+			MATE_OPEN=#{mateOpen},
+			MATE_SHOW=#{mateShow},
+			MATE_GENDER=#{mateGender},
+			MATE_AGE=#{mateAge},
+			MATE_NUM=#{mateNum},
+			MATE_LOC=#{mateLoc},
+			MATE_TITLE=#{mateTitle},
+			MATE_CONTENT=#{mateContent},
+			MATE_MODIFY_DATE=SYSDATE 
+		WHERE 
+			MATE_ID=#{mateId}
+	</update>
+	
+	<update id="deleteMate" parameterType="_int">
+		UPDATE MATEBOARD
+		SET
+			STATUS = 'N'
+		WHERE 
+			MATE_ID=#{mateId}	
+	</update>
+	
+	<update id="deleteMateReply" parameterType="_int">
+		UPDATE MATEREPLY
+		SET
+			STATUS = 'N'
+		WHERE 
+			MATEREPLY_ID=#{mateReplyId}	
+	</update>
+</mapper>

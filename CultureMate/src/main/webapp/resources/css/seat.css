@@ -1,0 +1,220 @@
+
+#pop_container{
+    width: 700px;
+    height: 450px;
+    background-color: rgb(242, 240, 229);
+    position: relative;
+}
+
+#btn_container {
+    position: absolute;
+    top: 380px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+#seat_container{
+    width: 440px;
+    height: 212px;
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+#seat_container > div{
+    position: absolute;
+}
+
+#seat_container > .left{
+    top: 23px;
+}
+
+#seat_container > div > .text{
+    width: 20px;
+    height: 20px;
+    font-size: 18px;
+    text-align: center;
+    line-height: 20px;
+    margin: 3px;
+    color: rgb(102, 102, 102);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+}
+
+#seat_container > .screen{
+    left: 50px;
+    top: 0;
+    width: 260px;
+    height: 20px;
+    background-color: rgb(187, 187, 187);
+    border-radius: 5px;
+    text-align: center;
+    line-height: 13px;
+    color: white;
+    font-size: 18px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+}
+
+#seat_container > .right{
+    top: 26px;
+    left: 334px;
+}
+
+#seat_container > .right > .list{
+    margin-bottom: 10px;
+    width: 120px;
+}
+
+#seat_container > .right > .list > div{
+    display: inline-block;
+}
+
+#seat_container > .right > .list > .box{
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+}
+
+#seat_container > .right > .list > .text{
+    width: 85px;
+    height: 20px;
+    text-align: left;
+    line-height: 20px;
+    font-size: 18px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    color: rgb(102, 102, 102);
+    margin-left: 5px;
+}
+
+#seat_container > .right > .list01 > .box{
+    background-color: rgb(189, 0, 0);
+}
+
+#seat_container > .right > .list02 > .box{
+    background-color: rgb(102, 102, 102);
+}
+
+#seat_container > .right > .list03 > .box{
+    background-color: rgb(187, 187, 187);
+}
+
+#seat_container > .seat_box{
+    top: 23px;
+    left: 50px;
+}
+
+#seat_container > .seat_box > .line .seat{
+    width: 20px;
+    height: 20px;
+    background-color: rgb(102, 102, 102);
+    border-radius: 5px;
+    margin: 3px;
+    text-indent: -1000000px;
+}
+
+#seat_container > .seat_box > .line .seat.click{
+    background-color: rgb(189, 0, 0);
+}
+
+#seat_container > .seat_box > .line .able:hover{
+    transform: scale(1.1);
+}
+
+#seat_container > .seat_box > .line .none{
+    background-color: rgb(187, 187, 187);
+    transform: none;
+}
+
+.line{
+    float: left;
+}
+
+#seat_container > .top > div{
+    float: left;
+}
+
+.btn{
+    font-size: 18px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    width: 150px;
+    height: 40px;
+    text-align: center;
+}
+
+#complete{
+     background-color: rgb(189, 0, 0);
+     color: white;
+ }
+
+#reset{
+    background-color: rgb(29, 29, 28);
+    color: rgb(204, 204, 204);
+}
+
+#result{
+    width: 440px;
+    height: 120px;
+    position: absolute;
+    top: 250px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+#result *{
+    font-size: 18px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    color: rgb(29, 29, 28);
+}
+
+#result > label > input{
+    width: 330px;
+    border: none;
+    background: transparent;
+}
+
+#result > label > input:focus{
+    outline: none;
+}
+
+#result > label > .list01{
+    margin-left: 10px;
+}
+
+#result > label > .list02{
+    margin-left: 46px;
+}
+
+#result > label > .list03{
+    margin-left: 46px;
+}
+
+
+
+
+
+
+
+
+#under_div{
+    width: 100px;
+    height: 20px;
+    border: 1px solid red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -418,21 +418,27 @@ text-align: center;
 						<br>
 					</dl>
 				</div>
-				
 			</div>
 			<div id="cal">
 			<div id="datepicker" ></div>
-			<input type="hidden" id="my_hidden_input">
-			<button type="button" class="btn btn-success" id="re-button">예매하기</button>
+			<button id="ticketing" class="btn btn-primary" onclick="openSeatSelect()">예매하기</button>
+				<form id="ticketing_form" action='${path}/ticket/ticketing' method="post">
+					<input type="hidden" id="form_mt20id" name="mt20id" value="${show.mt20id}">
+					<input type="hidden" id="form_prfnm" name="prfnm" value="${show.prfnm}">
+					<input type="hidden" id="form_id" name="id" value="${ loginMember.id }">
+					<input type="hidden" id="form_userId" name="user_id" value="${ loginMember.userId }">
+					<input type="hidden" id="form_ticket_qty" name="ticket_qty" value="">
+					<input type="hidden" id="form_pcseguidance" name="pcseguidance" value="">
+					<input type="hidden" id="form_ticket_seat" name="ticket_seat" value="">
+					<input type="hidden" id="my_hidden_input" value=""> <!-- 달력 값을 받는 인풋 (ex:2021-04-14) -->
+				</form>
 			</div>
 			</div>
-			
 			</div><!--rn-03-right-->
 			
-		<!-- 
-		</div>
-		 --> 
-		
+
+
+
 		
 		
 		
@@ -763,6 +769,26 @@ text-align: center;
 		
 		
 		</section>
+
+<script>
+	var before="${show.pcseguidance}"
+	var price = before.replace(/[^0-9]/g,'');
+	var form_pcseguidance = document.getElementById("form_pcseguidance");
+
+	var logincheck = document.getElementById("form_userId").value;
+
+	form_pcseguidance.value = price;
+
+	function openSeatSelect(){
+		if(!logincheck) {
+			alert("로그인 후 이용 가능합니다.");
+			location.href="${path}/login";
+		} else {
+			window.open("${path}/ticket/ticketing/seat",
+					"SeatSelect", "width=700, height=450, resizable = no, scrollbars = no");
+		}
+	}
+</script>
 			
 
 <!-- 달력 (datapciker) -->
@@ -781,7 +807,6 @@ text-align: center;
 		$('#datepicker').on('changeDate', function() {
 		    $('#my_hidden_input').val(
 		        $('#datepicker').datepicker('getFormattedDate')
-		       
 		    );
 		    console.log($('#my_hidden_input').val());
 		});

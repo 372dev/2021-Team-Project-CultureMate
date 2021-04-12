@@ -42,9 +42,12 @@ body{
 }
 
 #header-container > .cm_logo{
-    width: 200px;
     top: 60px;
     left: 0;
+}
+
+#header-container > .cm_logo > img{
+    width: 200px;
 }
 
 #header-container > .sidebtn{
@@ -161,9 +164,12 @@ body{
 }
 
 #footer-container > .cm_logo {
-    width: 200px;
     top: 60px;
     left: 0;
+}
+
+#footer-container > .cm_logo > img{
+    width: 200px;
 }
 
 #footer-container > .text01{
@@ -186,3 +192,68 @@ body{
 }
 
 /*----------------------------------*/
+/*-------------티켓팅---------------*/
+
+#ticketing {
+    width: 300px;
+    height: 50px;
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#ticketing_form{
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*----------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
