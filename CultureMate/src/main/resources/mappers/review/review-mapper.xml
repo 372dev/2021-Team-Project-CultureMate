@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.cm.mkshow.model.dao.ShowReviewDao">
+	
+	<resultMap type="ShowReview" id="reviewResultMap">
+		<id property="reviewID" column="REVIEW_ID"/>
+		<result property="mt20id" column="MT20ID"/>
+		<result property="reviewContent" column="REVIEW_CONTENT"/>
+		<result property="reviewDate" column="REVIEW_DATE"/>
+		<result property="likeCount" column="LIKE_COUNT"/>
+		<result property="reviewRating" column="REVIEW_RATING"/>
+		<result property="status" column="STATUS"/>
+		<result property="id" column="ID"/>
+		<result property="userNick" column="USER_NICK"/>
+	</resultMap>
+	
+	
+	<select id="selectReviewList" parameterType="string" resultMap="reviewResultMap">
+		SELECT *
+		FROM REVIEW
+		WHERE MT20ID = #{mt20id}
+		ORDER BY REVIEW_DATE
+	</select>
+	
+	<insert id="saveReview" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="reviewID" keyColumn="REVIEW_ID">
+  		
+  		INSERT INTO REVIEW 
+  		VALUES(
+  			SEQ_REVIEW_ID.NEXTVAL,
+  			#{mt20id},
+  			#{reviewContent},
+  			SYSDATE,
+  			DEFAULT,
+  			#{reviewRating},
+  			DEFAULT,
+  			#{id},
+  			#{userNick}
+ 		)
+  	</insert>
+  	
+  	<delete id="delReview" parameterType="int">
+  		DELETE FROM REVIEW WHERE REVIEW_ID = #{no}
+  	</delete>
+  	
+  	<select id="findUserNick" parameterType="int" resultMap="reviewResultMap">
+  		SELECT *
+  		FROM REVIEW  
+  		WHERE REVIEW_ID = #{no}
+  	</select>
+	
+</mapper>
