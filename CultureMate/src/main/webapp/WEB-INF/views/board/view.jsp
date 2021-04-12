@@ -418,21 +418,21 @@ text-align: center;
 						<br>
 					</dl>
 				</div>
-				<button id="ticketing" class="btn btn-primary" onclick="openSeatSelect()">예매하기</button>
-				<form id="ticketing_form" action='${path}/ticket/ticketing' method="post">
-					<input type="text" id="form_mt20id" name="mt20id" value="${show.mt20id}">
-					<input type="text" id="form_prfnm" name="prfnm" value="${show.prfnm}">
-					<input type="text" id="form_id" name="id" value="${ loginMember.id }">
-					<input type="text" id="form_userId" name="user_id" value="${ loginMember.userId }">
-					<input type="text" id="form_ticket_qty" name="ticket_qty" value="">
-					<input type="text" id="form_pcseguidance" name="pcseguidance" value="">
-					<input type="text" id="form_ticket_seat" name="ticket_seat" value="">
-				</form>
 			</div>
 			<div id="cal">
 			<div id="datepicker" ></div>
-			<input type="hidden" id="my_hidden_input">
 			<button type="button" class="btn btn-success" id="re-button">예매하기</button>
+			<button id="ticketing" class="btn btn-primary" onclick="openSeatSelect()">예매하기</button>
+				<form id="ticketing_form" action='${path}/ticket/ticketing' method="post">
+					<input type="hidden" id="form_mt20id" name="mt20id" value="${show.mt20id}">
+					<input type="hidden" id="form_prfnm" name="prfnm" value="${show.prfnm}">
+					<input type="hidden" id="form_id" name="id" value="${ loginMember.id }">
+					<input type="hidden" id="form_userId" name="user_id" value="${ loginMember.userId }">
+					<input type="hidden" id="form_ticket_qty" name="ticket_qty" value="">
+					<input type="hidden" id="form_pcseguidance" name="pcseguidance" value="">
+					<input type="hidden" id="form_ticket_seat" name="ticket_seat" value="">
+					<input type="hidden" id="my_hidden_input" va>
+				</form>
 			</div>
 			</div>
 			</div><!--rn-03-right-->
@@ -808,7 +808,6 @@ text-align: center;
 		$('#datepicker').on('changeDate', function() {
 		    $('#my_hidden_input').val(
 		        $('#datepicker').datepicker('getFormattedDate')
-		       
 		    );
 		});
 	</script>
