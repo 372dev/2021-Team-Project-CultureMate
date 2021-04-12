@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.cm.share.model.dao.ShareDao">
+	<sql id="shareListSql">
+		SELECT S.SHARE_ID,
+			   S.SHARE_OPEN,
+			   S.SHARE_SHOW,
+			   S.SHARE_TITLE,
+ 			   M.USER_NICK,			  
+			   S.SHARE_CREATE_DATE,
+			   S.SHARE_COUNT,
+			   S.STATUS
+		FROM SHAREBOARD S
+		JOIN MEMBER M ON(S.SHARE_WRITER_ID = M.ID)
+		WHERE S.STATUS='Y'	   
+	</sql>
+	
+	<sql id="shareReplySql">
+	SELECT SHAREREPLY_ID, SHARE_ID, USER_NICK, SHAREREPLY_GROUP, SHAREREPLY_CONTENT, R.SHAREREPLY_CREATE_DATE, R.SHAREREPLY_MODIFY_DATE, R.STATUS
+		FROM SHAREREPLY R 
+		JOIN MEMBER M ON(R.SHAREREPLY_WRITER_ID = M.ID)
+		WHERE R.STATUS='Y' 
+	</sql>
+	
+ 	<resultMap type="Share" id="shareResultMap">
+ 		<id property="shareId" column="SHARE_ID" />
+ 		<result property="userNick" column="USER_NICK"/>
+ 		<result property="shareOpen" column="SHARE_OPEN"/>
+ 		<result property="shareShow" column="SHARE_SHOW"/>
+		<result property="shareTitle" column="SHARE_TITLE"/>
+		<result property="shareContent" column="SHARE_CONTENT"/>
+		<result property="shareOriginalFileName" column="SHARE_ORIGINAL_FILENAME"/>
+		<result property="shareRenamedFileName" column="SHARE_RENAMED_FILENAME"/>
+		<result property="shareCount" column="SHARE_COUNT"/>
+		<result property="shareStatus" column="STATUS"/>
+		<result property="shareCreateDate" column="SHARE_CREATE_DATE"/>			
+ 	</resultMap>
+ 	
+ 	<resultMap type="Share" id="shareDetailResultMap">
+		<id property="shareId" column="SHARE_ID"/>
+		<result property="userNick" column="S_USER_NICK"/>
+		<result property="shareOpen" column="SHARE_OPEN"/>
+		<result property="shareShow" column="SHARE_SHOW"/>
+		<result property="shareTitle" column="SHARE_TITLE"/>
+		<result property="shareContent" column="SHARE_CONTENT"/>
+		<result property="shareCount" column="SHARE_COUNT"/>
+		<result property="shareOriginalFileName" column="SHARE_ORIGINAL_FILENAME"/>
+		<result property="shareRenamedFileName" column="SHARE_RENAMED_FILENAME"/>
+		<result property="shareStatus" column="STATUS"/>
+		<result property="shareCreateDate" column="SHARE_CREATE_DATE"/>
+	 	<collection property="shareReplies" javaType="java.util.ArrayList" resultMap="shareReplyResultMap"/>	
+	</resultMap>
+ 	
+ 	<resultMap type="ShareReply" id="shareReplyResultMap">
+		<id property="shareReplyId" column="SHAREREPLY_ID"/>
+		<result property="shareId" column="SHARE_ID"/>
+		<result property="userNick" column="USER_NICK"/>
+		<result property="shareReplyGroup" column="SHAREREPLY_GROUP"/>
+		<result property="shareReplyContent" column="SHAREREPLY_CONTENT"/>
+		<result property="shareReplyStatus" column="R_STATUS"/>
+		<result property="shareReplyCreateDate" column="SHAREREPLY_CREATE_DATE"/>
+		<result property="shareReplyModifyDate" column="SHAREREPLY_MODIFY_DATE"/>
+	</resultMap>
+	
+	<select id="selectShareList" parameterType="map" resultMap="shareResultMap">
+		<include refid="shareListSql"></include>
+		ORDER BY S.SHARE_ID DESC
+	</select>
+	<select id="selectFindShareList" resultType="Share">
+		SELECT *
+		FROM (
+			SELECT ROWNUM AS RNUM,
+					SHARE_ID,
+					SHARE_OPEN,
+					SHARE_SHOW,
+					USER_NICK,
+					SHARE_TITLE,
+					SHARE_CONTENT,
+					SHARE_CREATE_DATE,
+					SHARE_COUNT,
+					STATUS
+				FROM (
+					SELECT S.SHARE_ID,
+						S.SHARE_OPEN,
+						S.SHARE_SHOW,
+						S.USER_NICK,
+						S.SHARE_TITLE,
+						S.SHARE_CONTENT,
+						S.SHARE_CREATE_DATE,
+						S.SHARE_COUNT,
+						S.STATUS
+				FROM SHARE S
+				JOIN MEMBER M ON(S.SHARE_WRITER_ID = M.ID)
+				WHERE S.STATUS = 'Y'
+				AND M.USER_NICK LIKE  '%' || #{userNick} || '%'		
+				AND S.SHARE_TITLE LIKE '%' || #{shareTitle} || '%' 
+				AND S.SHARE_CONTENT LIKE '%' || #{shareContent} || '%' 
+				ORDER BY S.SHARE_ID DESC
+				)
+				WHERE RNUM BETWEEN #{start} AND #{end})           
+		<!-- 
+			<if test="userNick != null">
+		WHERE M.USER_NICK LIKE '%' || #{userNick} || '%'
+		</if>
+		<if test="shareTitle != null">
+		WHERE SHARE_TITLE LIKE '%' || #{shareTitle} || '%'
+		</if>
+		<if test="shareContent != null">
+		WHERE SHARE_CONTENT LIKE '%' || #{shareContent} || '%'
+		</if>
+		ORDER BY S.SHARE_ID DESC
+		 -->
+	</select>
+	
+	<select id="selectShareReplyList" parameterType="map" resultMap="shareReplyResultMap">
+		<include refid="shareReplySql"></include>
+		AND SHARE_ID = #{shareId}
+		ORDER BY SHAREREPLY_GROUP ASC, R.SHAREREPLY_CREATE_DATE ASC
+	</select>
+	
+	<select id="selectCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM SHAREBOARD
+		WHERE STATUS='Y'
+	</select>
+	
+	<select id="selectReplyCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM SHAREREPLY
+		WHERE STATUS='Y' AND SHARE_ID = #{shareId}
+	</select>
+	
+	<select id="selectShareDetail" parameterType="_int" resultMap="shareDetailResultMap">
+		SELECT S.SHARE_ID,
+	       M.USER_NICK AS S_USER_NICK,
+	       S.SHARE_OPEN,
+	       S.SHARE_SHOW,
+	       S.SHARE_TITLE,
+	       S.SHARE_CONTENT,
+	       S.SHARE_COUNT,
+	       S.SHARE_ORIGINAL_FILENAME,
+	       S.SHARE_RENAMED_FILENAME,
+	       S.SHARE_CREATE_DATE,
+	       S.STATUS AS S_STATUS,
+	          R.SHAREREPLY_ID, 
+	          R.SHARE_ID, 
+	          M2.USER_NICK AS R_USER_NICK, 
+	          R.SHAREREPLY_GROUP, 
+	          R.SHAREREPLY_CONTENT, 
+	          R.SHAREREPLY_CREATE_DATE, 
+	          R.SHAREREPLY_MODIFY_DATE, 
+	          R.STATUS AS R_STATUS
+	      FROM SHAREBOARD S
+	      JOIN MEMBER M ON(S.SHARE_WRITER_ID = M.ID)
+	      LEFT OUTER JOIN SHAREREPLY R ON(S.SHARE_ID = R.SHARE_ID)
+	      LEFT OUTER JOIN MEMBER M2 ON(R.SHAREREPLY_WRITER_ID = M2.ID)
+	      WHERE S.STATUS='Y' AND S.SHARE_ID=#{shareId}
+	</select>
+	
+	<update id="updateShareCount" parameterType="_int">
+		UPDATE SHAREBOARD
+		SET
+			SHARE_COUNT=SHARE_COUNT+1
+		WHERE SHARE_ID=#{shareId}	
+	</update>	
+	
+	<insert id="insertShare" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="shareId" keyColumn="SHARE_ID">
+  		
+  		INSERT INTO SHAREBOARD 
+  		VALUES(
+  			SEQ_SHARE_ID.NEXTVAL,
+  			#{shareWriteId},
+  			#{shareOpen},
+  			#{shareShow},
+  			#{shareTitle},
+  			#{shareContent},
+  			#{shareOriginalFileName},
+  			#{shareRenamedFileName},
+  			DEFAULT,
+  			DEFAULT,
+  			SYSDATE,
+  			SYSDATE
+ 		)
+  	</insert>
+  	
+  	<insert id="insertShareReply"  parameterType="map"
+  		useGeneratedKeys="true" keyProperty="shareReplyId" keyColumn="SHAREREPLY_ID">
+  			INSERT INTO SHAREREPLY
+  			VALUES (
+  				SEQ_SHAREREPLY_ID.NEXTVAL,
+	  			#{shareId},
+	  			#{shareReplyWriteId},
+	  			SEQ_SHAREREPLY_ID.NEXTVAL, <!-- shareReplyGroup -->
+	  			#{shareReplyContent},
+	  			DEFAULT,
+	  			SYSDATE,
+	  			SYSDATE
+  			)  			
+  		</insert>
+  	
+  	<update id="updateShare" parameterType="Share">
+		UPDATE SHAREBOARD
+		SET 
+			SHARE_OPEN=#{shareOpen},
+			SHARE_SHOW=#{shareShow},
+			SHARE_TITLE=#{shareTitle},
+			SHARE_CONTENT=#{shareContent},
+			<if test="shareOriginalFileName != null">
+				SHARE_ORIGINAL_FILENAME=#{shareOriginalFileName},
+			</if>
+			<if test="shareRenamedFileName != null">
+				SHARE_RENAMED_FILENAME=#{shareRenamedFileName},
+			</if>
+			SHARE_MODIFY_DATE=SYSDATE 
+		WHERE 
+			SHARE_ID=#{shareId}
+	</update>
+	
+	<update id="deleteShare" parameterType="_int">
+		UPDATE SHAREBOARD
+		SET
+			STATUS = 'N'
+		WHERE 
+			SHARE_ID=#{shareId}	
+	</update>
+	
+	<update id="deleteShareReply" parameterType="_int">
+		UPDATE SHAREREPLY
+		SET
+			STATUS = 'N'
+		WHERE 
+			SHAREREPLY_ID=#{shareReplyId}	
+	</update>
+</mapper>

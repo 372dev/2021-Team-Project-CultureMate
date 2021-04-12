@@ -25,6 +25,16 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/js/**" location="/resources/js/" />
 	<resources mapping="/css/**" location="/resources/css/" />
+	
+	<resources mapping="mate/resources/**" location="/resources/" />
+	<resources mapping="mate/js/**" location="/resources/js/" />
+	<resources mapping="mate/css/**" location="/resources/css/" />
+	
+	<resources mapping="share/resources/**" location="/resources/" />
+	<resources mapping="share/js/**" location="/resources/js/" />
+	<resources mapping="share/css/**" location="/resources/css/" />
+	
+
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
