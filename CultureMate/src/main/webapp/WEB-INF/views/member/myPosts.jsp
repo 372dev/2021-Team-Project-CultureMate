@@ -13,9 +13,9 @@
 		<div class="col-md-3 ">
 			<div class="list-group ">
               <a href="${ path }/member/myPage" class="list-group-item list-group-item-action">회원정보 수정</a>
-              <a href="${ path }/member/updatePwd" class="list-group-item list-group-item-action active">비밀번호 변경</a>
+              <a href="${ path }/member/updatePwd" class="list-group-item list-group-item-action">비밀번호 변경</a>
 			  <a href="${ path }/myPage/ticket" class="list-group-item list-group-item-action">예매내역</a>
-              <a href="${ path }/member/myPosts" class="list-group-item list-group-item-action">내가 쓴 글 조회</a>
+              <a href="${ path }/member/myPosts" class="list-group-item list-group-item-action active">내가 쓴 글 조회</a>
               <a href="${ path }/member/myReviews" class="list-group-item list-group-item-action">내가 쓴 리뷰 조회</a>
 			</div>
 		</div>
@@ -24,7 +24,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-12">
-							<h4>비밀번호 변경</h4>
+							<h4>내가 쓴 글 조회</h4>
 							<hr>
 						</div>
 					</div>
@@ -49,10 +49,6 @@
 										<input id="newpwd2" name="newpwd2" class="form-control here" required="required" type="password">
 									</div>
 								</div>
-                              	<div class="form-group" align="center">
-                              		<button type="submit" class="btn btn-primary" id="update_pwd">수정</button>
-                              		<button type="reset" class="btn btn-default">취소</button>
-                              	</div>
 							</form>
 						</div>
 					</div>
@@ -61,5 +57,6 @@
 		</div>
 	</div>
 </div>
+		
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

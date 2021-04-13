@@ -74,7 +74,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void sendMail(Member member) throws Exception{
-		String key = new TempKey().init(); // 인증키 생성
+		String key = new TempKey().getKey(); // 인증키 생성
 		member.setAuthkey(key);
 		
 		log.info("key : " + key);
@@ -85,7 +85,7 @@ public class MemberServiceImpl implements MemberService {
         sendMail.setSubject("[컬쳐메이트] 회원가입 이메일 인증");
         sendMail.setText(new StringBuffer().append("<h2>컬쳐메이트를 이용해주셔서 감사합니다!</h2>")
         		.append("<h3>회원가입을 아래 링크를 눌러 마무리 해주세요~!</h3>")
-                .append("<a href='http://localhost:8088/member/emailConfirm?authKey=")
+                .append("<a href='http://localhost:8088/member/emailConfirm?authkey=")
                 .append(key)
                 .append("' target='_blank'>컬쳐메이트 이메일 인증하러 가기~!</a>")
                 .toString());

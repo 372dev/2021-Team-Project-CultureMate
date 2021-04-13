@@ -122,7 +122,7 @@
 			USER_ID = #{userId}
 	</update>
 	
-	<update id="successAuthkey" parameterType="string">
+	<update id="successAuthkey" parameterType="Member">
 		UPDATE MEMBER
 		SET 
 			STATUS = 'Y'
