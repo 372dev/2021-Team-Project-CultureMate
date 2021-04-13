@@ -404,7 +404,9 @@ text-align: center;
 						<br>
 						
 						<dt>가격</dt>
-						<dd><c:out value="${show.pcseguidance}"/></dd> 
+						<c:if test="${pcseguidancesize != 1}">
+							<div id="price_in" style="margin: 5px 0 0 86px"></div>
+						</c:if>
 						<c:if test="${pcseguidancesize == 1}">
 						<dd><c:out value="정보가 없습니다."/></dd> 
 						</c:if>
@@ -425,12 +427,12 @@ text-align: center;
 				<form id="ticketing_form" action='${path}/ticket/ticketing' method="post">
 					<input type="hidden" id="form_mt20id" name="mt20id" value="${show.mt20id}">
 					<input type="hidden" id="form_prfnm" name="prfnm" value="${show.prfnm}">
+					<input type="hidden" id="form_ticket_date" name="ticket_date" value="">
 					<input type="hidden" id="form_id" name="id" value="${ loginMember.id }">
 					<input type="hidden" id="form_userId" name="user_id" value="${ loginMember.userId }">
 					<input type="hidden" id="form_ticket_qty" name="ticket_qty" value="">
 					<input type="hidden" id="form_pcseguidance" name="pcseguidance" value="">
 					<input type="hidden" id="form_ticket_seat" name="ticket_seat" value="">
-					<input type="hidden" id="my_hidden_input" value=""> <!-- 달력 값을 받는 인풋 (ex:2021-04-14) -->
 				</form>
 			</div>
 			</div>
@@ -769,48 +771,92 @@ text-align: center;
 		
 		
 		</section>
+			
+
+<!-- 달력 (datapciker) -->
+<script type="text/javascript">
+
+		 var minDate_before = "${show.prfpdfrom}";
+		 var maxDate_before = "${show.prfpdto}";
+
+		 var minDate_val = minDate_before.replace(/\./gi, '-');
+		 var maxDate_val = maxDate_before.replace(/\./gi, '-');
+
+		 var today = new Date().toISOString().substring(0, 10);;
+		 $( 'datepicker' ).attr( 'data-date', today );
+
+		 console.log(today);
+
+		 var now = new Date();
+
+		 var year= now.getFullYear();
+		 var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+		 var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+
+		 var today_value = year + '-' + mon + '-' + day;
+
+		 var startDateArr = today_value.split('-');
+		 var endDateArr = minDate_val.split('-');
+
+		 var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
+		 var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+
+		 if(startDateCompare.getTime() > endDateCompare.getTime()) {
+
+			minDate_val = today_value;
+
+		 }
+		  
+		$('#datepicker').datepicker({
+			format : "yyyy-mm-dd", // 달력에서 클릭시 표시할 값 형식
+			language : "kr",
+			todayHighlight: true,
+			startDate : minDate_val,
+			endDate : maxDate_val
+		});
+
+
+		$('#datepicker').on('changeDate', function() {
+		    $('#form_ticket_date').val(
+		        $('#datepicker').datepicker('getFormattedDate')
+		    );
+		    console.log("$('#form_ticket_date').val() : " + $('#form_ticket_date').val());
+		});
+</script>
 
 <script>
 	var before="${show.pcseguidance}"
 	var price = before.replace(/[^0-9]/g,'');
 	var form_pcseguidance = document.getElementById("form_pcseguidance");
+	var price_in = document.getElementById("price_in");
 
-	var logincheck = document.getElementById("form_userId").value;
+	if(price.length > 6) {
+		price = price.substring(0, 6);
+	}
+
+	price_in.innerHTML = "전석 " + price + "원";
 
 	form_pcseguidance.value = price;
+
+	var logincheck = document.getElementById("form_userId").value;
 
 	function openSeatSelect(){
 		if(!logincheck) {
 			alert("로그인 후 이용 가능합니다.");
 			location.href="${path}/login";
-		} else {
+		} else if($('#form_ticket_date').val() == "") {
+			alert("날짜를 선택해 주세요!");
+		}else {
+			console.log("$('#form_ticket_date').val() : " + $('#form_ticket_date').val());
+
 			window.open("${path}/ticket/ticketing/seat",
 					"SeatSelect", "width=700, height=450, resizable = no, scrollbars = no");
 		}
 	}
 </script>
-			
 
-<!-- 달력 (datapciker) -->
-<script type="text/javascript">
-		
-  			
-		 var today = new Date().toISOString().substring(0, 10);;
-		 $( 'datepicker' ).attr( 'data-date', today );
-		  
-		$('#datepicker').datepicker({
-			format : "yyyy-mm-dd", // 달력에서 클릭시 표시할 값 형식
-			language : "kr",
-			todayHighlight: true
-		});
-		
-		$('#datepicker').on('changeDate', function() {
-		    $('#my_hidden_input').val(
-		        $('#datepicker').datepicker('getFormattedDate')
-		    );
-		    console.log($('#my_hidden_input').val());
-		});
-	</script>
+
+
 	
 <!-- 댓글 평점-->
 <script type="text/javascript">

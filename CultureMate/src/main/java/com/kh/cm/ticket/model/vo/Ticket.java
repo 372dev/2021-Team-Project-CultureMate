@@ -17,6 +17,8 @@ public class Ticket {
 	
 	private String prfnm;
 	
+	private String ticket_date;
+	
 	private int id;
 	
 	private String user_id;
