@@ -54,6 +54,25 @@
 	        </a>
 		</div>
 	</div>
+	<div id="iconsContainer">
+		<div id="iconsMusical" class="icons">
+			<img alt="뮤지컬" src="${ path }/resources/images/main/choir.png">
+			<p>뮤지컬</p>
+		</div>
+		<div id="iconsPlay" class="icons">
+			<img alt="연극" src="${ path }/resources/images/main/theater.png">
+			<p>연극</p>
+		</div>
+		<div id="iconsClassic" class="icons">
+			<img alt="클래식" src="${ path }/resources/images/main/violin.png">
+			<p>클래식</p>
+		</div>
+		<div id="iconsMate" class="icons">
+			<img alt="메이트" src="${ path }/resources/images/main/friends.png">
+			<p>메이트</p>
+		</div>
+	</div>
+	
 	<div id="boContainer"></div>
 	
 	<script>
@@ -79,7 +98,8 @@
 							toAdd += "<div><p>박스 오피스에 일시적으로 접근이 불가합니다. 관리자에게 문의해 주세요.</p>";
 						} else {
 							console.log("result != null");
-							toAdd += '<div class="boTitle"><h2>' + result[0].cate + ' 주간 박스 오피스</h2></div>';
+							toAdd += '<div class="boTitle"><h2>' + result[0].cate + ' 주간 박스 오피스</h2>'
+							toAdd += '<button type="button" class="btn btn-secondary btn-lg btnFont" id="' + result[0].cate + 'Reloc">더 보기</button></div>';
 							toAdd += '<div class="ListDiv">';
 							for(i = 0; i < 5; i++) {
 								toAdd += '<div class="card">';
