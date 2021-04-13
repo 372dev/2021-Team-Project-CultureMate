@@ -204,7 +204,7 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
           <div class="form-group">
               <label for="inputName" class="col-lg-2 control-label">이름</label>
               <div class="col-lg-10">
-                  <input type="text" class="form-control onlyHangul" id="userName" name="userName" placeholder="한글만 입력 가능합니다." maxlength="15" required >
+                  <input type="text" class="form-control onlyHangul" id="userName" name="userName" placeholder="한글만 입력 가능합니다." maxlength="3" required >
               </div>
               <div class="check_font" id="name_check"></div>
           </div>

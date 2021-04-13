@@ -139,7 +139,11 @@ public class MemberServiceImpl implements MemberService {
 	// 비밀번호 변경
 	@Override
 	public int changePwd(String userId, String password) {
-		return 0;
+		int result = 0;
+		
+		result = memberDao.updatePassword(userId, passwordEncoder.encode(password));
+		
+		return result;
 	}
 
 	// 아이디 중복 체크
@@ -150,8 +154,8 @@ public class MemberServiceImpl implements MemberService {
 
 	// 회원정보 수정
 	@Override
-	public int updateMember(Member member) {
-		return memberDao.updateMember(member);
+	public int updateMember(Member member, String password) {
+		return passwordEncoder.matches(password, member.getPassword()) ? memberDao.updateMember(member) : 0;
 	}
 
 

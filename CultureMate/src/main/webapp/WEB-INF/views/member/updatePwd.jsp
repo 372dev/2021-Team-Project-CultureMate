@@ -42,12 +42,14 @@
 									<div class="col-8">
 										<input id="newpwd1" name="newpwd1" class="form-control here" required="required" type="password">
 									</div>
+									<div class="check_font" id="pwd_check1"></div>
 								</div>
 								<div class="form-group row">
 									<label for="inputNewPwdChk" class="col-4 col-form-label">새 비밀번호 확인</label>
 									<div class="col-8">
 										<input id="newpwd2" name="newpwd2" class="form-control here" required="required" type="password">
 									</div>
+									 <div class="check_font" id="pwd_check2"></div>
 								</div>
                               	<div class="form-group" align="center">
                               		<button type="submit" class="btn btn-primary" id="update_pwd">수정</button>
@@ -61,5 +63,34 @@
 		</div>
 	</div>
 </div>
+<script>
+		// 비밀번호 정규식
+		var pwJ = /^[A-Za-z0-9]{8,15}$/;
+		
+		// 비밀번호 유효성 검사
+		// 1. 정규식 체크
+		$("#newpwd1").blur(function(){
+			if(pwJ.test($("#newpwd1").val())){
+				console.log('true');
+				$("#pwd_check1").text('');
+			} else {
+				console.log('false');
+				$("#pwd_check1").text("숫자 또는 문자로만 8~15자리 입력해주세요.");
+				$("#pwd_check1").css("color", "red");
+			}
+		});
+		
+		// 2. 비밀번호 일치 확인
+		$("#newpwd2").blur(function(){
+			if($("#newpwd1").val().trim() === ($("#newpwd2").val().trim())){
+				console.log('비밀번호 일치');
+				$("#pwd_check2").text('');
+			} else {
+				console.log('비밀번호 불일치');
+				$("#pwd_check2").text("비밀번호가 일치하지 않습니다.");
+				$("#pwd_check2").css("color", "red");
+			}
+		});
+</script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

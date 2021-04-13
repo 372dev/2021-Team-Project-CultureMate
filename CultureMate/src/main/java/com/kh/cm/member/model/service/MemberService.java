@@ -19,7 +19,7 @@ public interface MemberService {
 
 	int validate(String userId);
 
-	int updateMember(Member member);
+	//int updateMember(Member member);
 
 //	Member userAuth(String authkey);
 
@@ -29,5 +29,8 @@ public interface MemberService {
 //	Member userAuth(Member member);
 
 	Member userAuth(String userId, String authkey);
+
+	int updateMember(Member member, String password);
+
 
 }

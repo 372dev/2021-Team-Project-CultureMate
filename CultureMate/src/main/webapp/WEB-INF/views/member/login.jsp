@@ -22,7 +22,11 @@
 		
 		<button class="btn btn-lg btn-success btn-block btn-login">로그인</button>
 	</form>
-	<a href="#" class="forgot-password">
+	<a href="${ path }/member/findId">
+		아이디
+	</a>
+	|
+	<a href="${ path }/member/findPassword">
 		비밀번호 찾기
 	</a>
  </div>

@@ -1,6 +1,7 @@
 package com.kh.cm.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,9 @@ public class MemberController {
 		@Autowired
 		MemberDao memberDao;
 		
+		@Autowired
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
 
 		@RequestMapping(value="login", method = {RequestMethod.GET})
 		public String loginGET() {
@@ -50,7 +54,7 @@ public class MemberController {
 				model.setViewName("redirect:/");
 			} else {
 				model.addObject("msg", "아이디나 패스워드가 일치하지 않습니다.");
-				model.addObject("location", "/");
+				model.addObject("location", "/login");
 				model.setViewName("common/msg");
 			}
 			
@@ -140,23 +144,30 @@ public class MemberController {
 		@RequestMapping("/member/update")
 		public ModelAndView updateMember(ModelAndView model, 
 										@SessionAttribute(name = "loginMember", required = false) Member loginMember, 
-										@ModelAttribute Member member) {
+										@ModelAttribute Member member, @RequestParam("password") String password) {
 			
 			int result = 0;
 			
-			if(loginMember.getUserId().equals(member.getUserId()) && loginMember.getPassword().equals(member.getPassword())){
+			if(loginMember.getUserId().equals(member.getUserId())){
+				log.info(loginMember.toString());
+				log.info(member.toString());
 				member.setId(loginMember.getId());
+				member.setPassword(loginMember.getPassword());
+				log.info("설정 후" + member.toString());
 				
-				result = service.updateMember(member);
+				if(encoder.matches(password, loginMember.getPassword())) {
+					result = service.updateMember(member, password);
 				
-				if(result > 0) {
-					model.addObject("loginMember", service.findMemberByUserId(loginMember.getUserId()));
-					model.addObject("msg", "회원정보 수정을 완료했습니다.");
-					model.addObject("location", "/member/myPage");
-				} else {
-					model.addObject("msg", "회원정보 수정에 실패했습니다.");
-					model.addObject("location", "/member/myPage");
+					if(result > 0) {
+						model.addObject("loginMember", service.findMemberByUserId(loginMember.getUserId()));
+						model.addObject("msg", "회원정보 수정을 완료했습니다.");
+						model.addObject("location", "/member/myPage");
+					} else {
+						model.addObject("msg", "회원정보 수정에 실패했습니다.");
+						model.addObject("location", "/member/myPage");
+					}
 				}
+				
 			} else {
 				model.addObject("msg", "잘못된 접근입니다.");
 				model.addObject("location", "/");
@@ -175,6 +186,29 @@ public class MemberController {
 			return "member/updatePwd";
 		}
 		
+		// 비밀번호 변경 메소드
+		@RequestMapping(value="/member/updatePwd")
+		public ModelAndView updatePwd(ModelAndView model, 
+									@SessionAttribute(name="loginMember", required=false) Member loginMember, 
+									@RequestParam("password") String password) {
+			int result = 0;
+			
+			if(encoder.matches(password, loginMember.getPassword())) {
+				result = service.changePwd(loginMember.getUserId(), password);
+				
+				if(result > 0) {
+					model.addObject("msg", "비밀번호 수정을 완료했습니다.");
+					model.addObject("location", "/member/updatePwd");
+				} else {
+					model.addObject("msg", "비밀번호 변경에 실패했습니다.");
+					model.addObject("location", "/member/updatePwd");
+				}
+			}
+			
+			model.setViewName("common/msg");
+			
+			return model;
+		}
 		
 		// 회원탈퇴 GET 요청
 		@RequestMapping(value="/member/withdrawal", method = {RequestMethod.GET})
@@ -183,24 +217,32 @@ public class MemberController {
 			
 			return "member/withdrawal";
 		}
+
 		
-		// 회원 탈퇴
 		@RequestMapping("/member/delete")
 		public ModelAndView deleteMember(ModelAndView model, 
 										@SessionAttribute(name="loginMember", required = false) Member loginMember, 
-										@RequestParam("userId") String userId) {
+										@RequestParam("userId") String userId, @RequestParam("password") String password) {
 			int result = 0;
+			log.info(password);
+			log.info(loginMember.getPassword());
 			
 			if(loginMember.getUserId().equals(userId)) {
-				result = service.deleteMember(userId);
-				
-				if(result > 0) {
-					model.addObject("msg", "정상적으로 탈퇴되었습니다.");
-					model.addObject("location", "/");
+				if(encoder.matches(password, loginMember.getPassword())) {
+					result = service.deleteMember(userId);
+					
+					if(result > 0) {
+						model.addObject("msg", "정상적으로 탈퇴되었습니다.");
+						model.addObject("location", "/");
+					} else {
+						model.addObject("msg", "회원가입에 실패하였습니다.");
+						model.addObject("location", "/member/withdrawal");
+					}
 				} else {
-					model.addObject("msg", "회원가입에 실패하였습니다.");
-					model.addObject("location", "/member/myPage");
+					model.addObject("msg", "비밀번호가 동일하지 않습니다.");
+					model.addObject("location", "/member/withdrawal");
 				}
+				
 			} else {
 				model.addObject("msg", "잘못된 접근입니다.");
 				model.addObject("location", "/");
@@ -225,6 +267,34 @@ public class MemberController {
 			log.info("내가 쓴 리뷰 글 페이지 get 요청");
 			
 			return "member/myReviews";
+		}
+		
+		// 아이디 찾기 GET 요청
+		@RequestMapping(value="/member/findId", method = {RequestMethod.GET})
+		public String findIdGet() {
+			log.info("아이디 찾기 페이지 get 요청");
+			
+			return "member/findId";
+		}
+		
+		@RequestMapping(value="/member/findId")
+		public void findId(@ModelAttribute Member member, @RequestParam("userName") String userName, 
+								@RequestParam("email") String email, @RequestParam("phone") String phone) {
+			
+			if(userName.equals(member.getUserName()) && email.equals(member.getEmail()) && phone.equals(member.getPhone())) {
+				service.findId(userName, email, phone);
+			} else {
+				
+			}
+			
+		}
+		
+		// 비밀번호 찾기 GET 요청
+		@RequestMapping(value="/member/findPassword", method = {RequestMethod.GET})
+		public String findPasswordGet() {
+			log.info("비밀번호 찾기 페이지 get 요청");
+			
+			return "member/findPassword";
 		}
 		
 }

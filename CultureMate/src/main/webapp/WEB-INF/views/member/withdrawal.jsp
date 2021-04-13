@@ -70,23 +70,23 @@
 		</div>
         <hr>
         <h3>정확한 본인확인을 위해 비밀번호를 입력해 주세요.</h3>
-        <form>
-            <input type="text" value="${ loginMember.userId }" readonly><br><p>
-            <input type="password" placeholder="비밀번호"><br><br><br>
+        <form action="${ path }/member/delete" method="post">
+            <input type="text" name="userId" value="${ loginMember.userId }" readonly><br><p>
+            <input type="password" name="password" placeholder="비밀번호" required="required"><br><br><br>
             <label>
-                <input type="radio">안내 사항을 모두 확인하였으며, 이에 동의합니다.</input>
+                <input type="radio">안내 사항을 모두 확인하였으며, 이에 동의합니다.
             </label>
             <br><br><br>
-            <input type="button" onclick="deleteMember();" value="탈퇴"></input>
+            <input type="submit"  value="탈퇴"></input>
         </form>
     </div>
 </section>
 
-<script>
+<!-- <script>
 	function deleteMember(){
 		if(confirm("회원 탈퇴하시겠습니까?")){
 			location.replace("${path}/member/delete?userId=${loginMember.userId}");
 		}
 	}
-</script>
+</script> -->
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

@@ -16,15 +16,13 @@ public interface MemberDao {
 	
 	int updateMember(Member member);
 	
+	int updatePassword(String userId, String password);
+
 	int deleteMember(String userId);
 	
 	Member findId(String userName, String email, String phone);
 	
 	Member findPwd(String userId, String userName, String email, String phone);
-	
-	int updatePwd(String userId, String password);
-	
-	void createMember(Member member);
 
 	void updateAuthkey(Member member); // 인증키 수정
 
