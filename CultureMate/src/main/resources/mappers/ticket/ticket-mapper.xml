@@ -48,6 +48,31 @@
 		)
   	</insert>
   	
+  	<select id="countTicket" resultType="int">
+ 		SELECT COUNT(*) 
+ 		FROM TICKET 
+ 		WHERE ID = #{id}
+  	</select>
+	
+	<update id="updateRank02" parameterType="Ticket">
+		UPDATE MEMBER SET 
+		RANK = '친한친구'
+		WHERE ID = #{id}
+	</update>
+	
+	<update id="updateRank03" parameterType="Ticket">
+		UPDATE MEMBER SET 
+		RANK = '베스트프랜드'
+		WHERE ID = #{id}
+	</update>
+	
+	<update id="selectMember" parameterType="Ticket">
+		SELECT * 
+		FROM MEMBER 
+		WHERE ID = #{id}
+	</update>
+  	
+  	
 </mapper>
 
 

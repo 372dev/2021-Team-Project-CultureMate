@@ -64,7 +64,7 @@ public class TicketController {
 	}
 	
 	@RequestMapping(value = "ticket/ticketing/success",  method = {RequestMethod.POST})
-	public ModelAndView success(HttpServletRequest request, ModelAndView model, Ticket ticket, 
+	public ModelAndView success(HttpServletRequest request, ModelAndView model, Ticket ticket, Member member, 
 			@RequestParam("mt20id") String mt20id, @RequestParam("prfnm") String prfnm, 
 			@RequestParam("ticket_date") String ticket_date, @RequestParam("id") int id, 
 			@RequestParam("user_id") String user_id, @RequestParam("ticket_qty") int ticket_qty, 
@@ -81,7 +81,22 @@ public class TicketController {
 		
 		int result = ticketservice.saveTicket(ticket);
 		
+		
 		if(result > 0) {
+			int count = ticketservice.countTicket(id);
+			
+			System.out.println("ticket : " + ticket);
+			System.out.println("count : " + count);
+			
+			if(count > 4 && count < 10) {
+				member.setRank("친한친구");
+				int updateRank = ticketservice.updateRank02(member);
+				
+			} else if(count > 9) {
+				member.setRank("베스트프랜드");
+				int updateRank = ticketservice.updateRank03(member);
+			}
+			
 			model.setViewName("ticket/success");
 			model.addObject("mt20id", mt20id);
 			model.addObject("prfnm", prfnm);
@@ -91,6 +106,9 @@ public class TicketController {
 			model.addObject("ticket_qty", ticket_qty);
 			model.addObject("pcseguidance", pcseguidance);
 			model.addObject("ticket_seat", ticket_seat);
+			model.addObject("loginMember", member);
+			
+			System.out.println("member : " + member);
 			
 			int ticket_num = ticket.getTicket_num();
 			model.addObject("ticket_num", ticket_num);

@@ -48,6 +48,9 @@ public class MemberController {
 			
 			log.info("{},{}", userId, password);
 			
+			System.out.println("userId : " + userId);
+			System.out.println("password : " + password);
+			
 			Member loginMember = service.login(userId, password);
 			
 			if(loginMember != null) {
