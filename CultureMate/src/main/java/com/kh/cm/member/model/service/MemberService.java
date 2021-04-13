@@ -21,8 +21,13 @@ public interface MemberService {
 
 	int updateMember(Member member);
 
-	Member userAuth(String authkey);
+//	Member userAuth(String authkey);
 
 	void sendMail(Member member) throws Exception;
+
+
+//	Member userAuth(Member member);
+
+	Member userAuth(String userId, String authkey);
 
 }

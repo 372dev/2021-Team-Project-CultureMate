@@ -219,7 +219,7 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
           <div class="form-group">
               <label for="inputBirthDate" class="col-lg-2 control-label">생년월일</label>
               <div class="col-lg-10">
-                  <input type="date" class="form-control" id="dateBirth" name="dateBirth" placeholder="ex) 19970509" maxlength="8" required >
+                  <input type="date" class="form-control" id="dateBirth" name="dateBirth" required >
               </div>
               <div class="check_font" id="birth_check"></div>
           </div>

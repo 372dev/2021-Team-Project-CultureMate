@@ -40,19 +40,7 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectMember(userId);
 	}
 
-	// 회원가입
-//	@Override
-//	@Transactional
-//	public int saveMember(Member member) {
-//		int result = 0;
-//		
-//		member.setPassword(passwordEncoder.encode(member.getPassword()));
-//		
-//		result = memberDao.insertMember(member);
-//
-//		return result;
-//	}
-	
+	// 회원가입	
 	@Override
 	@Transactional
 	public int saveMember(Member member) {
@@ -65,13 +53,13 @@ public class MemberServiceImpl implements MemberService {
 		try {
 			sendMail(member);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return result;
 	}
 	
+	// 이메일 보내기
 	@Override
 	public void sendMail(Member member) throws Exception{
 		String key = new TempKey().getKey(); // 인증키 생성
@@ -85,7 +73,9 @@ public class MemberServiceImpl implements MemberService {
         sendMail.setSubject("[컬쳐메이트] 회원가입 이메일 인증");
         sendMail.setText(new StringBuffer().append("<h2>컬쳐메이트를 이용해주셔서 감사합니다!</h2>")
         		.append("<h3>회원가입을 아래 링크를 눌러 마무리 해주세요~!</h3>")
-                .append("<a href='http://localhost:8088/member/emailConfirm?authkey=")
+                .append("<a href='http://localhost:8088/cm/emailConfirm?userId=")
+                .append(member.getUserId())
+                .append("&authkey=")
                 .append(key)
                 .append("' target='_blank'>컬쳐메이트 이메일 인증하러 가기~!</a>")
                 .toString());
@@ -96,19 +86,35 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	// 이메일 인증 키 검증
+//	@Override
+//	public Member userAuth(String authkey) {
+//		Member member = new Member();
+//		member = memberDao.checkAuth(authkey); // 이메일 인증 코드 확인
+//		
+//		if(member != null) {
+//			try {
+//				memberDao.successAuthkey(member); // 인증 후 계정 활성화
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		return member;
+//	}
+	
 	@Override
-	public Member userAuth(String authkey) {
-		Member member = new Member();
+	public Member userAuth(String userId, String authkey) {
+		Member member = memberDao.selectMember(userId);
 		member = memberDao.checkAuth(authkey); // 이메일 인증 코드 확인
+		log.info(member.getUserId());
 		
-		if(member != null) {
+		if(userId != null) {
 			try {
 				memberDao.successAuthkey(member); // 인증 후 계정 활성화
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
 		return member;
 	}
 

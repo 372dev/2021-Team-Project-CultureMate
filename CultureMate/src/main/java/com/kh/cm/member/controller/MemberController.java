@@ -96,21 +96,23 @@ public class MemberController {
 
 		// 이메일 인증키 확인
 		@RequestMapping(value="/emailConfirm", method= {RequestMethod.GET})
-		public String emailConfirm(@RequestParam("authkey") String authkey , ModelAndView model) {
-			Member member = new Member(); 
-			member = service.userAuth(authkey);
+		public String emailConfirm(@RequestParam("userId") String userId, @RequestParam("authkey") String authkey , ModelAndView model) {
+//			Member member = memberDao.selectMember(userId);
+//			member = service.userAuth(member);
+			
+			service.userAuth(userId, authkey);
 			
 			if(authkey == null) {
 				model.addObject("msg", "인증키가 잘못되었습니다. 다시 인증해주세요.");
 				model.addObject("location", "/");
 			}
 			
-			if(member == null) {
+			if(userId == null) {
 				model.addObject("msg", "잘못된 접근입니다. 다시 인증해주세요.");
 				model.addObject("location", "/");
 			}
 			
-			model.addObject("member", member);
+//			model.addObject("member", member);
 			model.setViewName("common/msg");
 			
 			return "/member/emailConfirm";
@@ -187,26 +189,42 @@ public class MemberController {
 		public ModelAndView deleteMember(ModelAndView model, 
 										@SessionAttribute(name="loginMember", required = false) Member loginMember, 
 										@RequestParam("userId") String userId) {
-		int result = 0;
-		
-		if(loginMember.getUserId().equals(userId)) {
-			result = service.deleteMember(userId);
+			int result = 0;
 			
-			if(result > 0) {
-				model.addObject("msg", "정상적으로 탈퇴되었습니다.");
-				model.addObject("location", "/");
+			if(loginMember.getUserId().equals(userId)) {
+				result = service.deleteMember(userId);
+				
+				if(result > 0) {
+					model.addObject("msg", "정상적으로 탈퇴되었습니다.");
+					model.addObject("location", "/");
+				} else {
+					model.addObject("msg", "회원가입에 실패하였습니다.");
+					model.addObject("location", "/member/myPage");
+				}
 			} else {
-				model.addObject("msg", "회원가입에 실패하였습니다.");
-				model.addObject("location", "/member/myPage");
-			}
-		} else {
-			model.addObject("msg", "잘못된 접근입니다.");
-			model.addObject("location", "/");
-		} 
+				model.addObject("msg", "잘못된 접근입니다.");
+				model.addObject("location", "/");
+			} 
+			
+			model.setViewName("common/msg");
+			
+			return model;
+		}
 		
-		model.setViewName("common/msg");
+		// 내가 쓴 메이트 글 조회
+		@RequestMapping(value="/member/myPosts", method = {RequestMethod.GET})
+		public String myPostsGet() {
+			log.info("내가 쓴 메이트 글 페이지 get 요청");
+			
+			return "member/myPosts";
+		}
 		
-		return model;
+		// 내가 쓴 리뷰 조회
+		@RequestMapping(value="/member/myReviews", method = {RequestMethod.GET})
+		public String myReviewsGet() {
+			log.info("내가 쓴 리뷰 글 페이지 get 요청");
+			
+			return "member/myReviews";
 		}
 		
 }

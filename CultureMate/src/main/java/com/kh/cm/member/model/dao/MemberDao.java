@@ -30,6 +30,6 @@ public interface MemberDao {
 
 	Member checkAuth(String authkey); // 이메일 인증코드 확인
 
-	void successAuthkey(Member member); // 인증 후 계정 활성화
+	int successAuthkey(Member member); // 인증 후 계정 활성화
 
 }

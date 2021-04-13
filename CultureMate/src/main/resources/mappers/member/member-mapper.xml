@@ -53,9 +53,12 @@
 	</select>
 	
 	<select id="checkAuth" parameterType="Member" resultMap="memberResultMap">
-		SELECT AUTHKEY
+<!-- 		SELECT AUTHKEY
 		FROM MEMBER
-		WHERE USER_ID = #{userId}
+		WHERE USER_ID = #{userId} -->
+		SELECT USER_ID
+		FROM MEMBER
+		WHERE AUTHKEY = #{authkey}
 	</select>
 	
 	<insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
