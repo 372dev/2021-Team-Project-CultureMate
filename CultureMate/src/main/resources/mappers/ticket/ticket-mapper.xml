@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.cm.ticket.model.dao.TicketDao">
+	<resultMap type="Ticket" id="ticketResultMap">
+		<id property="ticket_num" column="TICKET_NUM"/>
+		<result property="mt20id" column="MT20ID"/>
+		<result property="prfnm" column="PRFNM"/>
+		<result property="ticket_date" column="TICKET_DATE"/>
+		<result property="id" column="ID"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="ticket_qty" column="TICKET_QTY"/>
+		<result property="ticket_time" column="TICKET_TIME"/>
+		<result property="change_time" column="CHANGE_TIME"/>
+		<result property="pcseguidance" column="PCSEGUIDANCE"/>
+		<result property="ticket_seat" column="TICKET_SEAT"/>
+		<result property="ticket_status" column="TICKET_STATUS"/>	
+	</resultMap>
+
+	<insert id="insertTicket" parameterType="Ticket" useGeneratedKeys="true" keyProperty="ticket_num" keyColumn="TICKET_NUM">
+ 		INSERT INTO TICKET (
+		    TICKET_NUM, 
+		    MT20ID, 
+		    PRFNM, 
+		    TICKET_DATE, 
+		    ID, 
+		    USER_ID, 
+		    TICKET_QTY, 
+		    TICKET_TIME, 
+		    CHANGE_TIME, 
+		    PCSEGUIDANCE, 
+		    TICKET_SEAT, 
+		    TICKET_STATUS 
+		) VALUES(
+		    SEQ_TICKET_NO.NEXTVAL, 
+		    #{mt20id}, 
+		    #{prfnm}, 
+		    #{ticket_date}, 
+		    #{id}, 
+		    #{user_id}, 
+		    #{ticket_qty}, 
+		    DEFAULT, 
+		    DEFAULT, 
+		    #{pcseguidance}, 
+		    #{ticket_seat}, 
+		    DEFAULT 
+		)
+  	</insert>
+  	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

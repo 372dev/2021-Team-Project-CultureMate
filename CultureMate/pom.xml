@@ -176,7 +176,7 @@
 					<artifactId>jmxri</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>runtime</scope>
+			<!--  <scope>runtime</scope>-->
 		</dependency>
 
 		<!-- @Inject -->
@@ -240,6 +240,10 @@
 		    <version>2.12.1</version>
 		</dependency>	
 	
+		
+
+
+
 	  	<!-- TEST -->    
 		<dependency>
 		    <groupId>org.junit.jupiter</groupId>

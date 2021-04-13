@@ -9,7 +9,9 @@
 
 	<div id="footer">
 		<div id="footer-container">
-			<img class="cm_logo" src="${path}/resources/images/logo.png" alt="">
+			<a class="cm_logo" href="${path}/">
+				<img src="${path}/resources/images/logo.png" alt=""/>
+			</a>
 			<div class="text01">
 				후회는 없조(주) <br><br>
 				서울특별시 강남구 테헤란로 14길 6 남도빌딩 <br>

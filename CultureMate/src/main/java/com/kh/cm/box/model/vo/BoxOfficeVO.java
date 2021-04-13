@@ -28,6 +28,7 @@ public class BoxOfficeVO {
 	private String poster;
 	@XmlElement(name="mt20id")
     private String mt20id;
+	
 	public String getRnum() {
 		return rnum;
 	}
@@ -89,5 +90,11 @@ public class BoxOfficeVO {
 		this.mt20id = mt20id;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "BoxOfficeVO [rnum=" + rnum + ", cate=" + cate + ", prfnm=" + prfnm + ", prfpd=" + prfpd + ", prfplcnm="
+				+ prfplcnm + ", seatcnt=" + seatcnt + ", prfdtcnt=" + prfdtcnt + ", area=" + area + ", poster=" + poster
+				+ ", mt20id=" + mt20id + "]";
+	}
+
 }
