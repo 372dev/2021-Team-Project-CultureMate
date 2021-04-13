@@ -50,7 +50,7 @@
             <a href="">이벤트</a>
           </div>
           <div class="list list04">
-            <a href="">고객센터</a>
+            <a href="${path}/help/csmain">고객센터</a>
           </div>
         </div>
       </div>

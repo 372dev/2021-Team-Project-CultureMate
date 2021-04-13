@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.cm.cs.model.dao.CsBoardDao">
+
+<sql id="csBoardListSql">
+		SELECT C.CSBOARD_ID,
+		       C.CSBOARD_KIND,
+		       C.CSBOARD_TYPE,
+		       M.USER_ID,
+		       C.CSBOARD_TITLE,
+		       C.CSBOARD_CONTENT,
+		       C.CSBOARD_ORIGINAL_FILE,
+		       C.STATUS,
+		       C.CSBOARD_CREATE_DATE,
+		       C.CSBOARD_COUNT
+		FROM CSBOARD C
+		JOIN MEMBER M ON(C.CSBOARD_WRITERNO = M.ID)		
+		WHERE C.STATUS ='Y'	
+	</sql>
+
+  <resultMap type="csBoard" id="csboardResultMap">
+		<id property="csboardId" column="CSBOARD_ID"/>
+		<result property="csboardKind" column="CSBOARD_KIND"/>
+		<result property="csboardType" column="CSBOARD_TYPE"/>
+		<result property="userId" column="USER_ID"/>
+		<result property="csboardTitle" column="CSBOARD_TITLE"/>
+		<result property="csboardContent" column="CSBOARD_CONTENT"/>
+		<result property="csboardOriginalFile" column="CSBOARD_ORIGINAL_FILE"/>
+		<result property="csboardRenamedFile" column="CSBOARD_RENAMED_FILE"/>
+		<result property="status" column="STATUS"/>
+		<result property="csboardCreateDate" column="CSBOARD_CREATE_DATE"/>
+		<result property="csboardCount" column="CSBOARD_COUNT"/>
+	</resultMap>
+	
+	<select id="selectCsBoardList" parameterType="map" resultMap="csboardResultMap">
+		<include refid="csBoardListSql"></include>
+		ORDER BY C.CSBOARD_ID DESC
+	</select>
+	
+	<select id="selectCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM CSBOARD
+		WHERE STATUS='Y'
+	</select>	 	
+	
+	<insert id="insertCsBoard" parameterType="map"
+  		useGeneratedKeys="true" keyProperty="csboardId" keyColumn="CSBOARD_ID">
+  		
+  		INSERT INTO CSBOARD
+        VALUES (
+  			SEQ_CSBOARD_ID.NEXTVAL,
+  			#{csboardKind},
+  			#{csboardType},
+  			#{csboardWriterNo},
+  			#{csboardTitle},
+  			#{csboardContent},
+  			#{csboardOriginalFile},
+  			#{csboardRenamedFile},
+  			DEFAULT,
+  			DEFAULT,
+  			DEFAULT,
+  			DEFAULT
+
+ 		)
+  	</insert>
+	
+</mapper>
