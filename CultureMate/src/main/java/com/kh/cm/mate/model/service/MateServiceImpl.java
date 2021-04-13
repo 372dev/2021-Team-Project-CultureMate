@@ -30,6 +30,20 @@ public class MateServiceImpl implements MateService {
 		
 		return mateDao.selectMateList(rowBounds);
 	}
+	
+	@Override
+	public int getMateSearchCount(String search, String keyword) {
+		
+		return mateDao.selectMateSearchCount(search, keyword);
+	}
+	
+	@Override
+	public List<Mate> getMateSearchList(PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return mateDao.selectMateSearchList(rowBounds, pageInfo);
+	}
 
 	@Override
 	public Mate findMateByMateId(int mateId) {
@@ -90,5 +104,8 @@ public class MateServiceImpl implements MateService {
 		
 		return mateDao.deleteMateReply(mateReplyId);
 	}
+
+	
+	
 
 }

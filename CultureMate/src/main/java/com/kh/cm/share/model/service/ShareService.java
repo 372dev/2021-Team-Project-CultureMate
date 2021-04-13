@@ -11,6 +11,10 @@ public interface ShareService {
 	int getShareCount();
 
 	List<Share> getShareList(PageInfo pageInfo);
+	
+	int getShareSearchCount(String search, String keyword);
+
+	List<Share> getShareSearchList(PageInfo pageInfo);
 
 	int saveShare(Share share);
 
@@ -32,6 +36,7 @@ public interface ShareService {
 
 	List<ShareReply> findShareReplyByShareId(int shareId, PageInfo pageInfo);
 
+	
 
 	
 }

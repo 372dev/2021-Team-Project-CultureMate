@@ -8,6 +8,7 @@
 			   S.SHARE_OPEN,
 			   S.SHARE_SHOW,
 			   S.SHARE_TITLE,
+			   S.SHARE_CONTENT,
  			   M.USER_NICK,			  
 			   S.SHARE_CREATE_DATE,
 			   S.SHARE_COUNT,
@@ -24,8 +25,21 @@
 		WHERE R.STATUS='Y' 
 	</sql>
 	
+	<sql id="search_where">		
+		<if test='search != null and search.equals("shareTitle")'>
+			AND S.SHARE_TITLE LIKE '%' || #{keyword } || '%'
+		</if>
+		<if test='search != null and search.equals("shareContent")'>
+			AND S.SHARE_CONTENT LIKE '%' || #{keyword } || '%'
+		</if>		
+		<if test='search != null and search.equals("userNick")'>
+			AND M.USER_NICK LIKE '%' || #{keyword } || '%'
+		</if>		
+	</sql>
+	
  	<resultMap type="Share" id="shareResultMap">
  		<id property="shareId" column="SHARE_ID" />
+ 		<result property="rNum" column="ROWNUM"/>
  		<result property="userNick" column="USER_NICK"/>
  		<result property="shareOpen" column="SHARE_OPEN"/>
  		<result property="shareShow" column="SHARE_SHOW"/>
@@ -68,50 +82,11 @@
 		<include refid="shareListSql"></include>
 		ORDER BY S.SHARE_ID DESC
 	</select>
-	<select id="selectFindShareList" resultType="Share">
-		SELECT *
-		FROM (
-			SELECT ROWNUM AS RNUM,
-					SHARE_ID,
-					SHARE_OPEN,
-					SHARE_SHOW,
-					USER_NICK,
-					SHARE_TITLE,
-					SHARE_CONTENT,
-					SHARE_CREATE_DATE,
-					SHARE_COUNT,
-					STATUS
-				FROM (
-					SELECT S.SHARE_ID,
-						S.SHARE_OPEN,
-						S.SHARE_SHOW,
-						S.USER_NICK,
-						S.SHARE_TITLE,
-						S.SHARE_CONTENT,
-						S.SHARE_CREATE_DATE,
-						S.SHARE_COUNT,
-						S.STATUS
-				FROM SHARE S
-				JOIN MEMBER M ON(S.SHARE_WRITER_ID = M.ID)
-				WHERE S.STATUS = 'Y'
-				AND M.USER_NICK LIKE  '%' || #{userNick} || '%'		
-				AND S.SHARE_TITLE LIKE '%' || #{shareTitle} || '%' 
-				AND S.SHARE_CONTENT LIKE '%' || #{shareContent} || '%' 
-				ORDER BY S.SHARE_ID DESC
-				)
-				WHERE RNUM BETWEEN #{start} AND #{end})           
-		<!-- 
-			<if test="userNick != null">
-		WHERE M.USER_NICK LIKE '%' || #{userNick} || '%'
-		</if>
-		<if test="shareTitle != null">
-		WHERE SHARE_TITLE LIKE '%' || #{shareTitle} || '%'
-		</if>
-		<if test="shareContent != null">
-		WHERE SHARE_CONTENT LIKE '%' || #{shareContent} || '%'
-		</if>
+	
+	<select id="selectShareSearchList" parameterType="map" resultMap="shareResultMap">
+		<include refid="shareListSql"></include>
+		<include refid="search_where"></include>
 		ORDER BY S.SHARE_ID DESC
-		 -->
 	</select>
 	
 	<select id="selectShareReplyList" parameterType="map" resultMap="shareReplyResultMap">
@@ -124,6 +99,14 @@
 		SELECT COUNT(*)
 		FROM SHAREBOARD
 		WHERE STATUS='Y'
+	</select>
+	
+	<select id="selectSearchCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM SHAREBOARD S
+		JOIN MEMBER M ON(S.SHARE_WRITER_ID = M.ID)
+		WHERE S.STATUS='Y'
+		<include refid="search_where"></include>		
 	</select>
 	
 	<select id="selectReplyCount" parameterType="map" resultType="_int">

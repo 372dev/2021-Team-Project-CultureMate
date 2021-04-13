@@ -73,38 +73,33 @@ public class ShareController {
 		
 		return model;
 	}
-	
-//	@RequestMapping(value="/list.do", method = {RequestMethod.POST}) 
-//	public ModelAndView shareFindList(ModelAndView model, Share share,
-//				@RequestParam(value="page", required=false, defaultValue="1") int page,
-//				@RequestParam(defaultValue="userNick") String searchShare,@RequestParam(defaultValue="") String keyword,
-//				@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit)  throws Exception{
-//		//@RequestParam("userNick") String userNick, @RequestParam("shareTitle") String shareTitle, @RequestParam("shareContent") String shareContent,
-//
-//		List<Share> shareList = null;
-//		
-//		int shareCount = service.getShareCount();
-//		
-//		PageInfo pageInfo = new PageInfo(page, 10, shareCount, listLimit);
-//		int start = pageInfo.getStartList();
-//        int end =  pageInfo.getEndList();
-//        
-//        shareList = service.getFindShare(searchShare, keyword, start, end);
-//        
-//        Map<String,Object> map = new HashMap<>();    //넘길 데이터가 많기 때문에 해쉬맵에 저장한 후에 modelandview로 값을 넣고 페이지를 지정
-//        
-//        map.put("shareList", shareList);                         //map에 list(게시글 목록)을 list라는 이름의 변수로 자료를 저장함.
-//        map.put("pageInfo", pageInfo);
-//        map.put("shareCount", shareCount);
-//        map.put("searchShare", searchShare);
-//        map.put("keyword", keyword);
-//        
-//        model.addObject("map", map);         
-//					
-//		model.setViewName("board/share/shareList");
-//		return model;
-//	}
-	
+	@RequestMapping(value="/list.do", method = {RequestMethod.POST}) 
+	public ModelAndView shareSearchList(ModelAndView model,
+			@RequestParam(value="page", required=false, defaultValue="1") int page,
+			@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit,
+			@RequestParam String search,@RequestParam String keyword) {
+				
+		List<Share> shareList = null;
+		
+		int shareCount = service.getShareSearchCount(search, keyword);
+		
+		PageInfo pageInfo = new PageInfo(page, 10, shareCount, listLimit);
+		
+		pageInfo.setSearch(search);
+		pageInfo.setKeyword(keyword);
+		
+		shareList = service.getShareSearchList(pageInfo);
+		
+		System.out.println(search);
+		System.out.println(keyword);
+		
+		model.addObject("shareList", shareList);
+		model.addObject("pageInfo", pageInfo);
+		model.setViewName("/board/share/shareList");
+		
+		return model;
+	}
+
 	 @RequestMapping(value = "/view", method = {RequestMethod.GET})
 	    public ModelAndView shareView(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 	            @RequestParam int shareId, ModelAndView model,@RequestParam(value="page", required=false, defaultValue="1") int page,

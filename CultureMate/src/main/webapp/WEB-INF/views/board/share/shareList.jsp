@@ -70,16 +70,16 @@
 		 </div>   	
  <div id="share-Search2">
 	<form name="form1" method="post" action="${path}/share/list.do">
-		<select id="searchShare" style="border-radius:5px;height:30px;">
-            	<option value="userNick"<c:if test="${map.searchShare == 'userNick'}">
-            			selected</c:if>>작성자</option>
-            	<option value="userNick"<c:if test="${map.searchShare == 'shareTitle'}">
-            			selected</c:if>>제목</option>
-            	<option value="userNick"<c:if test="${map.searchShare == 'shareContent'}">
-            			selected</c:if>>내용</option>
+		<select name="search" style="border-radius:5px;height:30px;">
+            	<option value="userNick"${pageInfo.search eq 'userNick'? 'selected' : '' }>
+            		작성자</option>
+            	<option value="shareTitle" ${pageInfo.search eq 'shareTitle'? 'selected' : '' }>
+            		제목</option>
+            	<option value="shareContent"${pageInfo.search eq 'shareContent'? 'selected' : '' }>
+            		내용</option>
 	 		</select> 
-	 		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" placeholder="내용을 입력하세요" value="${map.keyword}">
-		     <input class="searchButton" id="searchButton" type="submit" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" value="검색"></input>      
+	 		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" name="keyword" placeholder="내용을 입력하세요" value="${pageInfo.keyword }">
+		     <input class="searchButton" id="searchButton" type="submit" onclick="$('form1').submit()" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" value="검색"></input>      
 	</form>     	 	 
 </div>      
 </div> 			    	

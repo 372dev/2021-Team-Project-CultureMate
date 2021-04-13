@@ -83,16 +83,16 @@
 		 </div>   	
  <div id="mate-Search2">
 	<form name="form1" method="post" action="${path}/mate/list.do">
-		<select id="searchMate" style="border-radius:5px;height:30px;">
-            	<option value="userNick"<c:if test="${map.searchMate == 'userNick'}">
-            			selected</c:if>>작성자</option>
-            	<option value="userNick"<c:if test="${map.searchMate == 'mateTitle'}">
-            			selected</c:if>>제목</option>
-            	<option value="userNick"<c:if test="${map.searchMate == 'mateContent'}">
-            			selected</c:if>>내용</option>
+		<select name="search" style="border-radius:5px;height:30px;">
+            	<option value="userNick" ${pageInfo.search eq 'userNick'? 'selected' : '' }>
+            			작성자</option>
+            	<option value="mateTitle" ${pageInfo.search eq 'mateTitle'? 'selected' : '' }>
+            			제목</option>
+            	<option value="mateContent" ${pageInfo.search eq 'mateContent'? 'selected' : '' }>
+            			내용</option>
 	 		</select> 
-	 		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" placeholder="내용을 입력하세요" value="${map.keyword}">
-		     <input class="searchButton" id="searchButton" type="submit" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" value="검색"></input>      
+	 		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" name="keyword" placeholder="내용을 입력하세요" value="${pageInfo.keyword }">
+		     <input class="searchButton" id="searchButton" type="submit"  style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" value="검색" onclick="$('form1').submit()"></input>      
 		</form>     	 	 
 	</div>      
 </div> 			    	

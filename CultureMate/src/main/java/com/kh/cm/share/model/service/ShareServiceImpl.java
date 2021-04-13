@@ -34,6 +34,21 @@ public class ShareServiceImpl implements ShareService {
 		
 		return shareDao.selectShareList(rowBounds);
 	}
+	
+	@Override
+	public int getShareSearchCount(String search, String keyword) {
+		
+		return shareDao.selectSearchCount(search, keyword);
+	}
+
+	@Override
+	public List<Share> getShareSearchList(PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return shareDao.selectShareSearchList(rowBounds, pageInfo);
+	}
+	
 
 	@Override
 	@Transactional
@@ -53,12 +68,6 @@ public class ShareServiceImpl implements ShareService {
 	public Share findShareByShareId(int shareId) {
 		return shareDao.selectShareDetail(shareId);
 	}
-
-//	@Override
-//	public List<ShareReply> findShareReplyByShareId(int shareId) {
-//			
-//		return shareDao.selectShareReplyList(shareId);
-//	}
 
 	@Override
 	public boolean updateShareCount(int shareId) {

@@ -201,7 +201,7 @@ table#tbl-comment sub.comment-date {
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
-		    				<button class="btn-update" onclick="updateMateReply()">수정</button>
+		    				<a href="javascript:" class="replyUpdateLink">수정</a>
 		    				<button class="btn-delete" onclick="deleteMateReply()">삭제</button>
 		    			</c:if>
 			    		</td>
@@ -222,14 +222,10 @@ table#tbl-comment sub.comment-date {
 		    				<button class="btn-delete" onclick="deleteMateReply()">삭제</button>		    				
 		    			</c:if>
 			    		</td>
-			    	</tr>
+			    	</tr>			    	
 			    	</c:if>			    	
 		    	</c:forEach>
 		    </table>
-		    	<form name="replyUpdateFrm">
-		    		<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
-		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
-		    	</form>
 		     <br>
 		    <div id="pageBar">
 			<!-- 맨 처음으로 -->
@@ -269,6 +265,11 @@ table#tbl-comment sub.comment-date {
 				return false;
 			}
 		}
+	
+	function updateMateReply() {
+		var mateReplyId = $("#mateReplyId").val();
+		location.href= '${path}/mate/reply/update?mateReplyId=' + mateReplyId;
+	}		
 	
 	function deleteMateReply(){
 		var mateReplyId = $("#mateReplyId").val();

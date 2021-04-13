@@ -11,6 +11,10 @@ public interface MateService {
 	int getMateCount();
 
 	List<Mate> getMateList(PageInfo pageInfo);
+	
+	int getMateSearchCount(String search, String keyword);
+	
+	List<Mate> getMateSearchList(PageInfo pageInfo);
 
 	Mate findMateByMateId(int mateId);
 
@@ -27,6 +31,8 @@ public interface MateService {
 	int saveMateReply(MateReply mateReply);
 
 	int deleteMateReply(int mateReplyId);
+
+	
 	
 
 	
