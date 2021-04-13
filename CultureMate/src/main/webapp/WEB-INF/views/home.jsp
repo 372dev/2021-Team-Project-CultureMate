@@ -68,22 +68,22 @@
 	<div class="searchContainer">
 		<div class="btn-group btn-group-toggle innerDivRadio" data-toggle="buttons">
 		  <label class="btn btn-outline-secondary active">
-		    <input type="radio" name="genre" id="radioGenreNone" autocomplete="off" checked>전체
+		    <input type="radio" name="radioGenre" value="" autocomplete="off" checked>전체
 		  </label>
 		  <label class="btn btn-outline-secondary">
-		    <input type="radio" name="genre" id="radioGenreMusical" autocomplete="off">뮤지컬
+		    <input type="radio" name="radioGenre" value="musical" autocomplete="off">뮤지컬
 		  </label>
 		  <label class="btn btn-outline-secondary">
-		    <input type="radio" name="genre" id="radioGenrePlay" autocomplete="off">연극
+		    <input type="radio" name="radioGenre" value="play" autocomplete="off">연극
 		  </label>
 		  <label class="btn btn-outline-secondary">
-		    <input type="radio" name="genre" id="radioGenreClassic" autocomplete="off">클래식
+		    <input type="radio" name="radioGenre" value="classic" autocomplete="off">클래식
 		  </label>
 		</div>
 		<div class="innerDivInput">
-		  <input type="text" class="searchInput" placeholder="상연중인 공연 제목으로 검색하기">
+		  <input type="text" name="searchInput" id="searchInput" class="searchInput" placeholder="상연중인 공연 제목으로 검색하기">
 		  <div class="input-group-append">
-		    <button class="btn btn-outline-secondary btn-lg" type="button">검색</button>
+		    <button id="showSearchBtn" class="btn btn-outline-secondary btn-lg" type="button">검색</button>
 		  </div>
 		</div>
 	</div>
@@ -109,5 +109,78 @@
 	
 	<div id="boContainer"></div>
 	
-	<script src="${ path }/resources/js/home.js"></script>
+	<script>
+	$(document).ready(ajaxCall("m")).ready(ajaxCall("p")).ready(ajaxCall("c"));
+
+	$('#musicalReloc').on('click', function() {
+		reloc('musical');
+	});
+	$('#playReloc').on('click', function() {
+		reloc('play');
+	});
+	$('#classicReloc').on('click', function() {
+		reloc('classic');
+	});
+
+	$('#showSearchBtn').on('click', function() {
+		var searchInput = $('#searchInput').val();
+		var radioGenre = $('input[name="radioGenre"]:checked').val();
+		mainShowSearch(searchInput, radioGenre);
+	});
+		
+	function ajaxCall(genre) {
+		$.ajax({
+			type : "GET",
+			async: false,
+			url : "/cm/show/ajaxBoList",
+			data : {
+				"genre" : genre,
+			},
+			error : function(error) {
+				console.log("ajax-error : " + error);
+			},
+			success : function(result) {
+				console.log("ajax-success");
+				if(result) {
+					var toAdd = '';
+					if(result == null) {
+						console.log("result == null");
+						toAdd += "<div><p>박스 오피스에 일시적으로 접근이 불가합니다. 관리자에게 문의해 주세요.</p>";
+					} else {
+						console.log("result != null");
+						toAdd += '<div class="boTitle"><h2 class="titleFont">' + result[0].cate + ' 주간 박스 오피스</h2>'
+						toAdd += '<button type="button" class="btn btn-secondary btn-lg btnFont" id="'
+							+ (result[0].cate == "뮤지컬" ? "musical" : (result[0].cate == "연극" ? "play" : "classic"))
+							+ 'Reloc">더 보기</button></div>';
+						toAdd += '<div class="ListDiv">';
+						for(i = 0; i < 5; i++) {
+							toAdd += '<div class="card">';
+							toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }/show/restview?name=' + result[i].mt20id + '\';">';
+							toAdd += '<img src="http://www.kopis.or.kr' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
+							toAdd += '</div>';
+							toAdd += '<div class="card-body">';
+							toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
+							toAdd += '<p class="card-text subTitle">' + result[i].prfplcnm + '</p>';
+							toAdd += '<p class="card-text">' + result[i].prfpd + '</p>';
+							toAdd += '</div>';
+							toAdd += '</div>';
+						}
+					}
+					toAdd += '</div>';
+					$("#boContainer").append(toAdd);
+				}
+			}
+		});
+	}
+
+	function reloc(genre) {
+		if(genre != null) {
+			window.location.replace("${ path }/show/boList?genre=" + genre);
+		}
+	}
+
+	function mainShowSearch(searchInput, radioGenre) {
+		window.location.replace("${ path }/show/showList?title=" + searchInput + "&genre=" + radioGenre);	
+	}
+	</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
