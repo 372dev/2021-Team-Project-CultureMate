@@ -167,6 +167,7 @@ ul, ol, li, dl, dt, dd {
 
 .bxo_vcb {
     margin-top: 35px;
+    overflow: auto;
 }
 
 #plcMap{
@@ -185,6 +186,7 @@ ul, ol, li, dl, dt, dd {
 
 .pt th{
 	border: solid 1px;
+	min-width: 50px;
 }
 
 .pt td{
@@ -474,8 +476,8 @@ text-align: center;
             <div class="detailArea">
             		<c:out value="${show.sty}"/>
             		<br>
-					<c:forEach var="i" begin="0" end="${max}">
-					<img alt="" src="${show.styurls.styurl[i]}"><br>
+					<c:forEach var="i" begin="1" end="${max}">
+					<img alt="" src="${show.styurls.styurl[i-1]}" style="width: 100%"><br>
 					</c:forEach>
 			</div>
 		</div>
@@ -520,7 +522,7 @@ text-align: center;
           <tr>
           <th>홈페이지</th>
           <td>
-			<c:out value="${place.get(0).relateurl}"/>
+          	<a href="${place.get(0).relateurl}"><c:out value="${place.get(0).relateurl}"/></a>
           </td>
         </tr>
    		</table>
@@ -562,16 +564,16 @@ text-align: center;
 					 	<a href="" id="btn-insert" onClick='fn_comment()' class="btn pull-right btn-success ">등록</a>
 					 	</c:when>
 					 	<c:otherwise>
-					 	<a  id="btn-insert"  class="btn pull-right btn-success disable ">등록</a>
+					 	<a  id="btn-insert"  onClick='fn_comment1()' class="btn pull-right disable ">등록</a>
 					 	</c:otherwise>
 					 </c:choose>
 					
 				</form>
 			</div>
 			<br>
-			<table id="tbl-comment">
+			<div id="tbl-comment1">
 			<!-- for문을 사용하여 댓글수만큼 출럭 가능하게 구현하기 -->
-			</table>
+			</div>
 			
 			<table id="tbl-comment">
 					<c:forEach var="review1"  items="${review}">
@@ -896,25 +898,36 @@ $('#star a').click(function(){
 //댓글 작성
 function fn_comment(){
     console.log("에이작스 호출");
-    $.ajax({
-        type:'POST',
-        url : "<c:url value='/review/add.do'/>",
-        data:$("#reply_form").serialize(),
-        success : function(data){
-        	console.log("불러오기 성공!!");
-            if(data == ("success"))
-            {
-            	console.log("불러오기 성공!!");
-            }
-            
-        },
-        error:function(request,status,error){
-        	console.log("불러오기실패!!");
-       }
-        
-    });
+   
+    	 $.ajax({
+    	        type:'POST',
+    	        url : "<c:url value='/review/add.do'/>",
+    	        data:$("#reply_form").serialize(),
+    	        success : function(data){
+    	        	console.log("불러오기 성공!!");
+    	            if(data == ("success"))
+    	            {
+    	            	console.log("불러오기 성공!!");
+    	            }
+    	            
+    	        },
+    	        error:function(request,status,error){
+    	        	console.log("불러오기실패!!");
+    	       }
+    	        
+    	    }); 	
+   
 }
 
+
+function fn_comment1(){
+	var logincheck = document.getElementById("form_userId").value;
+
+	if(!logincheck) {
+		alert("로그인 후 이용 가능합니다.");
+		location.href="${path}/login";
+	} 
+}
 
 //댓글삭제
 function del(no) {  
