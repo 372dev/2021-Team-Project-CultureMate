@@ -1,23 +1,55 @@
 @charset "UTF-8";
+
+/* font */
 @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+.titleFont {
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+.btnFont {
+	font-family: 'Jua', sans-serif;
+}
 
 /* topDiv, sideMenu, slider*/
 .topDiv {
-	width : 1200px;
+	width : 1150px;
 	height : 300px;
 	border : 1px solid blue;
 	display : flex;
+	margin : auto;
 }
 
 .sideMenuDiv {
-	width : 200px;
+	width : 150px;
 	height : 300px;
 	boder : 1px solid green;
+	background: rgb(85,85,85);
+	color: white;
+	font-weight: bold;
+	/* alignment */
+	display: flex;
+	flex-direction: column;
+}
+
+.sideMenuDiv > * {
+/*	border: 1px solid yellow; */
+}
+
+.treeMenuLv0 {
+	margin: 8px 5px 2px 20px;
+	font-size: 19px;
+}
+
+.treeMenuLv1 {
+	margin: 1px 5px 1px 40px;
+	font-size: 17px;
 }
 
 .carousel {
   background: #2f4357;
 }
+
 .carousel-item {
   text-align: center;
   height: 300px;
@@ -90,19 +122,11 @@
 }
 
 .boTitle > h2 {
-	font-family: 'Do Hyeon', sans-serif;
 	font-size: 3rem;
 }
+
 
 .boTitle > button {
 	margin-top: 5px;
 	margin-bottom: 5px;
-}
-
-.btnFont {
-	font-family: 'Jua', sans-serif;
-}
-
-.sideMenuDiv {
-	font-family: 'Jua', sans-serif;
 }

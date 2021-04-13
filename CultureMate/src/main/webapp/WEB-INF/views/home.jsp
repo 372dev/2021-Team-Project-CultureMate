@@ -12,7 +12,17 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
     <div class="topDiv">
-    	<div class="sideMenuDiv">menu<br>tree<br>menu<br>tree<br>menu<br>tree<br></div>
+    	<div class="sideMenuDiv">
+    		<p class="treeMenuLv0">공연</p>
+	    		<a class="treeMenuLv1">뮤지컬</a>
+	    		<a class="treeMenuLv1">연극</a>
+	    		<a class="treeMenuLv1">클래식</a>
+    		<a class="treeMenuLv0">메이트</a>
+	    		<a class="treeMenuLv1">같이가요</a>
+	    		<a class="treeMenuLv1">티켓나눔</a>	    	
+    		<a class="treeMenuLv0">이벤트</a>
+    		<a class="treeMenuLv0">고객센터</a>
+    	</div>
 		<div id="myCarousel" class="carousel slide carouselDiv" data-ride="carousel">
 	        <ol class="carousel-indicators">
 	          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -54,7 +64,12 @@
 	        </a>
 		</div>
 	</div>
-	<div id="iconsContainer">
+	
+	<div class="searchContainer">
+		
+	</div>
+	
+	<div id="iconsContainer" class="titleFont">
 		<div id="iconsMusical" class="icons">
 			<img alt="뮤지컬" src="${ path }/resources/images/main/choir.png">
 			<p>뮤지컬</p>
@@ -98,7 +113,7 @@
 							toAdd += "<div><p>박스 오피스에 일시적으로 접근이 불가합니다. 관리자에게 문의해 주세요.</p>";
 						} else {
 							console.log("result != null");
-							toAdd += '<div class="boTitle"><h2>' + result[0].cate + ' 주간 박스 오피스</h2>'
+							toAdd += '<div class="boTitle"><h2 class="titleFont">' + result[0].cate + ' 주간 박스 오피스</h2>'
 							toAdd += '<button type="button" class="btn btn-secondary btn-lg btnFont" id="' + result[0].cate + 'Reloc">더 보기</button></div>';
 							toAdd += '<div class="ListDiv">';
 							for(i = 0; i < 5; i++) {
