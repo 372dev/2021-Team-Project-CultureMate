@@ -402,7 +402,6 @@ text-align: center;
 				<div class="rn-product-area3"><!--공연시간안내, 배송정보-->
 					<dl>
 						<br>
-						
 						<dt>가격</dt>
 						<dd><c:out value="${show.pcseguidance}"/></dd> 
 						<c:if test="${pcseguidancesize == 1}">
@@ -415,7 +414,21 @@ text-align: center;
 						<c:if test="${show.prfcast.length() == 1}">
 						<dd><c:out value="정보가 없습니다."/> </dd>
 						</c:if>
+						
 						<br>
+						<dt>제작사</dt>
+						<dd><c:out value="${show.entrpsnm}"/></dd> 
+						<c:if test="${show.entrpsnm.length() == 1}">
+						<dd><c:out value="정보가 없습니다."/></dd> 
+						</c:if>
+						
+						<br>
+						<dt>공연상태</dt>
+						<dd><c:out value="${show.prfstate}"/></dd> 
+						<c:if test="${show.prfstate.length() == 1}">
+						<dd><c:out value="정보가 없습니다."/></dd> 
+						</c:if>
+						
 					</dl>
 				</div>
 			</div>
@@ -892,7 +905,7 @@ function del(no) {
 
 		// 마커 위에 표시할 인포윈도우를 생성한다
 		var infowindow = new kakao.maps.InfoWindow({
-			content : '<div style="padding:5px;"><c:out value="${result.get(0).fcltynm}"/>&nbsp</div>' // 인포윈도우에 표시할 내용
+			content : '<div style="padding:5px; width: 500px; text-align: center;"><c:out value="${result.get(0).fcltynm}"/>&nbsp</div>' // 인포윈도우에 표시할 내용
 		});
 
 		// 인포윈도우를 지도에 표시한다
