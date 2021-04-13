@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-/* font */
+/* font *********************************************************/
 @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
 
 .titleFont {
@@ -11,9 +11,9 @@
 	font-family: 'Jua', sans-serif;
 }
 
-/* topDiv, sideMenu, slider*/
+/* topDiv, sideMenu, slider *************************************/
 .topDiv {
-	width : 1150px;
+	width : 1200px;
 	height : 300px;
 	border : 1px solid blue;
 	display : flex;
@@ -25,15 +25,15 @@
 	height : 300px;
 	boder : 1px solid green;
 	background: rgb(85,85,85);
-	color: white;
 	font-weight: bold;
 	/* alignment */
 	display: flex;
 	flex-direction: column;
 }
 
-.sideMenuDiv > * {
-/*	border: 1px solid yellow; */
+.sideMenuDiv a {
+	text-decoration : none;
+	color : white;
 }
 
 .treeMenuLv0 {
@@ -42,7 +42,7 @@
 }
 
 .treeMenuLv1 {
-	margin: 1px 5px 1px 40px;
+	margin: 1px 5px 1px 30px;
 	font-size: 17px;
 }
 
@@ -57,12 +57,43 @@
 }
 
 .carouselDiv {
-	width: 1000px;
+	width: 1050px;
 	height : 300px;
 	boder : 1px solid green;
 }
 
-/* iconsContainer, icons */
+/* searchContainer, radio, search ******************************/
+.searchContainer {
+	width: 700px;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid red;
+	margin: 3rem auto;
+	background: rgb(225,225,225,0.6);
+	border-radius: 10px;
+}
+
+.innerDivRadio {
+	width: 300px;
+	margin: auto auto 10px auto;
+}
+
+.innerDivInput {
+	display:flex;
+	flex-direction:horizontal;
+	margin: 10px auto auto auto;
+	width: 600px;
+	justify-content: space-between;
+}
+
+.searchInput {
+	border-radius: 10px;
+	width: 500px;
+	height: 50px;
+}
+
+/* iconsContainer, icons ***************************************/
 
 #iconsContainer {
 	display: flex;
@@ -101,7 +132,7 @@
 	font-size: 1rem;
 }
 
-/* BoxOffice */
+/* BoxOffice *************************************************/
 #boContainer > .ListDiv {
 	margin-top: 1rem;
 	margin-bottom: 2rem;

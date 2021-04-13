@@ -13,15 +13,15 @@
 
     <div class="topDiv">
     	<div class="sideMenuDiv">
-    		<p class="treeMenuLv0">공연</p>
-	    		<a class="treeMenuLv1">뮤지컬</a>
-	    		<a class="treeMenuLv1">연극</a>
-	    		<a class="treeMenuLv1">클래식</a>
-    		<a class="treeMenuLv0">메이트</a>
-	    		<a class="treeMenuLv1">같이가요</a>
-	    		<a class="treeMenuLv1">티켓나눔</a>	    	
-    		<a class="treeMenuLv0">이벤트</a>
-    		<a class="treeMenuLv0">고객센터</a>
+    		<a href="${ path }/show/showList" class="treeMenuLv0">공연</a>
+	    		<a href="${ path }/show/boList?genre=musical" class="treeMenuLv1">뮤지컬</a>
+	    		<a href="${ path }/show/boList?genre=play" class="treeMenuLv1">연극</a>
+	    		<a href="${ path }/show/boList?genre=classic" class="treeMenuLv1">클래식</a>
+    		<a href="" class="treeMenuLv0">메이트</a>
+	    		<a href="${ path }/mate/list" class="treeMenuLv1">같이가요</a>
+	    		<a href="${ path }/share/list" class="treeMenuLv1">티켓나눔</a>	    	
+    		<a href="" class="treeMenuLv0">이벤트</a>
+    		<a href="" class="treeMenuLv0">고객센터</a>
     	</div>
 		<div id="myCarousel" class="carousel slide carouselDiv" data-ride="carousel">
 	        <ol class="carousel-indicators">
@@ -33,7 +33,7 @@
 	          <div class="carousel-item active">
 	          	<a href="">
 		          	<img
-		              src="https://dummyimage.com/1000x300/ffe812/000.png&text=Hello"
+		              src="https://dummyimage.com/1050x300/ffe812/000.png&text=Hello"
 		              alt="First Slide"
 		            />
 	            </a>
@@ -41,7 +41,7 @@
 	          <div class="carousel-item">
 	          	<a href="">
 		            <img
-		              src="https://dummyimage.com/1000x300/ffe812/000.png&text=How"
+		              src="https://dummyimage.com/1050x300/ff8c00/000.png&text=How"
 		              alt="Second Slide"
 		            />
 		        </a>
@@ -49,7 +49,7 @@
 	          <div class="carousel-item">
 	          	<a href="">
 		            <img
-		              src="https://dummyimage.com/1000x300/ffe812/000.png&text=RU"
+		              src="https://dummyimage.com/1050x300/228b22/000.png&text=RU"
 		              alt="Third Slide"
 		            />
 	            </a>
@@ -66,7 +66,26 @@
 	</div>
 	
 	<div class="searchContainer">
-		
+		<div class="btn-group btn-group-toggle innerDivRadio" data-toggle="buttons">
+		  <label class="btn btn-outline-secondary active">
+		    <input type="radio" name="genre" id="radioGenreNone" autocomplete="off" checked>전체
+		  </label>
+		  <label class="btn btn-outline-secondary">
+		    <input type="radio" name="genre" id="radioGenreMusical" autocomplete="off">뮤지컬
+		  </label>
+		  <label class="btn btn-outline-secondary">
+		    <input type="radio" name="genre" id="radioGenrePlay" autocomplete="off">연극
+		  </label>
+		  <label class="btn btn-outline-secondary">
+		    <input type="radio" name="genre" id="radioGenreClassic" autocomplete="off">클래식
+		  </label>
+		</div>
+		<div class="innerDivInput">
+		  <input type="text" class="searchInput" placeholder="상연중인 공연 제목으로 검색하기">
+		  <div class="input-group-append">
+		    <button class="btn btn-outline-secondary btn-lg" type="button">검색</button>
+		  </div>
+		</div>
 	</div>
 	
 	<div id="iconsContainer" class="titleFont">
@@ -90,50 +109,5 @@
 	
 	<div id="boContainer"></div>
 	
-	<script>
-		$(document).ready(ajaxCall("m")).ready(ajaxCall("p")).ready(ajaxCall("c"));
-			
-		function ajaxCall(genre) {
-			$.ajax({
-				type : "GET",
-				async: false,
-				url : "/cm/show/ajaxBoList",
-				data : {
-					"genre" : genre,
-				},
-				error : function(error) {
-					console.log("ajax-error : " + error);
-				},
-				success : function(result) {
-					console.log("ajax-success");
-					if(result) {
-						var toAdd = '';
-						if(result == null) {
-							console.log("result == null");
-							toAdd += "<div><p>박스 오피스에 일시적으로 접근이 불가합니다. 관리자에게 문의해 주세요.</p>";
-						} else {
-							console.log("result != null");
-							toAdd += '<div class="boTitle"><h2 class="titleFont">' + result[0].cate + ' 주간 박스 오피스</h2>'
-							toAdd += '<button type="button" class="btn btn-secondary btn-lg btnFont" id="' + result[0].cate + 'Reloc">더 보기</button></div>';
-							toAdd += '<div class="ListDiv">';
-							for(i = 0; i < 5; i++) {
-								toAdd += '<div class="card">';
-								toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }/show/restview?name=' + result[i].mt20id + '\';">';
-								toAdd += '<img src="http://www.kopis.or.kr' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
-								toAdd += '</div>';
-								toAdd += '<div class="card-body">';
-								toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
-								toAdd += '<p class="card-text subTitle">' + result[i].prfplcnm + '</p>';
-								toAdd += '<p class="card-text">' + result[i].prfpd + '</p>';
-								toAdd += '</div>';
-								toAdd += '</div>';
-							}
-						}
-						toAdd += '</div>';
-						$("#boContainer").append(toAdd);
-					}
-				}
-			});
-		}
-	</script>
+	<script src="${ path }/resources/js/home.js"></script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
