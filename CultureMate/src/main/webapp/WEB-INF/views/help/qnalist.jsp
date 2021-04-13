@@ -40,6 +40,7 @@
 					</td>
 				</tr>	
 			</c:if>
+			
 			<c:if test="${qnalist != null}">
 			  <c:forEach var="qnalist" items="${qnalist}">
           <tr>
@@ -60,7 +61,8 @@
       </table>
     </div>
 
- </div>   
+ </div>  
+ 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 
