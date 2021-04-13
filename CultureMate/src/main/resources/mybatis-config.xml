@@ -7,4 +7,10 @@
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
+
+<!--	
+	<typeAliases>
+		<typeAlias type="com.kh.cm.box.model.dao.BoxOfficeDAO" alias="BoxOfficeDAO"/>
+	</typeAliases>
+-->
 </configuration>

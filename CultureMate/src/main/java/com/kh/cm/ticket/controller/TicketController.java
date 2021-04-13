@@ -37,14 +37,15 @@ public class TicketController {
 	
 	@RequestMapping(value = "ticket/ticketing", method = {RequestMethod.POST} )
 	public ModelAndView ticketing(HttpServletRequest request, ModelAndView model, 
-			@RequestParam("mt20id") String mt20id, @RequestParam("prfnm") String prfnm,   
-			@RequestParam("id") int id, @RequestParam("user_id") String user_id, 
-			@RequestParam("ticket_qty") int ticket_qty, 
+			@RequestParam("mt20id") String mt20id, @RequestParam("prfnm") String prfnm, 
+			@RequestParam("ticket_date") String ticket_date, @RequestParam("id") int id, 
+			@RequestParam("user_id") String user_id, @RequestParam("ticket_qty") int ticket_qty, 
 			@RequestParam("pcseguidance") String pcseguidance, @RequestParam("ticket_seat") List<String> ticket_seat) {
 		
 		model.setViewName("ticket/ticketing");
 		model.addObject("mt20id", mt20id);
 		model.addObject("prfnm", prfnm);
+		model.addObject("ticket_date", ticket_date);
 		model.addObject("id", id);
 		model.addObject("user_id", user_id);
 		model.addObject("ticket_qty", ticket_qty);
@@ -64,13 +65,14 @@ public class TicketController {
 	
 	@RequestMapping(value = "ticket/ticketing/success",  method = {RequestMethod.POST})
 	public ModelAndView success(HttpServletRequest request, ModelAndView model, Ticket ticket, 
-			@RequestParam("mt20id") String mt20id, @RequestParam("prfnm") String prfnm,   
-			@RequestParam("id") int id, @RequestParam("user_id") String user_id, 
-			@RequestParam("ticket_qty") int ticket_qty, 
+			@RequestParam("mt20id") String mt20id, @RequestParam("prfnm") String prfnm, 
+			@RequestParam("ticket_date") String ticket_date, @RequestParam("id") int id, 
+			@RequestParam("user_id") String user_id, @RequestParam("ticket_qty") int ticket_qty, 
 			@RequestParam("pcseguidance") String pcseguidance, @RequestParam("ticket_seat") List<String> ticket_seat) {
 		
 		ticket.setMt20id(mt20id);
 		ticket.setPrfnm(prfnm);
+		ticket.setTicket_date(ticket_date);
 		ticket.setId(id);
 		ticket.setUser_id(user_id);
 		ticket.setTicket_qty(ticket_qty);
@@ -83,6 +85,7 @@ public class TicketController {
 			model.setViewName("ticket/success");
 			model.addObject("mt20id", mt20id);
 			model.addObject("prfnm", prfnm);
+			model.addObject("ticket_date", ticket_date);
 			model.addObject("id", id);
 			model.addObject("user_id", user_id);
 			model.addObject("ticket_qty", ticket_qty);
@@ -103,10 +106,19 @@ public class TicketController {
 	}
 
 	@RequestMapping(value = "ticket/ticketing/fail", method = {RequestMethod.GET})
-	public ModelAndView fail(HttpServletRequest request, ModelAndView model) {
+	public String fail() {
 		
+		return "ticket/fail";
+	}
+	
+	@RequestMapping(value = "ticket/ticketing/fail",  method = {RequestMethod.POST})
+	public ModelAndView fail(HttpServletRequest request, ModelAndView model, 
+			@RequestParam("mt20id") String mt20id) {
 		
 		model.setViewName("ticket/fail");
+		model.addObject("mt20id", mt20id);
+		
+		System.out.println("controller_fail_model : " + model);
 		
 		return model;
 	}

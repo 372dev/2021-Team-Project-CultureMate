@@ -31,14 +31,14 @@
 				<a class="mypage btn-secondary" href="${path}/myPage">마이페이지</a>
         </div>
         <div id="topmenu">
-          <div class="list list01">
-            <a href="${ path }/show/showList">공연</a>
-            <div class="list01_under under">
-              <a href="">뮤지컬</a>
-              <a href="">콘서트</a>
-              <a href="">연극</a>
-            </div>
-          </div>
+	          <div class="list list01">
+	            <a href="${ path }/show/showList">공연</a>
+	            <div class="list01_under under">
+	              <a href="${ path }/show/boList?genre=musical">뮤지컬</a>
+	              <a href="${ path }/show/boList?genre=play">연극</a>
+	              <a href="${ path }/show/boList?genre=classic">클래식</a>
+	            </div>
+	          </div>
           <div class="list list02">
             <a href="">메이트</a>
             <div class="list02_under under">
@@ -56,5 +56,3 @@
       </div>
       <div class="line"></div>
     </div>
-  </body>
-</html>
