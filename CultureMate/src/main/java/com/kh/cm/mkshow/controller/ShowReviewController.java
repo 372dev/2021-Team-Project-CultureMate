@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
@@ -116,4 +117,22 @@ public class ShowReviewController {
 	 		
 	 		return star;
 	 	}
+	 		
+	 		@RequestMapping(value = "/update.do", method = {RequestMethod.POST})
+	 		@ResponseBody
+		    public ModelAndView updateReview(ShowReview review,
+		    		 @SessionAttribute(name="loginMember", required = false)  Member loginMember,
+		    		 ModelAndView model,
+		    		HttpServletRequest request) {
+		    	
+		      	//System.out.println(no);
+		        System.out.println("수정 함수 실행" + review.getReviewID() + "@@@@");
+		        System.out.println("@@@" + review.getReviewContent());
+		       // System.out.println(reviewContent);
+		        service.updateReview(review);
+		      
+		        model.setViewName("home");
+		      
+		        return model;
+		    }
 }

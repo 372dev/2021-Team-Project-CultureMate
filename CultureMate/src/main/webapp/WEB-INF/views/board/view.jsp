@@ -302,6 +302,10 @@ a#btn-insert {
 	float: right;
 }
 
+#updatereply{
+	float: right;
+}
+
 div#datepicker {
     width: 20%;
     float: left;
@@ -348,6 +352,7 @@ text-align: center;
 #today .list02, .list04, .list06 {
    
 }
+
 
 
 </style>
@@ -477,7 +482,7 @@ text-align: center;
             		<c:out value="${show.sty}"/>
             		<br>
 					<c:forEach var="i" begin="1" end="${max}">
-					<img alt="" src="${show.styurls.styurl[i-1]}" style="width: 100%"><br>
+					<img alt="" src="${show.styurls.styurl[i-1]}" style="max-width: 100%"><br>
 					</c:forEach>
 			</div>
 		</div>
@@ -585,7 +590,8 @@ text-align: center;
 					</svg>
 					</c:forEach>
                      <c:if test="${loginMember.userNick == review1.userNick }">
-                     <a id='deletereply' href='' onclick="del(${review1.reviewID})">삭제</a>
+                     <a id='updatereply' data-toggle="modal" href="#myModal${review1.reviewID}" >수정</a>
+                     <a id='deletereply' href='' onclick="del(${review1.reviewID})">삭제/</a>
                      </c:if>
                      <br><br>${review1.reviewContent}<br><br></td></tr>
                      </c:forEach>
@@ -595,6 +601,43 @@ text-align: center;
 			
 			</div>
 		</div>
+		
+			<c:forEach var="review2"  items="${review}">
+				<div class="modal fade" id="myModal${review2.reviewID}" role="dialog">
+			    <div class="modal-dialog">
+			      <!-- Modal content-->
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <h4 class="modal-title">댓글 수정 <c:out value="${review2.reviewID}"/></h4>
+			        </div>
+			        <div class="modal-body">
+			        별점수정
+			        <P id="ustar"> 
+					<a id=star1 value=1>★</a> 
+					<a id=star1 value=2>★</a> 
+					<a id=star1 value=3>★</a> 
+					<a id=star1 value=4>★</a> 
+					<a id=star1 value=5>★</a> 
+					</p>
+			        <input type="hidden" id="rname" value="reviewupdate${review2.reviewID}">
+			        <form  method="post" id="reviewupdate${review2.reviewID}">
+			           <input type="hidden" name="reviewID" id="reviewID" value="${review2.reviewID}"/>
+			          <textarea name="reviewContent" cols="57" rows="4" onfocus="" id="reviewContent"><c:out value="${review2.reviewContent}"/></textarea>
+			        <div id="uhstar" style="float: left">
+					
+					</div>
+			        <div class="modal-footer">
+			          <a class="btn btn-default sb" data-dismiss="modal" href="">save </a>
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        </div>
+			         </form>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			</c:forEach>
+
+
 		
 		<div class="bxo_vcb" style="display: none" >
 			<div class="tib">
@@ -774,14 +817,7 @@ text-align: center;
 		          <br><strong id="title">11</strong>
 		          </div>
 		  			 </c:forEach>
-		     
 		       </div>
-		       <div style="text-align: center" id="dot">
-						<span class="dot" onclick="currentSlide(1)"></span> 
-						<span class="dot" onclick="currentSlide(2)"></span> 
-						<span class="dot" onclick="currentSlide(3)"></span>
-						<span class="dot" onclick="currentSlide(4)"></span>
-				</div>
 		</div>
 		
 		
@@ -895,6 +931,26 @@ $('#star a').click(function(){
 	});
 });
 	
+// 댓글 평점 수정 
+$('#ustar a').click(function(){ 
+	$(this).parent().children("a").removeClass("on"); 
+	$(this).addClass("on").prevAll("a").addClass("on"); 
+	console.log($(this).attr("value"));
+	
+	$.ajax({
+		type: "post",
+		url: "<c:url value='/review/star.do'/>",
+		data: {"num" : $(this).attr("value")},
+		success: function(result) {
+		  html = '<input type="hidden" id="reviewRating" name="reviewRating" value="' + result + '  ">';
+		  $("#uhstar").html(html);
+		  console.log("히든성공");
+		},
+		error: function(e) {
+			console.log(e);
+		}
+	});
+});
 //댓글 작성
 function fn_comment(){
     console.log("에이작스 호출");
@@ -939,6 +995,33 @@ function del(no) {
   });
 
 }
+
+// 댓글 수정
+
+$(document).on("click", ".sb", function(){
+	
+	var va1 = $(this).parent().parent().children('#reviewContent').val();
+	var va2 = $(this).parent().parent().children('#reviewID').val();
+	var va3 = $(this).parent().parent().children('#reviewID').val();
+	console.log("!!" + va1 +"@@" + va2);
+	 
+	var data = {
+			reviewID :  va2,
+			reviewContent :  va1
+		    };  
+	 
+	$.ajax({
+	      type : 'POST',
+	      url : "<c:url value='/review/update.do'/>",
+	      data : data,
+	      success : function(data){
+	        	console.log("업데이트 성공!!");
+	    	  	location.reload();
+	        }
+	  });
+	});
+	
+	
 </script>
 
 	
@@ -964,7 +1047,7 @@ function del(no) {
 
 		// 마커 위에 표시할 인포윈도우를 생성한다
 		var infowindow = new kakao.maps.InfoWindow({
-			content : '<div style="padding:5px; width: 500px; text-align: center;"><c:out value="${result.get(0).fcltynm}"/>&nbsp</div>' // 인포윈도우에 표시할 내용
+			content : '<div style="padding:5px; width:max-content;"><c:out value="${result.get(0).fcltynm}"/>&nbsp</div>' // 인포윈도우에 표시할 내용
 		});
 
 		// 인포윈도우를 지도에 표시한다

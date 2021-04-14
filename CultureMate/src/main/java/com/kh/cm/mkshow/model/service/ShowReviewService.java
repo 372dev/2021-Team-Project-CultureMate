@@ -14,4 +14,6 @@ public interface ShowReviewService  {
 
 	List<ShowReview> findReviewWriter(int no);
 
+	int updateReview(ShowReview review);
+
 }
