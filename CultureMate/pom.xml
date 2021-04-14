@@ -109,6 +109,20 @@
 		    <version>2.8.0</version>
 		</dependency>
 		
+		<!-- Mail -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
+
+		
 		<!-- File Upload -->
 		<dependency>
 		    <groupId>commons-io</groupId>
