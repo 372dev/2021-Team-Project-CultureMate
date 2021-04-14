@@ -1,9 +1,6 @@
 package com.kh.cm.ticket.controller;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,10 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.ticket.model.service.TicketService;
 import com.kh.cm.ticket.model.vo.Ticket;
@@ -95,14 +92,12 @@ public class TicketController {
 			System.out.println("count : " + count);
 			
 			if(count > 4 && count < 10) {
-				member.setRank("친한친구");
 				
-				int updateRank = ticketservice.updateRank02(member);
+				int updateRank = ticketservice.updateRank02(loginMember.getId());
 				
 			} else if(count > 9) {
-				member.setRank("베스트프랜드");
 				
-				int updateRank = ticketservice.updateRank03(member);
+				int updateRank = ticketservice.updateRank02(loginMember.getId());
 			}
 			
 			System.out.println("controller_success_member : " + member);
@@ -151,18 +146,72 @@ public class TicketController {
 		return model;
 	}
 	
-	@RequestMapping(value = "myPage/ticket", method = {RequestMethod.GET})
-	public ModelAndView mypage_ticket(ModelAndView model) {
+	@RequestMapping(value = "member/ticket", method = {RequestMethod.GET})
+	public ModelAndView mypage_ticket(ModelAndView model, 
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember, 
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page, 
+			@RequestParam(value = "listLimit", required = false, defaultValue = "10") int listLimit) {
 		
-		List<Ticket> ticket = null;
 		
+		List<Ticket> list = null;
+		int ticketCount = ticketservice.getTicketCount(loginMember.getId());		
+		PageInfo pageInfo = new PageInfo(page, 10, ticketCount, listLimit);
 		
+		System.out.println(ticketCount);
+		
+		list = ticketservice.getTicketList(pageInfo, loginMember.getId());
+		
+		model.addObject("list", list);
+		model.addObject("pageInfo", pageInfo);
 		model.setViewName("ticket/list");
 		
 		return model;
 	}
 	
-	
+	@RequestMapping(value = "member/ticket/cancel", method = {RequestMethod.POST})
+	public ModelAndView cancel(ModelAndView model, @RequestParam("ticket_num") int ticket_num, 
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember, @ModelAttribute Member member) {
+		
+		int result = ticketservice.deleteTicket(ticket_num);
+		
+		System.out.println(result);
+		
+		if(result > 0) {
+			
+			int count = ticketservice.countTicket(loginMember.getId());
+			
+			System.out.println("count : " + count);
+			
+			System.out.println("cancel member : " + member);
+			
+			if(count > 4 && count < 10) {
+				
+				int updateRank = ticketservice.updateRank02(loginMember.getId());
+				
+			} else if(count > 9) {
+				
+				int updateRank = ticketservice.updateRank03(loginMember.getId());
+			} else {
+				
+				int updateRank = ticketservice.updateRankDefault(loginMember.getId());
+			}
+			
+			model.addObject("loginMember", ticketservice.findMemberByUserId(loginMember.getUserId()));
+			model.addObject("msg", "예매 취소를 완료했습니다.");
+			model.addObject("location", "/member/ticket");
+			model.setViewName("common/msg");
+			
+		} else {
+			model.addObject("msg", "예매 취소를 실패했습니다.");
+			model.addObject("location", "/member/ticket");
+			model.setViewName("common/msg");
+			
+		}
+		
+		System.out.println("cancel loginMember : " + loginMember);
+		
+		return model;
+	}
 	
 	
 	

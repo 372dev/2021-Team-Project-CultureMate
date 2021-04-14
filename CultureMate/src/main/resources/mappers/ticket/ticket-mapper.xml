@@ -91,10 +91,28 @@
 		)
   	</insert>
   	
+  	<select id="selectTicketList" parameterType="map" resultMap="ticketResultMap">
+  		SELECT T.TICKET_NUM, 
+	           T.MT20ID, 
+	           T.PRFNM, 
+	           T.TICKET_DATE, 
+	           T.ID, 
+	           T.USER_ID, 
+	           T.TICKET_QTY, 
+	           T.TICKET_TIME, 
+	           T.CHANGE_TIME, 
+	           T.PCSEGUIDANCE, 
+	           T.TICKET_SEAT, 
+	           T.TICKET_STATUS 
+		FROM TICKET T 
+		WHERE T.TICKET_STATUS = 'Y' AND T.ID = #{id} 
+		ORDER BY T.TICKET_NUM DESC 
+	</select>
+  	
   	<select id="countTicket" resultType="int">
  		SELECT COUNT(*) 
  		FROM TICKET 
- 		WHERE ID = #{id}
+ 		WHERE ID = #{id} AND TICKET_STATUS='Y'
   	</select>
 	
 	<update id="updateRank02" parameterType="Ticket">
@@ -107,6 +125,18 @@
 		UPDATE MEMBER SET 
 		RANK = '베스트프랜드'
 		WHERE ID = #{id}
+	</update>
+	
+	<update id="updateRankDefault" parameterType="Ticket">
+		UPDATE MEMBER SET 
+		RANK = '친구'
+		WHERE ID = #{id}
+	</update>
+	
+	<update id="deleteTicket" parameterType="Ticket">
+		UPDATE TICKET SET
+		TICKET_STATUS = 'N'
+		WHERE TICKET_NUM = #{ticket_num}
 	</update>
   	
   	
