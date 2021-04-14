@@ -162,8 +162,6 @@ public class ShowController {
     	   type = "CCCA";
        }
        
-       // 여기까지 지우기
-       
        List<MemberDTO> slist = getList(type);
        System.out.println("목록1" + slist.get(0).getPrfnm());
        
