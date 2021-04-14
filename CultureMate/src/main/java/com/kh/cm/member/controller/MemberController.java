@@ -277,15 +277,19 @@ public class MemberController {
 			return "member/findId";
 		}
 		
-		@RequestMapping(value="/member/findId")
-		public void findId(@ModelAttribute Member member, @RequestParam("userName") String userName, 
+		@RequestMapping(value="/member/findId", method= {RequestMethod.POST})
+		@ResponseBody
+		public String findId(@ModelAttribute Member member, @RequestParam("userName") String userName, 
 								@RequestParam("email") String email, @RequestParam("phone") String phone) {
 			
 			if(userName.equals(member.getUserName()) && email.equals(member.getEmail()) && phone.equals(member.getPhone())) {
-				service.findId(userName, email, phone);
+//				service.findId(userName, email, phone);
+//				String userId = "{\"userId\":\""
+//				return 
 			} else {
 				
 			}
+			return phone;
 			
 		}
 		
