@@ -127,6 +127,27 @@
 		var radioGenre = $('input[name="radioGenre"]:checked').val();
 		mainShowSearch(searchInput, radioGenre);
 	});
+	
+	$('#searchInput').on('keypress', function (e) {
+	    if (e.key === 'Enter') {
+			var searchInput = $('#searchInput').val();
+			var radioGenre = $('input[name="radioGenre"]:checked').val();
+			mainShowSearch(searchInput, radioGenre);
+	    }
+	});
+	
+	$('#iconsMusical').on('click', function() {
+		window.location.replace('${ path }/show/boList?genre=musical');
+	})
+	$('#iconsPlay').on('click', function() {
+		window.location.replace('${ path }/show/boList?genre=play');
+	})
+	$('#iconsClassic').on('click', function() {
+		window.location.replace('${ path }/show/boList?genre=classic');
+	})
+	$('#iconsMate').on('click', function() {
+		window.location.replace('${ path }/mate/list');
+	})
 		
 	function ajaxCall(genre) {
 		$.ajax({

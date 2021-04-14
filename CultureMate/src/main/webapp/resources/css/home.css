@@ -100,6 +100,9 @@
 	justify-content: center;
 	margin: 3rem auto;
 }
+#iconsContainer > * {
+	cursor: pointer;
+}
 
 .icons {
 	border: 1px solid green;
