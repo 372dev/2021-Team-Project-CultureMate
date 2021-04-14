@@ -357,6 +357,34 @@ text-align: center;
    
 }
 
+#price_default{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 18px;
+	font-weight: 300;
+	margin: 5px 0 0 86px;
+}
+
+#price_before{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 18px;
+	font-weight: 300;
+	color: gray;
+	text-decoration: line-through;
+	margin: 5px 0 0 86px;
+}
+
+#price_after{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 18px;
+	font-weight: 500;
+	margin: 5px 0 0 86px;
+}
+
+#ticketing{
+	width: 220px;
+	margin-top: 20px;
+	margin-left: 50px;
+}
 
 
 </style>
@@ -415,7 +443,13 @@ text-align: center;
 						<br>
 						<dt>가격</dt>
 						<c:if test="${pcseguidancesize != 1}">
-							<div id="price_in" style="margin: 5px 0 0 86px"></div>
+							<c:if test="${loginMember.userId == null || loginMember.rank == '친구'}">
+								<div id="price_default"></div>
+							</c:if>
+							<c:if test="${loginMember.userId != null && loginMember.rank != '친구'}">
+								<div id="price_before"></div>
+								<div id="price_after"></div>
+							</c:if>
 						</c:if>
 						<c:if test="${pcseguidancesize == 1}">
 						<dd><c:out value="정보가 없습니다."/></dd> 
@@ -896,23 +930,52 @@ $('#reviewContent').val().replace(/\n/g, "<br>");
 </script>
 
 <script>
-	var before="${show.pcseguidance}"
-	var price = before.replace(/[^0-9]/g,'');
+	var price_before = "${show.pcseguidance}";
+	var price = price_before.replace(/[^0-9]/g,'');
 	var form_pcseguidance = document.getElementById("form_pcseguidance");
-	var price_in = document.getElementById("price_in");
+
+	var rank = "${loginMember.rank}";
+	var price_default = document.getElementById("price_default");
+	var price_before = document.getElementById("price_before");
+	var price_after = document.getElementById("price_after");
 
 	if(price.length > 6) {
-		price = price.substring(0, 6);
+		price = price.substring(0, 5);
 	}
 
-	price_in.innerHTML = "전석 " + price + "원";
+	console.log("rank : " + rank);
+
+	console.log("price : " + price);
+
+	if(rank == "" || rank == "친구") {
+		price_default.innerHTML = "전석 " + price + "원";
+
+	}
+
+	if (rank == "친한친구") {
+		price_before.innerHTML = "전석 " + price + "원";
+
+		price = price * 0.95;
+
+		price_after.innerText = "전석 " + price + "원 [친한친구 등급 할인!]";
+
+		console.log(price);
+	} else if(rank == "베스트프랜드") {
+		price_before.innerHTML = "전석 " + price + "원";
+
+		price = price * 0.9;
+
+		price_after.innerText = "전석 " + price + "원 [베스트프랜드 등급 할인!]";
+
+		console.log(price);
+	}
 
 	form_pcseguidance.value = price;
 
 	var logincheck = document.getElementById("form_userId").value;
 
 	function openSeatSelect(){
-		if(!logincheck) {
+		if(logincheck == "") {
 			alert("로그인 후 이용 가능합니다.");
 			location.href="${path}/login";
 		} else if($('#form_ticket_date').val() == "") {

@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.mkshow.model.service.ShowReviewService;
 import com.kh.cm.mkshow.model.vo.MemberDTO;
 import com.kh.cm.mkshow.model.vo.MemberListDTO;
@@ -21,6 +23,7 @@ import com.kh.cm.mkshow.model.vo.ShowDTO;
 import com.kh.cm.mkshow.model.vo.ShowListDTO;
 import com.kh.cm.mkshow.model.vo.ShowReview;
 import com.kh.cm.mkshow.model.vo.ShowStyDTO;
+import com.kh.cm.ticket.model.service.TicketService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +35,9 @@ public class ShowController {
 	
 	 @Autowired
 	 private ShowReviewService service; 
+	 
+	 @Autowired
+	 private TicketService ticketservice;
 	
 	//지도 위치 출력 위한 위도 경도 리턴 함수
 	private static List<PlaceDTO> getPlace(String mt10id) {
@@ -94,7 +100,8 @@ public class ShowController {
 	}
 	
 	@RequestMapping(value = "/restview", method = RequestMethod.GET)
-    public ModelAndView showView(ModelAndView model, String name) {
+    public ModelAndView showView(ModelAndView model, String name, 
+    		@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
         // Xml데이터를 response받을 API주소
 		String addr = "http://www.kopis.or.kr/openApi/restful/pblprfr/";
 	    String serviceKey = "54aff7444a924def99fc5e93ad99952d";
@@ -146,19 +153,38 @@ public class ShowController {
        }else {
     	   type = "CCCA";
        }
+       
        List<MemberDTO> slist = getList(type);
        System.out.println("목록1" + slist.get(0).getPrfnm());
        
        model.addObject("slist",slist);
        model.addObject("review", review);
        model.addObject("replylength", replylength-1);
-       model.addObject("place", place);
-       model.addObject("prfruntimesize", result.get(0).getPrfruntime().length());
-       model.addObject("pcseguidancesize", result.get(0).getPcseguidance().length());
-       model.setViewName("board/view");
-       model.addObject("result", result);
-         
-       return model;
+        model.addObject("place", place);
+        model.addObject("prfruntimesize", result.get(0).getPrfruntime().length());
+        model.addObject("pcseguidancesize", result.get(0).getPcseguidance().length());
+        model.setViewName("board/view");
+        model.addObject("result", result);
+        
+        if(loginMember != null) {
+        	model.addObject("loginMember", ticketservice.findMemberByUserId(loginMember.getUserId()));
+        }
+        
+        return model;
     }
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
