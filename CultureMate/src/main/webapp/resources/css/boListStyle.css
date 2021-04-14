@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+/* font *********************************************************/
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+.titleFont {
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+.btnFont {
+	font-family: 'Jua', sans-serif;
+}
+
+/* button *******************************************************/
+
+.btn-block {
+	width: 90%;
+	margin: 20px auto;
+}

@@ -83,7 +83,7 @@
 							toAdd += '<div class="card-body">';
 							toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
 							toAdd += '<p class="card-text subTitle">' + result[i].fcltynm + '</p>';
-							toAdd += '<p class="card-text">' + result[i].prfpdfrom + ' ~ ' + result[i].prfpdto + '</p>';
+							toAdd += '<p class="card-text">' + result[i].prfpdfrom + '~' + result[i].prfpdto + '</p>';
 							toAdd += '</div>';
 							toAdd += '</div>';
 						}

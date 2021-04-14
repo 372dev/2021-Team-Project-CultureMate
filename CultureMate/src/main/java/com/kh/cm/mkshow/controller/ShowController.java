@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -169,4 +171,28 @@ public class ShowController {
         return model;
     }
 	
+	@ResponseBody
+	@RequestMapping(value = "/mateAjax", method = RequestMethod.GET)
+    public List<ShowDTO> ajaxShow(@RequestParam("mt20id") String mt20id) {
+		log.info("Controller started. id : " + mt20id);
+		
+		String serviceKey = "54aff7444a924def99fc5e93ad99952d";
+		StringBuilder urlBuilder = new StringBuilder("http://www.kopis.or.kr/openApi/restful/pblprfr/");
+		urlBuilder.append(mt20id);
+		urlBuilder.append("?service=" + serviceKey);
+		
+		String url = urlBuilder.toString();
+		RestTemplate restTemplate = new RestTemplate();
+		
+		ShowListDTO showList = restTemplate.getForObject(url, ShowListDTO.class);
+		List<ShowDTO> result = showList.getShowInfo();
+		
+		log.info("result retrieved. id : " + result.get(0).getMt20id());
+		return result;
+    }
+	
+	@RequestMapping(value = "/mateAjaxTest", method = RequestMethod.GET)
+	public String ajaxShowTest() {
+		return "mateAjaxTest";
+	}
 }
