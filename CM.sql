@@ -39,6 +39,27 @@ COMMIT;
 
 ROLLBACK;
 
+SELECT * FROM MEMBER WHERE ID = 23;
+
+-- 예매회수 구하기
+SELECT COUNT(*)
+FROM TICKET
+WHERE ID = 23;
+
+-- 회원등급
+-- 기본 '친구', 5회 이상 '친한친구(5퍼 할인)', 10회 이상 '베스트프랜드(10퍼 할인)'
+
+UPDATE MEMBER SET 
+RANK = '친한친구'
+WHERE ID = 1;
+
+SELECT *
+FROM MEMBER
+WHERE ID = 1;
+
+
+COMMIT;
+
 -------------------------------------------------------------------------
 
 -------------------------------- MEMBER --------------------------------
@@ -59,9 +80,10 @@ CREATE TABLE MEMBER(
     POSTCODE VARCHAR2(15) NOT NULL,
     ADDRESS VARCHAR2(100) NOT NULL,
     DETAIL_ADDR VARCHAR2(100) NOT NULL,
-    EXTRA_ADDR VARCHAR2(100) NOT NULL, -- 도로명주소를 지번주소로
+    EXTRA_ADDR VARCHAR2(100), -- 도로명주소를 지번주소로
     RANK VARCHAR2(20) DEFAULT '친구',
-    STATUS VARCHAR2(1) DEFAULT 'Y' CHECK(STATUS IN('Y', 'N'))
+    STATUS VARCHAR2(1) DEFAULT 'N' CHECK(STATUS IN('Y', 'N')),
+    AUTHKEY VARCHAR2(50)
 ); 
 
 -- TODO 구매이력, 회원등급
@@ -119,29 +141,87 @@ COMMENT ON COLUMN BOXOFFICE.SEATCNT IS '좌석수';
 COMMENT ON COLUMN BOXOFFICE.POSTER IS '포스터';
 
 -------------------------------------------------------------------------
+--------------------------- Review 테이블 ----------------------------------
+
+CREATE TABLE REVIEW(
+  REVIEW_ID NUMBER PRIMARY KEY,
+  MT20ID VARCHAR2(100),
+  REVIEW_CONTENT VARCHAR2(400),
+  REVIEW_DATE DATE DEFAULT SYSDATE,
+  LIKE_COUNT NUMBER DEFAULT 0,
+  REVIEW_RATING VARCHAR2(50) NOT NULL,
+  STATUS VARCHAR2(1) DEFAULT 'Y' CHECK(STATUS IN('Y', 'N')),
+  ID NUMBER,
+  FOREIGN KEY (ID) REFERENCES MEMBER,
+  USER_NICK VARCHAR2(20)
+);
+
+CREATE SEQUENCE SEQ_REVIEW_ID;
+
+
+COMMENT ON COLUMN REVIEW.REVIEW_ID IS '리뷰 아이디';
+COMMENT ON COLUMN REVIEW.MT20ID IS '공연ID';
+COMMENT ON COLUMN REVIEW.REVIEW_CONTENT IS '리뷰 내용';
+COMMENT ON COLUMN REVIEW.REVIEW_DATE IS '리뷰 작성 날짜';
+COMMENT ON COLUMN REVIEW.LIKE_COUNT IS '좋아요 수';
+COMMENT ON COLUMN REVIEW.REVIEW_RATING IS '리뷰 별점';
+COMMENT ON COLUMN REVIEW.STATUS IS '리뷰 상태';
+COMMENT ON COLUMN REVIEW.ID IS '회원번호';
+COMMENT ON COLUMN REVIEW.USER_NICK IS '';
+
+-------------------------------------------------------------------------
+--------------------------- MATEBOARD 테이블 ----------------------------------
+
+CREATE TABLE MATEBOARD(	
+    MATE_ID NUMBER,
+    MATE_WRITER_ID NUMBER,
+    MATE_OPEN VARCHAR2(20),
+    MATE_SHOW VARCHAR2(20),
+    MATE_AGE VARCHAR2(20),
+    MATE_GENDER VARCHAR2(20),
+    MATE_NUM VARCHAR2(20),
+    MATE_LOC VARCHAR2(20),
+	MATE_TITLE VARCHAR2(100), 
+	MATE_CONTENT VARCHAR2(2000), 
+	MATE_COUNT NUMBER DEFAULT 0, 
+    STATUS VARCHAR2(1) DEFAULT 'Y' CHECK (STATUS IN('Y', 'N')),
+    MATE_CREATE_DATE DATE DEFAULT SYSDATE, 
+    MATE_MODIFY_DATE DATE DEFAULT SYSDATE,
+    CONSTRAINT PK_MATE_ID PRIMARY KEY(MATE_ID),
+    CONSTRAINT FK_MATE_WRITER FOREIGN KEY(MATE_WRITER_ID) REFERENCES MEMBER(ID) ON DELETE SET NULL  
+);
+
+CREATE SEQUENCE SEQ_MATE_ID;
+
+-------------------------------------------------------------------------
+--------------------------- MATEREPLY 테이블 ----------------------------------
+
+CREATE TABLE MATEREPLY(
+  MATEREPLY_ID NUMBER PRIMARY KEY,
+  MATE_ID NUMBER,
+  MATEREPLY_WRITER_ID NUMBER,
+  MATEREPLY_GROUP NUMBER,
+  MATEREPLY_CONTENT VARCHAR2(400),
+  STATUS VARCHAR2(1) DEFAULT 'Y' CHECK (STATUS IN ('Y', 'N')),
+  MATEREPLY_CREATE_DATE DATE DEFAULT SYSDATE,
+  MATEREPLY_MODIFY_DATE DATE DEFAULT SYSDATE,  
+  FOREIGN KEY (MATE_ID) REFERENCES MATEBOARD,
+  FOREIGN KEY (MATEREPLY_WRITER_ID) REFERENCES MEMBER
+);
+
+CREATE SEQUENCE SEQ_MATEREPLY_ID;
+
+-------------------------------------------------------------------------
+--------------------------- SHAREBOARD 테이블 ----------------------------
 
 
 
+-------------------------------------------------------------------------
+--------------------------- SHAREREPLY 테이블 ----------------------------
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-------------------------------------------------------------------------
 
 
 

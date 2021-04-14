@@ -49,6 +49,10 @@ public class MemberController {
 			
 			Member loginMember = service.login(userId, password);
 			
+			System.out.println("controller uerId : " + userId);
+			System.out.println("controller password : " + password);
+			System.out.println("controller loginMember : " + loginMember);
+			
 			if(loginMember != null) {
 				model.addObject("loginMember", loginMember);
 				model.setViewName("redirect:/");
