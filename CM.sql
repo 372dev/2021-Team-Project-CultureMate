@@ -44,7 +44,7 @@ SELECT * FROM MEMBER WHERE ID = 23;
 -- 예매회수 구하기
 SELECT COUNT(*)
 FROM TICKET
-WHERE ID = 23;
+WHERE ID = 3 AND TICKET_STATUS='Y';
 
 -- 회원등급
 -- 기본 '친구', 5회 이상 '친한친구(5퍼 할인)', 10회 이상 '베스트프랜드(10퍼 할인)'
@@ -56,6 +56,28 @@ WHERE ID = 1;
 SELECT *
 FROM MEMBER
 WHERE ID = 1;
+
+SELECT T.TICKET_NUM,
+       T.MT20ID, 
+       T.PRFNM, 
+       T.TICKET_DATE, 
+       T.ID, 
+       T.USER_ID, 
+       T.TICKET_QTY, 
+       T.TICKET_TIME, 
+       T.CHANGE_TIME, 
+       T.PCSEGUIDANCE, 
+       T.TICKET_SEAT, 
+       T.TICKET_STATUS
+FROM TICKET T 
+WHERE T.TICKET_STATUS = 'Y' AND T.ID = '1' 
+ORDER BY T.TICKET_NUM DESC;
+
+UPDATE TICKET SET
+TICKET_STATUS = 'N'
+WHERE TICKET_NUM = 47;
+
+
 
 
 COMMIT;

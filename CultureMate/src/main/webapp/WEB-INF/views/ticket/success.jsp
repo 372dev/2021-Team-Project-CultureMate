@@ -62,7 +62,6 @@
 </style>
 
 <div id="success">
-	${ loginMember.userId }
 	<div class="success_container">
 		<div class="text title">결제를 완료했습니다.</div>
 		<div class="text_container">
@@ -92,7 +91,7 @@
 			</div>
 		</div>
 		<a class="btn01 btn btn-secondary" href="${path}/">메인으로</a>
-		<a class="btn02 btn btn-secondary" href="${ path }/myPage/ticket">예매내역 확인</a>
+		<a class="btn02 btn btn-secondary" href="${ path }/member/ticket">예매내역 확인</a>
 	</div>
 </div>
 
