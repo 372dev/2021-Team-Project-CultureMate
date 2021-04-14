@@ -1,13 +1,6 @@
 package com.kh.cm.member.model.vo;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,4 +41,7 @@ public class Member {
 	private String rank;
 	
 	private String status;
+	
+	private String authkey;
+	
 }
