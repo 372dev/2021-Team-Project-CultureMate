@@ -291,6 +291,9 @@ table#tbl-comment sub.comment-date {
 
 #star a{ text-decoration: none; color: gray; } #star a.on{ color: red; }
 
+#ustar a{ text-decoration: none; color: gray; } #ustar a.on{ color: red; }
+
+
 a#btn-insert {
     margin-bottom: 30px;
     /* top: -10px; */
@@ -602,6 +605,7 @@ text-align: center;
 			</div>
 		</div>
 		
+		<!-- 댓글 수정 모달창 -->
 			<c:forEach var="review2"  items="${review}">
 				<div class="modal fade" id="myModal${review2.reviewID}" role="dialog">
 			    <div class="modal-dialog">
@@ -942,7 +946,7 @@ $('#ustar a').click(function(){
 		url: "<c:url value='/review/star.do'/>",
 		data: {"num" : $(this).attr("value")},
 		success: function(result) {
-		  html = '<input type="hidden" id="reviewRating" name="reviewRating" value="' + result + '  ">';
+		  html = '<input type="hidden" id="reviewRating1" name="reviewRating1" value="' + result + '  ">';
 		  $("#uhstar").html(html);
 		  console.log("히든성공");
 		},
@@ -1002,14 +1006,17 @@ $(document).on("click", ".sb", function(){
 	
 	var va1 = $(this).parent().parent().children('#reviewContent').val();
 	var va2 = $(this).parent().parent().children('#reviewID').val();
-	var va3 = $(this).parent().parent().children('#reviewID').val();
-	console.log("!!" + va1 +"@@" + va2);
+	//var va3 = $(this).parent().parent().children('#uhstar').children('#reviewRating1').val();
+	var va3 = document.getElementById("reviewRating1").value;
+	console.log("!!" + va1 +"@@" + va2 + "##" + va3);
 	 
 	var data = {
 			reviewID :  va2,
-			reviewContent :  va1
+			reviewContent :  va1,
+			reviewRating : va3
 		    };  
 	 
+	
 	$.ajax({
 	      type : 'POST',
 	      url : "<c:url value='/review/update.do'/>",
@@ -1019,6 +1026,7 @@ $(document).on("click", ".sb", function(){
 	    	  	location.reload();
 	        }
 	  });
+	
 	});
 	
 	

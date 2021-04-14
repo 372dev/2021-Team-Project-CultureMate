@@ -128,6 +128,7 @@ public class ShowReviewController {
 		      	//System.out.println(no);
 		        System.out.println("수정 함수 실행" + review.getReviewID() + "@@@@");
 		        System.out.println("@@@" + review.getReviewContent());
+		        System.out.println("###" + review.getReviewRating());
 		       // System.out.println(reviewContent);
 		        service.updateReview(review);
 		      

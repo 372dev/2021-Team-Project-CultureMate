@@ -55,7 +55,7 @@
   	
   	<update id="updateReview" parameterType="ShowReview">
   		UPDATE REVIEW
-  		SET REVIEW_CONTENT = #{reviewContent}
+  		SET REVIEW_CONTENT = #{reviewContent} , REVIEW_RATING = #{reviewRating}
   		WHERE REVIEW_ID = #{reviewID}
   	</update>
 	
