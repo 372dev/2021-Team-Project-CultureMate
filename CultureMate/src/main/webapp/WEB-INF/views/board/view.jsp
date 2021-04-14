@@ -561,6 +561,7 @@ text-align: center;
 					<c:if test="${ !empty loginMember}">
 					<input type="hidden" id="id" name="id" value="${loginMember.id}">
 					<input type="hidden" id="userNick" name="userNick" value="${loginMember.userNick}">
+					<input type="hidden" id="reviewRating" name="reviewRating" value="">
 					<div id="hstar" style="float: left">
 					
 					</div>
@@ -627,9 +628,7 @@ text-align: center;
 			        <form  method="post" id="reviewupdate${review2.reviewID}">
 			           <input type="hidden" name="reviewID" id="reviewID" value="${review2.reviewID}"/>
 			          <textarea name="reviewContent" cols="57" rows="4" onfocus="" id="reviewContent"><c:out value="${review2.reviewContent}"/></textarea>
-			        <div id="uhstar" style="float: left">
-					
-					</div>
+			          <input type="hidden" id="reviewRating1" name="reviewRating1" value="">
 			        <div class="modal-footer">
 			          <a class="btn btn-default sb" data-dismiss="modal" href="">save </a>
 			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -827,6 +826,10 @@ text-align: center;
 		
 		</section>
 			
+<script type="text/javascript">
+$('#reviewContent').val().replace(/\n/g, "<br>");
+</script>
+
 
 <!-- 달력 (datapciker) -->
 <script type="text/javascript">
@@ -920,19 +923,8 @@ $('#star a').click(function(){
 	$(this).addClass("on").prevAll("a").addClass("on"); 
 	console.log($(this).attr("value"));
 	
-	$.ajax({
-		type: "post",
-		url: "<c:url value='/review/star.do'/>",
-		data: {"num" : $(this).attr("value")},
-		success: function(result) {
-		  html = '<input type="hidden" id="reviewRating" name="reviewRating" value="' + result + '  ">';
-		  $("#hstar").html(html);
-		  console.log("히든성공");
-		},
-		error: function(e) {
-			console.log(e);
-		}
-	});
+	document.getElementById('reviewRating').value = $(this).attr("value");
+	
 });
 	
 // 댓글 평점 수정 
@@ -941,19 +933,8 @@ $('#ustar a').click(function(){
 	$(this).addClass("on").prevAll("a").addClass("on"); 
 	console.log($(this).attr("value"));
 	
-	$.ajax({
-		type: "post",
-		url: "<c:url value='/review/star.do'/>",
-		data: {"num" : $(this).attr("value")},
-		success: function(result) {
-		  html = '<input type="hidden" id="reviewRating1" name="reviewRating1" value="' + result + '  ">';
-		  $("#uhstar").html(html);
-		  console.log("히든성공");
-		},
-		error: function(e) {
-			console.log(e);
-		}
-	});
+	document.getElementById('reviewRating1').value = $(this).attr("value");
+	
 });
 //댓글 작성
 function fn_comment(){
@@ -1008,6 +989,10 @@ $(document).on("click", ".sb", function(){
 	var va2 = $(this).parent().parent().children('#reviewID').val();
 	//var va3 = $(this).parent().parent().children('#uhstar').children('#reviewRating1').val();
 	var va3 = document.getElementById("reviewRating1").value;
+	
+	if(!va3){
+		alert('별점을 다시 입력해주세요');
+	}
 	console.log("!!" + va1 +"@@" + va2 + "##" + va3);
 	 
 	var data = {
@@ -1028,7 +1013,6 @@ $(document).on("click", ".sb", function(){
 	  });
 	
 	});
-	
 	
 </script>
 
@@ -1101,6 +1085,11 @@ $.each(tabMenu, function(index, value) {
 	});
 	
 });
+
+
+// 줄 바꿈 처리 
+
+
 
 $("#plcMap").hide();
 
