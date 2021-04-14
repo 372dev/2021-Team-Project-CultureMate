@@ -51,47 +51,47 @@
 	</div>
 
 	<script>
-	$('#submitSearchForm').on('click', function () {
-		var prfstateVal = $('input[name="prfstate"]:checked').val();
-		var shcateVal = $('input[name="shcate"]:checked').val();
-		var shprfnm = $('#showTitle').val();
-		$.ajax({
-			type : "GET",
-			url : "/cm/show/ajaxShowList",
-			data : {
-				"prfstate" : prfstateVal,
-				"shcate" : shcateVal,
-				"shprfnm" : shprfnm,
-			},
-			error : function(error) {
-				console.log("ajax-error");
-			},
-			success : function(result) {
-				console.log("ajax-success");
-				$("#showListDiv").empty();
-				var toAdd = '';
-				if(result == null || $.isEmptyObject(result)) {
-					console.log("no result");
-					toAdd += "<p>검색 조건에 맞는 게시물이 없습니다.</p>";
-				} else {
-					console.log("result != null");
-					for(i = 0; i < result.length; i++) {
-						toAdd += '<div class="card">';
-						toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }/show/restview?name=' + result[i].mt20id + '\';">';
-						toAdd += '<img src="' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
-						toAdd += '</div>';
-						toAdd += '<div class="card-body">';
-						toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
-						toAdd += '<p class="card-text subTitle">' + result[i].fcltynm + '</p>';
-						toAdd += '<p class="card-text">' + result[i].prfpdfrom + ' ~ ' + result[i].prfpdto + '</p>';
-						toAdd += '</div>';
-						toAdd += '</div>';
+		$('#submitSearchForm').on('click', function () {
+			var prfstateVal = $('input[name="prfstate"]:checked').val();
+			var shcateVal = $('input[name="shcate"]:checked').val();
+			var shprfnm = $('#showTitle').val();
+			$.ajax({
+				type : "GET",
+				url : "/cm/show/ajaxShowList",
+				data : {
+					"prfstate" : prfstateVal,
+					"shcate" : shcateVal,
+					"shprfnm" : shprfnm,
+				},
+				error : function(error) {
+					console.log("ajax-error");
+				},
+				success : function(result) {
+					console.log("ajax-success");
+					$("#showListDiv").empty();
+					var toAdd = '';
+					if(result == null || $.isEmptyObject(result)) {
+						console.log("no result");
+						toAdd += "<p>검색 조건에 맞는 게시물이 없습니다.</p>";
+					} else {
+						console.log("result != null");
+						for(i = 0; i < result.length; i++) {
+							toAdd += '<div class="card">';
+							toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }/show/restview?name=' + result[i].mt20id + '\';">';
+							toAdd += '<img src="' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
+							toAdd += '</div>';
+							toAdd += '<div class="card-body">';
+							toAdd += '<h5 class="card-title">' + result[i].prfnm + '</h5>';
+							toAdd += '<p class="card-text subTitle">' + result[i].fcltynm + '</p>';
+							toAdd += '<p class="card-text">' + result[i].prfpdfrom + '~' + result[i].prfpdto + '</p>';
+							toAdd += '</div>';
+							toAdd += '</div>';
+						}
 					}
+					$("#showListDiv").append(toAdd);
 				}
-				$("#showListDiv").append(toAdd);
-			}
-		});
-	})
+			});
+		})
 	</script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

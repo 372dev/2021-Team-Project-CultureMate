@@ -1,28 +1,166 @@
 @charset "UTF-8";
 
+/* font *********************************************************/
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+.titleFont {
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+.btnFont {
+	font-family: 'Jua', sans-serif;
+}
+
+/* topDiv, sideMenu, slider *************************************/
 .topDiv {
 	width : 1200px;
 	height : 300px;
 	border : 1px solid blue;
 	display : flex;
+	margin : auto;
 }
 
 .sideMenuDiv {
-	width : 200px;
+	width : 150px;
 	height : 300px;
 	boder : 1px solid green;
+	background: rgb(85,85,85);
+	font-weight: bold;
+	/* alignment */
+	display: flex;
+	flex-direction: column;
+}
+
+.sideMenuDiv a {
+	text-decoration : none;
+	color : white;
+}
+
+.treeMenuLv0 {
+	margin: 8px 5px 2px 20px;
+	font-size: 19px;
+}
+
+.treeMenuLv1 {
+	margin: 1px 5px 1px 30px;
+	font-size: 17px;
 }
 
 .carousel {
   background: #2f4357;
 }
+
 .carousel-item {
   text-align: center;
-  height: 300px; /* Prevent carousel from being distorted if for some reason image doesn't load */
+  height: 300px;
+  /* Prevent carousel from being distorted if for some reason image doesn't load */
 }
 
 .carouselDiv {
-	width: 1000px;
+	width: 1050px;
 	height : 300px;
 	boder : 1px solid green;
+}
+
+/* searchContainer, radio, search ******************************/
+.searchContainer {
+	width: 700px;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid red;
+	margin: 3rem auto;
+	background: rgb(225,225,225,0.6);
+	border-radius: 10px;
+}
+
+.innerDivRadio {
+	width: 300px;
+	margin: auto auto 10px auto;
+}
+
+.innerDivInput {
+	display:flex;
+	flex-direction:horizontal;
+	margin: 10px auto auto auto;
+	width: 600px;
+	justify-content: space-between;
+}
+
+.searchInput {
+	border-radius: 10px;
+	width: 500px;
+	height: 50px;
+}
+
+/* iconsContainer, icons ***************************************/
+
+#iconsContainer {
+	display: flex;
+	justify-content: center;
+	margin: 3rem auto;
+}
+#iconsContainer > * {
+	cursor: pointer;
+}
+
+.icons {
+	border: 1px solid green;
+	width: 13rem;
+	height: 13rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 1rem;
+	/* border-box */
+	border: 2px solid rgba(0,0,0,0.5);
+	border-radius: 15px;
+	/* box shadow */
+	box-shadow: 10px 10px 5px 0px rgba(100,100,100,0.75);
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(100,100,100,0.75);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(100,100,100,0.75);
+}
+
+.icons > * {
+	margin : auto;
+}
+
+.icons img {
+	width: 7rem;
+	height: 7rem;
+}
+
+.icons p {
+	font-weight: bold;
+	font-size: 1rem;
+}
+
+/* BoxOffice *************************************************/
+#boContainer > .ListDiv {
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+	border-top: 5px solid rgba(0,0,0,0.5);
+	border-bottom: 5px solid rgba(0,0,0,0.5);
+	border-radius: 10px;
+	padding-top: 1rem;
+}
+
+.boTitle {
+	display:flex;
+	justify-content: space-between;
+	border: 1px solid green;
+}
+
+.boTitle > * {
+	margin : 0 2rem;
+}
+
+.boTitle > h2 {
+	font-size: 3rem;
+}
+
+
+.boTitle > button {
+	margin-top: 5px;
+	margin-bottom: 5px;
 }

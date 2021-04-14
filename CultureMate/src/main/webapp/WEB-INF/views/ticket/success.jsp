@@ -62,6 +62,7 @@
 </style>
 
 <div id="success">
+	${ loginMember.userId }
 	<div class="success_container">
 		<div class="text title">결제를 완료했습니다.</div>
 		<div class="text_container">

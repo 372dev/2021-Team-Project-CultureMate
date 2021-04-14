@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+.nested_boxes{margin:auto; padding:10px;}
+.nested_boxes .form-row .form-group {
+	display: inline-block;
+	width: 30%;
+	vertical-align: top;
+	margin: 0 0 12px 0;
+}
+.nested_boxes .form-row .form-group .nested_check_in {
+	position: relative;
+}
+.nested_boxes .form-row .form-group .nested_check_in input {
+	position: absolute;
+	height: 100%;
+	cursor: pointer;
+	opacity: 0;
+	z-index: 99;
+}
+.nested_boxes .form-row .form-group .nested_check_in label::after {
+	content: "";
+	position: absolute;
+	background: #eee;
+	width: 18px;
+	height: 18px;
+	left: -1px;
+	top: 2px;
+}
+.nested_boxes .form-row .form-group .nested_check_in label::before {
+	position: absolute;
+	content: "";
+	left: 3px;
+	top: 0px;
+	width: 10px;
+	height: 17px;
+	border: solid #000;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	z-index: 1;
+	display: none;
+}
+.nested_boxes .form-row .form-group .nested_check_in label {
+	position: relative;
+	padding-left: 24px;
+	font-size: 17px;
+	color: #575757;
+}
+.nested_boxes .form-row .form-group .nested_check_in input:checked ~ label::before {
+	opacity: 1;
+	display: block;
+}
+.nested_boxes .form-row .form-group .nested_check_in input:checked ~ label::after {
+	opacity: 0;
+}

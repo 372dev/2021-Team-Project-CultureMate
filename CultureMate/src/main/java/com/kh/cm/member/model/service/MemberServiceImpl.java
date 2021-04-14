@@ -1,12 +1,15 @@
 package com.kh.cm.member.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.cm.member.model.dao.MemberDao;
+import com.kh.cm.member.model.vo.MailHandler;
 import com.kh.cm.member.model.vo.Member;
+import com.kh.cm.member.model.vo.TempKey;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,13 +21,18 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 	
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	private JavaMailSender mailSender;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;	
 	
 	
 	// 로그인
 	@Override
 	public Member login(String userId, String password) {
 		Member loginMember = memberDao.selectMember(userId);
+		
+		System.out.println("Impl loginMember : " + loginMember);
 		
 		return loginMember != null && passwordEncoder.matches(password, loginMember.getPassword()) ? loginMember : null;
 	}
@@ -34,17 +42,82 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectMember(userId);
 	}
 
-	// 회원가입
+	// 회원가입	
 	@Override
 	@Transactional
 	public int saveMember(Member member) {
 		int result = 0;
 		
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
-			
+		
 		result = memberDao.insertMember(member);
+		
+		try {
+			sendMail(member);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return result;
+	}
+	
+	// 이메일 보내기
+	@Override
+	public void sendMail(Member member) throws Exception{
+		String key = new TempKey().getKey(); // 인증키 생성
+		member.setAuthkey(key);
+		
+		log.info("key : " + key);
+		
+		memberDao.updateAuthkey(member);
+		
+		MailHandler sendMail = new MailHandler(mailSender);
+        sendMail.setSubject("[컬쳐메이트] 회원가입 이메일 인증");
+        sendMail.setText(new StringBuffer().append("<h2>컬쳐메이트를 이용해주셔서 감사합니다!</h2>")
+        		.append("<h3>회원가입을 아래 링크를 눌러 마무리 해주세요~!</h3>")
+                .append("<a href='http://localhost:8088/cm/emailConfirm?userId=")
+                .append(member.getUserId())
+                .append("&authkey=")
+                .append(key)
+                .append("' target='_blank'>컬쳐메이트 이메일 인증하러 가기~!</a>")
+                .toString());
+        
+        sendMail.setFrom("CultureMate", "컬쳐메이트");
+        sendMail.setTo(member.getEmail());
+        sendMail.send();
+	}
+	
+	// 이메일 인증 키 검증
+//	@Override
+//	public Member userAuth(String authkey) {
+//		Member member = new Member();
+//		member = memberDao.checkAuth(authkey); // 이메일 인증 코드 확인
+//		
+//		if(member != null) {
+//			try {
+//				memberDao.successAuthkey(member); // 인증 후 계정 활성화
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		return member;
+//	}
+	
+	@Override
+	public Member userAuth(String userId, String authkey) {
+		Member member = memberDao.selectMember(userId);
+		member = memberDao.checkAuth(authkey); // 이메일 인증 코드 확인
+		log.info(member.getUserId());
+		
+		if(userId != null) {
+			try {
+				memberDao.successAuthkey(member); // 인증 후 계정 활성화
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return member;
 	}
 
 	// 회원탈퇴
@@ -68,7 +141,11 @@ public class MemberServiceImpl implements MemberService {
 	// 비밀번호 변경
 	@Override
 	public int changePwd(String userId, String password) {
-		return 0;
+		int result = 0;
+		
+		result = memberDao.updatePassword(userId, passwordEncoder.encode(password));
+		
+		return result;
 	}
 
 	// 아이디 중복 체크
@@ -76,5 +153,12 @@ public class MemberServiceImpl implements MemberService {
 	public int validate(String userId) {
 		return memberDao.validate(userId);
 	}
+
+	// 회원정보 수정
+	@Override
+	public int updateMember(Member member, String password) {
+		return passwordEncoder.matches(password, member.getPassword()) ? memberDao.updateMember(member) : 0;
+	}
+
 
 }
