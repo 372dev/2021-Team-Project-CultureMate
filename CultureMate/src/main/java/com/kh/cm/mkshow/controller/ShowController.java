@@ -175,9 +175,26 @@ public class ShowController {
         model.addObject("pcseguidancesize", result.get(0).getPcseguidance().length());
         model.setViewName("board/view");
         model.addObject("result", result);
-        model.addObject("loginMember", ticketservice.findMemberByUserId(loginMember.getUserId()));
-         
+        
+        if(loginMember != null) {
+        	model.addObject("loginMember", ticketservice.findMemberByUserId(loginMember.getUserId()));
+        }
+        
         return model;
     }
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
