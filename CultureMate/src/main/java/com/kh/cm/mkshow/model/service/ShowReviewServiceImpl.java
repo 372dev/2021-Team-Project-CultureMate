@@ -45,7 +45,6 @@ public class ShowReviewServiceImpl implements ShowReviewService {
 	@Override
 	public int updateReview(ShowReview review) {
 		// TODO Auto-generated method stub
-		System.out.println("@@@@impl@@@@");
 	
 		return showDao.updateReview(review);
 		

@@ -102,14 +102,8 @@ public class ShowController {
 		
 	    List<PlaceDTO> place;
 	    int replylength = 0;
-		 
-		 
 	    
 		 String uri = addr + parameter + serviceKey;
-         
-	  
-	    
-	    
 	    
         // RestTemplate 생성
         RestTemplate restTemplate = new RestTemplate();
@@ -124,8 +118,6 @@ public class ShowController {
         System.out.println("0배열 : " + result.get(0).getMt10id());
         
         place = getPlace(result.get(0).getMt10id());
-       // System.out.println("위도 : " + place[0]);
-        //System.out.println("경도 : " + place[1]);
         
         //리뷰가져오기
 	    List<ShowReview> review = null;
@@ -160,13 +152,13 @@ public class ShowController {
        model.addObject("slist",slist);
        model.addObject("review", review);
        model.addObject("replylength", replylength-1);
-        model.addObject("place", place);
-        model.addObject("prfruntimesize", result.get(0).getPrfruntime().length());
-        model.addObject("pcseguidancesize", result.get(0).getPcseguidance().length());
-        model.setViewName("board/view");
-        model.addObject("result", result);
+       model.addObject("place", place);
+       model.addObject("prfruntimesize", result.get(0).getPrfruntime().length());
+       model.addObject("pcseguidancesize", result.get(0).getPcseguidance().length());
+       model.setViewName("board/view");
+       model.addObject("result", result);
          
-        return model;
+       return model;
     }
 	
 }

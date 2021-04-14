@@ -136,4 +136,13 @@ public class ShowReviewController {
 		      
 		        return model;
 		    }
+	 		
+	 		@RequestMapping(value = "/reco.do", method = {RequestMethod.POST})
+	 		@ResponseBody
+	 		public String reco(int no, int reco, HttpServletRequest request) {
+	 		
+	 			//service.updatereco();
+	 			
+	 		
+	 		return "";}
 }
