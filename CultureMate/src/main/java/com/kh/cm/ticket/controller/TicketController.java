@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,11 +65,16 @@ public class TicketController {
 	}
 	
 	@RequestMapping(value = "ticket/ticketing/success",  method = {RequestMethod.POST})
-	public ModelAndView success(HttpServletRequest request, ModelAndView model, Ticket ticket, Member member, 
+	public ModelAndView success(HttpServletRequest request, ModelAndView model, Ticket ticket, 
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember, @ModelAttribute Member member, 
 			@RequestParam("mt20id") String mt20id, @RequestParam("prfnm") String prfnm, 
 			@RequestParam("ticket_date") String ticket_date, @RequestParam("id") int id, 
 			@RequestParam("user_id") String user_id, @RequestParam("ticket_qty") int ticket_qty, 
 			@RequestParam("pcseguidance") String pcseguidance, @RequestParam("ticket_seat") List<String> ticket_seat) {
+		
+		// 여기까지 지우기
+		System.out.println("controller_success loginMember : " + loginMember);
+		System.out.println("controller_success member : " + member);
 		
 		ticket.setMt20id(mt20id);
 		ticket.setPrfnm(prfnm);
@@ -90,12 +96,16 @@ public class TicketController {
 			
 			if(count > 4 && count < 10) {
 				member.setRank("친한친구");
+				
 				int updateRank = ticketservice.updateRank02(member);
 				
 			} else if(count > 9) {
 				member.setRank("베스트프랜드");
+				
 				int updateRank = ticketservice.updateRank03(member);
 			}
+			
+			System.out.println("controller_success_member : " + member);
 			
 			model.setViewName("ticket/success");
 			model.addObject("mt20id", mt20id);
@@ -106,7 +116,7 @@ public class TicketController {
 			model.addObject("ticket_qty", ticket_qty);
 			model.addObject("pcseguidance", pcseguidance);
 			model.addObject("ticket_seat", ticket_seat);
-			model.addObject("loginMember", member);
+			model.addObject("loginMember", ticketservice.findMemberByUserId(loginMember.getUserId()));
 			
 			System.out.println("member : " + member);
 			

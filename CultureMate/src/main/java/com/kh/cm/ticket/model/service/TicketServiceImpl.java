@@ -46,11 +46,14 @@ public class TicketServiceImpl implements TicketService{
 	}
 
 	@Override
-	public Member findMemberById(int Id) {
+	public Member findMemberByUserId(String userId) {
 		
-		return ticketdao.selectMember(Id);
+		return ticketdao.selectMember(userId);
 	}
-
+	
+	
+	
+	
 }
 
 

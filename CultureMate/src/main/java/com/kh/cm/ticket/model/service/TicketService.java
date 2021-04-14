@@ -13,7 +13,7 @@ public interface TicketService {
 
 	int updateRank03(Member member);
 
-	Member findMemberById(int id);
+	Member findMemberByUserId(String userId);
 	
 	
 	

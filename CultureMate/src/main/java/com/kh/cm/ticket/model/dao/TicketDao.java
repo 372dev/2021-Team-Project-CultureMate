@@ -1,5 +1,7 @@
 package com.kh.cm.ticket.model.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.ticket.model.vo.Ticket;
 
@@ -13,7 +15,7 @@ public interface TicketDao {
 
 	int updateRank03(Member member);
 
-	Member selectMember(int Id);
+	Member selectMember(@Param("userId") String userId);
 	
 	
 	
