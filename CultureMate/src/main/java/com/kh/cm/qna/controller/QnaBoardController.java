@@ -1,12 +1,16 @@
 package com.kh.cm.qna.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +21,7 @@ import com.kh.cm.cs.model.vo.CsBoard;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.qna.model.service.QnaBoardService;
 import com.kh.cm.qna.model.vo.QnaBoard;
+import com.kh.cm.qna.model.vo.QnaReply;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -80,11 +85,35 @@ public class QnaBoardController {
 	}
 	@RequestMapping(value = "qnaview", method = {RequestMethod.GET})
 	public ModelAndView qnaview(@RequestParam("qnaId") int qnaId, ModelAndView model) {
+		
 		QnaBoard qnaboard = service.findqnaBoardById(qnaId);
 		
 		model.addObject("qnaboard", qnaboard);
 		model.setViewName("help/qnaview");
 		
+		return model;
+	}
+
+	@RequestMapping(value = "qnareply", method = {RequestMethod.POST})
+	public ModelAndView qnareply(
+			            @SessionAttribute(name = "loginMember", required = false) Member loginMember,
+			            @RequestParam int qnaId, @RequestParam int replyWriterNo, @RequestParam String qnaReContent,
+			            ModelAndView model) {
+		int result=0;
+		
+		   QnaReply qnareply = new QnaReply();
+		   
+		   qnareply.setQnaId(qnaId);
+		   qnareply.setReplyWriterNo(loginMember.getId());
+		   qnareply.setQnaReContent(qnaReContent);
+		
+		   System.out.println(qnareply);
+		   
+		   result = service.getqnaReply(qnareply);
+		   
+		   model.addObject("qnareply", qnareply);
+		   model.setViewName("help/qnaview");
+		   
 		return model;
 	}
 }

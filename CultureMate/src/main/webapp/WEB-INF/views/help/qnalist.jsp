@@ -1,3 +1,4 @@
+<%@page import="com.kh.cm.qna.model.vo.QnaBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -40,7 +41,6 @@
 					</td>
 				</tr>	
 			</c:if>
-			
 			<c:if test="${qnalist != null}">
 			  <c:forEach var="qnalist" items="${qnalist}">
           <tr>

@@ -13,8 +13,7 @@
 		       C.CSBOARD_CONTENT,
 		       C.CSBOARD_ORIGINAL_FILE,
 		       C.STATUS,
-		       C.CSBOARD_CREATE_DATE,
-		       C.CSBOARD_COUNT
+		       C.CSBOARD_CREATE_DATE
 		FROM CSBOARD C
 		JOIN MEMBER M ON(C.CSBOARD_WRITERNO = M.ID)		
 		WHERE C.STATUS ='Y'	
@@ -31,7 +30,6 @@
 		<result property="csboardRenamedFile" column="CSBOARD_RENAMED_FILE"/>
 		<result property="status" column="STATUS"/>
 		<result property="csboardCreateDate" column="CSBOARD_CREATE_DATE"/>
-		<result property="csboardCount" column="CSBOARD_COUNT"/>
 	</resultMap>
 	
 	<select id="selectCsBoardList" parameterType="map" resultMap="csboardResultMap">
@@ -43,7 +41,18 @@
 		SELECT COUNT(*)
 		FROM CSBOARD
 		WHERE STATUS='Y'
-	</select>	 	
+	</select>
+	
+	<select id="selectnoticeList" parameterType="map" resultMap="csboardResultMap">
+		<include refid="csBoardListSql"></include>
+		ORDER BY C.CSBOARD_ID DESC
+	</select>
+	
+	<select id="selectnoticeCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM CSBOARD
+		WHERE STATUS='Y'
+	</select>	 		 	
 	
 	<insert id="insertCsBoard" parameterType="map"
   		useGeneratedKeys="true" keyProperty="csboardId" keyColumn="CSBOARD_ID">
@@ -58,7 +67,6 @@
   			#{csboardContent},
   			#{csboardOriginalFile},
   			#{csboardRenamedFile},
-  			DEFAULT,
   			DEFAULT,
   			DEFAULT,
   			DEFAULT

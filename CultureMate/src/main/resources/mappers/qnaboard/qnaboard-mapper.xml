@@ -16,6 +16,19 @@
 		JOIN MEMBER M ON(Q.QNA_WRITERNO = M.ID)		
 		WHERE Q.STATUS ='Y'	
 	</sql>
+	
+	<sql id="qnaReplyListSql">
+		SELECT R.QNA_RE_ID,
+			   R.QNA_ID,
+		       R.REPLY_WRITER_NO,
+		       R.QNA_RE_CONTENT,
+		       R.STATUS,
+		       R.REPLY_CREATE_DATE,
+		FROM QNA_REPLY R
+		JOIN MEMBER M ON(R.QNA_ID = B.QNA_ID)		
+		WHERE R.STATUS ='Y'	
+	</sql>
+	
 
   <resultMap type="qnaBoard" id="qnaboardResultMap">
 		<id property="qnaId" column="QNA_ID"/>
@@ -35,7 +48,17 @@
 		<result property="qnaContent" column="QNA_CONTENT"/>
 		<result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
 		<result property="status" column="Q_STATUS"/>
-
+        <collection property="replies" javaType="java.util.ArrayList" resultMap="qnaboardReplyResultMap"/>	
+	</resultMap>
+	
+	<resultMap type="qnaReply" id="qnaboardReplyResultMap">
+		<id property="qnaReId" column="QNA_RE_ID"/>
+		<result property="qnaId" column="QNA_ID"/>
+		<result property="userId" column="R_USER_ID"/>
+		<result property="qnaReContent" column="QNA_RE_CONTENT"/>
+		<result property="status" column="R_STATUS"/>
+		<result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
+		<result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
 	</resultMap>
 	
 	<select id="selectqnaBoardList" parameterType="map" resultMap="qnaboardResultMap">
@@ -65,7 +88,7 @@
 	<insert id="insertqnaBoard" parameterType="map"
   		useGeneratedKeys="true" keyProperty="qnaId" keyColumn="QNA_ID" >
   		
-  		INSERT INTO QNA_BOARD
+  		INSERT INTO QNA_BOARD 
         VALUES (
   			SEQ_QNA_ID.NEXTVAL,
 	        #{qnaWriterNo},
@@ -78,5 +101,20 @@
 
  		)
   	</insert>
+  	
+  		<insert id="insertqnaReply"  parameterType="map"
+  		useGeneratedKeys="true" keyProperty="qnaReId" keyColumn="QNA_RE_ID">
+  			INSERT INTO QNA_REPLY
+  			VALUES (
+  				QNA_RE_ID.NEXTVAL,
+	  			#{qnaId},
+	  			#{replyWriterNo},
+	  			#{qnaReContent}
+	  			DEFAULT,
+	  			DEFAULT,
+	  			DEFAULT
+  			)
+  		</insert>
+  	
 	
 </mapper>

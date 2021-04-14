@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.cm.cs.model.vo.CsBoard;
 import com.kh.cm.qna.model.dao.QnaBoardDao;
 import com.kh.cm.qna.model.vo.QnaBoard;
+import com.kh.cm.qna.model.vo.QnaReply;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +42,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	@Override
 	public List<QnaBoard> getqnaBoardList() {
 		
+		
 		return qnaboardDao.selectqnaBoardList();
 	}
 
@@ -49,6 +51,16 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 
 		return qnaboardDao.selectqnaBoardDetail(qnaId);
 	}
+
+	@Override
+	public int getqnaReply(QnaReply qnareply) {
+		
+		return qnaboardDao.insertqnaReply(qnareply);
+	}
+
+	
+
+	
 
 	
 

@@ -2,12 +2,12 @@ package com.kh.cm.cs.model.service;
 
 import java.util.List;
 
-import org.apache.ibatis.session.RowBounds;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kh.cm.common.util.PageInfo;
+
 import com.kh.cm.cs.model.dao.CsBoardDao;
 import com.kh.cm.cs.model.vo.CsBoard;
 
@@ -43,12 +43,25 @@ public class CsBoardServiceImpl implements CsBoardService {
 
 
 	@Override
-	public List<CsBoard> getCsBoardList(PageInfo pageInfo) {
-		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
-		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+	public List<CsBoard> getCsBoardList() {
 		
-		return csboardDao.selectCsBoardList(rowBounds);
+		return csboardDao.selectCsBoardList();
 	}
+
+
+	@Override
+	public int getnoticeBoardCount() {
+		
+		return csboardDao.selectnoticeCount();
+	}
+
+
+	@Override
+	public List<CsBoard> getnoticeBoardList() {
+		
+		return csboardDao.selectnoticeList();
+	}
+
 
 
 

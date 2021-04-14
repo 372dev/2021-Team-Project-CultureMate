@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.cs.model.service.CsBoardService;
 import com.kh.cm.cs.model.vo.CsBoard;
 import com.kh.cm.member.model.vo.Member;
@@ -36,28 +35,40 @@ public class CsController {
 	private CsBoardService service; 
 	
 	@RequestMapping(value = "/csmain", method = {RequestMethod.GET})
-	public ModelAndView cslist (
+	public ModelAndView csmain (
 			ModelAndView model,
-			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-			@RequestParam(value = "listLimit", required = false, defaultValue = "5") int listLimit) {
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 		
 		List<CsBoard> list = null;
+		
 		int boardCount = service.getCsBoardCount();
-		PageInfo pageInfo = new PageInfo(page, 5, boardCount, listLimit);
+
 		
 		  System.out.println(boardCount);
 		
-		list = service.getCsBoardList(pageInfo);
+		list = service.getCsBoardList();
 				
-		model.addObject("cslist", list);
-		model.addObject("pageInfo", pageInfo);
+		model.addObject("csmain", list);
 		model.setViewName("help/csmain");;
 		return model;
 	}
 		
 		@RequestMapping(value = "/notice", method = {RequestMethod.GET})
-		public void csnotice() {
+		public ModelAndView csnotice(ModelAndView model) {
 			
+			List<CsBoard> list =null;
+			
+			int boardCount = service.getnoticeBoardCount();
+			
+			  System.out.println(boardCount);
+
+			
+			list = service.getCsBoardList();
+			
+			model.addObject("notice", list);
+			model.setViewName("help/notice");
+			
+			return model;
 	}
 		
 		@RequestMapping(value = "/cswrite", method = {RequestMethod.GET})
@@ -91,7 +102,7 @@ public class CsController {
 			
 			 result = service.saveCsBoard(csboard);
 			 
-			 if (result>0) { // 리절트가 만족하면 게시글이 정상적으로 등록되었습니다.
+			 if (result>0) { 
 				  model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
 				  model.addObject("loaction", "/help/csmain");
 			}else {
