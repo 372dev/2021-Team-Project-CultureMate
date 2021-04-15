@@ -47,7 +47,7 @@
         <label for="content">댓글</label>
         <form name="commentInsertForm">
             <div class="input-group">
-               <input type="hidden" name="qnaId" value="${qnaboard.qnaId }"/>
+               <input type="hidden" name="qnaId" value="${qnaboard.qnaId}"/>
                <input type="text" class="form-control" id="qnaReContent" name="qnaReContent" placeholder="내용을 입력하세요.">
                <span class="input-group-btn">
                     <button class="btn btn-default" type="submit" name="commentInsertBtn">등록</button>
@@ -64,7 +64,17 @@
         </div>
 
 
-
+<script>
+	function updateBoard(){
+			location.href = "${path}/help/qnaupdate?qnaId=${qnaboard.qnaId}";
+	}
+		
+	function deleteBoard(){		
+		if(confirm("정말로 게시글을 삭제 하시겠습니까?")){
+			location.replace('${path}/help/qnadelete?qnaId=${qnaboard.qnaId}');
+		}
+	}
+</script>
 
  
  <script>

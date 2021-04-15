@@ -23,6 +23,8 @@ public interface CsBoardDao {
 
 	List<CsBoard> selectnoticeList();
 
+	CsBoard selectcsBoardDetail(int csboardId);
+
 
 
 

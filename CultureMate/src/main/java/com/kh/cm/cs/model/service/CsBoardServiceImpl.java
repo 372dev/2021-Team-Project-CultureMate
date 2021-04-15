@@ -63,6 +63,13 @@ public class CsBoardServiceImpl implements CsBoardService {
 	}
 
 
+	@Override
+	public CsBoard findcsBoardByNo(int csboardId) {
+		
+		return csboardDao.selectcsBoardDetail(csboardId);
+	}
+
+
 
 
 

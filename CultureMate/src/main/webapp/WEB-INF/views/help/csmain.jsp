@@ -33,7 +33,9 @@
 
 	<h5>
 		<strong>자주 묻는 질문(FAQ)</strong>  
+		<c:if test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
 		<button type="button" onclick="location.href ='${path}/help/cswrite'">글쓰기</button>
+	    </c:if>
 	</h5>
 	
 
@@ -43,13 +45,13 @@
 				<li class="nav-item1"><a class="nav-link active"
 					data-toggle="tab" href="#qwe">전체보기</a></li>
 				<li class="nav-item1"><a class="nav-link" data-toggle="tab"
-					href="#asd">환불</a></li>
+					href="#asd">예매/취소</a></li>
 				<li class="nav-item1"><a class="nav-link" data-toggle="tab"
-					href="#zxc">구매/결제</a></li>
+					href="#zxc">결제</a></li>
 				<li class="nav-item1"><a class="nav-link" data-toggle="tab"
-					href="#dfg">메이트/소모임</a></li>
+					href="#dfg">회원</a></li>
 				<li class="nav-item1"><a class="nav-link" data-toggle="tab"
-					href="#hjk">기타</a></li>
+					href="#hjk">메이트/소모임</a></li>
 			</ul>
 
 
@@ -67,7 +69,7 @@
 									<tr>
 										<td><c:out value="${csboard.csboardType}" /></td>
 										<td><a
-											href="${path}/help/faqview?csboardId=${csboard.csboardId}">
+											href="${path}/help/csfaqview?csboardId=${csboard.csboardId}">
 												<c:out value="${csboard.csboardTitle}" />
 										</a></td>
 									</tr>
@@ -89,8 +91,20 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>내용</td>
-									<td><a href="#">내용</a></td>
+									<td>예매/취소</td>
+									<td><a href="#">티켓환불은 어떻게 받나요?</a></td>
+								</tr>
+								<tr>
+									<td>예매/취소</td>
+									<td><a href="#">예매 취소 하고 싶어요!</a></td>
+								</tr>
+								<tr>
+									<td>예매/취소</td>
+									<td><a href="#">취소 수수료는 얼마인가요?</a></td>
+								</tr>
+								<tr>
+									<td>예매/취소</td>
+									<td><a href="#">예매 수수료는 얼마인가요?</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -108,8 +122,16 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>내용</td>
-									<td><a href="#">내용</a></td>
+									<td>결제</td>
+									<td><a href="#">신용카드 결제 시 공인인증서가 꼭 필요한가요?</a></td>
+								</tr>
+								<tr>
+									<td>결제</td>
+									<td><a href="#">공연 예매 시 할인 받을 수 있는 신용카드는 무엇이있나요?</a></td>
+								</tr>
+								<tr>
+									<td>결제</td>
+									<td><a href="#">예매 시 결제 수단에는 어떤 것들이 있나요?</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -121,14 +143,22 @@
 						<table class="table table-hover">
 							<thead>
 								<tr>
-									<td>내용</td>
-									<td><a href="#">내용</a></td>
+									<th>분류</th>
+									<th>제목</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>내용</td>
-									<td><a href="#">내용</a></td>
+									<td>회원</td>
+									<td><a href="#">회원가입 후 로그인이 안되는데 어떻게 하나요?</a></td>
+								</tr>
+								<tr>
+									<td>회원</td>
+									<td><a href="#">이메일 인증은 어떻게 하나요?</a></td>
+								</tr>
+								<tr>
+									<td>회원</td>
+									<td><a href="#">회원 탈퇴는 어떻게 하나요?</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -146,8 +176,8 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>내용</td>
-									<td><a href="#">내용</a></td>
+									<td>메이트/소모임</td>
+									<td><a href="#">메이트/소모임에 글을 올리고 싶은데 어떻게 하나요?</a></td>
 								</tr>
 							</tbody>
 						</table>

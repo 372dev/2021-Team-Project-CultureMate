@@ -58,6 +58,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		return qnaboardDao.insertqnaReply(qnareply);
 	}
 
+
 	
 
 	

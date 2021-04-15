@@ -104,7 +104,7 @@ public class CsController {
 			 
 			 if (result>0) { 
 				  model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
-				  model.addObject("loaction", "/help/csmain");
+				  model.addObject("loaction", "/");
 			}else {
 				model.addObject("msg", "게시글 등록을 실패하였습니다.");
 				model.addObject("loaction", "/help/csmain");
@@ -158,6 +158,16 @@ public class CsController {
 		}
 		
 
+		@RequestMapping(value = "/csfaqview", method = {RequestMethod.GET})
+		public ModelAndView csfaqview(@RequestParam("csboardId") int csboardId, ModelAndView model) {
+			
+			CsBoard csboard = service.findcsBoardByNo(csboardId);
+			
+			model.addObject("csboard",csboard);
+			model.setViewName("help/csfaqview");
+			
+			return model;
+		}
 		
 			
 				

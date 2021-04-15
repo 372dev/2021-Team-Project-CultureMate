@@ -17,6 +17,9 @@ public interface CsBoardService {
 
 	List<CsBoard> getnoticeBoardList();
 
+	CsBoard findcsBoardByNo(int csboardId);
+
+
 
 
 

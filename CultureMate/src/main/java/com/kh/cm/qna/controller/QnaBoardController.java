@@ -1,16 +1,13 @@
 package com.kh.cm.qna.controller;
 
 import java.util.List;
-import java.util.Map;
+
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,7 +67,7 @@ public class QnaBoardController {
 		
 		result = service.saveqnaBoard(qnaboard);
 		
-		 if (result>0) { // 리절트가 만족하면 게시글이 정상적으로 등록되었습니다.
+		 if (result>0) { 
 			  model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
 			  model.addObject("loaction", "/help/qnalist");
 		}else {
@@ -83,6 +80,7 @@ public class QnaBoardController {
 		
 		return model;
 	}
+	
 	@RequestMapping(value = "qnaview", method = {RequestMethod.GET})
 	public ModelAndView qnaview(@RequestParam("qnaId") int qnaId, ModelAndView model) {
 		
@@ -116,4 +114,48 @@ public class QnaBoardController {
 		   
 		return model;
 	}
+	
+	@RequestMapping(value = "/qnaupdate", method = {RequestMethod.GET})
+	public ModelAndView qnaupdate(
+			@RequestParam("qnaId") int qnaId, ModelAndView model) {
+		
+		QnaBoard qnaboard = service.findqnaBoardById(qnaId);
+		
+		model.addObject("qnaboard",qnaboard);
+		model.setViewName("help/qnaupdate");
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/qnaupdate", method = {RequestMethod.POST})
+	public ModelAndView qnaupdateview (
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember, QnaBoard qnaboard,
+			HttpServletRequest request,
+			ModelAndView model) {
+
+		int result =0;
+		
+		if(loginMember.getUserId().equals(qnaboard.getUserId())) {
+			qnaboard.setQnaWriterNo(loginMember.getId());
+			
+			System.out.println(qnaboard);
+		}
+		
+		result = service.saveqnaBoard(qnaboard);
+		
+		 if (result>0) { 
+			  model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
+			  model.addObject("loaction", "/help/viewupdate?qnaId=" + qnaboard.getQnaId());
+		}else {
+			model.addObject("msg", "게시글 등록을 실패하였습니다.");
+			model.addObject("loaction", "/help/qnalist");
+		}
+		
+	
+	   model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	
 }

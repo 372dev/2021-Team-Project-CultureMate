@@ -102,6 +102,16 @@
  		)
   	</insert>
   	
+  	<update id="updateqnaBoard" parameterType="qnaBoard">
+		UPDATE QNA_BOARD 
+		SET 
+			QNA_TITLE=#{qnaTitle},
+			QNA_CONTENT=#{qnaContent},
+			QNA_MODIFY_DATE=SYSDATE 
+		WHERE 
+			QNA_ID=#{qnaId}
+	</update>	
+  	
   		<insert id="insertqnaReply"  parameterType="map"
   		useGeneratedKeys="true" keyProperty="qnaReId" keyColumn="QNA_RE_ID">
   			INSERT INTO QNA_REPLY
