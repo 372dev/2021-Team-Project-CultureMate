@@ -9,7 +9,7 @@
 		<div class="col colBorder"><h1 class="errorCode">${errorMsg}</h1></div>
 	</div>
 	<div class="row">
-		<div class="col-6 colBorder detailMessageDiv">
+		<div class="col-6 detailMessageDiv">
 		<p class="errorFirstMessage">
 			<c:choose>
 				<c:when test="${ errorMsg eq 'Error:401' || errorMsg eq 'Error:403' }">잘못된 접근입니다<br>동일한 문제가 지속적으로 발생할 경우 오류내용과 함께 고객센터에 문의해 주세요</c:when>
@@ -44,7 +44,7 @@
 			</c:choose>
 		</p>
 		</div>
-		<div class="col-6 colBorder">
+		<div class="col-6">
 			<c:choose>
 				<c:when test="${ errorMsg eq 'Error:401' || errorMsg eq 'Error:403' }">
 					<img alt="banned" src="${ path }/resources/images/error/banned.png">
