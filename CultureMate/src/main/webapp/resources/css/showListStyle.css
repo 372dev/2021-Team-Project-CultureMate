@@ -31,3 +31,6 @@
 	font-weight: bold;
 	color: gray;
 }
+.card-body {
+	background-color: GAINSBORO;
+}
