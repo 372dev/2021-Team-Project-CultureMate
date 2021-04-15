@@ -17,24 +17,27 @@ public class ErrorController {
         String errorMsg = "";
         int httpErrorCode = getErrorCode(httpRequest);
 
-        switch (httpErrorCode) {
-            case 400: {
-                errorMsg = "Http Error Code: 400. Bad Request";
-                break;
-            }
-            case 401: {
-                errorMsg = "Http Error Code: 401. Unauthorized";
-                break;
-            }
-            case 404: {
-                errorMsg = "Http Error Code: 404. Resource not found";
-                break;
-            }
-            case 500: {
-                errorMsg = "Http Error Code: 500. Internal Server Error";
-                break;
-            }
-        }
+//        switch (httpErrorCode) {
+//            case 401: {
+//                errorMsg = "Error:401";
+//                break;
+//            }
+//            case 403: {
+            	errorMsg = "Error:403";
+//            	break;
+//            }
+//            case 404: {
+//                errorMsg = "Error:404";
+//                break;
+//            }
+//            case 500: {
+//                errorMsg = "Error:500";
+//                break;
+//            }
+//            default: {
+//            	errorMsg = "Error";
+//            }
+//        }
         
         errorPage.addObject("errorMsg", errorMsg);
         errorPage.setViewName("common/error");
