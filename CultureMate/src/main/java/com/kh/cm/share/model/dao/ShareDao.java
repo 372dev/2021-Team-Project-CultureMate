@@ -43,6 +43,10 @@ public interface ShareDao {
 
 	List<ShareReply> selectShareReplyList(int shareId, RowBounds rowBounds);
 
+	ShareReply selectShareReply(int shareReplyId);
+
+	int insertShareReReply(ShareReply shareReply);
+
 	
 	
 

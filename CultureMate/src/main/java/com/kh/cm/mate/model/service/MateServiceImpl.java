@@ -105,6 +105,26 @@ public class MateServiceImpl implements MateService {
 		return mateDao.deleteMateReply(mateReplyId);
 	}
 
+	@Override
+	public int saveMateReReply(MateReply mateReply) {
+		int result = 0;
+		
+		if(mateReply.getMateReplyId() != 0) {
+			if(mateReply.getMateReplyGroup() == mateReply.getMateReplyId()) {
+			result = mateDao.insertMateReReply(mateReply);
+		}
+		} else {
+			
+		}
+	return result;
+	}
+
+	@Override
+	public MateReply findMateReplyByMateReplyId(int mateReplyId) {
+		
+		return mateDao.selectMateReply(mateReplyId);
+	}
+
 	
 	
 

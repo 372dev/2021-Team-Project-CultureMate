@@ -119,14 +119,6 @@ public class MateController {
 		
 		return model;
 }
-//	@RequestMapping("/list)
-//	private String index(HttpServletResponse response) {
-//		Cookie cookie =new Cookie("cookies",null); 	//view라는 이름의 쿠키 생성
-//		cookie.setComment("게시글 조회 확인");		//해당 쿠키가 어떤 용도인지 커멘트
-//		cookie.setMaxAge(60*60*24*365);			//해당 쿠키의 유효시간을 설정 (초 기준)
-//		response.addCookie(cookie);				//사용자에게 해당 쿠키를 추가
-//		return "home.jsp";
-//	}
 	
 	 @RequestMapping(value = "/view", method = {RequestMethod.GET})
 	    public ModelAndView mateView(HttpServletRequest request, HttpServletResponse response, HttpSession session,
@@ -205,41 +197,6 @@ public class MateController {
 	        return model;
 	    }
 
-	
-//	@RequestMapping(value="/view", method = {RequestMethod.GET}) 
-//	public ModelAndView mateView(@RequestParam("mateId")int mateId, ModelAndView model,
-//			@RequestParam(value="page", required=false, defaultValue="1") int page,
-//			@RequestParam(value="listlimit", required=false, defaultValue="3") int listLimit)throws ClassNotFoundException, SQLException  {
-//		
-//		if (!(cookie.contains(String.valueOf(mateId)))) {
-//			cookie += mateId + "/";
-//		//	matedao.hit(category, id);
-//			boolean	updateMateCount = service.updateMateCount(mateId);
-//		}
-//		response.addCookie(new Cookie("cookies", cookie));
-//		
-//		
-//		
-//		Mate mate = service.findMateByMateId(mateId);
-//		
-////		boolean updateMateCount = service.updateMateCount(mateId);
-//		int mateReplyCount = service.getMateReplyCount(mateId);
-//		
-//		PageInfo pageInfo = new PageInfo(page, 5, mateReplyCount, 3);
-//		List<MateReply> mateReplies = service.findMateReplyByMateId(mateId, pageInfo);
-//					
-//		model.addObject("mate", mate);
-//		model.addObject("mateReplies", mateReplies);
-//		model.addObject("pageInfo", pageInfo);
-//		model.setViewName("/board/mate/mateView");
-//		
-//		System.out.println(mateReplies);
-//		
-//		return model;
-//	}
-
-	
-
 	@RequestMapping(value="/update", method = {RequestMethod.GET}) 
 	public ModelAndView mateUpdateView(ModelAndView model, @RequestParam("mateId") int mateId) {
 		Mate mate = service.findMateByMateId(mateId);
@@ -306,6 +263,52 @@ public class MateController {
 			mateReply.setMateReplyWriteId(loginMember.getId());
 			
 			result = service.saveMateReply(mateReply);
+			System.out.println("어?");
+			
+			if(result > 0) {
+				model.addObject("msg", "댓글 등록에 성공했습니다.");
+				model.addObject("location", "/mate/view?mateId=" + mateReply.getMateId());
+			} else {
+				model.addObject("msg", "댓글 등록에 실패했습니다.");
+				model.addObject("location", "/mate/list");
+				
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/mate/list");
+		}
+		
+		model.setViewName("common/msg");
+		return model;
+	}
+	
+	@RequestMapping(value="/reply/reWrite", method = {RequestMethod.GET}) 
+	public ModelAndView reWriteReply(@RequestParam("mateReplyId")int mateReplyId, ModelAndView model) {
+		MateReply mateReply = service.findMateReplyByMateReplyId(mateReplyId);
+		
+		model.addObject("mateReply", mateReply);
+		model.setViewName("/board/mate/mateReplyReWrite");
+		return model;
+	}
+	@RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
+	public ModelAndView reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
+			@RequestParam(name ="mateReplyId") int mateReplyId,@RequestParam(name ="mateId") int mateId,
+			@RequestParam(name ="writer") String writer,
+			@RequestParam(name ="content") String content, MateReply mateReply,
+			ModelAndView model) {
+		int result = 0;
+		
+		if(loginMember.getUserNick().equals(writer)) {
+			mateReply.setMateId(mateId);
+			mateReply.setMateReplyContent(content);
+			mateReply.setMateReplyWriteId(loginMember.getId());
+			mateReply.setMateReplyGroup(mateReplyId);
+			
+			System.out.println(mateReplyId);
+			
+			result = service.saveMateReReply(mateReply);
+			
+			System.out.println("유");
 			
 			if(result > 0) {
 				model.addObject("msg", "댓글 등록에 성공했습니다.");

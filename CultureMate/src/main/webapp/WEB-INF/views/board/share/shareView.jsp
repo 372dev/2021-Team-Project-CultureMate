@@ -105,6 +105,10 @@ table#tbl-comment button.btn-reply {
 table#tbl-comment button.btn-update {
 	display:none;
 }
+table#tbl-comment button.btn-reWrite {
+	display:none;
+}
+
 table#tbl-comment button.btn-delete {
 	display:none;
 }
@@ -120,6 +124,10 @@ table#tbl-comment tr:hover button.btn-reply {
 table#tbl-comment tr:hover button.btn-update {
 	display:inline;
 }
+table#tbl-comment tr:hover button.btn-reWrite {
+	display:inline;
+}
+
 table#tbl-comment tr:hover button.btn-delete {
 	display:inline;
 }
@@ -211,7 +219,7 @@ table#tbl-comment sub.comment-date {
 	    		<form action="${path}/share/reply/write" method="post" onsubmit="return checkEmpty()">
 	    			<input type="hidden" name="shareId" id="shareId" value="${share.shareId}">
 	    			<input type="hidden" name="writer" value='${loginMember != null ? loginMember.userNick : "" }'>
-					<textarea style="height: 70px;border-radius:5px;" id="content" name="content" cols="55" rows="3" onclick="checkEmpty()"></textarea>
+					<textarea style="height: 70px;border-radius:5px;" id="content" name="content" cols="55" rows="3"></textarea>
 			  		<button type="submit" id="btn-insert" onclick="return checkLogin()" >등록</button>	  	
 	    		</form>
 	    		
@@ -219,18 +227,18 @@ table#tbl-comment sub.comment-date {
 	    </div>
 		<table id="tbl-comment">
 		    	<c:forEach var = "shareReply" items="${shareReplies}">
+		    	<c:if test="${shareReply.shareReplyId == shareReply.shareReplyGroup }">
 			    	<tr class="level1">
 			    <!-- 	<c:if test="${ !empty loginMember && (loginMember.id == shareReply.id || loginMember.userRole == 'ROLE_ADMIN')}">
 			    </c:if>
-			     --> 
-			     	<c:if test="${shareReply.shareReplyId == shareReply.shareReplyGroup }">
+			     --> 			     	
 			    		<td>
 			    			<sub class="comment-writer">${shareReply.userNick}</sub>
 			    			<sub class="comment-date">${shareReply.shareReplyCreateDate}</sub> 
 			    			<br>
 			    			<c:out value="${shareReply.shareReplyContent}"></c:out>
 			    		</td>
-		    		</c:if>
+		    		
 			    	<!--	<c:if test= "${empty loginMember || loginMember.id != shareReply.id}">
 				    		<td>
 				    			<c:out value="비밀댓글입니다."></c:out>
@@ -239,15 +247,16 @@ table#tbl-comment sub.comment-date {
 		    		  -->
 			    		<td>			    		
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
-		    		    	<input type="hidden" name="shareReplyId" id="shareReplyId" value="${shareReply.shareReplyId }">
-		    		    	<input type="hidden" name="shareId" id="shareReplyId" value="${shareReply.shareId }">
-		    		    
+		    		    	<input type="hidden" name="shareRelyId" id="shareReplyId" value="${shareReply.shareReplyId }">
+		    		    	<input type="hidden" name="shareId" id="shareId" value="${shareReply.shareId }">
 		    		    	<button class="btn-update" onclick="updateShareReply()">수정</button>
+		    		    	<button class="btn-reWrite">답글</button>
 		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>
 		    				
 		    			</c:if>
 			    		</td>
-			    	</tr>	
+			    	</tr>
+			    	</c:if>	
 	    		    <c:if test="${shareReply.shareReplyId != shareReply.shareReplyGroup }">			    				
 			    	<tr class="level2">	    	
 			    		<td>
@@ -258,8 +267,8 @@ table#tbl-comment sub.comment-date {
 			    		</td>			    		
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
-		    		    	<input type="hidden" name="shareReplyId" value="${shareReply.shareReplyId }">
-		    		    	<input type="hidden" name="shareId" value="${shareReply.shareId }">
+		    		    	<input type="hidden" name="shareReplyId" id="shareReplyId" value="${shareReply.shareReplyId }">
+		    		    	<input type="hidden" name="shareId" id="shareId" value="${shareReply.shareId }">
 		    				<button class="btn-update" onclick="updateShareReply()">수정</button>
 		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>		    				
 		    			</c:if>
@@ -319,6 +328,18 @@ table#tbl-comment sub.comment-date {
 			location.href = '${path}/share/reply/delete?shareId=' + <%=share.getShareId()%> + '&shareReplyId=' + shareReplyId;
 		}
 	}
+	
+	$(".btn-reWrite").on("click", () => {
+		//	var mateReplyId = $("#mateReplyId").val();
+			
+			const url = "${path}/share/reply/reWrite?shareReplyId=" + $("#shareReplyId").val();
+			const title = "RE";
+			const status = "left=500px, top=100px, width=500px, height=300px";
+			
+			window.open(url, title, status);
+			
+			
+		});
 </script>
 </section>
 

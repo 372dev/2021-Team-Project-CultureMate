@@ -36,6 +36,10 @@ public interface ShareService {
 
 	List<ShareReply> findShareReplyByShareId(int shareId, PageInfo pageInfo);
 
+	ShareReply findShareReplyByShareReplyId(int shareReplyId);
+
+	int saveShareReReply(ShareReply shareReply);
+
 	
 
 	

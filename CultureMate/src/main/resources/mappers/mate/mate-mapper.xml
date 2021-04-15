@@ -150,6 +150,11 @@
 	      WHERE B.STATUS='Y' AND B.MATE_ID=#{mateId}
 	</select>
 	
+	<select id="selectMateReply" parameterType="_int" resultMap="mateReplyResultMap" >
+		<include refid="mateReplySql"></include>
+		AND MATEREPLY_ID = #{mateReplyId}
+	</select>
+	
 	<update id="updateMateCount" parameterType="_int">
 		UPDATE MATEBOARD
 		SET
@@ -193,6 +198,21 @@
   			)
   		</insert>
   		
+  	<insert id="insertMateReReply"  parameterType="map"
+  		useGeneratedKeys="true" keyProperty="mateReplyId" keyColumn="MATEREPLY_ID">
+  			INSERT INTO MATEREPLY
+  			VALUES (
+  				SEQ_MATEREPLY_ID.NEXTVAL,
+	  			#{mateId},
+	  			#{mateReplyWriteId},
+	  			#{mateReplyGroup},
+	  			#{mateReplyContent},
+	  			DEFAULT,
+	  			SYSDATE,
+	  			SYSDATE
+  			)
+  		</insert>
+  		
   		<update id="updateMate" parameterType="Mate">
 		UPDATE MATEBOARD
 		SET 
@@ -212,7 +232,15 @@
 	<update id="updateMateReply" parameterType="MateReply">
 		UPDATE MATEREPLY
 		SET
-			MATEREPLY_CONTENT=#{content}
+			MATEREPLY_CONTENT=#{mateReplyContent}
+		WHERE 
+			MATEREPLY_ID=#{mateReplyId}	
+	</update>
+	
+	<update id="updateMateReReply" parameterType="MateReply">
+		UPDATE MATEREPLY
+		SET
+			MATEREPLY_CONTENT=#{mateReplyContent}
 		WHERE 
 			MATEREPLY_ID=#{mateReplyId}	
 	</update>

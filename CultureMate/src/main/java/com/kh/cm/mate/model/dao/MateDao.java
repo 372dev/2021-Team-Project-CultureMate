@@ -21,7 +21,6 @@ public interface MateDao {
 	
 	List<Mate> selectMateSearchList(RowBounds rowBounds, PageInfo pageInfo);
 	
-
 	Mate selectMateDetail(int mateId);
 
 	boolean updateMateCount(int mateId);
@@ -41,5 +40,11 @@ public interface MateDao {
 	int insertMateReply(MateReply mateReply);
 
 	int deleteMateReply(int mateReplyId);
+
+//	int updateMateReReply(MateReply mateReply);
+
+	int insertMateReReply(MateReply mateReply);
+
+	MateReply selectMateReply(int mateReplyId);
 
 }

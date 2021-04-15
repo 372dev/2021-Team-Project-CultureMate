@@ -32,6 +32,10 @@ public interface MateService {
 
 	int deleteMateReply(int mateReplyId);
 
+	int saveMateReReply(MateReply mateReply);
+
+	MateReply findMateReplyByMateReplyId(int mateReplyId);
+
 	
 	
 

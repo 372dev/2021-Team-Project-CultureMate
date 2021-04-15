@@ -167,19 +167,4 @@
 		</div>		
   </div>			
 </section>
-<script type="text/javascript">
-function search() {
-	var searchMate = document.getElementById("searchMate").value;
-	var page = document.getElementById("pageInfo").value;
-	var searchText = document.getElementById("searchText").value;
-	
-	if(searchMate === '작성자'){
-		location.href="${path}/mate/list?userNick="+ searchText+ "&page=" + page ;	
-	}else if(searchMate === '제목'){
-		location.href="${path}/mate/list?mateTitle="+ searchText+ "&page=" + page ;	
-	}else{
-		location.href="${path}/mate/list?mateContent="+ searchText+ "&page=" + page ;	
-	}
-}
-</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

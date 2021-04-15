@@ -108,6 +108,9 @@ table#tbl-comment button.btn-reply {
 table#tbl-comment button.btn-update {
 	display:none;
 }
+table#tbl-comment button.btn-reWrite {
+	display:none;
+}
 table#tbl-comment button.btn-delete {
 	display:none;
 }
@@ -121,6 +124,9 @@ table#tbl-comment tr:hover button.btn-reply {
 }
 
 table#tbl-comment tr:hover button.btn-update {
+	display:inline;
+}
+table#tbl-comment tr:hover button.btn-reWrite {
 	display:inline;
 }
 table#tbl-comment tr:hover button.btn-delete {
@@ -183,13 +189,14 @@ table#tbl-comment sub.comment-date {
 	    		<form action="${path }/mate/reply/write" method="post" onsubmit="return checkEmpty()">
 	    			<input type="hidden" name="mateId" value="${mate.mateId}">
 	    			<input type="hidden" name="writer" value='${loginMember != null ? loginMember.userNick : "" }'>
-					<textarea style="border-radius:5px;height:70px;" id="content" name="content" cols="55" rows="3" onclick="checkEmpty()"></textarea>
+					<textarea style="border-radius:5px;height:70px;" id="content" name="content" cols="55" rows="3"></textarea>
 					<button type="submit" id="btn-insert" onclick="return checkLogin()">등록</button>	    			
 	    		</form>
 	    	</div>
 	    </div>
 		<table id="tbl-comment">
 		    	<c:forEach var = "mateReply" items="${mateReplies}">
+		    	 <c:if test="${mateReply.mateReplyId == mateReply.mateReplyGroup }">
 			    	<tr class="level1">
 			    		<td>
 			    			<sub class="comment-writer">${mateReply.userNick}</sub>
@@ -201,11 +208,14 @@ table#tbl-comment sub.comment-date {
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
-		    				<a href="javascript:" class="replyUpdateLink">수정</a>
+		    				<button class="btn-update">수정</button>
+		    				<button class="btn-reWrite">답글</button>
 		    				<button class="btn-delete" onclick="deleteMateReply()">삭제</button>
+		    				
 		    			</c:if>
 			    		</td>
 			    	</tr>
+			    	</c:if>
 			    	 <c:if test="${mateReply.mateReplyId != mateReply.mateReplyGroup }">			    				
 			    	<tr class="level2">	    	
 			    		<td>
@@ -277,6 +287,48 @@ table#tbl-comment sub.comment-date {
 			location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + mateReplyId);
 		}
 	}
+
+	$(".btn-reWrite").on("click", () => {
+	//	var mateReplyId = $("#mateReplyId").val();
+		
+		const url = "${path}/mate/reply/reWrite?mateReplyId=" + $("#mateReplyId").val();
+		const title = "RE";
+		const status = "left=500px, top=100px, width=500px, height=300px";
+		
+		window.open(url, title, status);
+		
+		
+	});
+
+	/*
+	
+	
+   	$('.replyReLink').click(function(event){  //버튼을 클릭 했을시 popupOpen 함수 출력 
+        console.log('click');
+        popupOpen();
+    });
+	
+	function popupOpen(){
+		var mateReplyId = $("#mateReplyId").val();
+		var mateId = $("#mateId").val();
+		
+		const url = "${path}/mate/reply/reWrite";
+		const title = "RE";
+		const status = "left=500px, top=100px, width=500px, height=300px";
+		
+		window.open(url, title, status);
+		
+		reWrite.target = title; // form 전송하는 윈도우를 설정
+		reWrite.action = url;// 새창에서 처리하므로 url지정
+		reWrite.method = "POST";
+		reWrite.mateReplyId.value = mateReplyId;
+		reWrite.mateId.value = mateId;
+		
+		reWrite.submit();
+	}
+	
+	*/
+	
 	</script>
 	</div>
 

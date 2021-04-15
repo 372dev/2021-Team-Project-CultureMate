@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cm.common.util.PageInfo;
+import com.kh.cm.mate.model.vo.MateReply;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.share.model.service.ShareService;
 import com.kh.cm.share.model.vo.Share;
@@ -392,6 +393,51 @@ public class ShareController {
 			shareReply.setShareReplyWriteId(loginMember.getId());
 			
 			result = service.saveShareReply(shareReply);
+			
+			if(result > 0) {
+				model.addObject("msg", "댓글 등록에 성공했습니다.");
+				model.addObject("location", "/share/view?shareId=" + shareReply.getShareId());
+			} else {
+				model.addObject("msg", "댓글 등록에 실패했습니다.");
+				model.addObject("location", "/share/list");
+				
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/share/list");
+		}
+		
+		model.setViewName("common/msg");
+		return model;
+	}
+	
+	@RequestMapping(value="/reply/reWrite", method = {RequestMethod.GET}) 
+	public ModelAndView reWriteReply(@RequestParam("shareReplyId")int shareReplyId, ModelAndView model) {
+		ShareReply shareReply = service.findShareReplyByShareReplyId(shareReplyId);
+		
+		model.addObject("shareReply", shareReply);
+		model.setViewName("/board/share/shareReplyReWrite");
+		return model;
+	}
+	@RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
+	public ModelAndView reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
+			@RequestParam(name ="shareReplyId") int shareReplyId,@RequestParam(name ="shareId") int shareId,
+			@RequestParam(name ="writer") String writer,
+			@RequestParam(name ="content") String content, ShareReply shareReply,
+			ModelAndView model) {
+		int result = 0;
+		
+		if(loginMember.getUserNick().equals(writer)) {
+			shareReply.setShareId(shareId);
+			shareReply.setShareReplyContent(content);
+			shareReply.setShareReplyWriteId(loginMember.getId());
+			shareReply.setShareReplyGroup(shareReplyId);
+			
+			System.out.println(shareReplyId);
+			
+			result = service.saveShareReReply(shareReply);
+			
+			System.out.println("유");
 			
 			if(result > 0) {
 				model.addObject("msg", "댓글 등록에 성공했습니다.");

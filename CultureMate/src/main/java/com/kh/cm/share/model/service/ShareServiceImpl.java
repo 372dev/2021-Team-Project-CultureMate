@@ -119,5 +119,25 @@ public class ShareServiceImpl implements ShareService {
 		return shareDao.selectShareReplyList(shareId,rowBounds);
 	}
 
+	@Override
+	public ShareReply findShareReplyByShareReplyId(int shareReplyId) {
+		
+		return shareDao.selectShareReply(shareReplyId);
+	}
+
+	@Override
+	public int saveShareReReply(ShareReply shareReply) {
+		int result = 0;
+		
+		if(shareReply.getShareReplyId() != 0) {
+			if(shareReply.getShareReplyGroup() == shareReply.getShareReplyId()) {
+			result = shareDao.insertShareReReply(shareReply);
+		}
+		} else {
+			
+		}
+	return result;
+	}
+
 
 }
