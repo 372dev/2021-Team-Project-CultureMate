@@ -565,6 +565,12 @@ text-align: center;
           	<c:out value="${place.get(0).adres}"/>
           </td>
         </tr>
+        <tr>
+          <th>연락처</th>
+          <td>
+          	<c:out value="${place.get(0).telno}"/>
+          </td>
+        </tr>
           <tr>
           <th>홈페이지</th>
           <td>
@@ -594,7 +600,7 @@ text-align: center;
 					<a id=star1 value=4>★</a> 
 					<a id=star1 value=5>★</a> 
 					</p>
-					<textarea name="reviewContent" cols="100" rows="4" onfocus="" id="reviewContent"></textarea>
+					<textarea name="reviewContent" cols="100" rows="4" onfocus="" id="reviewContent" style="white-space: pre;"></textarea>
 					<input type="hidden" id="mt20id" name="mt20id" value="${result.get(0).mt20id}">
 					<c:if test="${ !empty loginMember}">
 					<input type="hidden" id="id" name="id" value="${loginMember.id}">
