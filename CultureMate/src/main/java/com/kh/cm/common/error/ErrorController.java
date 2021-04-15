@@ -17,27 +17,27 @@ public class ErrorController {
         String errorMsg = "";
         int httpErrorCode = getErrorCode(httpRequest);
 
-//        switch (httpErrorCode) {
-//            case 401: {
-//                errorMsg = "Error:401";
-//                break;
-//            }
-//            case 403: {
+        switch (httpErrorCode) {
+            case 401: {
+                errorMsg = "Error:401";
+                break;
+            }
+            case 403: {
             	errorMsg = "Error:403";
-//            	break;
-//            }
-//            case 404: {
-//                errorMsg = "Error:404";
-//                break;
-//            }
-//            case 500: {
-//                errorMsg = "Error:500";
-//                break;
-//            }
-//            default: {
-//            	errorMsg = "Error";
-//            }
-//        }
+            	break;
+            }
+            case 404: {
+                errorMsg = "Error:404";
+                break;
+            }
+            case 500: {
+                errorMsg = "Error:500";
+                break;
+            }
+            default: {
+            	errorMsg = "Error";
+            }
+        }
         
         errorPage.addObject("errorMsg", errorMsg);
         errorPage.setViewName("common/error");
