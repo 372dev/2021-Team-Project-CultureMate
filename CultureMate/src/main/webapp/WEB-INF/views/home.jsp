@@ -4,7 +4,7 @@
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 
     <link rel="stylesheet" href="${ path }/resources/css/home.css" />
-	<link rel="stylesheet" href="${ path }/resources/css/showListStyle.css?v=1" />
+	<link rel="stylesheet" href="${ path }/resources/css/listStyle.css" />
 	<link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
