@@ -10,23 +10,6 @@
 <div class="searchOptionContainer">
 	<h1 class="showPageTitle titleFont">공연 검색</h1>
 	<div class="showSearchOption collapse" id="showSearchOption">
-		<!--
-		<div class="btn-group btn-group-toggle innerDivRadio" data-toggle="buttons">
-		  <label class="btn btn-outline-secondary active">
-		    <input type="radio" name="radioGenre" value="" autocomplete="off" checked>전체
-		  </label>
-		  <label class="btn btn-outline-secondary">
-		    <input type="radio" name="radioGenre" value="musical" autocomplete="off">뮤지컬
-		  </label>
-		  <label class="btn btn-outline-secondary">
-		    <input type="radio" name="radioGenre" value="play" autocomplete="off">연극
-		  </label>
-		  <label class="btn btn-outline-secondary">
-		    <input type="radio" name="radioGenre" value="classic" autocomplete="off">클래식
-		  </label>
-		</div>
-		-->
-		
 		<div class="btn-group btn-group-toggle innerDivRadio" data-toggle="buttons">
 			<label class="btn btn-outline-secondary active">
 		    	<input type="radio" name="prfstate" value="01|02" autocomplete="off" checked>전체
@@ -52,13 +35,13 @@
 		    	<input type="radio" name="shcate" value="CCCA" autocomplete="off">클래식
 		  	</label>
 		</div>
-		<div>
+		<div class="searchTitleDiv">
 		<input type="text" id="showTitle" class="showTitleSearch" name="showTitle" placeholder="공연명">
-		<button id="submitSearchForm" class="btn btn-outline-primary btnFont">검색</button>
+		<button id="submitSearchForm" class="btn btn-secondary btnFont">검색</button>
 		</div>
 	</div>
 	<button id="toggleBtn" class="btn btn-secondary btn-lg btn-block" type="button" data-toggle="collapse"
-	data-target="#showSearchOption" aria-expanded="false" aria-controls="showSearchOption">상세검색 펼치기</button>
+	data-target="#showSearchOption" aria-expanded="false" aria-controls="showSearchOption">▼ 상세검색 펼치기 ▼</button>
 </div>
 
 <div id="showListDiv" class="ListDiv">
@@ -83,10 +66,21 @@
 
 <script>
 	$('#toggleBtn').on('click', function() {
-		$(this).text( $(this).text() == "상세검색 펼치기" ? "상세검색 숨기기" : "상세검색 펼치기");
+		$(this).text( $(this).text() == "▼ 상세검색 펼치기 ▼" ? "▲ 상세검색 숨기기 ▲" : "▼ 상세검색 펼치기 ▼");
 	});
 
-	$('#submitSearchForm').on('click', function () {
+	$('#submitSearchForm').on('click', function() {
+		showListAjaxCall();
+	});
+	
+	$('#showTitle').keyup(function(e){
+	    if(e.keyCode == 13)
+	    {
+			showListAjaxCall();
+		}
+	});
+	
+	function showListAjaxCall() {
 		var prfstateVal = $('input[name="prfstate"]:checked').val();
 		var shcateVal = $('input[name="shcate"]:checked').val();
 		var shprfnm = $('#showTitle').val();
@@ -126,7 +120,7 @@
 				$("#showListDiv").append(toAdd);
 			}
 		});
-	})
+	}
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

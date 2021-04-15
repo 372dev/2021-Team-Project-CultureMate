@@ -5,7 +5,7 @@
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-	<link rel="stylesheet" href="${ path }/resources/css/boListStyle.css" />
+	<link rel="stylesheet" href="${ path }/resources/css/boList.css" />
 	<link rel="stylesheet" href="${ path }/resources/css/listStyle.css" />
 	<h1 class="titleFont">${ cate } 주간 박스 오피스</h1>
 	<div id="boListDiv" class="ListDiv">

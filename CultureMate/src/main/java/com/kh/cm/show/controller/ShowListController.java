@@ -60,7 +60,7 @@ public class ShowListController {
         urlBuilder.append("&stdate=" + stdate);
         urlBuilder.append("&eddate=" + eddate);
         urlBuilder.append("&prfstate=" + "02");
-        urlBuilder.append("&rows=99&cpage=1");
+        urlBuilder.append("&rows=200&cpage=1");
         if(shcate != null) {
         	urlBuilder.append("&shcate=" + shcate);
         	log.info("showList - genre selected");
