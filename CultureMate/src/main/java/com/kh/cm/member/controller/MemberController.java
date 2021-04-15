@@ -187,22 +187,29 @@ public class MemberController {
 		}
 		
 		// 비밀번호 변경 메소드
-		@RequestMapping(value="/member/updatePwd")
+		@RequestMapping(value="/member/updatePwd", method = {RequestMethod.POST})
 		public ModelAndView updatePwd(ModelAndView model, 
 									@SessionAttribute(name="loginMember", required=false) Member loginMember, 
-									@RequestParam("password") String password) {
+									@RequestParam("password") String password,
+									@RequestParam("newpwd") String password2) {
 			int result = 0;
 			
-			if(encoder.matches(password, loginMember.getPassword())) {
-				result = service.changePwd(loginMember.getUserId(), password);
+			log.info("로그인 멤버 패스워드 : " + encoder.encode(loginMember.getPassword()));
+			log.info("현재 패스워드 : " + password);
+			
+			if(encoder.matches(password, loginMember.getPassword()) && !password.equals(password2)) {
+				result = service.changePwd(loginMember.getUserId(), password2);
 				
 				if(result > 0) {
 					model.addObject("msg", "비밀번호 수정을 완료했습니다.");
-					model.addObject("location", "/member/updatePwd");
+					model.addObject("location", "/member/update");
 				} else {
 					model.addObject("msg", "비밀번호 변경에 실패했습니다.");
 					model.addObject("location", "/member/updatePwd");
 				}
+			} else {
+				model.addObject("msg", "비밀번호가 일치하지 않습니다.");
+				model.addObject("location", "/member/updatePwd");
 			}
 			
 			model.setViewName("common/msg");
@@ -270,33 +277,31 @@ public class MemberController {
 		}
 		
 		// 아이디 찾기 GET 요청
-		@RequestMapping(value="/member/findId", method = {RequestMethod.GET})
+		@RequestMapping(value="/member/findIdAndPwd", method = {RequestMethod.GET})
 		public String findIdGet() {
 			log.info("아이디 찾기 페이지 get 요청");
 			
-			return "member/findId";
+			return "member/findIdAndPwd";
 		}
 		
+		// 아이디 찾기
 		@RequestMapping(value="/member/findId", method= {RequestMethod.POST})
 		@ResponseBody
-		public String findId(@ModelAttribute Member member, @RequestParam("userName") String userName, 
-								@RequestParam("email") String email, @RequestParam("phone") String phone) {
-			
-			if(userName.equals(member.getUserName()) && email.equals(member.getEmail()) && phone.equals(member.getPhone())) {
-//				service.findId(userName, email, phone);
-//				String userId = "{\"userId\":\""
-//				return 
-			} else {
-				
-			}
-			return phone;
-			
+		public String findId(@RequestParam("inputName_1") String userName, @RequestParam("inputEmail_1") String email, 
+							@RequestParam("inputPhone_1") String phone) {
+			log.info(userName);
+			String result = service.findId(userName, email, phone);
+			log.info("controller 받은 후 : " + result);
+			return result;
 		}
 		
-		// 비밀번호 찾기 GET 요청
+		// 비밀번호 찾기
 		@RequestMapping(value="/member/findPassword", method = {RequestMethod.GET})
-		public String findPasswordGet() {
-			log.info("비밀번호 찾기 페이지 get 요청");
+		@ResponseBody
+		public String findPassword(@RequestParam("inputId_1") String userId, @RequestParam("inputEmail_2") String email,
+				@RequestParam("inputPhone_2") String phone) throws Exception {
+			
+			service.findPwd(userId, email, phone);
 			
 			return "member/findPassword";
 		}

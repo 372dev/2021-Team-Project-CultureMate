@@ -30,7 +30,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<form action="${path}/member/update" method="POST">
+							<form action="${path}/member/updatePwd" method="POST">
 								<div class="form-group row">
 									<label for="inputPwd" class="col-4 col-form-label">현재 비밀번호</label>
 									<div class="col-8">
@@ -40,14 +40,14 @@
 								<div class="form-group row">
 									<label for="inputNewPwd" class="col-4 col-form-label">새로운 비밀번호</label>
 									<div class="col-8">
-										<input id="newpwd1" name="newpwd1" class="form-control here" required="required" type="password">
+										<input id="newpwd1" name="newpwd" class="form-control here" required="required" type="password">
 									</div>
 									<div class="check_font" id="pwd_check1"></div>
 								</div>
 								<div class="form-group row">
 									<label for="inputNewPwdChk" class="col-4 col-form-label">새 비밀번호 확인</label>
 									<div class="col-8">
-										<input id="newpwd2" name="newpwd2" class="form-control here" required="required" type="password">
+										<input id="newpwd2" name="newpwd" class="form-control here" required="required" type="password">
 									</div>
 									 <div class="check_font" id="pwd_check2"></div>
 								</div>
@@ -89,6 +89,15 @@
 				console.log('비밀번호 불일치');
 				$("#pwd_check2").text("비밀번호가 일치하지 않습니다.");
 				$("#pwd_check2").css("color", "red");
+			}
+		});
+		
+		$("#update_pwd").click(function(){
+			if($("#newpwd1").val().trim() === ($("#newpwd2").val().trim()) 
+					&& $('#password').val().trim() !== $('#newpwd1').val().trim()){
+				console.log('비밀번호 수정');
+			} else {
+				event.preventDefault();
 			}
 		});
 </script>

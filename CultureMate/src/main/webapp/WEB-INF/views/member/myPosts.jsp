@@ -30,26 +30,31 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<form action="${path}/member/update" method="POST">
-								<div class="form-group row">
-									<label for="inputPwd" class="col-4 col-form-label">현재 비밀번호</label>
-									<div class="col-8">
-										<input id="password" name="password" class="form-control here" required="required" type="password">
-									</div>
-								</div>
-								<div class="form-group row">
-									<label for="inputNewPwd" class="col-4 col-form-label">새로운 비밀번호</label>
-									<div class="col-8">
-										<input id="newpwd1" name="newpwd1" class="form-control here" required="required" type="password">
-									</div>
-								</div>
-								<div class="form-group row">
-									<label for="inputNewPwdChk" class="col-4 col-form-label">새 비밀번호 확인</label>
-									<div class="col-8">
-										<input id="newpwd2" name="newpwd2" class="form-control here" required="required" type="password">
-									</div>
-								</div>
-							</form>
+							<table class="table table-hover">
+							  <th>번호</th>
+							  <th>제목</th>
+							  <th>작성일</th>
+							  <c:if test="${ mateList == null }">
+							  	<tr>
+							  		<td colspan="3">
+							  			조회된 게시글이 없습니다.
+							  		</td>
+							  	</tr>
+							  </c:if>
+							  <c:if test="${ mateList != null }">
+							  <c:forEach var="mate" items="${mateList}">
+							  	<tr>
+							  		<td><c:out value="${ mate.mateId }"></c:out></td>
+							  		<td>
+										<a href="${path}/mate/view?mateId=${mate.mateId}">
+											<c:out value="${mate.mateTitle}"/>
+										</a>
+									</td>
+							  		<td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>       
+							  	</tr>
+							  </c:forEach>
+							  </c:if>
+							</table>
 						</div>
 					</div>
 				</div>
