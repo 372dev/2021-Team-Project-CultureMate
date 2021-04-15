@@ -588,7 +588,7 @@ text-align: center;
 		
 		<div class="bxo_vcb" style="display: none">
 			<div class="tib">
-				<h4 class="nb_tit1">관람 후기</h4>
+				<h4 class="nb_tit1" id="showreview">관람 후기</h4>
 			</div>
 			<div id="comment-container">
 				<div> 게시판 운영규정에 맞지 않는 글은 사전 통보없이 삭제될 수 있습니다.  </div>
@@ -605,16 +605,14 @@ text-align: center;
 					<c:if test="${ !empty loginMember}">
 					<input type="hidden" id="id" name="id" value="${loginMember.id}">
 					<input type="hidden" id="userNick" name="userNick" value="${loginMember.userNick}">
-					<input type="hidden" id="reviewRating" name="reviewRating" value="">
 					<div id="hstar" style="float: left">
 					
 					</div>
 					</c:if>
 					 
-					 
 					 <c:choose>
 					 	<c:when test="${!empty loginMember}">
-					 	<a href="" id="btn-insert" onClick='fn_comment()' class="btn pull-right btn-success ">등록</a>
+					 	<a href="#" id="btn-insert" onClick='fn_comment()' class="btn pull-right btn-success ">등록</a>
 					 	</c:when>
 					 	<c:otherwise>
 					 	<a  id="btn-insert"  onClick='fn_comment1()' class="btn pull-right disable ">등록</a>
@@ -624,9 +622,6 @@ text-align: center;
 				</form>
 			</div>
 			<br>
-			<div id="tbl-comment1">
-			<!-- for문을 사용하여 댓글수만큼 출럭 가능하게 구현하기 -->
-			</div>
 			
 			<div>
 			<c:if test="${replylength < 0}">
@@ -634,29 +629,10 @@ text-align: center;
 			 </c:if>
 			</div>
 			
-			<table id="tbl-comment">
-					<c:forEach var="review1"  items="${review}">
-					<tr class='level1'>
-                    <td><sub class="comment-writer">${review1.userNick} |</sub>
-                     <sub class="comment-date">${review1.reviewDate} | </sub> 
-                     <c:forEach var ="j" begin="1" end="${review1.reviewRating}">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-					</svg>
-					</c:forEach>
-					<a href=""><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
-					<path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"/>
-					</svg></a>
-                     <c:if test="${loginMember.userNick == review1.userNick }">
-                     <a id='updatereply' data-toggle="modal" href="#myModal${review1.reviewID}" >수정</a>
-                     <a id='deletereply' href='' onclick="del(${review1.reviewID})">삭제/</a>
-                     </c:if>
-                     <br><br>${review1.reviewContent}<br><br></td></tr>
-                     </c:forEach>
-			</table>
+			<div id="commentList">
+       		
+       		</div>
 			
-			<div>
-			
-			</div>
 		</div>
 		
 		<!-- 댓글 수정 모달창 -->
@@ -1005,7 +981,18 @@ $('#star a').click(function(){
 	$(this).addClass("on").prevAll("a").addClass("on"); 
 	console.log($(this).attr("value"));
 	
-	document.getElementById('reviewRating').value = $(this).attr("value");
+	var snum = $(this).attr("value");
+	
+	$.ajax({
+		 type:'POST',
+	     url : "<c:url value='/review/star.do'/>",
+	     data: {"num" : $(this).attr("value")},
+	     success: function(data) {
+				html = '<input type="hidden" id="reviewRating" name="reviewRating" value="' + data + '">';
+				 $("#hstar").html(html);
+			}
+	        
+	});
 	
 });
 	
@@ -1022,26 +1009,81 @@ $('#ustar a').click(function(){
 function fn_comment(){
     console.log("에이작스 호출");
    
-    	 $.ajax({
-    	        type:'POST',
-    	        url : "<c:url value='/review/add.do'/>",
-    	        data:$("#reply_form").serialize(),
-    	        success : function(data){
-    	        	console.log("불러오기 성공!!");
-    	            if(data == ("success"))
-    	            {
-    	            	console.log("불러오기 성공!!");
-    	            }
-    	            
-    	        },
-    	        error:function(request,status,error){
-    	        	console.log("불러오기실패!!");
-    	       }
-    	        
-    	    }); 	
+    $.ajax({
+        type:'POST',
+        url : "<c:url value='/review/add.do'/>",
+        data:$("#reply_form").serialize(),
+        success : function(data){
+        	console.log("불러오기 성공!!");
+            if(data == ("success"))
+            {
+            	getCommentList();
+            	$("#reviewContent").val("");
+            	console.log("불러오기 성공!!");
+            }
+            
+        },
+        error:function(request,status,error){
+        	console.log("불러오기실패!!");
+       }
+        
+    }); 	
    
 }
 
+// 처음 댓글 부르기
+$(function(){
+    
+    getCommentList();
+    
+});
+
+// 댓글 불러오기 
+function getCommentList(){
+	
+	$.ajax({
+		type:'GET',
+        url : "<c:url value='/review/list.do'/>",
+        data:$("#reply_form").serialize(),
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+        success : function(data){
+        	var html = "";
+            var cCnt = data.length;
+            var logincheck = document.getElementById("form_id").value;
+            console.log("아이디뭐임?" + logincheck);
+          
+            html += '<table id="tbl-comment">';
+            for(i=0; i<data.length; i++){
+            	if(logincheck == data[i].userId){
+            		html += "<tr class='level1'>";
+            		html += '<td><sub class="comment-writer">' +data[i].userNick+ ' | </sub>'; 
+            		html += '<sub class="comment-date">' + data[i].reviewDate + ' | </sub>';
+	               
+            		for(j = 0; j < data[i].reviewRating; j++){
+             		html += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>';
+    					}
+            		
+            		html += '<a id="updatereply" data-toggle="modal" href="#myModal' +data[i].reviewID+ '">수정</a>';
+             		html += '<a id="deletereply" href="#" onclick="del(' + data[i].reviewID +')">삭제/</a>';
+	            	html += '<br><br>' +data[i].reviewContent+ '<br><br></td></tr>';
+            	  }
+            	 else{
+            		html += "<tr class='level1'>";
+             		html += '<td><sub class="comment-writer">' +data[i].userNick+ ' | </sub>'; 
+             		html += '<sub class="comment-date">' + data[i].reviewDate + ' | </sub>';
+             		for(j = 0; j < data[i].reviewRating; j++){
+                 	html += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>';
+        			}
+ 	            	html += '<br><br>' +data[i].reviewContent+ '<br><br></td></tr>';
+            	  }
+            }
+            html += "</table>";
+            $("#commentList").html(html);
+        }
+	});
+	
+	
+}
 
 function fn_comment1(){
 	var logincheck = document.getElementById("form_userId").value;
@@ -1059,8 +1101,10 @@ function del(no) {
   $.ajax({
       type : 'GET',
       url : "<c:url value='/review/delete.do?no=" + no + "'/>",
+    success : function (data) {
+    	getCommentList();
+	}
   });
-
 }
 
 // 댓글 수정
