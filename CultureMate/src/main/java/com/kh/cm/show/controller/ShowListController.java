@@ -16,66 +16,62 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.cm.show.model.vo.ShowListVO;
 import com.kh.cm.show.model.vo.ShowVO;
 
-//import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 
-//@Slf4j
+@Slf4j
 @Controller
-@RequestMapping("/show")
-public class RestController {
+public class ShowListController {
 
-    @RequestMapping(value = "/showList", method = RequestMethod.GET)
+    @RequestMapping(value = "/show/showList", method = RequestMethod.GET)
     public ModelAndView list(
-    		ModelAndView model
-//    		@RequestParam("genre") String genre
+    		ModelAndView model,
+    		@RequestParam(value = "title", required = false) String title,
+    		@RequestParam(value = "genre", required = false) String genre
     		) {
+    	log.info("Controller started. searching title : " + title + " genre : " + genre);
     	String key = "fe0b63fcf599492aae0dc065406b676b";
-    	
+
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     	Calendar currDate = new GregorianCalendar();
     	Calendar nextDate = new GregorianCalendar();
-    	nextDate.add(Calendar.MONTH, 1);
+    	nextDate.add(Calendar.WEEK_OF_YEAR, 2);
 
 		String stdate = dateFormat.format(currDate.getTime());
 		String eddate = dateFormat.format(nextDate.getTime());
-		//	검색 함수에서도 이 방식으로 이용해서, radio 버튼으로 1주, 2주, 1달 선택하게 할 수 있을듯
+
+		String shcate = null;
+		if(genre != null) {
+			if(genre.toString().equals("musical")) {
+				shcate = "AAAB";
+			} else if(genre.toString().equals("play")) {
+				shcate = "AAAA";
+			} else if(genre.toString().equals("classic")) {
+				shcate = "CCCA";
+			}
+		}
 		
-//		String shcate = null;
-//		if(genre.toString().equals("musical")) {
-//			shcate = "AAAB";
-//		} else if(genre.toString().equals("play")) {
-//			shcate = "AAAA";
-//		} else if(genre.toString().equals("classic")) {
-//			shcate = "CCCA";
-//		};
+		String shprfnm = null;
+		if(title != null) {
+			shprfnm = title;
+		}
 
         StringBuilder urlBuilder = new StringBuilder("http://www.kopis.or.kr/openApi/restful/pblprfr");
         urlBuilder.append("?service=" + key);
         urlBuilder.append("&stdate=" + stdate);
         urlBuilder.append("&eddate=" + eddate);
-        urlBuilder.append("&rows=10&cpage=1");
-        /*	공연 조회 페이지 갱신 방식 1.
-         * 	최초에 10개의 공연 조회
-         * 	하단의 더 보기 버튼을 누르면 (혹은 스크롤 하는 것 만으로)
-         * 	밑으로 10개씩 공연이 더 추가된다.
-         * 
-         * 	공연 조회 페이지 갱신 방식 2.
-         * 	공연 조회 페이지에서 10개의 공연 조회
-         * 	더 보기(검색) 버튼을 누르면
-         * 	공연 검색 페이지로 이동, 공연 전부 조회
-         * 
-         * 	공연 조회 페이지 갱신 방식 3.
-         * 	처음 부터 모든 공연 조회
-         * 
-         * 	! 버튼 갱신 이벤트 사용 시 더 불러올 값이 없을 경우엔?
-         * 	DOM childElementCount Property를 통해 조건문으로 버튼 감추기
-         * 
-         * 	! 스크롤 갱신 이벤트 사용 시
-         *  DOM scrollHeight Property 이용
-         */
-//        urlBuilder.append("&shcate=" + shcate);
-
+        urlBuilder.append("&prfstate=" + "02");
+        urlBuilder.append("&rows=99&cpage=1");
+        if(shcate != null) {
+        	urlBuilder.append("&shcate=" + shcate);
+        	log.info("showList - genre selected");
+        }
+        if(shprfnm != null) {
+        	urlBuilder.append("&shprfnm=" + shprfnm);
+        	log.info("showList - title selected");
+        }
+        
         String url = urlBuilder.toString();
-
+        log.info("request : " + url);
     	RestTemplate restTemplate = new RestTemplate();
     	ShowListVO showList = restTemplate.getForObject(url, ShowListVO.class);
 
@@ -88,16 +84,24 @@ public class RestController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/ajaxShowList", method = RequestMethod.GET)
+    @RequestMapping(value = "/show/ajaxShowList", method = RequestMethod.GET)
     public List<ShowVO> ajaxShowList(
     		@RequestParam("prfstate") String prfstate,
-    		@RequestParam("shcate") String shcate
+    		@RequestParam("shcate") String shcate,
+    		@RequestParam("shprfnm") String shprfnm
     		) {
-		System.out.println("prfstate : " + prfstate + " / shcate : " + shcate);
+    	if(shprfnm.trim().equals("")) shprfnm = null;
+    	log.info("Controller started. searching title : " + shprfnm + " genre : " + shcate + " status : " + prfstate);
 
 		String key = "fe0b63fcf599492aae0dc065406b676b";
-		String stdate = "20210401";
-		String eddate = "20210501";
+		
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+    	Calendar currDate = new GregorianCalendar();
+    	Calendar nextDate = new GregorianCalendar();
+    	nextDate.add(Calendar.WEEK_OF_YEAR, 2);
+		
+		String stdate = dateFormat.format(currDate.getTime());
+		String eddate = dateFormat.format(nextDate.getTime());
 
         StringBuilder urlBuilder = new StringBuilder("http://www.kopis.or.kr/openApi/restful/pblprfr");
         urlBuilder.append("?service=" + key);
@@ -106,11 +110,13 @@ public class RestController {
         urlBuilder.append("&rows=99&cpage=1");
         urlBuilder.append("&shcate=" + shcate);
         urlBuilder.append("&prfstate=" + prfstate);
+        
+        if(shprfnm != null) {
+            urlBuilder.append("&shprfnm=" + shprfnm);
+        }
 
         String url = urlBuilder.toString();
-
-        System.out.println(url);
-
+        log.info("request : " + url);
 		RestTemplate restTemplate = new RestTemplate();
 		ShowListVO ajaxShowList = restTemplate.getForObject(url, ShowListVO.class);
 

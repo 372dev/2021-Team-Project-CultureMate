@@ -18,4 +18,19 @@ public interface MemberService {
 	int changePwd(String userId, String password);
 
 	int validate(String userId);
+
+	//int updateMember(Member member);
+
+//	Member userAuth(String authkey);
+
+	void sendMail(Member member) throws Exception;
+
+
+//	Member userAuth(Member member);
+
+	Member userAuth(String userId, String authkey);
+
+	int updateMember(Member member, String password);
+
+
 }

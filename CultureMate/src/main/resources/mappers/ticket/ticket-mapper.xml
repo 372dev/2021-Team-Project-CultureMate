@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kh.cm.ticket.model.dao.TicketDao">
+	<sql id="selectMemberSql">
+		SELECT ID,
+			   USER_ID,
+			   PASSWORD,
+			   USER_NICK,
+			   USER_NAME,
+			   USER_ROLE,
+			   DATE_BIRTH,
+			   GENDER,
+			   PHONE,
+			   POSTCODE,
+			   ADDRESS,
+			   DETAIL_ADDR,
+			   EXTRA_ADDR,
+			   RANK
+		FROM MEMBER
+		WHERE STATUS = 'Y'
+	</sql>
+	
+	<resultMap type="Ticket" id="ticketResultMap">
+		<id property="ticket_num" column="TICKET_NUM"/>
+		<result property="mt20id" column="MT20ID"/>
+		<result property="prfnm" column="PRFNM"/>
+		<result property="ticket_date" column="TICKET_DATE"/>
+		<result property="id" column="ID"/>
+		<result property="user_id" column="USER_ID"/>
+		<result property="ticket_qty" column="TICKET_QTY"/>
+		<result property="ticket_time" column="TICKET_TIME"/>
+		<result property="change_time" column="CHANGE_TIME"/>
+		<result property="pcseguidance" column="PCSEGUIDANCE"/>
+		<result property="ticket_seat" column="TICKET_SEAT"/>
+		<result property="ticket_status" column="TICKET_STATUS"/>	
+	</resultMap>
+
+	<resultMap type="Member" id="memberResultMap">
+		<id property="id" column="ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="password" column="PASSWORD" />
+		<result property="userNick" column="USER_NICK" />
+		<result property="userName" column="USER_NAME" />
+		<result property="userRole" column="USER_ROLE" />
+		<result property="dateBirth" column="DATE_BIRTH" />
+		<result property="gender" column="GENDER" />
+		<result property="phone" column="PHONE" />
+		<result property="postcode" column="POSTCODE" />
+		<result property="address" column="ADDRESS" />
+		<result property="detailAddr" column="DETAIL_ADDR" />
+		<result property="extraAddr" column="EXTRA_ADDR" />
+		<result property="rank" column="RANK" />
+		<result property="status" column="STATUS" />
+		<result property="authkey" column="AUTHKEY" />
+	</resultMap>
+	
+	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSql"></include>
+		AND USER_ID = #{userId}
+	</select>
+
+	<insert id="insertTicket" parameterType="Ticket" useGeneratedKeys="true" keyProperty="ticket_num" keyColumn="TICKET_NUM">
+ 		INSERT INTO TICKET (
+		    TICKET_NUM, 
+		    MT20ID, 
+		    PRFNM, 
+		    TICKET_DATE, 
+		    ID, 
+		    USER_ID, 
+		    TICKET_QTY, 
+		    TICKET_TIME, 
+		    CHANGE_TIME, 
+		    PCSEGUIDANCE, 
+		    TICKET_SEAT, 
+		    TICKET_STATUS 
+		) VALUES(
+		    SEQ_TICKET_NO.NEXTVAL, 
+		    #{mt20id}, 
+		    #{prfnm}, 
+		    #{ticket_date}, 
+		    #{id}, 
+		    #{user_id}, 
+		    #{ticket_qty}, 
+		    DEFAULT, 
+		    DEFAULT, 
+		    #{pcseguidance}, 
+		    #{ticket_seat}, 
+		    DEFAULT 
+		)
+  	</insert>
+  	
+  	<select id="selectTicketList" parameterType="map" resultMap="ticketResultMap">
+  		SELECT T.TICKET_NUM, 
+	           T.MT20ID, 
+	           T.PRFNM, 
+	           T.TICKET_DATE, 
+	           T.ID, 
+	           T.USER_ID, 
+	           T.TICKET_QTY, 
+	           T.TICKET_TIME, 
+	           T.CHANGE_TIME, 
+	           T.PCSEGUIDANCE, 
+	           T.TICKET_SEAT, 
+	           T.TICKET_STATUS 
+		FROM TICKET T 
+		WHERE T.TICKET_STATUS = 'Y' AND T.ID = #{id} 
+		ORDER BY T.TICKET_NUM DESC 
+	</select>
+  	
+  	<select id="countTicket" resultType="int">
+ 		SELECT COUNT(*) 
+ 		FROM TICKET 
+ 		WHERE ID = #{id} AND TICKET_STATUS='Y'
+  	</select>
+	
+	<update id="updateRank02" parameterType="Ticket">
+		UPDATE MEMBER SET 
+		RANK = '친한친구'
+		WHERE ID = #{id}
+	</update>
+	
+	<update id="updateRank03" parameterType="Ticket">
+		UPDATE MEMBER SET 
+		RANK = '베스트프랜드'
+		WHERE ID = #{id}
+	</update>
+	
+	<update id="updateRankDefault" parameterType="Ticket">
+		UPDATE MEMBER SET 
+		RANK = '친구'
+		WHERE ID = #{id}
+	</update>
+	
+	<update id="deleteTicket" parameterType="Ticket">
+		UPDATE TICKET SET
+		TICKET_STATUS = 'N'
+		WHERE TICKET_NUM = #{ticket_num}
+	</update>
+  	
+  	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

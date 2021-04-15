@@ -13,6 +13,7 @@
 		<result property="reviewRating" column="REVIEW_RATING"/>
 		<result property="status" column="STATUS"/>
 		<result property="id" column="ID"/>
+		<result property="userNick" column="USER_NICK"/>
 	</resultMap>
 	
 	
@@ -20,6 +21,7 @@
 		SELECT *
 		FROM REVIEW
 		WHERE MT20ID = #{mt20id}
+		ORDER BY REVIEW_DATE
 	</select>
 	
 	<insert id="saveReview" parameterType="map"
@@ -32,10 +34,21 @@
   			#{reviewContent},
   			SYSDATE,
   			DEFAULT,
-  			5,
+  			#{reviewRating},
   			DEFAULT,
-  			100
+  			#{id},
+  			#{userNick}
  		)
   	</insert>
+  	
+  	<delete id="delReview" parameterType="int">
+  		DELETE FROM REVIEW WHERE REVIEW_ID = #{no}
+  	</delete>
+  	
+  	<select id="findUserNick" parameterType="int" resultMap="reviewResultMap">
+  		SELECT *
+  		FROM REVIEW  
+  		WHERE REVIEW_ID = #{no}
+  	</select>
 	
 </mapper>

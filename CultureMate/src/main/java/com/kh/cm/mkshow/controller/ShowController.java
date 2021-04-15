@@ -1,20 +1,31 @@
 package com.kh.cm.mkshow.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.mkshow.model.service.ShowReviewService;
+import com.kh.cm.mkshow.model.vo.MemberDTO;
+import com.kh.cm.mkshow.model.vo.MemberListDTO;
 import com.kh.cm.mkshow.model.vo.PlaceDTO;
 import com.kh.cm.mkshow.model.vo.PlaceListDTO;
 import com.kh.cm.mkshow.model.vo.ShowDTO;
 import com.kh.cm.mkshow.model.vo.ShowListDTO;
 import com.kh.cm.mkshow.model.vo.ShowReview;
+import com.kh.cm.mkshow.model.vo.ShowStyDTO;
+import com.kh.cm.ticket.model.service.TicketService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +37,9 @@ public class ShowController {
 	
 	 @Autowired
 	 private ShowReviewService service; 
+	 
+	 @Autowired
+	 private TicketService ticketservice;
 	
 	//지도 위치 출력 위한 위도 경도 리턴 함수
 	private static List<PlaceDTO> getPlace(String mt10id) {
@@ -56,8 +70,40 @@ public class ShowController {
 		return result;
 	}
 	
+		private static List<MemberDTO> getList(String shcate) {
+		
+		String data[] = new String[2];
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+	    Calendar currDate = new GregorianCalendar();
+    	Calendar nextDate = new GregorianCalendar();
+    	nextDate.add(Calendar.MONTH, 1);
+    	
+    	
+		String stdate = dateFormat.format(currDate.getTime());
+		String eddate = dateFormat.format(nextDate.getTime());
+		
+		 String addr = "http://www.kopis.or.kr/openApi/restful/pblprfr?service=";
+		 String serviceKey = "54aff7444a924def99fc5e93ad99952d";
+		 String parameter = "&stdate=" + stdate + "&eddate=" + eddate + "&rows=10&cpage=1" + "&shcate=" + shcate;
+		 
+		 String uri = addr + serviceKey + parameter;
+			
+        // 오브젝트로 결과값 받아오기
+	    RestTemplate restTemplate = new RestTemplate();
+        
+        // 오브젝트로 결과값 받아오기
+	    MemberListDTO memberList = restTemplate.getForObject(uri, MemberListDTO.class);
+        
+        
+        // 회원 정보 리스트
+        List<MemberDTO> result = memberList.getMemberInfo();
+        
+		return result;
+	}
+	
 	@RequestMapping(value = "/restview", method = RequestMethod.GET)
-    public ModelAndView showView(ModelAndView model, String name) {
+    public ModelAndView showView(ModelAndView model, String name, 
+    		@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
         // Xml데이터를 response받을 API주소
 		String addr = "http://www.kopis.or.kr/openApi/restful/pblprfr/";
 	    String serviceKey = "54aff7444a924def99fc5e93ad99952d";
@@ -67,6 +113,7 @@ public class ShowController {
 	    int replylength = 0;
 		 
 		 
+	    
 		 String uri = addr + parameter + serviceKey;
          
 	  
@@ -107,13 +154,71 @@ public class ShowController {
     	   model.addObject("max", max);
        }
         
+       
+       String type = "";
+       if(result.get(0).getGenrenm().equals("연극")) {
+    	   type = "AAAA";
+       }else if(result.get(0).getGenrenm().equals("뮤지컬")) {
+    	   type = "AAAB";
+       }else {
+    	   type = "CCCA";
+       }
+       
+       List<MemberDTO> slist = getList(type);
+       System.out.println("목록1" + slist.get(0).getPrfnm());
+       
+       model.addObject("slist",slist);
+       model.addObject("review", review);
+       model.addObject("replylength", replylength-1);
         model.addObject("place", place);
         model.addObject("prfruntimesize", result.get(0).getPrfruntime().length());
         model.addObject("pcseguidancesize", result.get(0).getPcseguidance().length());
         model.setViewName("board/view");
         model.addObject("result", result);
-         
+        
+        if(loginMember != null) {
+        	model.addObject("loginMember", ticketservice.findMemberByUserId(loginMember.getUserId()));
+        }
+        
         return model;
     }
 	
+	@ResponseBody
+	@RequestMapping(value = "/mateAjax", method = RequestMethod.GET)
+    public List<ShowDTO> ajaxShow(@RequestParam("mt20id") String mt20id) {
+		log.info("Controller started. id : " + mt20id);
+		
+		String serviceKey = "54aff7444a924def99fc5e93ad99952d";
+		StringBuilder urlBuilder = new StringBuilder("http://www.kopis.or.kr/openApi/restful/pblprfr/");
+		urlBuilder.append(mt20id);
+		urlBuilder.append("?service=" + serviceKey);
+		
+		String url = urlBuilder.toString();
+		RestTemplate restTemplate = new RestTemplate();
+		
+		ShowListDTO showList = restTemplate.getForObject(url, ShowListDTO.class);
+		List<ShowDTO> result = showList.getShowInfo();
+		
+		log.info("result retrieved. id : " + result.get(0).getMt20id());
+		return result;
+    }
+	
+	@RequestMapping(value = "/mateAjaxTest", method = RequestMethod.GET)
+	public String ajaxShowTest() {
+		return "mateAjaxTest";
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

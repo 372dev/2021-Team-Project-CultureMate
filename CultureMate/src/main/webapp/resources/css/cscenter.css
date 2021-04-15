@@ -1,0 +1,222 @@
+@charset "UTF-8";
+
+/* CSmain*/
+p {
+	margin: 20px 0px;
+}
+
+.notice {
+	margin-top: 30px;
+	background-color: #B3E0FF;
+	line-height: 40px;
+	text-align: center;
+}
+
+.search {
+	margin-top: 50px;
+	float: right;
+}
+
+hr {
+	margin-top: 90px;
+}
+
+.col>p {
+	border: 3px solid gray;
+	background-color: #bcbcbc;
+	line-height: 50px;
+	font-size: 25px;
+}
+
+.nav-item {
+	display: inline-block;
+	inline-size: 30%;
+}
+
+/*CS 자주묻는 질문 & FAQ*/
+p {
+	margin: 20px 0px;
+}
+
+.notice {
+	margin-top: 30px;
+	background-color: #B3E0FF;
+	line-height: 40px;
+	text-align: center;
+}
+
+.search {
+	margin-top: 50px;
+	float: right;
+}
+
+hr {
+	margin-top: 90px;
+}
+
+.col>p {
+	border: 3px solid #bcbcbc;
+	background-color: #bcbcbc;
+	line-height: 50px;
+	font-size: 25px;
+}
+
+.nav-item {
+	display: inline-block;
+	inline-size: 15%;
+}
+
+.container2 {
+	margin-top: 10%;
+	max-width: px;
+	border: 3px solid red;
+	/* position: relative;
+  top: 50%;
+  left: ; */
+}
+
+.nav-item1 {
+	display: inline-block;
+	inline-size: 15%;
+	margin-top: 50px;
+}
+
+/* Question 1:1 list */
+body {
+	
+}
+
+.container3 {
+	margin-top: 5%;
+	max-width: px;
+	border: 3px solid red;
+	font-family: Arial, sans-serif;
+	padding: 4px;
+	h5
+	{
+	/* text-align: center; */
+	font-weight
+	:
+	normal;
+}
+
+nav {
+	width: 100%;
+	background: white;
+	border: 1px solid black;
+	/* border-right: none; */
+}
+
+nav ul {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+
+nav ul li {
+	list-style: none;
+	float: left;
+	text-align: center;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #ccc;
+	width: 16.6667%; /* fallback for non-calc() browsers */
+	width: calc(100%/ 6);
+	box-sizing: border-box;
+	inline-size: 50%;
+}
+
+nav ul li:first-child {
+	border-left: none;
+}
+
+nav ul li a {
+	display: block;
+	text-decoration: none;
+	color: #616161;
+	padding: 10px 0;
+}
+
+.p {
+	text-align: center;
+	font-size: 14px;
+	margin-top: 80px;
+}
+
+/* QNA content*/
+.container4 {
+	margin-top: 10%;
+	max-width: px;
+	border: 3px solid red;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	padding: 4px;
+}
+
+h5 {
+	/* text-align: center; */
+	font-weight: normal;
+}
+
+nav {
+	width: 100%;
+	background: white;
+	border: 1px solid black;
+	/* border-right: none; */
+}
+
+nav ul {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+
+nav ul li {
+	list-style: none;
+	float: left;
+	text-align: center;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #ccc;
+	width: 16.6667%; /* fallback for non-calc() browsers */
+	width: calc(100%/ 6);
+	box-sizing: border-box;
+	inline-size: 50%;
+}
+
+nav ul li:first-child {
+	border-left: none;
+}
+
+nav ul li a {
+	display: block;
+	text-decoration: none;
+	color: #616161;
+	padding: 10px 0;
+}
+
+.p {
+	text-align: center;
+	font-size: 14px;
+	margin-top: 80px;
+}
+
+.cs_qna>.qnalist {
+	margin-top: 20px;
+}
+
+.cs_qna>.qnaname {
+	margin-top: 20px;
+}
+
+.qnacontent {
+	margin-top: 20px;
+}
+
+.qnaagree {
+	text-align: center;
+}
+
+.qnabtn {
+	text-align: center;
+}

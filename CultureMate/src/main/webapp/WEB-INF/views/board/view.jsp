@@ -6,7 +6,34 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.kr.min.js"></script>
+
+
+<link rel="stylesheet" href="${path}/css/slick.css">
+<link rel="stylesheet" href="${path}/css/slick-theme.css">
+<script src="${path}/js/slick.js"></script>
+<script src="${path}/js/index.js"></script>
+
 <style>
+.dot {
+	cursor: pointer;
+	height: 13px;
+	width: 13px;
+	margin: 0 2px;
+	background-color: #bbb;
+	border-radius: 50%;
+	display: inline-block;
+	transition: background-color 0.6s ease;
+	}
+	
 	.a{
 		border: solid 1px;
 		min-height: 500px;
@@ -26,13 +53,14 @@
 
 .rn-03-left {
     float: left;
-    width: 430px;
+    width: 35%;
 }
 	
 	.rn-03-right {
-    width: 701px;
+    width: 35%;
     float: left;
     margin-left: 50px;
+    border-right: solid 1px;
 }
 	
 	.rn-03-right .rn-product-area1 {
@@ -66,7 +94,6 @@
 	
 .rn-03-right .rn-product-area3 {
     min-height: 174px;
-    border-bottom: 1px solid #000;
 }
 
 .title{
@@ -256,8 +283,8 @@ table#tbl-comment sub.comment-writer {
 }
 
 table#tbl-comment sub.comment-date {
-  color: tomato;
-  font-size: 10px;
+   color: navy;
+  font-size: 14px;
 }
 
 #star a{ text-decoration: none; color: gray; } #star a.on{ color: red; }
@@ -267,12 +294,94 @@ a#btn-insert {
     /* top: -10px; */
 }
 
+.disable { background-color: gray;  }
+
+#deletereply{
+	float: right;
+}
+
+div#datepicker {
+    width: 20%;
+    float: left;
+    margin-left: 50px;
+}
+
+#re-button{
+ margin-left: 110px;
+ margin-top: 50px;
+}
+
+#today_text{
+text-align: center;
+
+}
+
+.text_today {
+	display: inline-block;
+    top: 35px;
+    transform: translateX(-50%);
+    font-family: var(--font);
+    font-size: 25px;
+    text-align: center;
+   
+}
+
+#today {
+    width: 100%;
+    height: 350px;
+   text-align: center;
+    display: inline-block;
+}
+
+#today .list {
+    text-align: center;
+    width: 250px;
+    height: 330px;
+}
+
+#today .list01, .list03, .list05 {
+   
+}
+
+#today .list02, .list04, .list06 {
+   
+}
+
+#price_default{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 18px;
+	font-weight: 300;
+	margin: 5px 0 0 86px;
+}
+
+#price_before{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 18px;
+	font-weight: 300;
+	color: gray;
+	text-decoration: line-through;
+	margin: 5px 0 0 86px;
+}
+
+#price_after{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 18px;
+	font-weight: 500;
+	margin: 5px 0 0 86px;
+}
+
+#ticketing{
+	width: 220px;
+	margin-top: 20px;
+	margin-left: 50px;
+}
+
 </style>
 			<section>
 			<c:set var="show" value="${result.get(0)}"></c:set>
 			
 			<div class="title">
-				<h3><c:out value="${show.prfnm}"/></h3>
+				<h3>[<c:out value="${show.genrenm}"/>]<c:out value="${show.prfnm}"/></h3>
 				<br>
 			</div>	
 			<div class="rn-03"><!--상단-->
@@ -323,7 +432,15 @@ a#btn-insert {
 						<br>
 						
 						<dt>가격</dt>
-						<dd><c:out value="${show.pcseguidance}"/></dd> 
+						<c:if test="${pcseguidancesize != 1}">
+							<c:if test="${loginMember.userId == null || loginMember.rank == '친구'}">
+								<div id="price_default"></div>
+							</c:if>
+							<c:if test="${loginMember.userId != null && loginMember.rank != '친구'}">
+								<div id="price_before"></div>
+								<div id="price_after"></div>
+							</c:if>
+						</c:if>
 						<c:if test="${pcseguidancesize == 1}">
 						<dd><c:out value="정보가 없습니다."/></dd> 
 						</c:if>
@@ -337,14 +454,27 @@ a#btn-insert {
 						<br>
 					</dl>
 				</div>
-				
+			</div>
+			<div id="cal">
+			<div id="datepicker" ></div>
+			<button id="ticketing" class="btn btn-primary" onclick="openSeatSelect()">예매하기</button>
+				<form id="ticketing_form" action='${path}/ticket/ticketing' method="post">
+					<input type="hidden" id="form_mt20id" name="mt20id" value="${show.mt20id}">
+					<input type="hidden" id="form_prfnm" name="prfnm" value="${show.prfnm}">
+					<input type="hidden" id="form_ticket_date" name="ticket_date" value="">
+					<input type="hidden" id="form_id" name="id" value="${ loginMember.id }">
+					<input type="hidden" id="form_userId" name="user_id" value="${ loginMember.userId }">
+					<input type="hidden" id="form_ticket_qty" name="ticket_qty" value="">
+					<input type="hidden" id="form_pcseguidance" name="pcseguidance" value="">
+					<input type="hidden" id="form_ticket_seat" name="ticket_seat" value="">
+				</form>
+			</div>
 			</div>
 			</div><!--rn-03-right-->
-			</div>
-		<!-- 
-		</div>
-		 --> 
-		
+			
+
+
+
 		
 		
 		
@@ -431,30 +561,53 @@ a#btn-insert {
 				<div> 게시판 운영규정에 맞지 않는 글은 사전 통보없이 삭제될 수 있습니다.  </div>
 				<form method="post" id="reply_form">
 					<P id="star"> 
-					<a  value="1">★</a> 
-					<a  value="2">★</a> 
-					<a  value="3">★</a> 
-					<a  value="4">★</a> 
-					<a  value="5">★</a> 
+					<a id=star1 value=1>★</a> 
+					<a id=star1 value=2>★</a> 
+					<a id=star1 value=3>★</a> 
+					<a id=star1 value=4>★</a> 
+					<a id=star1 value=5>★</a> 
 					</p>
 					<textarea name="reviewContent" cols="100" rows="4" onfocus="" id="reviewContent"></textarea>
 					<input type="hidden" id="mt20id" name="mt20id" value="${result.get(0).mt20id}">
-					<input type="hidden" id="reviewRating" name="reviewRating" value="">
-					<a href=''  id="btn-insert" onClick="fn_comment()" class="btn pull-right btn-success">등록</a>
+					<c:if test="${ !empty loginMember}">
+					<input type="hidden" id="id" name="id" value="${loginMember.id}">
+					<input type="hidden" id="userNick" name="userNick" value="${loginMember.userNick}">
+					<div id="hstar" style="float: left">
+					
+					</div>
+					</c:if>
+					 
+					 
+					 <c:choose>
+					 	<c:when test="${!empty loginMember}">
+					 	<a href="" id="btn-insert" onClick='fn_comment()' class="btn pull-right btn-success ">등록</a>
+					 	</c:when>
+					 	<c:otherwise>
+					 	<a  id="btn-insert"  class="btn pull-right btn-success disable ">등록</a>
+					 	</c:otherwise>
+					 </c:choose>
+					
 				</form>
 			</div>
 			<br>
 			<table id="tbl-comment">
 			<!-- for문을 사용하여 댓글수만큼 출럭 가능하게 구현하기 -->
-			<tr class="level1">
-					<td><sub class="comment-writer"> 작성자: 김민규	</sub> 
-					<sub class="comment-date"> 2021.04.06	</sub>
-					<a id="deletereply" href="">삭제</a>
-					 <br><br> 
-					 여기에 내용이 작성될 예정입니다.
-					<br><br>
-					</td>
-				</tr>
+			</table>
+			
+			<table id="tbl-comment">
+					<c:forEach var="review1"  items="${review}">
+					<tr class='level1'>
+                    <td><sub class="comment-writer">${review1.userNick} |</sub>
+                     <sub class="comment-date">${review1.reviewDate} | </sub> 
+                     <c:forEach var ="j" begin="1" end="${review1.reviewRating}">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+					</svg>
+					</c:forEach>
+                     <c:if test="${loginMember.userNick == review1.userNick }">
+                     <a id='deletereply' href='' onclick="del(${review1.reviewID})">삭제</a>
+                     </c:if>
+                     <br><br>${review1.reviewContent}<br><br></td></tr>
+                     </c:forEach>
 			</table>
 			
 			<div>
@@ -464,7 +617,6 @@ a#btn-insert {
 		
 		<div class="bxo_vcb" style="display: none" >
 			<div class="tib">
-				<h4 class="nb_tit1">환불 정보</h4>
 			</div>
 			<div class="rn">
 			예매
@@ -483,31 +635,315 @@ a#btn-insert {
 					<th> 전화예매</th>
 				</tr>
 				<tr> 
-					<td>콘서트, 뮤지컬, 클래식, 국악, 무용 </td>
+					<td>뮤지컬, 콘서트</td>
 					<td>장당 1,000원</td>
-					<td rowspan="3"> 장당 2,000원</td>
+					<td rowspan="2"> 장당 2,000원</td>
 				</tr>
 				<tr> 
-					<td>연극, 전시 </td>
+					<td>연극</td>
 					<td>장당 500원</td>
-				</tr>
-				<tr> 
-					<td>체험, 행사 </td>
-					<td>장당 300원</td>
 				</tr>
 			</table>
 			</div>
 			
 			</div>
+			<hr>
+			<!-- 티켓수령 방법  -->
+			<div class="rn">
+			티켓수령방법
+			</div>
+			<div class="rn-1">
+			현장수령<br>
+			티켓은 예매자 본인 수령이 기본 원칙입니다.<br>
+			공연 당일 예매확인서와 예매자의 신분증 을 지참하신 후 공연장 매표소에서 티켓을 수령하시면 됩니다.<br>
+			<br>
+			배송<br>
+			배송을 선택하신 경우 예매완료(결제익일) 기준 5~7일 이내에 예매 시 입력하신 주소로 배송됩니다.(영업일 기준)<br>
+			일괄배송의 경우 각 상품의 지정된 배송일자 기준으로 배송이 시작됩니다. 배송 시작일은 상세정보 및 예매공지사항에서 확인할 수 있습니다.<br>
+			지역 및 배송 서비스 사정에 따라 배송사가 변경될 수 있으며, 배송일이 추가적으로 소요될 수 있습니다.(CJ대한통운, 우체국 외 1개 업체)<br>
+			* 티켓 수령과 관련된 정책은 상품별로 상이하니 자세한 내용은 각 상품 상세정보에서 확인 부탁드립니다.<br>
+			</div>
 			
+			<hr>
+			
+			<!-- 취소마감시간 -->
+			<div class="rn">
+			취소마감시간
+			</div>
+			<div class="rn-1">
+			<div class="re-ta">
+			<table >
+				<tr> 
+					<th>공연 관람일 </th>
+					<th> 취소 마감일</th>
+				</tr>
+				<tr> 
+					<td>화요일 ~ 토요일 </td>
+					<td>관람일 전일 평일 오후 5시</td>
+				</tr>
+				<tr> 
+					<td>일요일 ~ 월요일 </td>
+					<td>토요일 오전 11시</td>
+				</tr>
+				<tr> 
+					<td>공휴일 및 공휴일 익일 </td>
+					<td>공휴일 전일이 평일인 경우 - 오후 5시 <br>
+						공휴일 전일이 토요일, 일요일인 경우 - 토요일 오전 11시 <br>
+						공휴일에는 예매 취소 불가</td> 
+				</tr>
+			</table>
+			</div>
+			관람일 당일 예매하신 건은 취소, 변경, 환불 불가합니다. <br>
+			배송이 시작된 티켓의 경우 티켓이 컬처메이트 공연 고객센터로 취소마감시간 이전까지 반송되어야 취소 가능합니다.(취소수수료는 도착일 기준으로 부과됩니다.) <br>
+			결제수단을 복수로 선택한 경우 인터넷으로 부분취소가 불가하오니, 고객센터로 문의해주시기 바랍니다. <br>
+			 <br>
+			일부 공연에 한해, 취소 마감 정책이 달라질 수 있습니다. <br>
+			각 상품 상세페이지에 안내되어 있는 취소 정책이 우선 적용되오니, 반드시 예매 전 확인해주시기 바랍니다. <br>
+			</div>
+			
+			<hr>
+			<!-- 취소수수료 -->
+			<div class="rn">
+			취소수수료
+			</div>
+			<div class="rn-1">
+			<div class="re-ta">
+			<table >
+				<tr> 
+					<th>취소일 </th>
+					<th>취소수수료</th>
+				</tr>
+				<tr> 
+					<td>예매 후 7일 이내 </td>
+					<td>없음</td>
+				</tr>
+				<tr> 
+					<td>예매 후 8일 ~ 관람일 10일 전까지 </td>
+					<td>뮤지컬, 콘서트 : 장당 4,000원 / 연극 : 장당 2,000원(단, 티켓 금액의 10% 이내)</td>
+				</tr>
+				<tr> 
+					<td>공관람일 9일 전 ~ 관람일 7일 전까지 </td>
+					<td>티켓 금액의 10%</td> 
+				</tr>
+				<tr> 
+					<td>관람일 6일 전 ~ 관람일 3일 전까지 </td>
+					<td>티켓 금액의 20%</td> 
+				</tr>
+				<tr> 
+					<td>관람일 2일 전 ~ 취소마감일시까지 </td>
+					<td>티켓 금액의 30%</td> 
+				</tr>
+			</table>
+			</div>
+			예매 후 7일 이내라도 취소시점이 관람일로부터 10일 이내라면 그에 해당하는 취소수수료가 부과됩니다. <br>
+			관람일 당일 취소 가능한 상품의 경우 관람일 당일 취소 시 티켓금액의 90%가 부과됩니다. <br>
+			상품의 특성에 따라 취소수수료 정책이 달라질 수 있습니다.(각 상품 예매 시 취소수수료 확인) <br>
+			</div>
+			
+			<hr>
+		<!-- 환불  -->
+		<div class="rn">
+			취소수수료
+			</div>
+			<div class="rn-1">
+			예매수수료는 예매 당일 밤 12시 이전까지 환불되며, 그 이후 기간에는 환불되지 않습니다.<br>
+			배송 및 반송처리 된 티켓의 배송비는 환불되지 않습니다.<br>
+			<div class="re-ta">
+			<table >
+				<tr> 
+					<th>결제수단 </th>
+					<th>환불안내</th>
+				</tr>
+				<tr> 
+					<td>신용카드 </td>
+					<td>	
+					일반적으로 취소완료 되고 4~5일(토, 공휴일 제외) 후 카드 승인 취소가 확인됩니다. <br>
+					취소시점에 따라 취소수수료와 예매수수료, 배송 받으신 경우 배송비를 제외한 금액만큼 환불 처리 됩니다.<br>  
+					(부분 취소 시에는 잔여 티켓 금액 + 수수료 등을 제외하고 환불 처리 됩니다.)<br>
+					각 카드사의 취소 정책에 따라 승인취소 및 환급일에 차이가 있을 수 있습니다.<br>
+					자세한 사항은 카드사로 문의 바랍니다.<br>
+					</td>
+				</tr>
+				<tr> 
+					<td>무통장입금 </td>
+					<td>
+					예매 취소 시 반드시 환불 받으실 계좌번호와 은행명을 입력하세요. <br> 
+					취소수수료,예매수수료와 배송 받으신 경우 배송비를 제외한 후 환불 처리됩니다.<br> 
+					취소 후 환불 처리는 영업일 기준 3~5일 정도 소요됩니다.<br> 
+					환불진행상태는 MY공연>예매확인/취소 상세내역에서 확인할 수 있습니다.<br> 
+					<br> 
+					* 배송 받은 티켓의 취소를 위해 고객센터로 발송하실 때, 환불 받으실 계좌 정보를 기입하여 보내주시면 보다 빠른 환불 처리가 가능합니다.<br> 
+					</td>
+				</tr>
+			</table>
+			</div>
+			</div>
+			
+		
 		</div>
+		
+		<br><br><br>
+		
+		<div id="today_best">
+		<h1 id="today_text">다른 추천 공연</h1><br>
+		        <div id="today">
+		         <c:forEach var="i"  begin="0" end="7">
+		          <div class="list" >
+		          <a href="${path}/show/restview?name=${slist.get(i).mt20id}"><img src="${slist.get(i).poster}" class="m_img" style="width: 250px; height: 250px; text-align: center;" t></a>
+		          <br><strong id="title">11</strong>
+		          </div>
+		  			 </c:forEach>
+		     
+		       </div>
+		       <div style="text-align: center" id="dot">
+						<span class="dot" onclick="currentSlide(1)"></span> 
+						<span class="dot" onclick="currentSlide(2)"></span> 
+						<span class="dot" onclick="currentSlide(3)"></span>
+						<span class="dot" onclick="currentSlide(4)"></span>
+				</div>
+		</div>
+		
 		
 		</section>
 			
 
-<!-- 댓글 작성 ajax -->
+<!-- 달력 (datapciker) -->
 <script type="text/javascript">
 
+		 var minDate_before = "${show.prfpdfrom}";
+		 var maxDate_before = "${show.prfpdto}";
+
+		 var minDate_val = minDate_before.replace(/\./gi, '-');
+		 var maxDate_val = maxDate_before.replace(/\./gi, '-');
+
+		 var today = new Date().toISOString().substring(0, 10);;
+		 $( 'datepicker' ).attr( 'data-date', today );
+
+		 console.log(today);
+
+		 var now = new Date();
+
+		 var year= now.getFullYear();
+		 var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+		 var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+
+		 var today_value = year + '-' + mon + '-' + day;
+
+		 var startDateArr = today_value.split('-');
+		 var endDateArr = minDate_val.split('-');
+
+		 var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
+		 var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+
+		 if(startDateCompare.getTime() > endDateCompare.getTime()) {
+
+			minDate_val = today_value;
+
+		 }
+		  
+		$('#datepicker').datepicker({
+			format : "yyyy-mm-dd", // 달력에서 클릭시 표시할 값 형식
+			language : "kr",
+			todayHighlight: true,
+			startDate : minDate_val,
+			endDate : maxDate_val
+		});
+
+
+		$('#datepicker').on('changeDate', function() {
+		    $('#form_ticket_date').val(
+		        $('#datepicker').datepicker('getFormattedDate')
+		    );
+		    console.log("$('#form_ticket_date').val() : " + $('#form_ticket_date').val());
+		});
+</script>
+
+<script>
+	var price_before = "${show.pcseguidance}";
+	var price = price_before.replace(/[^0-9]/g,'');
+	var form_pcseguidance = document.getElementById("form_pcseguidance");
+
+	var rank = "${loginMember.rank}";
+	var price_default = document.getElementById("price_default");
+	var price_before = document.getElementById("price_before");
+	var price_after = document.getElementById("price_after");
+
+	if(price.length > 6) {
+		price = price.substring(0, 5);
+	}
+
+	console.log("rank : " + rank);
+
+	console.log("price : " + price);
+
+	if(rank == "" || rank == "친구") {
+		price_default.innerHTML = "전석 " + price + "원";
+
+	}
+
+	if (rank == "친한친구") {
+		price_before.innerHTML = "전석 " + price + "원";
+
+		price = price * 0.95;
+
+		price_after.innerText = "전석 " + price + "원 [친한친구 등급 할인!]";
+
+		console.log(price);
+	} else if(rank == "베스트프랜드") {
+		price_before.innerHTML = "전석 " + price + "원";
+
+		price = price * 0.9;
+
+		price_after.innerText = "전석 " + price + "원 [베스트프랜드 등급 할인!]";
+
+		console.log(price);
+	}
+
+	form_pcseguidance.value = price;
+
+	var logincheck = document.getElementById("form_userId").value;
+
+	function openSeatSelect(){
+		if(logincheck == "") {
+			alert("로그인 후 이용 가능합니다.");
+			location.href="${path}/login";
+		} else if($('#form_ticket_date').val() == "") {
+			alert("날짜를 선택해 주세요!");
+		}else {
+			console.log("$('#form_ticket_date').val() : " + $('#form_ticket_date').val());
+
+			window.open("${path}/ticket/ticketing/seat",
+					"SeatSelect", "width=700, height=450, resizable = no, scrollbars = no");
+		}
+	}
+</script>
+
+
+
+	
+<!-- 댓글 평점-->
+<script type="text/javascript">
+$('#star a').click(function(){ 
+	$(this).parent().children("a").removeClass("on"); 
+	$(this).addClass("on").prevAll("a").addClass("on"); 
+	console.log($(this).attr("value"));
+	
+	$.ajax({
+		type: "post",
+		url: "<c:url value='/review/star.do'/>",
+		data: {"num" : $(this).attr("value")},
+		success: function(result) {
+		  html = '<input type="hidden" id="reviewRating" name="reviewRating" value="' + result + '  ">';
+		  $("#hstar").html(html);
+		  console.log("히든성공");
+		},
+		error: function(e) {
+			console.log(e);
+		}
+	});
+});
+	
+//댓글 작성
 function fn_comment(){
     console.log("에이작스 호출");
     $.ajax({
@@ -516,84 +952,34 @@ function fn_comment(){
         data:$("#reply_form").serialize(),
         success : function(data){
         	console.log("불러오기 성공!!");
-            if(data=="success")
+            if(data == ("success"))
             {
             	console.log("불러오기 성공!!");
-                getCommentList();
-                $("#reviewContent").val("");
             }
+            
         },
         error:function(request,status,error){
+        	console.log("불러오기실패!!");
        }
         
     });
 }
 
 
-$(function(){
-    console.log("aaaar?");
-    getCommentList();
-    
-});
+//댓글삭제
+function del(no) {  
+	
+	console.log("del실행" + no);
+  $.ajax({
+      type : 'GET',
+      url : "<c:url value='/review/delete.do?no=" + no + "'/>",
+  });
 
-
-
-
-/**
- * 댓글 불러오기(Ajax)
- */
-function getCommentList(){
-    
-    $.ajax({
-        type:'GET',
-        url : "<c:url value='/review/list.do'/>",
-        dataType : "json",
-        data:$("#reply_form").serialize(),
-        contentType: "charset=UTF-8", 
-        success : function(data){
-            
-            var html = "";
-            var cCnt = data.length;
-            
-            if(data.length > 0){
-			
-                for(i=0; i<data.length; i++){
-                    html += "<tr class='level1'>";
-                    html += "<td><sub class='comment-writer'>" + data[i].id + "</sub> ";
-                    html += "<sub class='comment-date'>" +data[i].reviewDate + "</sub>" ;
-                    html += "<a id='deletereply' href=''>삭제</a> <br><br>"  + data[i].reviewContent + " <br><br></td></tr>" ;
-                }
-                
-            } else {
-                
-                html += "<div>";
-                html += "<div><table class='table'><h6><strong>등록된 댓글이 없습니다.</strong></h6>";
-                html += "</table></div>";
-                html += "</div>";
-                
-            }
-            
-         //   $("#cCnt").html(cCnt);
-            $("#tbl-comment").html(html);
-            
-        },
-        error:function(request,status,error){
-            
-       }
-        
-    });
 }
 </script>
 
-		
-<script type="text/javascript">
-$('#star a').click(function(){ 
-	$(this).parent().children("a").removeClass("on"); 
-	$(this).addClass("on").prevAll("a").addClass("on"); 
-	console.log($(this).attr("value")); });
-
-</script>		
-			
+	
+<!-- 카카오 지도 API -->		
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3350da83d3aa1ab8eefb3c639de15502"></script>
 		
 <script>
@@ -624,8 +1010,10 @@ $('#star a').click(function(){
 		
 		</script>
 	
-<script type="text/javascript">
 	
+
+<script type="text/javascript">
+//탭 메뉴	
 var tabMenu = ["poster","perf","stats","refund"];
 $.each(tabMenu, function(index, value) {
 	$("#" + value).click(function () {
