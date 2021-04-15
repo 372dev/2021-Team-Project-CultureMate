@@ -8,8 +8,12 @@ import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.annotations.Param;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,12 +58,16 @@ public class ShowReviewController {
 	}
 	
 	
-	 @RequestMapping(value="/list.do", produces="application/json; charset=utf8")
+	 	@RequestMapping(value="/list.do", produces="application/json; charset=utf8")
 	    @ResponseBody
-	    public List<ShowReview>  ajax_commentList(@ModelAttribute("review") ShowReview review, 
+	    public ResponseEntity ajax_commentList(@ModelAttribute("review") ShowReview review, 
 	    		@SessionAttribute(name="loginMember", required = false)  Member loginMember,
 	    	 HttpServletRequest request) throws Exception{
 	    	
+		 	HttpHeaders responseHeaders = new HttpHeaders();
+	        ArrayList<HashMap> hmlist = new ArrayList<HashMap>();
+	        
+	        
 	        // 해당 게시물 댓글
 	        System.out.println("원하는 제목 값 " + review.getMt20id());
 	        
@@ -70,8 +78,22 @@ public class ShowReviewController {
 	        	System.out.println("내용~!~!" + commentVO.get(0).getReviewContent());
 	        }
 	        
+	        if(commentVO.size() > 0){
+	            for(int i=0; i<commentVO.size(); i++){
+	                HashMap hm = new HashMap();
+	                hm.put("reviewID", commentVO.get(i).getReviewID());
+	                hm.put("reviewContent", commentVO.get(i).getReviewContent());
+	                hm.put("reviewDate", commentVO.get(i).getReviewDate());
+	                hm.put("reviewRating", commentVO.get(i).getReviewRating());
+	                hm.put("userNick", commentVO.get(i).getUserNick());
+	                hm.put("userId", commentVO.get(i).getId());
+	                hmlist.add(hm);
+	            }
+	            
+	        }
 	        
-	        return commentVO;
+	        JSONArray json = new JSONArray(hmlist);        
+	        return new ResponseEntity(json.toString(), responseHeaders, HttpStatus.CREATED);
 	    }
 	 
 	 	@RequestMapping(value = "/delete.do", method = {RequestMethod.GET})
@@ -116,4 +138,32 @@ public class ShowReviewController {
 	 		
 	 		return star;
 	 	}
+	 		
+	 		@RequestMapping(value = "/update.do", method = {RequestMethod.POST})
+	 		@ResponseBody
+		    public ModelAndView updateReview(ShowReview review,
+		    		 @SessionAttribute(name="loginMember", required = false)  Member loginMember,
+		    		 ModelAndView model,
+		    		HttpServletRequest request) {
+		    	
+		      	//System.out.println(no);
+		        System.out.println("수정 함수 실행" + review.getReviewID() + "@@@@");
+		        System.out.println("@@@" + review.getReviewContent());
+		        System.out.println("###" + review.getReviewRating());
+		       // System.out.println(reviewContent);
+		        service.updateReview(review);
+		      
+		        model.setViewName("home");
+		      
+		        return model;
+		    }
+	 		
+	 		@RequestMapping(value = "/reco.do", method = {RequestMethod.POST})
+	 		@ResponseBody
+	 		public String reco(int no, int reco, HttpServletRequest request) {
+	 		
+	 			//service.updatereco();
+	 			
+	 		
+	 		return "";}
 }
