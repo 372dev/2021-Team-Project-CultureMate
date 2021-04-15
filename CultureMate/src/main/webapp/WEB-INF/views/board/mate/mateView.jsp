@@ -67,7 +67,7 @@
 	background: yellowgreen;
 	color: white;
 	position:relative;
-	top:-30px;
+	top:-28px;
 }
   #mateButton{
    height:35px;
@@ -165,6 +165,11 @@ table#tbl-comment sub.comment-date {
 		           	<td>${mate.userNick }</td>	                     
 		            <td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>	           
 		            <td>${mate.mateCount}</td>	           
+		        </tr>
+		        <tr id="mateView-tr1">
+		        	<td colspan="11">
+		        		${mate.mt20id }
+		        	</td>
 		        </tr>		       
 		    <tr id="mateView-tr1">
 		     <td colspan="11">
@@ -200,18 +205,39 @@ table#tbl-comment sub.comment-date {
 			    	<tr class="level1">
 			    		<td>
 			    			<sub class="comment-writer">${mateReply.userNick}</sub>
+			    			<sub class="comment-Id">${mateReply.mateReplyId}</sub>
 			    			<sub class="comment-date">${mateReply.mateReplyCreateDate}</sub>
 			    			<br>
 			    			<c:out value="${mateReply.mateReplyContent}"></c:out>
 			    		</td>
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
-		    		    	<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
+		    		    	<input type="hidden" class="mateReplyId" name="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
 		    				<button class="btn-update">수정</button>
 		    				<button class="btn-reWrite">답글</button>
 		    				<button class="btn-delete" onclick="deleteMateReply()">삭제</button>
+		    				<script type="text/javascript">
+		    				$(".btn-reWrite").on("click", () => {
+		    					//	var mateReplyId = $("#mateReplyId").val();
+		    						
+		    						const url = "${path}/mate/reply/reWrite?mateReplyId=" + $(".mateReplyId").val();
+		    						const title = "RE";
+		    						const status = "left=500px, top=100px, width=500px, height=300px";
+		    						
+		    						window.open(url, title, status);
+		    						
+		    						
+		    					});
 		    				
+		    				function deleteMateReply(){
+		    					let mateReplyId = $(".mateReplyId").val();
+		    					if(confirm("댓글을 삭제 하시겠습니까?")){
+		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + mateReplyId);
+		    					}
+		    				}
+		    				
+		    				</script>
 		    			</c:if>
 			    		</td>
 			    	</tr>
@@ -220,6 +246,7 @@ table#tbl-comment sub.comment-date {
 			    	<tr class="level2">	    	
 			    		<td>
 			    			<sub class="comment-writer">&nbsp;&nbsp;RE:${mateReply.userNick}</sub>
+			    			<sub class="comment-Id">&nbsp;&nbsp;RE:${mateReply.mateReplyId}</sub>
 			    			<sub class="comment-date">${mateReply.mateReplyCreateDate}</sub> 
 			    			<br>
 			    			&nbsp;&nbsp;→<c:out value="${mateReply.mateReplyContent}"></c:out>
@@ -229,7 +256,15 @@ table#tbl-comment sub.comment-date {
 		    		    	<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
 		    				<button class="btn-update" onclick="updateMateReply()">수정</button>
-		    				<button class="btn-delete" onclick="deleteMateReply()">삭제</button>		    				
+		    				<button class="btn-delete" onclick="deleteMateReReply()">삭제</button>		    				
+		    				<script type="text/javascript">
+		    				function deleteMateReReply(){
+		    					let mateReplyId = $("#mateReplyId").val();
+		    					if(confirm("댓글을 삭제 하시겠습니까?")){
+		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + mateReplyId);
+		    					}
+		    				}
+		    		    	</script>
 		    			</c:if>
 			    		</td>
 			    	</tr>			    	
@@ -255,7 +290,7 @@ table#tbl-comment sub.comment-date {
 			</c:forEach>
 			
 			<!-- 다음 페이지로 -->
-			<button onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.nextPage}'">&gt;</button>
+			<button onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.nextPage}'">&gt;</button>
 			
 			<!-- 맨 끝으로 -->
 			<button onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.maxPage}'">&gt;&gt;</button>	
@@ -279,19 +314,18 @@ table#tbl-comment sub.comment-date {
 	function updateMateReply() {
 		var mateReplyId = $("#mateReplyId").val();
 		location.href= '${path}/mate/reply/update?mateReplyId=' + mateReplyId;
-	}		
-	
-	function deleteMateReply(){
-		var mateReplyId = $("#mateReplyId").val();
-		if(confirm("댓글을 삭제 하시겠습니까?")){
-			location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + mateReplyId);
-		}
 	}
+	
+	
 
+	
+
+	/*
+		 onclick="location.replace('${path}/mate/reply/reWrite?mateReplyId=${mateReply.mateReplyId}')"
 	$(".btn-reWrite").on("click", () => {
 	//	var mateReplyId = $("#mateReplyId").val();
 		
-		const url = "${path}/mate/reply/reWrite?mateReplyId=" + $("#mateReplyId").val();
+		const url = "${path}/mate/reply/reWrite?mateReplyId=" + $("#mateReplyGroup").val();
 		const title = "RE";
 		const status = "left=500px, top=100px, width=500px, height=300px";
 		
@@ -299,9 +333,8 @@ table#tbl-comment sub.comment-date {
 		
 		
 	});
-
-	/*
 	
+	}
 	
    	$('.replyReLink').click(function(event){  //버튼을 클릭 했을시 popupOpen 함수 출력 
         console.log('click');

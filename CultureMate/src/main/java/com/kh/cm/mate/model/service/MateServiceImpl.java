@@ -100,9 +100,9 @@ public class MateServiceImpl implements MateService {
 	}
 
 	@Override
-	public int deleteMateReply(int mateReplyId) {
+	public int deleteMateReply(int mateReplyGroup) {
 		
-		return mateDao.deleteMateReply(mateReplyId);
+		return mateDao.deleteMateReply(mateReplyGroup);
 	}
 
 	@Override
@@ -118,14 +118,18 @@ public class MateServiceImpl implements MateService {
 		}
 	return result;
 	}
-
+	
 	@Override
 	public MateReply findMateReplyByMateReplyId(int mateReplyId) {
 		
 		return mateDao.selectMateReply(mateReplyId);
 	}
-
 	
-	
+	/*@Override
+	public MateReply findMateReplyByMateReplyId(int mateReplyGroup) {
+		
+		return mateDao.selectMateReply(mateReplyGroup);
+	}
+	 * */
 
 }

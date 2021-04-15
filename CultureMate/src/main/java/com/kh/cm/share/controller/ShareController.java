@@ -436,9 +436,7 @@ public class ShareController {
 			System.out.println(shareReplyId);
 			
 			result = service.saveShareReReply(shareReply);
-			
-			System.out.println("유");
-			
+						
 			if(result > 0) {
 				model.addObject("msg", "댓글 등록에 성공했습니다.");
 				model.addObject("location", "/share/view?shareId=" + shareReply.getShareId());

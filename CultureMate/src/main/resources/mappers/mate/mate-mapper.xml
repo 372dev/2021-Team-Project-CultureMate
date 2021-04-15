@@ -71,6 +71,7 @@
 		<result property="mateCount" column="MATE_COUNT"/>
 		<result property="mateStatus" column="STATUS"/>
 		<result property="mateCreateDate" column="MATE_CREATE_DATE"/>
+		<result property="mt20id" column="MT20ID"/>
 		<collection property="mateReplies" javaType="java.util.ArrayList" resultMap="mateReplyResultMap"/>	
 	</resultMap>
 	
@@ -136,6 +137,7 @@
 	       B.MATE_COUNT,
 	       B.MATE_CREATE_DATE,
 	       B.STATUS AS B_STATUS,
+	       B.MT20ID,
 	          R.MATEREPLY_ID, 
 	          R.MATE_ID, 
 	          M2.USER_NICK AS R_USER_NICK, 
@@ -254,6 +256,13 @@
 	</update>
 	
 	<update id="deleteMateReply" parameterType="_int">
+		UPDATE MATEREPLY
+		SET
+			STATUS = 'N'
+		WHERE 
+			MATEREPLY_ID=#{mateReplyGroup}	
+	</update>
+	<update id="deleteMateReReply" parameterType="_int">
 		UPDATE MATEREPLY
 		SET
 			STATUS = 'N'

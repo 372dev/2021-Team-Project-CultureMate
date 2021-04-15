@@ -165,6 +165,17 @@
 			<!-- 맨 끝으로 -->
 			<button onclick="location.href='${path}/mate/list?page=${pageInfo.maxPage}'">&gt;&gt;</button>
 		</div>		
-  </div>			
+  </div>
+ <!-- 
+  <script type="text/javascript">
+  $(document).ready(function(){
+	
+	  $('table tr').css("backgroundColor","#f5f5fc"); 
+	  
+	
+	
+	});
+  </script>	
+   --> 		
 </section>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

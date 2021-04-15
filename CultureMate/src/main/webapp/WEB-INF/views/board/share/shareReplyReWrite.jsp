@@ -21,11 +21,6 @@
 		</form>
 	</div>
 	<script type="text/javascript">
-function submit() {
-	document.reWriteFrm.action="${path}/share/reply/reWrite";
-	document.reWriteFrm.submit();
-}
-	opener.parent.location.reload();
-	window.close();
+
 
 </script>

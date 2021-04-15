@@ -282,17 +282,65 @@ public class MateController {
 		return model;
 	}
 	
+	
+	
 	@RequestMapping(value="/reply/reWrite", method = {RequestMethod.GET}) 
-	public ModelAndView reWriteReply(@RequestParam("mateReplyId")int mateReplyId, ModelAndView model) {
+	public ModelAndView reWriteReply(@RequestParam(name = "mateReplyId")int mateReplyId, ModelAndView model) {
 		MateReply mateReply = service.findMateReplyByMateReplyId(mateReplyId);
 		
 		model.addObject("mateReply", mateReply);
 		model.setViewName("/board/mate/mateReplyReWrite");
 		return model;
 	}
-	@RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
+	
+	 @RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
+		public ModelAndView reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
+				@RequestParam(name ="mateReplyId") int mateReplyId,@RequestParam(name ="mateId") int mateId,
+				@RequestParam(name ="writer") String writer,
+				@RequestParam(name ="content") String content, MateReply mateReply,
+				ModelAndView model) {
+			int result = 0;
+			
+			if(loginMember.getUserNick().equals(writer)) {
+				mateReply.setMateId(mateId);
+				mateReply.setMateReplyContent(content);
+				mateReply.setMateReplyWriteId(loginMember.getId());
+				mateReply.setMateReplyGroup(mateReplyId);
+				
+				System.out.println(mateReplyId);
+				
+				result = service.saveMateReReply(mateReply);
+				
+				if(result > 0) {
+					model.addObject("msg", "댓글 등록에 성공했습니다.");
+					model.addObject("location", "/mate/view?mateId=" + mateReply.getMateId());
+				} else {
+					model.addObject("msg", "댓글 등록에 실패했습니다.");
+					model.addObject("location", "/mate/list");
+					
+				}
+			} else {
+				model.addObject("msg", "잘못된 접근입니다.");
+				model.addObject("location", "/mate/list");
+			}
+			
+			model.setViewName("common/msg");
+			return model;
+		}
+	
+	/*
+	 * @RequestMapping(value="/reply/reWrite", method = {RequestMethod.GET}) 
+	public ModelAndView reWriteReply(@RequestParam(name = "mateReplyGroup")int mateReplyGroup, ModelAndView model) {
+		MateReply mateReply = service.findMateReplyByMateReplyId(mateReplyGroup);
+		System.out.println(mateReplyGroup);
+		model.addObject("mateReply", mateReply);
+		model.setViewName("/board/mate/mateReplyReWrite");
+		return model;
+	}
+	 * 
+	 *@RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
 	public ModelAndView reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
-			@RequestParam(name ="mateReplyId") int mateReplyId,@RequestParam(name ="mateId") int mateId,
+			@RequestParam(name ="mateReplyGroup") int mateReplyGroup,@RequestParam(name ="mateId") int mateId,
 			@RequestParam(name ="writer") String writer,
 			@RequestParam(name ="content") String content, MateReply mateReply,
 			ModelAndView model) {
@@ -302,13 +350,11 @@ public class MateController {
 			mateReply.setMateId(mateId);
 			mateReply.setMateReplyContent(content);
 			mateReply.setMateReplyWriteId(loginMember.getId());
-			mateReply.setMateReplyGroup(mateReplyId);
+			mateReply.setMateReplyGroup(mateReplyGroup);
 			
-			System.out.println(mateReplyId);
+			System.out.println(mateReplyGroup);
 			
 			result = service.saveMateReReply(mateReply);
-			
-			System.out.println("유");
 			
 			if(result > 0) {
 				model.addObject("msg", "댓글 등록에 성공했습니다.");
@@ -326,9 +372,12 @@ public class MateController {
 		model.setViewName("common/msg");
 		return model;
 	}
+	 * */
+	
+	
 	
 	@RequestMapping(value ="/reply/delete", method ={RequestMethod.GET})
-	public ModelAndView deleteReply(ModelAndView model, @RequestParam(name="mateReplyId") int mateReplyId
+	public ModelAndView deleteReReply(ModelAndView model, @RequestParam(name="mateReplyId") int mateReplyId
 			, @RequestParam(name="mateId") int mateId) {
 		int result = 0;
 		

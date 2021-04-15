@@ -73,18 +73,8 @@
 		          
 		        </tr>	     
 		       <tr>
-		          <td colspan="4">API
-		  <!--       <div class="card">
-				<div class="cardImgWrapper" onclick="location.href='${path}/show/restview?name=${showList.mt20id}';">
-					<img src="${ showList.poster }" class="card-img-top" alt="${ showList.prfnm }">
-				</div>
-				<div class="card-body">
-					<h5 class="card-title">${ showList.prfnm }</h5>
-					<p class="card-text subTitle">${ showList.fcltynm }</p>
-					<p class="card-text">${ showList.prfpdfrom } - ${ showList.prfpdto }</p>
-				</div>
-			</div>
-			 -->  
+		          <td colspan="4">
+		  				${mate.mt20id }
 		          </td> 
 		        </tr>
 		    <tr>

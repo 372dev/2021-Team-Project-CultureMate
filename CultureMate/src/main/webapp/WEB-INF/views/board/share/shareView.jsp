@@ -234,6 +234,7 @@ table#tbl-comment sub.comment-date {
 			     --> 			     	
 			    		<td>
 			    			<sub class="comment-writer">${shareReply.userNick}</sub>
+			    			<sub class="comment-Id">${shareReply.shareReplyId}</sub>
 			    			<sub class="comment-date">${shareReply.shareReplyCreateDate}</sub> 
 			    			<br>
 			    			<c:out value="${shareReply.shareReplyContent}"></c:out>
@@ -247,12 +248,29 @@ table#tbl-comment sub.comment-date {
 		    		  -->
 			    		<td>			    		
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
-		    		    	<input type="hidden" name="shareRelyId" id="shareReplyId" value="${shareReply.shareReplyId }">
+		    		    	<input class="shareReplyId" type="hidden" name="shareReplyId" value="${shareReply.shareReplyId }">
 		    		    	<input type="hidden" name="shareId" id="shareId" value="${shareReply.shareId }">
 		    		    	<button class="btn-update" onclick="updateShareReply()">수정</button>
-		    		    	<button class="btn-reWrite">답글</button>
+		    		    	<button class="btn-reWrite" >답글</button>
 		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>
+		    				<script type="text/javascript">
+		    				$(".btn-reWrite").on("click", () => {
+		    					//	var mateReplyId = $("#mateReplyId").val();
+		    						
+		    						const url = "${path}/share/reply/reWrite?shareReplyId=" + $(".shareReplyId").val();
+		    						const title = "RE";
+		    						const status = "left=500px, top=100px, width=500px, height=300px";
+		    						
+		    						window.open(url, title, status);
+		    				});
 		    				
+		    				function deleteShareReply(){
+		    					let shareReplyId = $(".shareReplyId").val();
+		    					if(confirm("댓글을 삭제 하시겠습니까?")){
+		    						location.href = '${path}/share/reply/delete?shareId=' + <%=share.getShareId()%> + '&shareReplyId=' + shareReplyId;
+		    					}
+		    				}
+		    				</script>
 		    			</c:if>
 			    		</td>
 			    	</tr>
@@ -261,6 +279,7 @@ table#tbl-comment sub.comment-date {
 			    	<tr class="level2">	    	
 			    		<td>
 			    			<sub class="comment-writer">&nbsp;&nbsp;RE:${shareReply.userNick}</sub>
+			    			<sub class="comment-Id">&nbsp;&nbsp;RE:${shareReply.shareReplyId}</sub>
 			    			<sub class="comment-date">${shareReply.shareReplyCreateDate}</sub> 
 			    			<br>
 			    			&nbsp;&nbsp;→<c:out value="${shareReply.shareReplyContent}"></c:out>
@@ -270,7 +289,15 @@ table#tbl-comment sub.comment-date {
 		    		    	<input type="hidden" name="shareReplyId" id="shareReplyId" value="${shareReply.shareReplyId }">
 		    		    	<input type="hidden" name="shareId" id="shareId" value="${shareReply.shareId }">
 		    				<button class="btn-update" onclick="updateShareReply()">수정</button>
-		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>		    				
+		    				<button class="btn-delete" onclick="deleteShareReReply()">삭제</button>		    				
+		    				<script type="text/javascript">
+		    				function deleteShareReReply(){
+		    					let shareReplyId = $("#shareReplyId").val();
+		    					if(confirm("댓글을 삭제 하시겠습니까?")){
+		    						location.replace('${path}/share/reply/delete?shareId='+ <%=share.getShareId()%>+ '&shareReplyId=' + shareReplyId);
+		    					}
+		    				}
+		    		    	</script>
 		    			</c:if>
 			    		</td>
 			    	</tr>
@@ -322,24 +349,22 @@ table#tbl-comment sub.comment-date {
 			location.href= '${path}/share/reply/update?shareReplyId=${shareReply.shareReplyId}';
 		}
 	}
-	function deleteShareReply(){
-		var shareReplyId = $("#shareReplyId").val();
-		if(confirm("댓글을 삭제 하시겠습니까?")){
-			location.href = '${path}/share/reply/delete?shareId=' + <%=share.getShareId()%> + '&shareReplyId=' + shareReplyId;
-		}
-	}
 	
-	$(".btn-reWrite").on("click", () => {
-		//	var mateReplyId = $("#mateReplyId").val();
-			
-			const url = "${path}/share/reply/reWrite?shareReplyId=" + $("#shareReplyId").val();
-			const title = "RE";
-			const status = "left=500px, top=100px, width=500px, height=300px";
-			
-			window.open(url, title, status);
-			
-			
-		});
+	
+	/*
+	onclick="location.replace('${path}/share/reply/reWrite?shareReplyId=${shareReply.shareReplyId}')"
+		$(".btn-reWrite").on("click", () => {
+	//	var mateReplyId = $("#mateReplyId").val();
+		
+		const url = "${path}/mate/reply/reWrite?mateReplyId=" + $("#mateReplyGroup").val();
+		const title = "RE";
+		const status = "left=500px, top=100px, width=500px, height=300px";
+		
+		window.open(url, title, status);
+		
+		
+	});
+	*/
 </script>
 </section>
 
