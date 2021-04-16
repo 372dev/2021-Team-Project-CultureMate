@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -123,13 +124,13 @@ public class MateController {
 	 @RequestMapping(value = "/view", method = {RequestMethod.GET})
 	    public ModelAndView mateView(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 	            @RequestParam int mateId, ModelAndView model,@RequestParam(value="page", required=false, defaultValue="1") int page,
-				@RequestParam(value="listlimit", required=false, defaultValue="3") int listLimit) {
+				@RequestParam(value="listlimit", required=false, defaultValue="4") int listLimit) {
 		 
 		 	Mate mate = service.findMateByMateId(mateId);
 
 			int mateReplyCount = service.getMateReplyCount(mateId);
 			
-			PageInfo pageInfo = new PageInfo(page, 5, mateReplyCount, 3);
+			PageInfo pageInfo = new PageInfo(page, 5, mateReplyCount, 4);
 			List<MateReply> mateReplies = service.findMateReplyByMateId(mateId, pageInfo);
 	        
 	        Cookie[] cookies = request.getCookies();
@@ -293,41 +294,37 @@ public class MateController {
 		return model;
 	}
 	
-	 @RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
-		public ModelAndView reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
-				@RequestParam(name ="mateReplyId") int mateReplyId,@RequestParam(name ="mateId") int mateId,
-				@RequestParam(name ="writer") String writer,
-				@RequestParam(name ="content") String content, MateReply mateReply,
-				ModelAndView model) {
-			int result = 0;
+	@RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
+	@ResponseBody
+	public String reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
+			@RequestParam(name ="mateReplyId") int mateReplyId,@RequestParam(name ="mateId") int mateId,
+			@RequestParam(name ="writer") String writer,
+			@RequestParam(name ="content") String content, MateReply mateReply) {
+		
+		int result = 0;
+		String resultMsg = null;
+		
+		if(loginMember.getUserNick().equals(writer)) {
+			mateReply.setMateId(mateId);
+			mateReply.setMateReplyContent(content);
+			mateReply.setMateReplyWriteId(loginMember.getId());
+			mateReply.setMateReplyGroup(mateReplyId);
 			
-			if(loginMember.getUserNick().equals(writer)) {
-				mateReply.setMateId(mateId);
-				mateReply.setMateReplyContent(content);
-				mateReply.setMateReplyWriteId(loginMember.getId());
-				mateReply.setMateReplyGroup(mateReplyId);
-				
-				System.out.println(mateReplyId);
-				
-				result = service.saveMateReReply(mateReply);
-				
-				if(result > 0) {
-					model.addObject("msg", "댓글 등록에 성공했습니다.");
-					model.addObject("location", "/mate/view?mateId=" + mateReply.getMateId());
-				} else {
-					model.addObject("msg", "댓글 등록에 실패했습니다.");
-					model.addObject("location", "/mate/list");
-					
-				}
+			System.out.println(mateReplyId);
+			
+			result = service.saveMateReReply(mateReply);
+			
+			if(result > 0) {
+				resultMsg="<script>opener.parent.location.reload(); window.close();</script>";
 			} else {
-				model.addObject("msg", "잘못된 접근입니다.");
-				model.addObject("location", "/mate/list");
+				resultMsg="<script>opener.parent.location.reload(); window.close();</script>";
+				
 			}
-			
-			model.setViewName("common/msg");
-			return model;
 		}
-	
+			
+		return resultMsg;
+	}
+
 	/*
 	 * @RequestMapping(value="/reply/reWrite", method = {RequestMethod.GET}) 
 	public ModelAndView reWriteReply(@RequestParam(name = "mateReplyGroup")int mateReplyGroup, ModelAndView model) {

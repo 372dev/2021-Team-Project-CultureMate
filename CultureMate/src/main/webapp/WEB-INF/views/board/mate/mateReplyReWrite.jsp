@@ -5,30 +5,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
-
+<style>
+#replyReWrite-container {
+	text-align: center;
+		margin:0 auto;
+}
+	#replyWriteFrm {
+		
+	}
+</style>
 
 	<div id="replyReWrite-container">
 		
 	
-		<form action="${path}/mate/reply/reWrite" method="post">			
+		<form  id="reWriteFrm" name="reWriteFrm" action="${path}/mate/reply/reWrite" method="post">			
 				<input type="hidden" name="mateReplyId"  value = "${mateReply.mateReplyId}">
-				<label>	<input type="text" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }" readonly="readonly"></label>
-				<label>	<input type="text" name="mateId" id="mateId" value="${mateReply.mateId }"  readonly="readonly"></label>
-				<label>	<input type="text" name="writer" id="writer"   value='${loginMember != null ? loginMember.userNick : "" }'></label>
+				<lable>게시글   <input style="border-radius:5px;height:25px;width:40px;border: 0.5px solid;" type="text" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }" readonly="readonly"></label>
+				<lable>댓글 그룹   <input style="border-radius:5px;height:25px;width:40px;border: 0.5px solid;" type="text" name="mateId" id="mateId" value="${mateReply.mateId }"  readonly="readonly"></label>
+				<lable>작성자  <input style="border-radius:5px;height:25px;width:40px;border: 0.5px solid;" type="text" name="writer" id="writer"   value='${loginMember != null ? loginMember.userNick : "" }'></label>
 			    
-			    	<textarea rows="" cols="" name="content"></textarea>
-			    	<button type="submit">댓글 등록</button>
+			    	<textarea  style="border-radius:5px;border: 0.5px solid;" rows="5" cols="30" name="content"></textarea>
+			    	<button id="reWriteBtn" type="submit" style="border-radius:5px;border:0.5px solid;height:30px;width:80px;font-size:10pt;background-color: #6c757d; color:white;">댓글 등록</button>
 		</form>
-		
+	
 		</div>
 		
-		<script>
-		function success() {
-			window.opener.location.href="${path}/mate/reply/reWrite?mateReplyId="+ $("#mateReplyGroup").val();
-				
-			window.close();
-		}
-
-		</script>
-
-

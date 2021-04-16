@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -386,7 +387,7 @@ public class ShareController {
 				@RequestParam(name ="content") String content, ShareReply shareReply,
 				ModelAndView model) {
 		int result = 0;
-		
+	
 		if(loginMember.getUserNick().equals(writer)) {
 			shareReply.setShareId(shareId);
 			shareReply.setShareReplyContent(content);
@@ -400,14 +401,14 @@ public class ShareController {
 			} else {
 				model.addObject("msg", "댓글 등록에 실패했습니다.");
 				model.addObject("location", "/share/list");
-				
 			}
 		} else {
 			model.addObject("msg", "잘못된 접근입니다.");
-			model.addObject("location", "/share/list");
+			model.addObject("location", "/");
 		}
 		
 		model.setViewName("common/msg");
+				
 		return model;
 	}
 	
@@ -419,13 +420,16 @@ public class ShareController {
 		model.setViewName("/board/share/shareReplyReWrite");
 		return model;
 	}
+	
 	@RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
-	public ModelAndView reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
+	@ResponseBody
+	public String reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
 			@RequestParam(name ="shareReplyId") int shareReplyId,@RequestParam(name ="shareId") int shareId,
 			@RequestParam(name ="writer") String writer,
-			@RequestParam(name ="content") String content, ShareReply shareReply,
-			ModelAndView model) {
+			@RequestParam(name ="content") String content, ShareReply shareReply) {
+		
 		int result = 0;
+		String resultMsg = null;
 		
 		if(loginMember.getUserNick().equals(writer)) {
 			shareReply.setShareId(shareId);
@@ -436,23 +440,50 @@ public class ShareController {
 			System.out.println(shareReplyId);
 			
 			result = service.saveShareReReply(shareReply);
-						
+			
 			if(result > 0) {
-				model.addObject("msg", "댓글 등록에 성공했습니다.");
-				model.addObject("location", "/share/view?shareId=" + shareReply.getShareId());
+				resultMsg="<script>opener.parent.location.reload(); window.close();</script>";
 			} else {
-				model.addObject("msg", "댓글 등록에 실패했습니다.");
-				model.addObject("location", "/share/list");
-				
+				resultMsg="<script>opener.parent.location.reload(); window.close();</script>";
 			}
-		} else {
-			model.addObject("msg", "잘못된 접근입니다.");
-			model.addObject("location", "/share/list");
-		}
-		
-		model.setViewName("common/msg");
-		return model;
 	}
+		return resultMsg;
+	}
+//	@RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
+//	public ModelAndView reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
+//			@RequestParam(name ="shareReplyId") int shareReplyId,@RequestParam(name ="shareId") int shareId,
+//			@RequestParam(name ="writer") String writer,
+//			@RequestParam(name ="content") String content, ShareReply shareReply,
+//			ModelAndView model) {
+//		int result = 0;
+//		
+//		if(loginMember.getUserNick().equals(writer)) {
+//			shareReply.setShareId(shareId);
+//			shareReply.setShareReplyContent(content);
+//			shareReply.setShareReplyWriteId(loginMember.getId());
+//			shareReply.setShareReplyGroup(shareReplyId);
+//			
+//			System.out.println(shareReplyId);
+//			
+//			result = service.saveShareReReply(shareReply);
+//			
+//			if(result > 0) {
+//				model.addObject("msg", "댓글 등록에 성공했습니다.");
+//				
+//				model.addObject("location", "/share/view?shareId=" + shareReply.getShareId());
+//			} else {
+//				model.addObject("msg", "댓글 등록에 실패했습니다.");
+//				model.addObject("location", "/share/list");
+//				
+//			}
+//		} else {
+//			model.addObject("msg", "잘못된 접근입니다.");
+//			model.addObject("location", "/share/list");
+//		}
+//		
+//		model.setViewName("common/msg");
+//		return model;
+//	}
 	
 	@RequestMapping(value ="/reply/delete", method ={RequestMethod.GET})
 	public ModelAndView deleteReply(ModelAndView model, ShareReply shareReply , @RequestParam(name="shareReplyId") int shareReplyId
