@@ -152,6 +152,7 @@ table#tbl-comment sub.comment-date {
 			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
 		    	</div>
 		    <hr>
+		    <div id="ajaxResultDiv" class=""></div>
 		     <table id="mateView-tbl">
 		        <tr id="mateView-tr">
 		        	<td>${mate.mateId}</td>		        	
@@ -165,11 +166,6 @@ table#tbl-comment sub.comment-date {
 		           	<td>${mate.userNick }</td>	                     
 		            <td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>	           
 		            <td>${mate.mateCount}</td>	           
-		        </tr>
-		        <tr id="mateView-tr1">
-		        	<td colspan="11">
-		        		${mate.mt20id }
-		        	</td>
 		        </tr>		       
 		    <tr id="mateView-tr1">
 		     <td colspan="11">
@@ -361,6 +357,52 @@ table#tbl-comment sub.comment-date {
 	}
 	
 	*/
+	
+	<!-- Ajax script -->
+	
+	$(document).ready(function () {
+		
+		var mt20id = "${ mate.mt20id }";
+		$.ajax({
+			type : "GET",
+			url : "/cm/show/mateAjax",
+			data : {
+				"mt20id" : mt20id,
+			},
+			error : function(error) {
+				console.log("ajax-error");
+			},
+			success : function(result) {
+				console.log("ajax-success");
+				$("#ajaxResultDiv").empty();
+				var toAdd = '';
+				if(result == null || $.isEmptyObject(result)) {
+					console.log("no result");
+					toAdd += "<p>검색 조건에 맞는 게시물이 없습니다.</p>";
+				} else {
+					console.log(result);
+					toAdd += '<div onclick="location.href=\'' + '${ path }/show/restview?name=' + result[0].mt20id + '\';">';
+					toAdd += '<img src="' + result[0].poster + '" alt="' + result[0].prfnm + '">';
+					toAdd += '</div>';
+					toAdd += '<div>';
+					toAdd += '<h5>공연명 : ' + result[0].prfnm + '</h5>';
+					toAdd += '<p>공연장 : ' + result[0].fcltynm + '</p>';
+					toAdd += '<p>공연기간 : ' + result[0].prfpdfrom + '~' + result[0].prfpdto + '</p>';
+					toAdd += '<p>런타임 : ' + result[0].prfruntime + '</p>';
+					toAdd += '<p>관람연령 : ' + result[0].prfage + '</p>';
+					toAdd += '<p>티켓가격 : ' + result[0].pcseguidance + '</p>';
+					toAdd += '<p>출연진 : ';
+					if(result[0].prfcast == " " || "") {
+						toAdd += "정보가 없습니다.";
+					} else {
+						toAdd += result[0].prfcast;
+					}
+					toAdd += '</p></div>';
+				}
+				$("#ajaxResultDiv").append(toAdd);
+			}
+		});
+	})
 	
 	</script>
 	</div>

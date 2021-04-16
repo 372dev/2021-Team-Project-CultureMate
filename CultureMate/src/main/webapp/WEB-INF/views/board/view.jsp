@@ -458,6 +458,7 @@ text-align: center;
 			<div id="cal">
 			<div id="datepicker" ></div>
 			<button id="ticketing" class="btn btn-primary" onclick="openSeatSelect()">예매하기</button>
+			<a id="mateBtn" class="btn btn-secondary" href="${path}/mate/write?id=${show.mt20id}">메이트</a>
 				<form id="ticketing_form" action='${path}/ticket/ticketing' method="post">
 					<input type="hidden" id="form_mt20id" name="mt20id" value="${show.mt20id}">
 					<input type="hidden" id="form_prfnm" name="prfnm" value="${show.prfnm}">
