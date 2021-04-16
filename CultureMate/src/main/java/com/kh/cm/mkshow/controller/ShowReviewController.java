@@ -65,9 +65,7 @@ public class ShowReviewController {
 	    		@SessionAttribute(name="loginMember", required = false)  Member loginMember,
 	    	 HttpServletRequest request) throws Exception{
 	    	
-		 	HttpHeaders responseHeaders = new HttpHeaders();
 	        ArrayList<HashMap> hmlist = new ArrayList<HashMap>();
-	        
 	        
 	        // 해당 게시물 댓글
 	        System.out.println("원하는 제목 값 " + review.getMt20id());
@@ -81,7 +79,7 @@ public class ShowReviewController {
 	        
 	        if(commentVO.size() > 0){
 	            for(int i=0; i<commentVO.size(); i++){
-	                HashMap hm = new HashMap();
+	                HashMap<String, Comparable> hm = new HashMap();
 	                hm.put("reviewID", commentVO.get(i).getReviewID());
 	                hm.put("reviewContent", commentVO.get(i).getReviewContent());
 	                hm.put("reviewDate", commentVO.get(i).getReviewDate().substring(0, 10));
