@@ -113,40 +113,66 @@ public class MemberServiceImpl implements MemberService {
 	// 아이디 찾기
 	@Override
 	public String findId(String userName, String email, String phone) {
-		log.info(userName);
-		System.out.println(memberDao.findId(userName, email, phone));
 		String result = memberDao.findId(userName, email, phone);
-		log.info(result);
+
 		return result;
 	}
 
 	// 비밀번호 찾기
 	@Override
 	public void findPwd(String userId, String email, String phone) throws Exception {
-		String key = new TempKey().getKey(); // 인증키 생성
 		Member member = memberDao.selectMember(userId);
-		String name = member.getUserName();
+		String tempPwd = new TempKey().getKey();
 		
-		log.info("key : " + key);
+		member.setPassword(passwordEncoder.encode(tempPwd));
+		memberDao.updateTempPwd(userId, email, phone, member.getPassword());
+		
+		log.info("비밀번호 찾기: " + userId + ", " + email + ", " + phone);
+		
 		
 		MailHandler sendMail = new MailHandler(mailSender);
-        sendMail.setSubject("[컬쳐메이트] 임시 비밀번호 발급");
-        sendMail.setText(new StringBuffer().append("<h2>안녕하세요 ")
-        		.append(name)
-        		.append(" 님, 컬쳐메이트를 이용해주셔서 감사합니다!</h2><br><br>")
-        		.append("<h4>회원님의 임시 비밀번호는</h4> <h3 style='color : blue'>'")
-                .append(key)
-                .append("</h3>이며 로그인 후 보안을 위해 꼭 비밀번호를 변경해주세요~<br>")
-                .append("<h4><a href='http://localhost:8088/cm/'>컬쳐메이트 접속</a></h4>")
-                .toString());
+        sendMail.setSubject("[컬쳐메이트] 임시 비밀번호가 발급되었습니다.");
         
-        sendMail.setFrom("CultureMate", "컬쳐메이트");
-        sendMail.setTo(email);
-        sendMail.send();
-        
-        key = passwordEncoder.encode(key);
-        memberDao.findPwd(userId, email, phone, key);
+		sendMail.setText(new StringBuffer().append("<h2>안녕하세요 ")
+				.append(member.getUserName())
+				.append(" 님, 컬쳐메이트를 이용해주셔서 감사합니다!</h2><br><br>")
+				.append("<h4>회원님의 임시 비밀번호는</h4> <h3 style='color : blue'>'")
+		        .append(tempPwd)
+		        .append("</h3>이며 로그인 후 보안을 위해 꼭 비밀번호를 변경해주세요~<br>")
+		        .append("<h4><a href='http://localhost:8088/cm/'>컬쳐메이트 접속</a></h4>")
+		        .toString());
+			
+		sendMail.setFrom("CultureMate", "컬쳐메이트");
+		sendMail.setTo(member.getEmail());
+		sendMail.send();
 	}
+	
+
+//	@Override
+//	public void sendMailAndUpdatePwd(Member member) {
+//		log.info(member.toString());
+//		
+//		try {
+//			MailHandler sendMail = new MailHandler(mailSender);
+//	        sendMail.setSubject("[컬쳐메이트] 임시 비밀번호가 발급되었습니다.");
+//	        
+//			sendMail.setText(new StringBuffer().append("<h2>안녕하세요 ")
+//					.append(member.getUserName())
+//					.append(" 님, 컬쳐메이트를 이용해주셔서 감사합니다!</h2><br><br>")
+//					.append("<h4>회원님의 임시 비밀번호는</h4> <h3 style='color : blue'>'")
+//			        .append(member.getPassword())
+//			        .append("</h3>이며 로그인 후 보안을 위해 꼭 비밀번호를 변경해주세요~<br>")
+//			        .append("<h4><a href='http://localhost:8088/cm/'>컬쳐메이트 접속</a></h4>")
+//			        .toString());
+//				
+//			sendMail.setFrom("CultureMate", "컬쳐메이트");
+//			sendMail.setTo(member.getEmail());
+//			sendMail.send();
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	// 비밀번호 변경
 	@Override
@@ -171,6 +197,7 @@ public class MemberServiceImpl implements MemberService {
 	public int updateMember(Member member, String password) {
 		return passwordEncoder.matches(password, member.getPassword()) ? memberDao.updateMember(member) : 0;
 	}
+
 
 
 }

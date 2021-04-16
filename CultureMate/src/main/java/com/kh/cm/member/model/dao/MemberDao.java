@@ -21,9 +21,8 @@ public interface MemberDao {
 	int deleteMember(String userId);
 	
 	String findId(@Param("userName") String userName, @Param("email") String email, @Param("phone") String phone); // 아이디 찾기
-//	String findId(String userName, String email, String phone); // 아이디 찾기
 	
-	int findPwd(String userId, String email, String phone, @Param("key") String password);
+	void updateTempPwd(String userId, String email, String phone, @Param("tempPwd") String password);
 
 	void updateAuthkey(Member member); // 인증키 수정
 

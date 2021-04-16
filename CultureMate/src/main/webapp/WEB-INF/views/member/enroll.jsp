@@ -385,7 +385,6 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
 			var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
 			              
 			var today_val = year + '-' + mon + '-' + day;
-			$(this).val(today_val);
 			
 			// 연도의 경우 1900 보다 작거나 yearNow 보다 크면 false를 반환
 			if(1900 > year || dateStr > today_val){

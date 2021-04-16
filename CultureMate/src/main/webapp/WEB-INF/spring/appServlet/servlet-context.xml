@@ -57,6 +57,7 @@
 			<exclude-mapping path="/member/login"/>
 			<exclude-mapping path="/member/findIdAndPwd"/>
 			<exclude-mapping path="/member/findId"/>
+			<exclude-mapping path="/member/findPassword"/>
 			<exclude-mapping path="/help/csmain"/>
 			
 			<beans:bean id="loginCheckInterceptor" class="com.kh.cm.common.interceptor.LoginCheckInterceptor" ></beans:bean>

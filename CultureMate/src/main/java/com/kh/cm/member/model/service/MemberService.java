@@ -13,7 +13,9 @@ public interface MemberService {
 	
 	String findId(String userName, String email, String phone);
 	
-	void findPwd(String userId, String userName, String email) throws Exception;
+	void findPwd(String userId, String email, String phone) throws Exception;
+	
+//	void sendMailAndUpdatePwd(Member member);
 	
 	int changePwd(String userId, String password);
 

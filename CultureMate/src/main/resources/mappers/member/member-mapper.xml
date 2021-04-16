@@ -11,6 +11,7 @@
 			   USER_NAME,
 			   USER_ROLE,
 			   DATE_BIRTH,
+			   EMAIL,
 			   GENDER,
 			   PHONE,
 			   POSTCODE,
@@ -153,7 +154,8 @@
 			USER_ID = #{userId}
 	</update>
 	
-	<update id="findPwd" parameterType="Map">
+	<!-- 임시 비밀번호 -->
+	<update id="updateTempPwd" parameterType="Member">
 		UPDATE MEMBER
 		SET
 			PASSWORD = #{param4}
@@ -163,6 +165,8 @@
 			EMAIL = #{param2}
 		AND
 			PHONE = #{param3}
+		AND
+			STATUS = 'Y'
 	</update>
 	
 	<delete id="deleteMember" parameterType="string">

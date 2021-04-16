@@ -219,13 +219,13 @@ public class MemberController {
 		
 		// 회원탈퇴 GET 요청
 		@RequestMapping(value="/member/withdrawal", method = {RequestMethod.GET})
-		public String withdrawl() {
+		public String withdrawlGet() {
 			log.info("회원탈퇴 페이지 get 요청");
 			
 			return "member/withdrawal";
 		}
 
-		
+		// 회원탈퇴
 		@RequestMapping("/member/delete")
 		public ModelAndView deleteMember(ModelAndView model, 
 										@SessionAttribute(name="loginMember", required = false) Member loginMember, 
@@ -278,8 +278,8 @@ public class MemberController {
 		
 		// 아이디 찾기 GET 요청
 		@RequestMapping(value="/member/findIdAndPwd", method = {RequestMethod.GET})
-		public String findIdGet() {
-			log.info("아이디 찾기 페이지 get 요청");
+		public String findIdaAndPwdGet() {
+			log.info("아이디/비밀번호 찾기 페이지 get 요청");
 			
 			return "member/findIdAndPwd";
 		}
@@ -295,15 +295,48 @@ public class MemberController {
 			return result;
 		}
 		
-		// 비밀번호 찾기
-		@RequestMapping(value="/member/findPassword", method = {RequestMethod.GET})
+		// 비밀번호 찾기 GET 요청
+//		@RequestMapping(value="/member/findPassword", method = {RequestMethod.GET})
+//		@ResponseBody
+//		public String findPasswordGet() {
+//			
+//			return "member/findPassword";
+//		}
+		
+//		@RequestMapping(value="/member/findPassword", method= {RequestMethod.POST})
+//		@ResponseBody
+//		public void findPassword(@RequestParam("inputId_1") String userId, @RequestParam("inputEmail_2") String email, 
+//								@RequestParam("inputPhone_2") String phone) {
+//			try {
+//				service.findPwd(userId, email, phone);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+		
+		@RequestMapping(value="/member/findPassword", method = {RequestMethod.POST})
 		@ResponseBody
-		public String findPassword(@RequestParam("inputId_1") String userId, @RequestParam("inputEmail_2") String email,
+		public ModelAndView findPassword(ModelAndView model, @ModelAttribute Member member,
+				@RequestParam("inputId_1") String userId, @RequestParam("inputEmail_2") String email, 
 				@RequestParam("inputPhone_2") String phone) throws Exception {
 			
-			service.findPwd(userId, email, phone);
+			member = memberDao.selectMember(userId);
 			
-			return "member/findPassword";
+			log.info(member.toString());
+			
+			if(member != null) {
+				service.findPwd(userId, email, phone);
+				model.addObject("msg", "임시 비밀번호가 이메일로 발송되었습니다. :)");
+				model.addObject("location", "/");
+			} else {
+				model.addObject("msg", "등록하신 회원 정보가 없습니다. :<");
+				model.addObject("location", "/member/findIdAndPwd");
+			}
+			
+			model.setViewName("common/msg");
+			
+			return model;
 		}
 		
 }

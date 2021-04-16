@@ -22,7 +22,7 @@
 				<b>회원님의 아이디는</b><span class="close">&times;</span>
 			</h4>
 			<br>
-				<h2 id="id_value"></h2>
+				<h2 id="id_value"></h2> <h3> 입니다.</h3>
 			<br>
 		</div>
 	</div>
@@ -47,7 +47,7 @@
 		<div class="form-group">
 			<label class="font-weight-bold" for="inputEmail_1">이메일</label>
 			<div>
-				<input type="email" class="form-control" id="inputEmail_1" name="inputEmail_1" />
+				<input type="email" class="form-control" id="inputEmail_1" name="inputEmail_1" placeholder="가입 시 입력하신 이메일을 입력하세요"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -57,11 +57,12 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<button id="findBtn" type="submit" class="btn btn-primary btn-block">확인</button>
+			<button id="findIdBtn" type="submit" class="btn btn-primary btn-block">확인</button>
 			<button class="btn btn-danger btn-block" onclick="history.go(-1)">취소</button>
 		</div>
 	</div>
 	
+	<form class="form-horizontal" action="${ path }/member/findPassword" method="POST">
 	<!-- 비밀번호 찾기 -->
 	<div id="findP" style="display: none;">
 		<div class="form-group">
@@ -73,7 +74,7 @@
 		<div class="form-group">
 			<label class="font-weight-bold" for="inputEmail_2">이메일</label>
 			<div>
-				<input type="email" class="form-control" id="inputEmail_2" name="inputEmail_2" />
+				<input type="email" class="form-control" id="inputEmail_2" name="inputEmail_2" placeholder="가입 시 입력하신 이메일을 입력하세요"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -83,10 +84,11 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<button id="findBtn2" type="submit" onclick="findPwdBtn();" class="btn btn-primary btn-block">확인</button>
+			<button id="findPwdBtn" type="submit" class="btn btn-primary btn-block">확인</button>
 			<a class="btn btn-danger btn-block" href="${ path }">취소</a>
 		</div>
 	</div>
+	</form>
 </div>
 </section>
 <script>
@@ -120,8 +122,9 @@
 		});
 	});
 	
+	// 아이디 찾기 버튼 클릭
 	$(function(){
-		$("#findBtn").on("click", function(){
+		$("#findIdBtn").on("click", function(){
 			var inputName = $("#inputName_1").val().trim();
 			var inputEmail = $("#inputEmail_1").val().trim();
 			var inputPhone = $("#inputPhone_1").val().trim();
@@ -135,7 +138,6 @@
 					"inputPhone_1": inputPhone
 				},
 				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-				/* 반환해주는 값이 string이며 dataType은 JSON이 아니다. JSON으로 만들어주고 싶으면 Controller에서 json 형태로 넘어가게 할 것. */
 				success:function(data){
 					console.log(data);
 					
@@ -152,29 +154,14 @@
 		});
 	});
 
-	// /* /* 				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-				/* dataType: 'JSON',  */
-/* 		var findIdBtn = function(){
-		$.ajax({
-			type:"POST",
-			url:"${path}/member/findId",
-			data: {
-				"inputName_1" : $('#inputName_1').val(),
-				"inputEmail_1" : $('#inputEmail_1').val(),
-				"inputPhone_1" : $('#inputPhone_1').val()
-			},
-			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-			dataType: 'JSON',
-			success:function(data){
-				console.log(data);
-				if(data == 0){
-					$('#id_value').text("회원 정보를 확인해주세요!");	
-				} else {
-					$('#id_value').text(data);
-				}
-			}
+	// 비밀번호 찾기 버튼 클릭
+	$(function(){
+		$("#findPwdBtn").on("click", function(){
+			var inputId = $("#inputId_1").val().trim();
+			var inputEmail = $("#inputEmail_2").val().trim();
+			var inputPhone = $("#inputPhone_2").val().trim();
 		});
-	} */
+	});
 	
 </script>
 
