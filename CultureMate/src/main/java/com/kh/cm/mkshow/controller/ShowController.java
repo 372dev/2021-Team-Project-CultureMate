@@ -111,14 +111,8 @@ public class ShowController {
 		
 	    List<PlaceDTO> place;
 	    int replylength = 0;
-		 
-		 
 	    
 		 String uri = addr + parameter + serviceKey;
-         
-	  
-	    
-	    
 	    
         // RestTemplate 생성
         RestTemplate restTemplate = new RestTemplate();
@@ -133,8 +127,6 @@ public class ShowController {
         System.out.println("0배열 : " + result.get(0).getMt10id());
         
         place = getPlace(result.get(0).getMt10id());
-       // System.out.println("위도 : " + place[0]);
-        //System.out.println("경도 : " + place[1]);
         
         //리뷰가져오기
 	    List<ShowReview> review = null;
