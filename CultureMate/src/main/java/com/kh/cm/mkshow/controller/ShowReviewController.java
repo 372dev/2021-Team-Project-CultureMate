@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.annotations.Param;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -60,7 +61,7 @@ public class ShowReviewController {
 	
 	 	@RequestMapping(value="/list.do", produces="application/json; charset=utf8")
 	    @ResponseBody
-	    public ResponseEntity ajax_commentList(@ModelAttribute("review") ShowReview review, 
+	    public String ajax_commentList(@ModelAttribute("review") ShowReview review, 
 	    		@SessionAttribute(name="loginMember", required = false)  Member loginMember,
 	    	 HttpServletRequest request) throws Exception{
 	    	
@@ -83,7 +84,7 @@ public class ShowReviewController {
 	                HashMap hm = new HashMap();
 	                hm.put("reviewID", commentVO.get(i).getReviewID());
 	                hm.put("reviewContent", commentVO.get(i).getReviewContent());
-	                hm.put("reviewDate", commentVO.get(i).getReviewDate());
+	                hm.put("reviewDate", commentVO.get(i).getReviewDate().substring(0, 10));
 	                hm.put("reviewRating", commentVO.get(i).getReviewRating());
 	                hm.put("userNick", commentVO.get(i).getUserNick());
 	                hm.put("userId", commentVO.get(i).getId());
@@ -93,7 +94,7 @@ public class ShowReviewController {
 	        }
 	        
 	        JSONArray json = new JSONArray(hmlist);        
-	        return new ResponseEntity(json.toString(), responseHeaders, HttpStatus.CREATED);
+	        return json.toString();
 	    }
 	 
 	 	@RequestMapping(value = "/delete.do", method = {RequestMethod.GET})
