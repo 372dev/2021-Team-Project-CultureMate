@@ -507,7 +507,7 @@ text-align: center;
 			<ul class="bls_tbls c3">
 				<li class="on"><p><a href="#n" id="poster">소개</a></p></li>
 				<li><p><a href="#n" id="perf">공연 시설</a></p></li>
-				<li><p><a href="#n" id="stats">관람 후기</a></p></li>
+				<li><p id="stat1"><a href="#n" id="stats">관람 후기(<span id="stats1"></span>)</a></p></li>
 				<li><p><a href="#n" id="refund">환불 정보</a></p></li>
 			</ul>
 		</div>
@@ -1015,9 +1015,11 @@ function fn_comment(){
         data:$("#reply_form").serialize(),
         success : function(data){
         	console.log("불러오기 성공!!");
-            if(data == ("success"))
+            if(data != null)
             {
             	getCommentList();
+            	  var html1 = data;
+                  $("#stats1").html(html1);
             	$("#reviewContent").val("");
             	console.log("불러오기 성공!!");
             }
@@ -1050,8 +1052,10 @@ function getCommentList(){
         	var html = "";
             var cCnt = data.length;
             var logincheck = document.getElementById("form_id").value;
-            console.log("아이디뭐임?" + logincheck);
           
+            var html1 = data[0].reviewsize;
+            $("#stats1").html(html1);
+            
             html += '<table id="tbl-comment">';
             for(i=0; i<data.length; i++){
             	if(logincheck == data[i].userId){
@@ -1102,6 +1106,9 @@ function del(no) {
       type : 'GET',
       url : "<c:url value='/review/delete.do?no=" + no + "'/>",
     success : function (data) {
+    	console.log("삭제카운트");
+    	var html1 = data;
+        $("#stats1").html(html1);
     	getCommentList();
 	}
   });

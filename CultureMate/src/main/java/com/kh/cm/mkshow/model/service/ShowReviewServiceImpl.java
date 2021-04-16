@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.cm.mkshow.model.dao.ShowReviewDao;
 import com.kh.cm.mkshow.model.vo.ShowReview;
+import com.kh.cm.ticket.model.vo.Ticket;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,6 +50,13 @@ public class ShowReviewServiceImpl implements ShowReviewService {
 		return showDao.updateReview(review);
 		
 	}
+
+	@Override
+	public int countReview(String mt20id) {
+		// TODO Auto-generated method stub
+		return showDao.countReview(mt20id);
+	}
+	
 
 	
 }

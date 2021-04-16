@@ -20,4 +20,6 @@ public interface ShowReviewDao {
 
 	int updateReview(ShowReview review);
 
+	int countReview(String mt20id);
+	
 }

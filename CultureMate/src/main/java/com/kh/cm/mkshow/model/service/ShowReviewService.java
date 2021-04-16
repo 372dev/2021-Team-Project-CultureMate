@@ -3,6 +3,7 @@ package com.kh.cm.mkshow.model.service;
 import java.util.List;
 
 import com.kh.cm.mkshow.model.vo.ShowReview;
+import com.kh.cm.ticket.model.vo.Ticket;
 
 public interface ShowReviewService  {
 
@@ -15,5 +16,8 @@ public interface ShowReviewService  {
 	List<ShowReview> findReviewWriter(int no);
 
 	int updateReview(ShowReview review);
+
+	int countReview(String mt20id);
+	
 
 }

@@ -27,6 +27,7 @@ public class TicketController {
 	@Autowired
 	private TicketService ticketservice;
 	
+	
 	@RequestMapping("ticket/ticketing/seat")
 	public String seat() {
 		
@@ -87,7 +88,6 @@ public class TicketController {
 		
 		if(result > 0) {
 			int count = ticketservice.countTicket(id);
-			
 			System.out.println("ticket : " + ticket);
 			System.out.println("count : " + count);
 			
