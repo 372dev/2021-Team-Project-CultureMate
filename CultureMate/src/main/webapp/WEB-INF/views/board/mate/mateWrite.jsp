@@ -53,6 +53,7 @@
 		    	</div>
 		    <hr>
 		    <form action="${path}/mate/write" id="mateWrite-frm" method="post">
+		    <input name="mt20id" value="${ mt20id }">
 		     <table id="mateWrite-tbl">
 		        <tr id="mateWrite-tr1">
 		        	 <td>

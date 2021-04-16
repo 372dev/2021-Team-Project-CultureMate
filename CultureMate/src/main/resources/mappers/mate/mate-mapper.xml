@@ -181,7 +181,8 @@
 		        DEFAULT,
 		        DEFAULT,
 		        SYSDATE,
-		        SYSDATE
+		        SYSDATE,
+		        #{mt20id}
 )
   	</insert>
   	

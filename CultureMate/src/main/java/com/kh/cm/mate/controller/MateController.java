@@ -87,8 +87,13 @@ public class MateController {
 	}
 	
 	@RequestMapping(value="/write", method = {RequestMethod.GET}) 
-	public String mateWrite( ) {
-		return "board/mate/mateWrite";
+	public ModelAndView mateWrite(
+			ModelAndView model,
+    		@RequestParam(value = "id", defaultValue = "PF172344") String id
+			) {
+		model.addObject("mt20id", id);
+		model.setViewName("board/mate/mateWrite");
+		return model;
 	}
 	
 	@RequestMapping(value="/write", method = {RequestMethod.POST}) 
