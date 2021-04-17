@@ -41,7 +41,29 @@
 	border-radius: 5px;
 	background: yellowgreen;
 	color: white;
-  }	 
+  }	
+  
+<!-- 공연제목 시작 -->
+
+	.showTitleDiv {
+		margin: 10px auto;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+	}
+	.showTitleDiv > h5 {
+		height: 30px;
+		margin: auto 0;
+	}
+	.searchBtnStyle {
+		height: 30px;
+		border: none;
+		border-radius: 5px;
+		background: yellowgreen;
+		color: white;
+	}
+	
+<!-- 공연제목 끝 -->
    
 </style>
 <section id="mateSection">
@@ -53,7 +75,13 @@
 		    	</div>
 		    <hr>
 		    <form action="${path}/mate/write" id="mateWrite-frm" method="post">
-		    <input name="mt20id" value="${ mt20id }">
+		    <input name="mt20id" value="${ mt20id }" style="display: none;">
+		    <div class="showTitleDiv">
+		    <h5>선택된 공연 - ${ title }</h5>
+		    <button class="searchBtnStyle" type="button"
+		    	onclick="location.href='${ path }/show/showList'"
+		    >다시 선택하기</button>
+		    </div>
 		     <table id="mateWrite-tbl">
 		        <tr id="mateWrite-tr1">
 		        	 <td>

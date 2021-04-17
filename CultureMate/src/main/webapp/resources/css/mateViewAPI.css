@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+.ajaxResultDiv {
+	display: flex;
+	height: 300px;
+	width: 75%;
+	background-color: GAINSBORO;
+	border-radius: 10px;
+	margin: 0px auto 10px auto;
+}
+
+.divImgWrapper {
+	height: 300px;
+	width: 300px;
+	cursor: pointer;
+	position: relative;
+}
+
+.imgLeft {
+	height: 250px;
+	width: 188px;
+	margin: 25px auto 25px auto;
+}
+
+.tableWrapper {
+	padding: 10px;
+}
+
+.showTable {
+	margin: auto auto;
+}
+
+.tableTitle {
+	font-size: 2rem;
+}
+
+.colOne {
+	width: 100px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 1.2rem;
+}
+
+.colTwo {
+	
+}

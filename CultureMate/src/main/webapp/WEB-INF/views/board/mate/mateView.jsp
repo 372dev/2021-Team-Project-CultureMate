@@ -5,6 +5,7 @@
 <%
 	Mate mate = (Mate)request.getAttribute("mate");	
 %>
+<link rel="stylesheet" href="${ path }/resources/css/mateViewAPI.css" />
 <style>
      #mateSection {
 	     min-height: 800px;
@@ -152,7 +153,7 @@ table#tbl-comment sub.comment-date {
 			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
 		    	</div>
 		    <hr>
-		    <div id="ajaxResultDiv" class=""></div>
+		    <div id="ajaxResultDiv" class="ajaxResultDiv"></div>
 		     <table id="mateView-tbl">
 		        <tr id="mateView-tr">
 		        	<td>${mate.mateId}</td>		        	
@@ -358,6 +359,7 @@ table#tbl-comment sub.comment-date {
 	
 	*/
 	
+	
 	<!-- Ajax script -->
 	
 	$(document).ready(function () {
@@ -381,23 +383,25 @@ table#tbl-comment sub.comment-date {
 					toAdd += "<p>검색 조건에 맞는 게시물이 없습니다.</p>";
 				} else {
 					console.log(result);
-					toAdd += '<div onclick="location.href=\'' + '${ path }/show/restview?name=' + result[0].mt20id + '\';">';
-					toAdd += '<img src="' + result[0].poster + '" alt="' + result[0].prfnm + '">';
+					toAdd += '<div class= "divImgWrapper">';
+					toAdd += '<img src="' + result[0].poster + '" alt="' + result[0].prfnm + '"';
+					toAdd += 'onclick="location.href=\'' + '${ path }/show/restview?name=' + result[0].mt20id + '\';"';
+					toAdd += 'class= "imgLeft">';
 					toAdd += '</div>';
-					toAdd += '<div>';
-					toAdd += '<h5>공연명 : ' + result[0].prfnm + '</h5>';
-					toAdd += '<p>공연장 : ' + result[0].fcltynm + '</p>';
-					toAdd += '<p>공연기간 : ' + result[0].prfpdfrom + '~' + result[0].prfpdto + '</p>';
-					toAdd += '<p>런타임 : ' + result[0].prfruntime + '</p>';
-					toAdd += '<p>관람연령 : ' + result[0].prfage + '</p>';
-					toAdd += '<p>티켓가격 : ' + result[0].pcseguidance + '</p>';
-					toAdd += '<p>출연진 : ';
+					toAdd += '<div class="tableWrapper"><table class="showTable">';
+					toAdd += '<tr><th colspan="2" class="tableTitle">' + result[0].prfnm + '</th></tr>';
+					toAdd += '<tr><td class="colOne">공연장</td><td class="colTwo">' + result[0].fcltynm + '</td></tr>';
+					toAdd += '<tr><td class="colOne">공연기간</td><td>' + result[0].prfpdfrom + '~' + result[0].prfpdto + '</td></tr>';
+					toAdd += '<tr><td class="colOne">런타임</td><td>' + result[0].prfruntime + '</td></tr>';
+					toAdd += '<tr><td class="colOne">관람연령</td><td>' + result[0].prfage + '</td></tr>';
+					toAdd += '<tr><td class="colOne">티켓가격</td><td>' + result[0].pcseguidance + '</td></tr>';
+					toAdd += '<tr><td class="colOne">출연진</td><td>';
 					if(result[0].prfcast == " " || "") {
 						toAdd += "정보가 없습니다.";
 					} else {
 						toAdd += result[0].prfcast;
 					}
-					toAdd += '</p></div>';
+					toAdd += '</td></tr></table></div>';
 				}
 				$("#ajaxResultDiv").append(toAdd);
 			}
