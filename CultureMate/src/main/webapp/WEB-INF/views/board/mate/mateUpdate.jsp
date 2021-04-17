@@ -95,7 +95,7 @@
 		            <td>${mate.mateCount}</td>	  
 		        </tr>
 		       <tr id="mateUpdate-tr1">
-		          <td colspan="7">API</td> 
+		          <td colspan="7" id="mateShowTitle"></td>
 		        </tr>
 		    <tr id="mateUpdate-tr1">		     
 		    <td colspan="7">
@@ -150,4 +150,30 @@
 		</form>
 	 </div>	
 </section>
+<script>
+<!-- Ajax script -->
+
+$(document).ready(function () {
+	var mt20id = "${ mate.mt20id }";
+	$.ajax({
+		type : "GET",
+		url : "/cm/show/mateAjax",
+		data : {
+			"mt20id" : mt20id,
+		},
+		error : function(error) {
+			console.log("ajax-error");
+		},
+		success : function(result) {
+			console.log("ajax-success");
+			$("#mateShowTitle").empty();
+			var toAdd = '<h5>선택된 공연 - ';
+			console.log(result);
+			toAdd += result[0].prfnm + '</h5>';
+			$("#mateShowTitle").append(toAdd);
+		},
+	});
+})
+</script>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
