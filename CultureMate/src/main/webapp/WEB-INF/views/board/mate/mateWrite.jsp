@@ -39,7 +39,7 @@
      height:35px;
   	border: none;
 	border-radius: 5px;
-	background: yellowgreen;
+	background: #9db81f;
 	color: white;
   }	
   
@@ -59,7 +59,7 @@
 		height: 30px;
 		border: none;
 		border-radius: 5px;
-		background: yellowgreen;
+		background: #9db81f;
 		color: white;
 	}
 	
@@ -136,42 +136,16 @@
 	                <option value="서울">서울</option>
 	                <option value="경기도">경기도</option>
 	                <option value="강원도">강원도</option>
-	                <option value="충청북도">충청북도</option>
-	                <option value="충청남도">충청남도</option>
-	                <option value="전라북도">전라북도</option>
-	                <option value="전라남도">전라남도</option>
-	                <option value="경상북도">경상북도</option>
-	                <option value="경상남도">경상남도</option>
+	                <option value="충청도">충청도</option>
+	                <option value="전라도">전라도</option>
+	                <option value="경상도">경상도</option>
 	                <option value="제주도">제주도</option>
-	                <option value="을릉도">을릉도</option>
-	                <option value="독도">독도</option>
             </select>				
 			</td>
 			</tr>
-		<!--  	<tr>
-				<td>모집성별</td>
-				<td>
-					<select name="martGender" id="mateGender" style="border-radius:5px;height:28px;">
-						<option value="여성">여성</option>
-						<option value="남성">남성</option>
-						<option value="아무나 환영">아무나 환영</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-			    <td>인원수</td>
-			    <td>
-			    <select name="mateNum" id="mateNum" style="border-radius:5px;height:28px;">
-			        <option value="1명">1명</option>
-			        <option value="5명 이하">5명 이하</option>
-			        <option value="10명 이하">10명 이하</option>
-			        <option value="15명 이하">15명 이하</option>
-				</select>
-				</td>
-			</tr> -->
 		    <tr>
 			     <td colspan="4">
-			       <textarea style="border-radius:5px" name="mateContent" id="mateContent" cols="80" rows="10" wrap="hard"></textarea>
+			       <textarea style="border-radius:5px" name="mateContent" id="mateContent" cols="80" rows="10"></textarea>
 			    </td>
 			</tr>			
 		 </table>

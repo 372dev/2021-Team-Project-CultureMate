@@ -60,17 +60,21 @@
 		height: 70px;
 		border: none;
 		border-radius: 5px;
-		background: yellowgreen;
+		background:#9db81f;
 		color: white;
 		position:relative;
-		top:-28px;
+		top:-30px;
 	}
     .shareButton{
      	height:35px;
 	  	border: none;
 		border-radius: 5px;
-		background: yellowgreen;
+		background:#9db81f;
 		color: white;
+  }
+  .btn-update {
+  	height: 20px;
+  	font-zize: 5pt;
   }	
   
 /*댓글테이블*/
@@ -82,11 +86,11 @@ table#tbl-comment {
 } 
 
 table#tbl-comment tr td {
-	border-bottom:1px solid; 
-	border-top:1px solid; 
+	border-bottom:0.5px solid; 
+	border-top:0.5px solid; 
 	padding:5px; 
 	text-align:left; 
-	line-height:120%;
+	line-height:100%;
 }
 
 table#tbl-comment tr td:first-of-type {
@@ -135,16 +139,21 @@ table#tbl-comment tr:hover button.btn-delete {
 table#tbl-comment sub.comment-writer {
 	vertical-align: top;
 	color:navy; 
-	font-size:14px
+	font-size:9pt;
+	top:8px;
 }
 
 table#tbl-comment sub.comment-date {
 	vertical-align: top;
 	color:lightgray;
-	font-size:10px
+	font-size:9pt;
+	top:8px;
 }
    
 </style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="shareSection">
 <div id="shareView-container">
 		        <div id="share-Title">
@@ -184,18 +193,18 @@ table#tbl-comment sub.comment-date {
 				</script>
 			</c:if>
 			<c:if test="${ empty share.shareOriginalFileName }">			
-				<span style="color: gray;"> - </span>
+				<span style="color: gray;font-size: 9pt;"> 등록된 인증 사진이 없습니다. </span>
 			</c:if>
 			</td>
 			</tr>
 			<tr>
+			<c:if test="${!empty share.shareRenamedFileName }">	
 				<td colspan="7"><img style="width: 400px;height: 200px;" alt="" src="${path}/resources/upload/board/${share.shareRenamedFileName} "></td>
+				</c:if>
 			</tr>
 		   <tr id="shareView-tr1">
 		       <td colspan="7">
-		       <div style="height:200px;width:500px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;">
-		       	 ${share.shareContent}
-		       </div>
+		       <div style="white-space:pre;border-radius:5px;height:200px;width:500px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;">${share.shareContent}</div>
 		     
 		    </td>
 		</tr>
@@ -235,7 +244,7 @@ table#tbl-comment sub.comment-date {
 			    		<td>
 			    			<sub class="comment-writer">${shareReply.userNick}</sub>
 			    			<sub class="comment-Id">${shareReply.shareReplyId}</sub>
-			    			<sub class="comment-date">${shareReply.shareReplyCreateDate}</sub> 
+			    			<sub class="comment-date"><fmt:formatDate value="${shareReply.shareReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
 			    			<c:out value="${shareReply.shareReplyContent}"></c:out>
 			    		</td>
@@ -280,7 +289,7 @@ table#tbl-comment sub.comment-date {
 			    		<td>
 			    			<sub class="comment-writer">&nbsp;&nbsp;RE:${shareReply.userNick}</sub>
 			    			<sub class="comment-Id">&nbsp;&nbsp;RE:${shareReply.shareReplyId}</sub>
-			    			<sub class="comment-date">${shareReply.shareReplyCreateDate}</sub> 
+			    			<sub class="comment-date"><fmt:formatDate value="${shareReply.shareReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
 			    			&nbsp;&nbsp;→<c:out value="${shareReply.shareReplyContent}"></c:out>
 			    		</td>			    		
@@ -307,26 +316,26 @@ table#tbl-comment sub.comment-date {
 		    <br>
 		    <div id="pageBar">
 			<!-- 맨 처음으로 -->
-			<button onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=1'">&lt;&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=1'"><span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-menu-left"></span></button>
 			
 			<!-- 이전 페이지로 -->
-			<button onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.prvePage}'">&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.prvePage}'"><span class="glyphicon glyphicon-menu-left"></span></button>
 
 			<!--  10개 페이지 목록 -->
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 				<c:if test="${status.current == pageInfo.currentPage}">
-					<button disabled><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" disabled><c:out value="${status.current}"/></button>
    				</c:if>
 				<c:if test="${status.current != pageInfo.currentPage}">
-					<button onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${status.current}'"><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${status.current}'"><c:out value="${status.current}"/></button>
    				</c:if>
 			</c:forEach>
 			
 			<!-- 다음 페이지로 -->
-			<button onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.nextPage}'">&gt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.nextPage}'"><span class="glyphicon glyphicon-menu-right"></span></button>
 			
 			<!-- 맨 끝으로 -->
-			<button onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.maxPage}'">&gt;&gt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>
 		</div>	
 	</div>
 	<script>

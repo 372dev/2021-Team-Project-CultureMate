@@ -49,7 +49,7 @@
     	width: 130px;
     }
     #mateList-tr>td:nth-child(4){
-    	width: 150px;
+    	width: 170px;
     }
     #mateList-tr>td:nth-child(6){
     	width: 130px;
@@ -59,14 +59,15 @@
     }
     #mateList-tr>td{
     	padding: 6px;
-    	width:80px;
+    	width:100px;
     }
     .searchButton{
        vertical-align: top;
-    }
-    
- 
+    } 
 </style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="mateSection">
 	
 	<div id="mateList-container">
@@ -75,12 +76,7 @@
 			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
 		    	</div>
 		 <div id="mate-Search">
-		 <div id="mate-Search1">
-		 	 <c:if test="${loginMember != null}">
-			<button type="button" id="btn-insert" style="border-radius:5px;border:0.5px solid;height:30px;width:70px;font-size:10pt;background-color: #6c757d; color:white;"
-			onclick="location.href ='${path}/mate/write'">글쓰기</button>
-		</c:if>
-		 </div>   	
+		
  <div id="mate-Search2">
 	<form name="form1" method="post" action="${path}/mate/list.do">
 		<select name="search" style="border-radius:5px;height:30px;">
@@ -144,26 +140,26 @@
 		<br>
 		<div id="pageBar">
 			<!-- 맨 처음으로 -->
-			<button onclick="location.href='${path}/mate/list?page=1'">&lt;&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/list?page=1'"><span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-menu-left"></span></button>
 			
 			<!-- 이전 페이지로 -->
-			<button onclick="location.href='${path}/mate/list?page=${pageInfo.prvePage}'">&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/list?page=${pageInfo.prvePage}'"><span class="glyphicon glyphicon-menu-left"></span></button>
 
 			<!--  10개 페이지 목록 -->
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 				<c:if test="${status.current == pageInfo.currentPage}">
-					<button disabled><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" disabled><c:out value="${status.current}"/></button>
    				</c:if>
 				<c:if test="${status.current != pageInfo.currentPage}">
-					<button onclick="location.href='${path}/mate/list?page=${status.current}'"><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" onclick="location.href='${path}/mate/list?page=${status.current}'"><c:out value="${status.current}"/></button>
    				</c:if>
 			</c:forEach>
 			
 			<!-- 다음 페이지로 -->
-			<button onclick="location.href='${path}/mate/list?page=${pageInfo.nextPage}'">&gt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/list?page=${pageInfo.nextPage}'"><span class="glyphicon glyphicon-menu-right"></span></button>
 			
 			<!-- 맨 끝으로 -->
-			<button onclick="location.href='${path}/mate/list?page=${pageInfo.maxPage}'">&gt;&gt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/list?page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>
 		</div>		
   </div>
  <!-- 

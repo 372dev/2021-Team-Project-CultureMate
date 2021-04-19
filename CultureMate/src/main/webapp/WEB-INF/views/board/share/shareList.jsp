@@ -54,6 +54,9 @@
        vertical-align: top;
     }
 </style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="shareSection">
 	<div id="shareList-container">
 		<div id="share-Title">
@@ -123,26 +126,26 @@
 		<br>
 		<div id="pageBar">
 			<!-- 맨 처음으로 -->
-			<button onclick="location.href='${path}/share/list?page=1'">&lt;&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/list?page=1'"><span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-menu-left"></span></button>
 			
 			<!-- 이전 페이지로 -->
-			<button onclick="location.href='${path}/share/list?page=${pageInfo.prvePage}'">&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/list?page=${pageInfo.prvePage}'"><span class="glyphicon glyphicon-menu-left"></span></button>
 
 			<!--  10개 페이지 목록 -->
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 				<c:if test="${status.current == pageInfo.currentPage}">
-					<button disabled><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" disabled><c:out value="${status.current}"/></button>
    				</c:if>
 				<c:if test="${status.current != pageInfo.currentPage}">
-					<button onclick="location.href='${path}/share/list?page=${status.current}'"><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" onclick="location.href='${path}/share/list?page=${status.current}'"><c:out value="${status.current}"/></button>
    				</c:if>
 			</c:forEach>
 			
 			<!-- 다음 페이지로 -->
-			<button onclick="location.href='${path}/share/list?page=${pageInfo.nextPage}'">&gt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/list?page=${pageInfo.nextPage}'"><span class="glyphicon glyphicon-menu-right"></span></button>
 			
 			<!-- 맨 끝으로 -->
-			<button onclick="location.href='${path}/share/list?page=${pageInfo.maxPage}'">&gt;&gt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/list?page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>
 		</div>
   </div>
 </section>

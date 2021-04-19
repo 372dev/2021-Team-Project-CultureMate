@@ -1,7 +1,9 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@page import="com.kh.cm.mate.model.vo.Mate"%>
+<%@page import="com.kh.cm.mate.model.vo.MateReply"%>
 <%
 	Mate mate = (Mate)request.getAttribute("mate");	
 %>
@@ -10,15 +12,13 @@
      #mateSection {
 	     min-height: 800px;
 	     width: 1280px;
-	     margin: 0 auto;
- 
- 
+	     margin: 0 auto; 
 	}
     #mateView-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 900px;
+		height: 950px;
    
     }
     #mate-Title{
@@ -65,16 +65,16 @@
 	height: 70px;
 	border: none;
 	border-radius: 5px;
-	background: yellowgreen;
+	background: #9db81f;
 	color: white;
 	position:relative;
-	top:-28px;
+	top:-30px;
 }
   #mateButton{
    height:35px;
   	border: none;
 	border-radius: 5px;
-	background: yellowgreen;
+	background: #9db81f;
 	color: white;
   }
   /*댓글테이블*/
@@ -86,11 +86,11 @@ table#tbl-comment {
 } 
 
 table#tbl-comment tr td {
-	border-bottom:1px solid; 
-	border-top:1px solid; 
+	border-bottom:0.5px solid; 
+	border-top:0.5px solid; 
 	padding:5px; 
 	text-align:left; 
-	line-height:120%;
+	line-height:100%;
 }
 
 table#tbl-comment tr td:first-of-type {
@@ -137,15 +137,20 @@ table#tbl-comment tr:hover button.btn-delete {
 table#tbl-comment sub.comment-writer {
 	vertical-align: top;
 	color:navy; 
-	font-size:14px
+	font-size:9pt;
+	top:8px;
 }
 
 table#tbl-comment sub.comment-date {
 	vertical-align: top;
 	color:lightgray;
-	font-size:10px
+	font-size:9pt;
+	top:8px;
 }	
 </style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="mateSection">
 	  <div id="mateView-container">
 		        <div id="mate-Title">
@@ -172,10 +177,14 @@ table#tbl-comment sub.comment-date {
 		        </td></tr>
 		    <tr id="mateView-tr1">
 		     <td colspan="11">
+     <div style="white-space:pre;border-radius:5px;height:200px;width:500px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;">${mate.mateContent}"</div>
+			 </td>
+		  <!--   <td colspan="11">
 			      <textarea style="height:200px;width:400px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;" wrap="hard" readonly="readonly">
 		       	 	${mate.mateContent}
 		       `</textarea>
 			 </td>
+			 -->  
 			</tr>
 		 </table>
 		 <br>
@@ -199,6 +208,14 @@ table#tbl-comment sub.comment-date {
 	    	</div>
 	    </div>
 		<table id="tbl-comment">
+			<c:if test="${mateReplies == null }">
+				<tr>
+					<td>
+						등록된 댓글이 없습니다.
+					</td>
+				</tr>
+			</c:if>
+			<c:if test="${mateReplies != null }">
 		    	<c:forEach var = "mateReply" items="${mateReplies}">
 		    	 <c:if test="${mateReply.mateReplyId == mateReply.mateReplyGroup }">
 			    	<tr class="level1">
@@ -269,30 +286,31 @@ table#tbl-comment sub.comment-date {
 			    	</tr>			    	
 			    	</c:if>			    	
 		    	</c:forEach>
+		    	</c:if>
 		    </table>
 		     <br>
 		    <div id="pageBar">
 			<!-- 맨 처음으로 -->
-			<button onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=1'">&lt;&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=1'"><span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-menu-left"></span></button>
 			
 			<!-- 이전 페이지로 -->
-			<button onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.prvePage}'">&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.prvePage}'"><span class="glyphicon glyphicon-menu-left"></span></button>
 
 			<!--  10개 페이지 목록 -->
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 				<c:if test="${status.current == pageInfo.currentPage}">
-					<button disabled><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" disabled><c:out value="${status.current}"/></button>
    				</c:if>
 				<c:if test="${status.current != pageInfo.currentPage}">
-					<button onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${status.current}'"><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${status.current}'"><c:out value="${status.current}"/></button>
    				</c:if>
 			</c:forEach>
 			
 			<!-- 다음 페이지로 -->
-			<button onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.nextPage}'">&gt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.nextPage}'"><span class="glyphicon glyphicon-menu-right"></span></button>
 			
 			<!-- 맨 끝으로 -->
-			<button onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.maxPage}'">&gt;&gt;</button>	
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>	
 	 </div>
 	 <script type="text/javascript">
 	 function checkEmpty() {

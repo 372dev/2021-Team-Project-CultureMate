@@ -129,13 +129,13 @@ public class MateController {
 	 @RequestMapping(value = "/view", method = {RequestMethod.GET})
 	    public ModelAndView mateView(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 	            @RequestParam int mateId, ModelAndView model,@RequestParam(value="page", required=false, defaultValue="1") int page,
-				@RequestParam(value="listlimit", required=false, defaultValue="4") int listLimit) {
+				@RequestParam(value="listlimit", required=false, defaultValue="3") int listLimit) {
 		 
 		 	Mate mate = service.findMateByMateId(mateId);
 
 			int mateReplyCount = service.getMateReplyCount(mateId);
 			
-			PageInfo pageInfo = new PageInfo(page, 5, mateReplyCount, 4);
+			PageInfo pageInfo = new PageInfo(page, 5, mateReplyCount, 3);
 			List<MateReply> mateReplies = service.findMateReplyByMateId(mateId, pageInfo);
 	        
 	        Cookie[] cookies = request.getCookies();
@@ -169,7 +169,7 @@ public class MateController {
 	                System.out.println("cookie 없음");
 	                
 	                // 쿠키 생성(이름, 값)
-	                Cookie newCookie = new Cookie("cookie"+ mateId, "|" + mateId + "|");
+	                Cookie newCookie = new Cookie("cookie" + mateId, "|" + mateId + "|");
 	                                
 	                // 쿠키 추가
 	                response.addCookie(newCookie);
@@ -269,8 +269,7 @@ public class MateController {
 			mateReply.setMateReplyWriteId(loginMember.getId());
 			
 			result = service.saveMateReply(mateReply);
-			System.out.println("어?");
-			
+
 			if(result > 0) {
 				model.addObject("msg", "댓글 등록에 성공했습니다.");
 				model.addObject("location", "/mate/view?mateId=" + mateReply.getMateId());

@@ -53,7 +53,7 @@
      	height:35px;
 	  	border: none;
 		border-radius: 5px;
-		background: yellowgreen;
+		background: #9db81f;
 		color: white;
   }	
    
@@ -78,15 +78,20 @@
 		            <td>${share.shareId}</td>		           
 		            <td>
 			        <select style="border-radius:5px;height:28px;" name="shareShow" id="shareShow">
-			            <option value="뮤지컬">뮤지컬</option>
-			            <option value="연극">연극</option>
-			            <option value="클래식">클래식</option>
+			            <option value="뮤지컬"
+			             <c:if test="${share.shareShow == '뮤지컬'}">selected</c:if>>뮤지컬</option>
+			            <option value="연극"
+			             <c:if test="${share.shareShow == '연극'}">selected</c:if>>연극</option>
+			            <option value="클래식"
+			             <c:if test="${share.shareShow == '클래식'}">selected</c:if>>클래식</option>
 			        </select>
 			    	</td>
 			    	<td>
 					   <select style="border-radius:5px;height:28px;" name="shareOpen" id="shareOpen">
-					            <option value="나눔중">나눔중</option>
-					            <option value="나눔완료">나눔완료</option>
+					            <option value="나눔중"
+					             <c:if test="${share.shareOpen == '나눔중'}">selected</c:if>>나눔중</option>
+					            <option value="나눔완료"
+					             <c:if test="${share.shareOpen == '나눔완료'}">selected</c:if>>나눔완료</option>
 					    </select>
 					</td>
 		            <td><input style="border-radius:5px;height:28px;border:1px solid" type="text" name="shareTitle" id="shareTitle" value="${share.shareTitle }" ></td>		            
@@ -112,7 +117,7 @@
 	     </tr>
 		  <tr id="shareUpdate-tr1">
 		       <td colspan="7">
-		       <textarea style="border-radius:5px;" name="shareContent" id="shareContent" cols="80" rows="10" wrap="hard">${share.shareContent}</textarea>
+		       <textarea style="border-radius:5px;" name="shareContent" id="shareContent" cols="80" rows="10">${share.shareContent}</textarea>
 		       </td>
 		</tr>
 		</table>
