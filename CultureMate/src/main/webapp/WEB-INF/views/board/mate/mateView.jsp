@@ -153,7 +153,6 @@ table#tbl-comment sub.comment-date {
 			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
 		    	</div>
 		    <hr>
-		    <div id="ajaxResultDiv" class="ajaxResultDiv"></div>
 		     <table id="mateView-tbl">
 		        <tr id="mateView-tr">
 		        	<td>${mate.mateId}</td>		        	
@@ -168,6 +167,9 @@ table#tbl-comment sub.comment-date {
 		            <td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>	           
 		            <td>${mate.mateCount}</td>	           
 		        </tr>		       
+		        <tr><td colspan="11">
+        		    <div id="ajaxResultDiv" class="ajaxResultDiv"></div>
+		        </td></tr>
 		    <tr id="mateView-tr1">
 		     <td colspan="11">
 			      <textarea style="height:200px;width:400px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;" wrap="hard" readonly="readonly">
