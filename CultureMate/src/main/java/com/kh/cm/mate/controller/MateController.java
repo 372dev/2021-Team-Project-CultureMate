@@ -25,8 +25,6 @@ import com.kh.cm.mate.model.service.MateService;
 import com.kh.cm.mate.model.vo.Mate;
 import com.kh.cm.mate.model.vo.MateReply;
 import com.kh.cm.member.model.vo.Member;
-import com.kh.cm.share.model.vo.Share;
-import com.kh.cm.share.model.vo.ShareReply;
 
 import lombok.extern.slf4j.Slf4j;
 
