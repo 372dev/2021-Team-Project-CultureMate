@@ -133,12 +133,12 @@
 
 /* BoxOffice *************************************************/
 #boContainer > .ListDiv {
-	margin-top: 1rem;
-	margin-bottom: 2rem;
-	border-top: 5px solid rgba(0,0,0,0.5);
-	border-bottom: 5px solid rgba(0,0,0,0.5);
+	margin-bottom: 5rem;
+	border-top: 7px solid #b7ba41;
+	border-bottom: 7px solid #b7ba41;
 	border-radius: 10px;
 	padding-top: 1rem;
+	padding-bottom: 1rem;
 }
 
 .boTitle {
@@ -154,8 +154,9 @@
 	font-size: 3rem;
 }
 
-
 .boTitle > button {
 	margin-top: 5px;
 	margin-bottom: 5px;
+	background-color: #9db81f;
+	border: none;
 }

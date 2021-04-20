@@ -81,7 +81,7 @@
 		  </label>
 		</div>
 		<div class="innerDivInput">
-		  <input type="text" name="searchInput" id="searchInput" class="searchInput" placeholder="상연중인 공연 제목으로 검색하기">
+		  <input type="text" name="searchInput" id="searchInput" class="searchInput" placeholder="공연 제목으로 검색하기">
 		  <div class="input-group-append">
 		    <button id="showSearchBtn" class="btn btn-outline-secondary btn-lg" type="button">검색</button>
 		  </div>
