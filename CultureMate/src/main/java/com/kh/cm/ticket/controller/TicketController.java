@@ -97,7 +97,7 @@ public class TicketController {
 				
 			} else if(count > 9) {
 				
-				int updateRank = ticketservice.updateRank02(loginMember.getId());
+				int updateRank = ticketservice.updateRank03(loginMember.getId());
 			}
 			
 			System.out.println("controller_success_member : " + member);
@@ -164,6 +164,8 @@ public class TicketController {
 		model.addObject("list", list);
 		model.addObject("pageInfo", pageInfo);
 		model.setViewName("ticket/list");
+		
+		System.out.println("list : " + list);
 		
 		return model;
 	}
