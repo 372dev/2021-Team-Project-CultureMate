@@ -106,10 +106,11 @@
 			</c:if>
 			<c:if test="${shareList != null}"> 
 				<c:forEach var="share" items="${shareList}">
-					<tr id="shareList-tr">
+					<c:if test="${share.shareOpen == '나눔완료'}">
+					<tr id="shareList-tr" style="background-color: #f2f2f7;">
 						<td><c:out value="${share.shareId}"/></td>				
                         <td><c:out value="${share.shareShow}"/></td>
-                        <td><c:out value="${share.shareOpen }"/></td>
+                        <td><span><c:out value="${share.shareOpen }"/></span></td>
 						<td>
 							<a href="${path}/share/view?shareId=${share.shareId}">
 								<c:out value="${share.shareTitle}"/>
@@ -119,6 +120,22 @@
                         <td><fmt:formatDate value="${share.shareCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>
                         <td><c:out value="${share.shareCount}"/></td>
                      </tr>
+                   </c:if>
+                   <c:if test="${share.shareOpen != '나눔완료'}">
+                   <tr id="shareList-tr">
+						<td><c:out value="${share.shareId}"/></td>				
+                        <td><c:out value="${share.shareShow}"/></td>
+                        <td><span><c:out value="${share.shareOpen }"/></span></td>
+						<td>
+							<a href="${path}/share/view?shareId=${share.shareId}">
+								<c:out value="${share.shareTitle}"/>
+							</a>
+						</td>
+                        <td><c:out value="${share.userNick}"/></td>
+                        <td><fmt:formatDate value="${share.shareCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>
+                        <td><c:out value="${share.shareCount}"/></td>
+                     </tr>
+                     </c:if>
                 </c:forEach>
               </c:if>
           </table>              

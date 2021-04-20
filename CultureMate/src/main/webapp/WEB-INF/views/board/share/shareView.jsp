@@ -79,7 +79,7 @@
   
 /*댓글테이블*/
 table#tbl-comment {
-	width:580px; 
+	width:480px; 
 	margin:0 auto; 
 	border-collapse:collapse; 
 	clear:both; 
@@ -94,46 +94,12 @@ table#tbl-comment tr td {
 }
 
 table#tbl-comment tr td:first-of-type {
-	padding: 5px 5px 5px 50px;
+	padding: 5px 5px 5px 20px;
 }
 
 table#tbl-comment tr td:last-of-type {
 	text-align:left; 
 	width: 100px;
-}
-
-table#tbl-comment button.btn-reply {
-	display:none;
-}
-
-table#tbl-comment button.btn-update {
-	display:none;
-}
-table#tbl-comment button.btn-reWrite {
-	display:none;
-}
-
-table#tbl-comment button.btn-delete {
-	display:none;
-}
-
-table#tbl-comment tr:hover {
-	background:lightgray;
-}
-
-table#tbl-comment tr:hover button.btn-reply {
-	display:inline;
-}
-
-table#tbl-comment tr:hover button.btn-update {
-	display:inline;
-}
-table#tbl-comment tr:hover button.btn-reWrite {
-	display:inline;
-}
-
-table#tbl-comment tr:hover button.btn-delete {
-	display:inline;
 }
 
 table#tbl-comment sub.comment-writer {
@@ -148,6 +114,13 @@ table#tbl-comment sub.comment-date {
 	color:lightgray;
 	font-size:9pt;
 	top:8px;
+}
+.level1 >td> sub {
+	font-size: 7pt;
+}
+.level2 >td> sub {
+	margin-left:30px;
+	font-size: 7pt;
 }
    
 </style>
@@ -204,13 +177,14 @@ table#tbl-comment sub.comment-date {
 			</tr>
 		   <tr id="shareView-tr1">
 		       <td colspan="7">
-		       <div style="white-space:pre;border-radius:5px;height:200px;width:500px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;">${share.shareContent}</div>
-		     
+		        <div style="border-radius:5px;height: 250px;width: 500px;background-color: GAINSBORO;margin:0 auto; display: flex; align-items: center;">
+		       <div style="background-color:white;white-space:pre;border-radius:5px;height:210px;width:460px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;">${share.shareContent}</div>
+		     	</div>
 		    </td>
 		</tr>
-		<tr>
-			<td colspan="7">
-				<c:if test="${ !empty loginMember && (loginMember.userNick == share.userNick || loginMember.userRole == 'ROLE_ADMIN')}">  
+	</table>
+	<br>
+		<c:if test="${ !empty loginMember && (loginMember.userNick == share.userNick || loginMember.userRole == 'ROLE_ADMIN')}">  
 			    <button class="shareButton" id="update" type="button" onclick="location.replace('${path}/share/update?shareId=${share.shareId}')">수정하기</button> &nbsp;
 			     
 			</c:if>	    
@@ -218,10 +192,6 @@ table#tbl-comment sub.comment-date {
 			<c:if test="${ !empty loginMember && (loginMember.userNick == share.userNick || loginMember.userRole == 'ROLE_ADMIN')}">  	    
 				    <button  class="shareButton" id="delete" type="button" onclick="location.replace('${path}/share/delete?shareId=${share.shareId}')">삭제하기</button>
 			</c:if>	
-			</td>
-		</tr>
-		</table>
-	<br>
 		<div id="comment-container">
 	    	<div class="comment-editor">
 	    		<br>
@@ -246,7 +216,7 @@ table#tbl-comment sub.comment-date {
 			    			<sub class="comment-Id">${shareReply.shareReplyId}</sub>
 			    			<sub class="comment-date"><fmt:formatDate value="${shareReply.shareReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
-			    			<c:out value="${shareReply.shareReplyContent}"></c:out>
+			    			<span style="font-size:9pt;"><c:out value="${shareReply.shareReplyContent}"></c:out></span>
 			    		</td>
 		    		
 			    	<!--	<c:if test= "${empty loginMember || loginMember.id != shareReply.id}">
@@ -259,11 +229,11 @@ table#tbl-comment sub.comment-date {
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input class="shareReplyId" type="hidden" name="shareReplyId" value="${shareReply.shareReplyId }">
 		    		    	<input type="hidden" name="shareId" id="shareId" value="${shareReply.shareId }">
-		    		    	<button class="btn-update" onclick="updateShareReply()">수정</button>
-		    		    	<button class="btn-reWrite" >답글</button>
-		    				<button class="btn-delete" onclick="deleteShareReply()">삭제</button>
+		    		    	<a href="javascript:deleteShareReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>
+		    		    	<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;margin-right:5px;top:10px;" class=" glyphicon glyphicon-pencil">답글</span></a>
+		    				
 		    				<script type="text/javascript">
-		    				$(".btn-reWrite").on("click", () => {
+		    				$("#btn-reWrite").on("click", () => {
 		    					//	var mateReplyId = $("#mateReplyId").val();
 		    						
 		    						const url = "${path}/share/reply/reWrite?shareReplyId=" + $(".shareReplyId").val();
@@ -287,18 +257,17 @@ table#tbl-comment sub.comment-date {
 	    		    <c:if test="${shareReply.shareReplyId != shareReply.shareReplyGroup }">			    				
 			    	<tr class="level2">	    	
 			    		<td>
-			    			<sub class="comment-writer">&nbsp;&nbsp;RE:${shareReply.userNick}</sub>
-			    			<sub class="comment-Id">&nbsp;&nbsp;RE:${shareReply.shareReplyId}</sub>
+			    			<sub class="comment-writer" >RE:${shareReply.userNick}</sub>
+			    			<sub class="comment-Id">RE:${shareReply.shareReplyId}</sub>
 			    			<sub class="comment-date"><fmt:formatDate value="${shareReply.shareReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
-			    			&nbsp;&nbsp;→<c:out value="${shareReply.shareReplyContent}"></c:out>
+			    			<span style="margin-left:30px;font-size:9pt;">→<c:out value="${shareReply.shareReplyContent}"></c:out></span>
 			    		</td>			    		
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input type="hidden" name="shareReplyId" id="shareReplyId" value="${shareReply.shareReplyId }">
 		    		    	<input type="hidden" name="shareId" id="shareId" value="${shareReply.shareId }">
-		    				<button class="btn-update" onclick="updateShareReply()">수정</button>
-		    				<button class="btn-delete" onclick="deleteShareReReply()">삭제</button>		    				
+		    				<a href="javascript:deleteShareReReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>	    				
 		    				<script type="text/javascript">
 		    				function deleteShareReReply(){
 		    					let shareReplyId = $("#shareReplyId").val();
@@ -358,22 +327,6 @@ table#tbl-comment sub.comment-date {
 			location.href= '${path}/share/reply/update?shareReplyId=${shareReply.shareReplyId}';
 		}
 	}
-	
-	
-	/*
-	onclick="location.replace('${path}/share/reply/reWrite?shareReplyId=${shareReply.shareReplyId}')"
-		$(".btn-reWrite").on("click", () => {
-	//	var mateReplyId = $("#mateReplyId").val();
-		
-		const url = "${path}/mate/reply/reWrite?mateReplyId=" + $("#mateReplyGroup").val();
-		const title = "RE";
-		const status = "left=500px, top=100px, width=500px, height=300px";
-		
-		window.open(url, title, status);
-		
-		
-	});
-	*/
 </script>
 </section>
 

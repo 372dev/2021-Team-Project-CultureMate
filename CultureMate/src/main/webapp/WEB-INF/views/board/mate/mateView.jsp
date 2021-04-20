@@ -18,7 +18,7 @@
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 950px;
+		height: 960px;
    
     }
     #mate-Title{
@@ -79,7 +79,7 @@
   }
   /*댓글테이블*/
 table#tbl-comment {
-	width:580px; 
+	width:480px; 
 	margin:0 auto; 
 	border-collapse:collapse; 
 	clear:both; 
@@ -94,44 +94,12 @@ table#tbl-comment tr td {
 }
 
 table#tbl-comment tr td:first-of-type {
-	padding: 5px 5px 5px 50px;
+	padding: 5px 5px 5px 20px;
 }
 
 table#tbl-comment tr td:last-of-type {
 	text-align:left; 
 	width: 100px;
-}
-
-table#tbl-comment button.btn-reply {
-	display:none;
-}
-
-table#tbl-comment button.btn-update {
-	display:none;
-}
-table#tbl-comment button.btn-reWrite {
-	display:none;
-}
-table#tbl-comment button.btn-delete {
-	display:none;
-}
-
-table#tbl-comment tr:hover {
-	background:lightgray;
-}
-
-table#tbl-comment tr:hover button.btn-reply {
-	display:inline;
-}
-
-table#tbl-comment tr:hover button.btn-update {
-	display:inline;
-}
-table#tbl-comment tr:hover button.btn-reWrite {
-	display:inline;
-}
-table#tbl-comment tr:hover button.btn-delete {
-	display:inline;
 }
 
 table#tbl-comment sub.comment-writer {
@@ -146,6 +114,13 @@ table#tbl-comment sub.comment-date {
 	color:lightgray;
 	font-size:9pt;
 	top:8px;
+}
+.level1 >td> sub {
+	font-size: 7pt;
+}
+.level2 >td> sub {
+	margin-left:30px;
+	font-size: 7pt;
 }	
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -177,14 +152,10 @@ table#tbl-comment sub.comment-date {
 		        </td></tr>
 		    <tr id="mateView-tr1">
 		     <td colspan="11">
-     <div style="white-space:pre;border-radius:5px;height:200px;width:500px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;">${mate.mateContent}"</div>
+		     <div style="border-radius:5px;height: 250px;width: 500px;background-color: GAINSBORO;margin:0 auto; display: flex; align-items: center;">
+     <div style="background-color:white;white-space:pre;border-radius:5px;height:210px;width:460px;border:0.5px solid lightgray;margin: 0 auto;padding:0 auto; middle;text-align: left;">${mate.mateContent}"</div>
+			</div>
 			 </td>
-		  <!--   <td colspan="11">
-			      <textarea style="height:200px;width:400px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;" wrap="hard" readonly="readonly">
-		       	 	${mate.mateContent}
-		       `</textarea>
-			 </td>
-			 -->  
 			</tr>
 		 </table>
 		 <br>
@@ -222,19 +193,20 @@ table#tbl-comment sub.comment-date {
 			    		<td>
 			    			<sub class="comment-writer">${mateReply.userNick}</sub>
 			    			<sub class="comment-Id">${mateReply.mateReplyId}</sub>
-			    			<sub class="comment-date">${mateReply.mateReplyCreateDate}</sub>
+			    			<sub class="comment-date"><fmt:formatDate value="${mateReply.mateReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
-			    			<c:out value="${mateReply.mateReplyContent}"></c:out>
+			    			<span style="font-size:9pt;"><c:out value="${mateReply.mateReplyContent}"></c:out></span>
 			    		</td>
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input type="hidden" class="mateReplyId" name="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
-		    				<button class="btn-update">수정</button>
-		    				<button class="btn-reWrite">답글</button>
-		    				<button class="btn-delete" onclick="deleteMateReply()">삭제</button>
-		    				<script type="text/javascript">
-		    				$(".btn-reWrite").on("click", () => {
+		    		<!--  	<button class="btn-update">수정</button> -->	
+		    			    <a href="javascript:deleteMateReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>
+		    			</c:if>
+		    			<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;top:10px;margin-right:5px;" class=" glyphicon glyphicon-pencil">답글</span></a>
+		    			<script type="text/javascript">
+		    				$("#btn-reWrite").on("click", () => {
 		    					//	var mateReplyId = $("#mateReplyId").val();
 		    						
 		    						const url = "${path}/mate/reply/reWrite?mateReplyId=" + $(".mateReplyId").val();
@@ -254,25 +226,24 @@ table#tbl-comment sub.comment-date {
 		    				}
 		    				
 		    				</script>
-		    			</c:if>
 			    		</td>
 			    	</tr>
 			    	</c:if>
 			    	 <c:if test="${mateReply.mateReplyId != mateReply.mateReplyGroup }">			    				
 			    	<tr class="level2">	    	
 			    		<td>
-			    			<sub class="comment-writer">&nbsp;&nbsp;RE:${mateReply.userNick}</sub>
-			    			<sub class="comment-Id">&nbsp;&nbsp;RE:${mateReply.mateReplyId}</sub>
-			    			<sub class="comment-date">${mateReply.mateReplyCreateDate}</sub> 
+			    			<sub class="comment-writer">RE:${mateReply.userNick}</sub>
+			    			<sub class="comment-Id">RE:${mateReply.mateReplyId}</sub>
+			    			<sub class="comment-date"><fmt:formatDate value="${mateReply.mateReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
-			    			&nbsp;&nbsp;→<c:out value="${mateReply.mateReplyContent}"></c:out>
+			    			<span style="margin-left:30px;font-size:9pt;">→<c:out value="${mateReply.mateReplyContent}"></c:out></span>
 			    		</td>			    		
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
-		    				<button class="btn-update" onclick="updateMateReply()">수정</button>
-		    				<button class="btn-delete" onclick="deleteMateReReply()">삭제</button>		    				
+		    					<!--  	<button class="btn-update">수정</button> -->	
+		    				<a href="javascript:deleteMateReReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>		    				
 		    				<script type="text/javascript">
 		    				function deleteMateReReply(){
 		    					let mateReplyId = $("#mateReplyId").val();
@@ -332,52 +303,6 @@ table#tbl-comment sub.comment-date {
 		var mateReplyId = $("#mateReplyId").val();
 		location.href= '${path}/mate/reply/update?mateReplyId=' + mateReplyId;
 	}
-	
-	
-
-	
-
-	/*
-		 onclick="location.replace('${path}/mate/reply/reWrite?mateReplyId=${mateReply.mateReplyId}')"
-	$(".btn-reWrite").on("click", () => {
-	//	var mateReplyId = $("#mateReplyId").val();
-		
-		const url = "${path}/mate/reply/reWrite?mateReplyId=" + $("#mateReplyGroup").val();
-		const title = "RE";
-		const status = "left=500px, top=100px, width=500px, height=300px";
-		
-		window.open(url, title, status);
-		
-		
-	});
-	
-	}
-	
-   	$('.replyReLink').click(function(event){  //버튼을 클릭 했을시 popupOpen 함수 출력 
-        console.log('click');
-        popupOpen();
-    });
-	
-	function popupOpen(){
-		var mateReplyId = $("#mateReplyId").val();
-		var mateId = $("#mateId").val();
-		
-		const url = "${path}/mate/reply/reWrite";
-		const title = "RE";
-		const status = "left=500px, top=100px, width=500px, height=300px";
-		
-		window.open(url, title, status);
-		
-		reWrite.target = title; // form 전송하는 윈도우를 설정
-		reWrite.action = url;// 새창에서 처리하므로 url지정
-		reWrite.method = "POST";
-		reWrite.mateReplyId.value = mateReplyId;
-		reWrite.mateId.value = mateId;
-		
-		reWrite.submit();
-	}
-	
-	*/
 	
 	
 	<!-- Ajax script -->

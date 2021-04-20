@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="list list03">
-            <a href="">이벤트</a>
+            <a href="${path }/event/eventList">이벤트</a>
           </div>
           <div class="list list04">
             <a href="${path}/help/csmain">고객센터</a>

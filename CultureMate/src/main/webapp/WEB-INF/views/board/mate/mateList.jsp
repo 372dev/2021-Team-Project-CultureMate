@@ -117,10 +117,11 @@
 			</c:if>
 			<c:if test="${mateList != null}">
 			<c:forEach var="mate" items="${mateList}">
-					<tr id="mateList-tr">
+			<c:if test="${mate.mateOpen == '모집완료' }">
+					<tr id="mateList-tr" style="background-color: #f2f2f7;">
 						<td><c:out value="${mate.mateId}"/></td>
-						<td><c:out value="${mate.mateShow}"/></td>
-                        <td><c:out value="${mate.mateOpen}"/></td>
+						<td><c:out value="${mate.mateShow}"/></td>						
+                        <td><span id="mateOpen"><c:out value="${mate.mateOpen}"/></span></td>                       
                         <td><c:out value="${mate.mateGender}"/></td>
                         <td><c:out value="${mate.mateAge}"/></td>
                         <td><c:out value="${mate.mateNum}"/></td>
@@ -134,6 +135,26 @@
 					<td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>                     
                         <td><c:out value="${mate.mateCount}"/></td>
                         </tr>
+                 </c:if>
+                 <c:if test="${mate.mateOpen != '모집완료' }">
+                         <tr id="mateList-tr">
+						<td><c:out value="${mate.mateId}"/></td>
+						<td><c:out value="${mate.mateShow}"/></td>						
+                        <td><span id="mateOpen"><c:out value="${mate.mateOpen}"/></span></td>                       
+                        <td><c:out value="${mate.mateGender}"/></td>
+                        <td><c:out value="${mate.mateAge}"/></td>
+                        <td><c:out value="${mate.mateNum}"/></td>
+                        <td><c:out value="${mate.mateLoc}"/></td>
+						<td>
+							<a href="${path}/mate/view?mateId=${mate.mateId}">
+								<c:out value="${mate.mateTitle}"/>
+							</a>
+						</td>
+						<td><c:out value="${mate.userNick}"/></td>
+					<td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>                     
+                        <td><c:out value="${mate.mateCount}"/></td>
+                        </tr>
+                        </c:if>
                         </c:forEach>
                      </c:if>    
                  </table>
@@ -162,16 +183,5 @@
 			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/list?page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>
 		</div>		
   </div>
- <!-- 
-  <script type="text/javascript">
-  $(document).ready(function(){
-	
-	  $('table tr').css("backgroundColor","#f5f5fc"); 
-	  
-	
-	
-	});
-  </script>	
-   --> 		
 </section>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
