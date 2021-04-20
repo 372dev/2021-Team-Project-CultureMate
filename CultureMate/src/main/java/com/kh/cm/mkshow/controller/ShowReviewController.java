@@ -65,7 +65,6 @@ public class ShowReviewController {
 	        
 	        List<ShowReview> commentVO = service.getReviewList(review.getMt20id());
 	        log.info("사이즈값" + commentVO.size());
-	        
 	        if(commentVO.size() > 0){
 	            for(int i=0; i<commentVO.size(); i++){
 	                HashMap<String, Comparable> hm = new HashMap();
@@ -76,9 +75,14 @@ public class ShowReviewController {
 	                hm.put("userNick", commentVO.get(i).getUserNick());
 	                hm.put("userId", commentVO.get(i).getId());
 	                hm.put("reviewsize", commentVO.size());
+	                hm.put("reserve", commentVO.get(i).getReserve());
 	                hmlist.add(hm);
 	            }
 	            
+	        }else {
+	        	HashMap<String, Comparable> hm = new HashMap();
+	        	 hm.put("reviewsize", commentVO.size());
+	        	 hmlist.add(hm);
 	        }
 	        
 	        JSONArray json = new JSONArray(hmlist);        

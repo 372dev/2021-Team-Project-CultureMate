@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.kh.cm.mkshow.model.vo.ShowReview;
+import com.kh.cm.ticket.model.vo.Ticket;
 
 @Mapper
 public interface ShowReviewDao {
@@ -21,5 +22,13 @@ public interface ShowReviewDao {
 	int updateReview(ShowReview review);
 
 	int countReview(String mt20id);
+
+	int setreserve(Ticket ticket);
+
+	void resetreserve(Ticket ticket);
+
+	String getreserve(ShowReview review);
+
+	List<ShowReview> findMyReview(int id);
 	
 }

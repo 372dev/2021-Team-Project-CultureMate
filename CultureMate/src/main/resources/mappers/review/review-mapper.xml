@@ -14,6 +14,7 @@
 		<result property="status" column="STATUS"/>
 		<result property="id" column="ID"/>
 		<result property="userNick" column="USER_NICK"/>
+		<result property="prfnm" column="PRFNM"/>
 	</resultMap>
 	
 	
@@ -37,7 +38,9 @@
   			#{reviewRating},
   			DEFAULT,
   			#{id},
-  			#{userNick}
+  			#{userNick},
+  			#{reserve},
+  			#{prfnm}
  		)
   	</insert>
   	
@@ -61,6 +64,34 @@
   	
   	<select id="countReview" parameterType="string" resultType="int">
   		SELECT COUNT(*) FROM REVIEW WHERE MT20ID = #{mt20id} AND STATUS = 'Y'
+  	</select>
+  	
+  	<update id="setreserve" parameterType="Ticket">
+  		UPDATE REVIEW
+  		SET RESERVE = 'Y'
+  		WHERE MT20ID = #{mt20id} AND ID = #{id} 
+  	</update>
+  	
+  	<update id="resetreserve" parameterType="Ticket">
+  		UPDATE REVIEW
+  		SET RESERVE = 'N'
+  		WHERE MT20ID = #{mt20id} AND ID = #{id} 
+  	</update>
+  	
+  	<select id="getreserve" parameterType="ShowReview" resultType="String">
+  	 SELECT CASE WHEN EXISTS (
+        SELECT 1
+        FROM TICKET
+        WHERE MT20ID = #{mt20id} AND ID = #{id}
+		 ) THEN 'Y' ELSE 'N' END YN
+	FROM DUAL
+  	</select>
+  	
+  	<select id="findMyReview" parameterType="int"  resultMap="reviewResultMap">
+  		SELECT *
+  		FROM REVIEW 
+  		WHERE ID = #{id} AND STATUS = 'Y'
+  		ORDER BY REVIEW_DATE
   	</select>
 	
 </mapper>

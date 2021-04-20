@@ -113,6 +113,7 @@
 .bls_tbls.c3 {
     margin-right: -1%;
     width: 100%;
+    border-bottom: solid 3px; 
 }
 
 .bls_tbls {
@@ -131,20 +132,16 @@
 
 .bls_tbls > li > p > a {
     font-size: 17px;
-    color: #666;
+    color: black;
     display: table-cell;
     vertical-align: middle;
     padding: 0 4px;
+    font-weight: 700;
 }
 
 .bls_tbls > li.on > p > a {
-    color: #6153a7;
+    color: #9db81f;
     font-family: 'notokr-medium';
-    background: #f8f8f8;
-}
-
-.bls_tbls > li:first-child > p > a {
-    border-left: 1px solid #d2d2d2;
 }
 
 .bls_tbls > li > p {
@@ -152,12 +149,11 @@
     width: 100%;
     box-sizing: border-box;
     height: 59px;
-    border: 1px solid #d2d2d2;
     border-left: none;
 }
 
 .bls_tbls > li.on > p {
-    border-top: 2px solid #6153a7;
+    border-top: 4px solid #9db81f;
 }
 
 ul, ol, li, dl, dt, dd {
@@ -169,6 +165,11 @@ ul, ol, li, dl, dt, dd {
     margin-top: 35px;
     overflow: auto;
 }
+
+.detailArea{
+	text-align: center;
+}
+
 
 #plcMap{
 	 box-sizing: content-box;
@@ -234,11 +235,11 @@ border: solid 1px;
 .re-ta table th {
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
-    background: #fbe5d5;
+ 	background: #9db81f;
     text-align: center;
     font-size: 15px;
-    color: #333;
-    padding: 8px 0 3px 0;
+    color: white;
+    padding: 8px;
 }
 
 .re-ta table td {
@@ -252,8 +253,8 @@ border: solid 1px;
 
 div#comment-container {
   height: 200px;
-  background: #C9E6D1;
-  padding: 5px;
+  background: #e6f0b6;
+  padding: 20px;
   border: solid 1px; 
 }
 
@@ -386,6 +387,19 @@ text-align: center;
 	margin-left: 50px;
 }
 
+.rn-0904-tt1 {
+     width: 43px;
+    height: 17px;
+    line-height: 19px;
+    border: 1px solid #ec7d2c;
+    border-radius: 30px;
+    color: #ec7d2c;
+    font-size: 12px;
+    text-align: center;
+    margin-right: 10px;
+    font-weight: 700;
+    padding: 1.5px;
+}
 
 </style>
 			<section>
@@ -599,9 +613,11 @@ text-align: center;
 					<a id=star1 value=3>★</a> 
 					<a id=star1 value=4>★</a> 
 					<a id=star1 value=5>★</a> 
+					별점을 선택해 주세요.
 					</p>
 					<textarea name="reviewContent" cols="100" rows="4" onfocus="" id="reviewContent" style="white-space: pre;"></textarea>
 					<input type="hidden" id="mt20id" name="mt20id" value="${result.get(0).mt20id}">
+					<input type="hidden" id="prfnm" name="prfnm" value="${result.get(0).prfnm}">
 					<c:if test="${ !empty loginMember}">
 					<input type="hidden" id="id" name="id" value="${loginMember.id}">
 					<input type="hidden" id="userNick" name="userNick" value="${loginMember.userNick}">
@@ -622,12 +638,6 @@ text-align: center;
 				</form>
 			</div>
 			<br>
-			
-			<div>
-			<c:if test="${replylength < 0}">
-				<h5>등록된 댓글이 없습니다.</h5>
-			 </c:if>
-			</div>
 			
 			<div id="commentList">
        		
@@ -1056,11 +1066,20 @@ function getCommentList(){
             var html1 = data[0].reviewsize;
             $("#stats1").html(html1);
             
+            if(html1 > 0){
+            
             html += '<table id="tbl-comment">';
             for(i=0; i<data.length; i++){
             	if(logincheck == data[i].userId){
             		html += "<tr class='level1'>";
-            		html += '<td><sub class="comment-writer">' +data[i].userNick+ ' | </sub>'; 
+            		html += '<td>';
+            		
+            		if(data[i].reserve == 'Y'){
+            			html += '<sub class="rn-0904-tt1">예매자</sub>'; 
+            		}
+            		
+            		
+            		html += '<sub class="comment-writer">' +data[i].userNick+ ' | </sub>'; 
             		html += '<sub class="comment-date">' + data[i].reviewDate + ' | </sub>';
 	               
             		for(j = 0; j < data[i].reviewRating; j++){
@@ -1073,7 +1092,13 @@ function getCommentList(){
             	  }
             	 else{
             		html += "<tr class='level1'>";
-             		html += '<td><sub class="comment-writer">' +data[i].userNick+ ' | </sub>'; 
+             		html += '<td>';
+             		
+             		if(data[i].reserve == 'Y'){
+            			html += '<sub class="rn-0904-tt1">예매자</sub>'; 
+            		}
+             		
+             		html += '<sub class="comment-writer">' +data[i].userNick+ ' | </sub>'; 
              		html += '<sub class="comment-date">' + data[i].reviewDate + ' | </sub>';
              		for(j = 0; j < data[i].reviewRating; j++){
                  	html += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>';
@@ -1082,6 +1107,10 @@ function getCommentList(){
             	  }
             }
             html += "</table>";
+            }else{
+            	html += "<p>작성된 댓글이 없습니다.</p>";
+            }
+            
             $("#commentList").html(html);
         }
 	});

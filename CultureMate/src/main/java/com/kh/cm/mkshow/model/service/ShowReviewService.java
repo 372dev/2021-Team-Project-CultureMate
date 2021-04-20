@@ -19,5 +19,10 @@ public interface ShowReviewService  {
 
 	int countReview(String mt20id);
 	
+	int setreserve(Ticket ticket);
+
+	void resetreserve(Ticket ticket);
+
+	 List<ShowReview> findMyRevuew(int id);
 
 }
