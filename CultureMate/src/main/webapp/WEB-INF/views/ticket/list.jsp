@@ -117,9 +117,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test="${list == null}">
+				<c:if test="${list == '[]'}">
 					<tr>
-						<td colspan="6">
+						<td colspan="7">
 							예매한 티켓이 없습니다.
 						</td>
 					</tr>	
