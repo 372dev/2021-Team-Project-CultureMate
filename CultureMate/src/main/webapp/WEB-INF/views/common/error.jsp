@@ -12,9 +12,9 @@
 		<div class="col-6 detailMessageDiv">
 		<p class="errorFirstMessage">
 			<c:choose>
-				<c:when test="${ errorMsg eq 'Error:401' || errorMsg eq 'Error:403' }">잘못된 접근입니다<br>동일한 문제가 지속적으로 발생할 경우 오류내용과 함께 고객센터에 문의해 주세요</c:when>
-				<c:when test="${ errorMsg eq 'Error:404' }">요청하신 경로를 찾을 수 없습니다<br>동일한 문제가 지속적으로 발생할 경우 오류내용과 함께 고객센터에 문의해 주세요</c:when>
-				<c:when test="${ errorMsg eq 'Error:500' }">서버에서 에러가 발생하였습니다<br>동일한 문제가 지속적으로 발생할 경우 오류내용과 함께 고객센터에 문의해 주세요</c:when>
+				<c:when test="${ errorMsg eq 'Error:401' || errorMsg eq 'Error:403' }">잘못된 접근입니다<br>동일한 문제가 지속적으로 발생할 경우 오류 내용과 함께 고객센터에 문의해 주세요</c:when>
+				<c:when test="${ errorMsg eq 'Error:404' }">요청하신 경로를 찾을 수 없습니다<br>동일한 문제가 지속적으로 발생할 경우 오류 내용과 함께 고객센터에 문의해 주세요</c:when>
+				<c:when test="${ errorMsg eq 'Error:500' }">서버에서 에러가 발생하였습니다<br>동일한 문제가 지속적으로 발생할 경우 오류 내용과 함께 고객센터에 문의해 주세요</c:when>
 				<c:otherwise>에러가 발생하였습니다<br>동일한 문제가 지속적으로 발생할 경우 오류내용과 함께 고객센터에 문의해 주세요</c:otherwise>
 			</c:choose>
 		</p>
