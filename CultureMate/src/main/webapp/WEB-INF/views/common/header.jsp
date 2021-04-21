@@ -26,9 +26,22 @@
           <img src="${path}/resources/images/logo.png" alt=""/>
         </a>
         <div class="sidebtn">
-				<a class="enroll btn-secondary" href="${path}/enroll">회원가입</a>
-				<a class="login btn-secondary" href="${path}/login">로그인</a>
-				<a class="mypage btn-secondary" href="${path}/member/myPage">마이페이지</a>
+				<c:if test="${loginMember == null}">
+					<a class="enroll btn-secondary" href="${path}/enroll">회원가입</a>
+					<a class="login btn-secondary" href="${path}/login">로그인</a>
+					<a class="mypage btn-secondary" href="${path}/member/myPage">마이페이지</a>
+				</c:if>
+				<c:if test="${loginMember != null}">
+					<a class="login btn-secondary" href="">로그아웃</a>
+					<c:choose>
+						<c:when test="${loginMember.userRole == 'ROLE_ADMIN'}">
+							<a class="mypage btn-secondary" href="">관리자페이지</a>
+						</c:when>
+						<c:when test="${loginMember.userRole == 'ROLE_USER'}">
+							<a class="mypage btn-secondary" href="${path}/member/myPage">마이페이지</a>
+						</c:when>
+					</c:choose>
+				</c:if>
         </div>
         <div id="topmenu">
 	          <div class="list list01">

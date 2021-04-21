@@ -20,7 +20,7 @@
 	<select id="selectReviewList" parameterType="string" resultMap="reviewResultMap">
 		SELECT *
 		FROM REVIEW
-		WHERE MT20ID = #{mt20id}
+		WHERE MT20ID = #{mt20id} AND STATUS = 'Y'
 		ORDER BY REVIEW_DATE
 	</select>
 	
@@ -41,14 +41,22 @@
  		)
   	</insert>
   	
-  	<delete id="delReview" parameterType="int">
-  		DELETE FROM REVIEW WHERE REVIEW_ID = #{no}
-  	</delete>
+  	<update id="delReview" parameterType="int">
+  		UPDATE REVIEW 
+  		SET STATUS = 'N' 
+  		WHERE REVIEW_ID = #{no}
+  	</update>
   	
   	<select id="findUserNick" parameterType="int" resultMap="reviewResultMap">
   		SELECT *
   		FROM REVIEW  
   		WHERE REVIEW_ID = #{no}
   	</select>
+  	
+  	<update id="updateReview" parameterType="ShowReview">
+  		UPDATE REVIEW
+  		SET REVIEW_CONTENT = #{reviewContent} , REVIEW_RATING = #{reviewRating}
+  		WHERE REVIEW_ID = #{reviewID}
+  	</update>
 	
 </mapper>

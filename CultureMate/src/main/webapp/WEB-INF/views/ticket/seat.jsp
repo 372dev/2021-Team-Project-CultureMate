@@ -159,6 +159,11 @@
     </div>
 
     <script>
+        var price = opener.document.getElementById("form_pcseguidance").value;
+        var seat_count = document.getElementById('seat_count');
+        var seat_price = document.getElementById('seat_price');
+        var seat_num = document.getElementById('seat_num');
+
         // 좌석 클릭 이벤트
         const container = document.querySelector(".seat_box");
 
@@ -172,10 +177,6 @@
         });
 
         // 좌석번호, 가격, 개수 구하기
-        var price = opener.document.getElementById("form_pcseguidance").value;
-        var seat_count = document.getElementById('seat_count');
-        var seat_price = document.getElementById('seat_price');
-        var seat_num = document.getElementById('seat_num');
 
         container.addEventListener("click", (e) => {
             if(

@@ -167,6 +167,7 @@ ul, ol, li, dl, dt, dd {
 
 .bxo_vcb {
     margin-top: 35px;
+    overflow: auto;
 }
 
 #plcMap{
@@ -185,6 +186,7 @@ ul, ol, li, dl, dt, dd {
 
 .pt th{
 	border: solid 1px;
+	min-width: 50px;
 }
 
 .pt td{
@@ -269,6 +271,7 @@ table#tbl-comment {
   border-collapse: collapse;
   clear: both;
   width: 100%;
+  border-top: solid 3px; 
 }
 
 table#tbl-comment tr td {
@@ -289,6 +292,9 @@ table#tbl-comment sub.comment-date {
 
 #star a{ text-decoration: none; color: gray; } #star a.on{ color: red; }
 
+#ustar a{ text-decoration: none; color: gray; } #ustar a.on{ color: red; }
+
+
 a#btn-insert {
     margin-bottom: 30px;
     /* top: -10px; */
@@ -297,6 +303,10 @@ a#btn-insert {
 .disable { background-color: gray;  }
 
 #deletereply{
+	float: right;
+}
+
+#updatereply{
 	float: right;
 }
 
@@ -376,6 +386,7 @@ text-align: center;
 	margin-left: 50px;
 }
 
+
 </style>
 			<section>
 			<c:set var="show" value="${result.get(0)}"></c:set>
@@ -430,7 +441,6 @@ text-align: center;
 				<div class="rn-product-area3"><!--공연시간안내, 배송정보-->
 					<dl>
 						<br>
-						
 						<dt>가격</dt>
 						<c:if test="${pcseguidancesize != 1}">
 							<c:if test="${loginMember.userId == null || loginMember.rank == '친구'}">
@@ -451,7 +461,21 @@ text-align: center;
 						<c:if test="${show.prfcast.length() == 1}">
 						<dd><c:out value="정보가 없습니다."/> </dd>
 						</c:if>
+						
 						<br>
+						<dt>제작사</dt>
+						<dd><c:out value="${show.entrpsnm}"/></dd> 
+						<c:if test="${show.entrpsnm.length() == 1}">
+						<dd><c:out value="정보가 없습니다."/></dd> 
+						</c:if>
+						
+						<br>
+						<dt>공연상태</dt>
+						<dd><c:out value="${show.prfstate}"/></dd> 
+						<c:if test="${show.prfstate.length() == 1}">
+						<dd><c:out value="정보가 없습니다."/></dd> 
+						</c:if>
+						
 					</dl>
 				</div>
 			</div>
@@ -496,14 +520,17 @@ text-align: center;
             <div class="detailArea">
             		<c:out value="${show.sty}"/>
             		<br>
-					<c:forEach var="i" begin="0" end="${max}">
-					<img alt="" src="${show.styurls.styurl[i]}"><br>
+					<c:forEach var="i" begin="1" end="${max}">
+					<img alt="" src="${show.styurls.styurl[i-1]}" style="max-width: 100%"><br>
 					</c:forEach>
 			</div>
 		</div>
 
 		<!--공연장 정보-->
         <div class="bxo_vcb" style="display: none">
+        	<div>
+        		<h3 style="text-align: center;"><c:out value="${show.fcltynm}"></c:out></h3>
+        	</div>
 			<div class="tib">
 				<h4 class="nb_tit1" >
 				공연장 정보
@@ -539,10 +566,16 @@ text-align: center;
           	<c:out value="${place.get(0).adres}"/>
           </td>
         </tr>
+        <tr>
+          <th>연락처</th>
+          <td>
+          	<c:out value="${place.get(0).telno}"/>
+          </td>
+        </tr>
           <tr>
           <th>홈페이지</th>
           <td>
-			<c:out value="${place.get(0).relateurl}"/>
+          	<a href="${place.get(0).relateurl}"><c:out value="${place.get(0).relateurl}"/></a>
           </td>
         </tr>
    		</table>
@@ -556,7 +589,7 @@ text-align: center;
 		
 		<div class="bxo_vcb" style="display: none">
 			<div class="tib">
-				<h4 class="nb_tit1">관람 후기</h4>
+				<h4 class="nb_tit1" id="showreview">관람 후기</h4>
 			</div>
 			<div id="comment-container">
 				<div> 게시판 운영규정에 맞지 않는 글은 사전 통보없이 삭제될 수 있습니다.  </div>
@@ -568,7 +601,7 @@ text-align: center;
 					<a id=star1 value=4>★</a> 
 					<a id=star1 value=5>★</a> 
 					</p>
-					<textarea name="reviewContent" cols="100" rows="4" onfocus="" id="reviewContent"></textarea>
+					<textarea name="reviewContent" cols="100" rows="4" onfocus="" id="reviewContent" style="white-space: pre;"></textarea>
 					<input type="hidden" id="mt20id" name="mt20id" value="${result.get(0).mt20id}">
 					<c:if test="${ !empty loginMember}">
 					<input type="hidden" id="id" name="id" value="${loginMember.id}">
@@ -578,43 +611,66 @@ text-align: center;
 					</div>
 					</c:if>
 					 
-					 
 					 <c:choose>
 					 	<c:when test="${!empty loginMember}">
-					 	<a href="" id="btn-insert" onClick='fn_comment()' class="btn pull-right btn-success ">등록</a>
+					 	<a href="#" id="btn-insert" onClick='fn_comment()' class="btn pull-right btn-success ">등록</a>
 					 	</c:when>
 					 	<c:otherwise>
-					 	<a  id="btn-insert"  class="btn pull-right btn-success disable ">등록</a>
+					 	<a  id="btn-insert"  onClick='fn_comment1()' class="btn pull-right disable ">등록</a>
 					 	</c:otherwise>
 					 </c:choose>
 					
 				</form>
 			</div>
 			<br>
-			<table id="tbl-comment">
-			<!-- for문을 사용하여 댓글수만큼 출럭 가능하게 구현하기 -->
-			</table>
-			
-			<table id="tbl-comment">
-					<c:forEach var="review1"  items="${review}">
-					<tr class='level1'>
-                    <td><sub class="comment-writer">${review1.userNick} |</sub>
-                     <sub class="comment-date">${review1.reviewDate} | </sub> 
-                     <c:forEach var ="j" begin="1" end="${review1.reviewRating}">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-					</svg>
-					</c:forEach>
-                     <c:if test="${loginMember.userNick == review1.userNick }">
-                     <a id='deletereply' href='' onclick="del(${review1.reviewID})">삭제</a>
-                     </c:if>
-                     <br><br>${review1.reviewContent}<br><br></td></tr>
-                     </c:forEach>
-			</table>
 			
 			<div>
-			
+			<c:if test="${replylength < 0}">
+				<h5>등록된 댓글이 없습니다.</h5>
+			 </c:if>
 			</div>
+			
+			<div id="commentList">
+       		
+       		</div>
+			
 		</div>
+		
+		<!-- 댓글 수정 모달창 -->
+			<c:forEach var="review2"  items="${review}">
+				<div class="modal fade" id="myModal${review2.reviewID}" role="dialog">
+			    <div class="modal-dialog">
+			      <!-- Modal content-->
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <h4 class="modal-title">댓글 수정 <c:out value="${review2.reviewID}"/></h4>
+			        </div>
+			        <div class="modal-body">
+			        별점수정
+			        <P id="ustar"> 
+					<a id=star1 value=1>★</a> 
+					<a id=star1 value=2>★</a> 
+					<a id=star1 value=3>★</a> 
+					<a id=star1 value=4>★</a> 
+					<a id=star1 value=5>★</a> 
+					</p>
+			        <input type="hidden" id="rname" value="reviewupdate${review2.reviewID}">
+			        <form  method="post" id="reviewupdate${review2.reviewID}">
+			           <input type="hidden" name="reviewID" id="reviewID" value="${review2.reviewID}"/>
+			          <textarea name="reviewContent" cols="57" rows="4" onfocus="" id="reviewContent"><c:out value="${review2.reviewContent}"/></textarea>
+			          <input type="hidden" id="reviewRating1" name="reviewRating1" value="">
+			        <div class="modal-footer">
+			          <a class="btn btn-default sb" data-dismiss="modal" href="">save </a>
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        </div>
+			         </form>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			</c:forEach>
+
+
 		
 		<div class="bxo_vcb" style="display: none" >
 			<div class="tib">
@@ -794,19 +850,16 @@ text-align: center;
 		          <br><strong id="title">11</strong>
 		          </div>
 		  			 </c:forEach>
-		     
 		       </div>
-		       <div style="text-align: center" id="dot">
-						<span class="dot" onclick="currentSlide(1)"></span> 
-						<span class="dot" onclick="currentSlide(2)"></span> 
-						<span class="dot" onclick="currentSlide(3)"></span>
-						<span class="dot" onclick="currentSlide(4)"></span>
-				</div>
 		</div>
 		
 		
 		</section>
 			
+<script type="text/javascript">
+$('#reviewContent').val().replace(/\n/g, "<br>");
+</script>
+
 
 <!-- 달력 (datapciker) -->
 <script type="text/javascript">
@@ -929,24 +982,34 @@ $('#star a').click(function(){
 	$(this).addClass("on").prevAll("a").addClass("on"); 
 	console.log($(this).attr("value"));
 	
+	var snum = $(this).attr("value");
+	
 	$.ajax({
-		type: "post",
-		url: "<c:url value='/review/star.do'/>",
-		data: {"num" : $(this).attr("value")},
-		success: function(result) {
-		  html = '<input type="hidden" id="reviewRating" name="reviewRating" value="' + result + '  ">';
-		  $("#hstar").html(html);
-		  console.log("히든성공");
-		},
-		error: function(e) {
-			console.log(e);
-		}
+		 type:'POST',
+	     url : "<c:url value='/review/star.do'/>",
+	     data: {"num" : $(this).attr("value")},
+	     success: function(data) {
+				html = '<input type="hidden" id="reviewRating" name="reviewRating" value="' + data + '">';
+				 $("#hstar").html(html);
+			}
+	        
 	});
+	
 });
 	
+// 댓글 평점 수정 
+$('#ustar a').click(function(){ 
+	$(this).parent().children("a").removeClass("on"); 
+	$(this).addClass("on").prevAll("a").addClass("on"); 
+	console.log($(this).attr("value"));
+	
+	document.getElementById('reviewRating1').value = $(this).attr("value");
+	
+});
 //댓글 작성
 function fn_comment(){
     console.log("에이작스 호출");
+   
     $.ajax({
         type:'POST',
         url : "<c:url value='/review/add.do'/>",
@@ -955,6 +1018,8 @@ function fn_comment(){
         	console.log("불러오기 성공!!");
             if(data == ("success"))
             {
+            	getCommentList();
+            	$("#reviewContent").val("");
             	console.log("불러오기 성공!!");
             }
             
@@ -963,9 +1028,72 @@ function fn_comment(){
         	console.log("불러오기실패!!");
        }
         
-    });
+    }); 	
+   
 }
 
+// 처음 댓글 부르기
+$(function(){
+    
+    getCommentList();
+    
+});
+
+// 댓글 불러오기 
+function getCommentList(){
+	
+	$.ajax({
+		type:'GET',
+        url : "<c:url value='/review/list.do'/>",
+        data:$("#reply_form").serialize(),
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+        success : function(data){
+        	var html = "";
+            var cCnt = data.length;
+            var logincheck = document.getElementById("form_id").value;
+            console.log("아이디뭐임?" + logincheck);
+          
+            html += '<table id="tbl-comment">';
+            for(i=0; i<data.length; i++){
+            	if(logincheck == data[i].userId){
+            		html += "<tr class='level1'>";
+            		html += '<td><sub class="comment-writer">' +data[i].userNick+ ' | </sub>'; 
+            		html += '<sub class="comment-date">' + data[i].reviewDate + ' | </sub>';
+	               
+            		for(j = 0; j < data[i].reviewRating; j++){
+             		html += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>';
+    					}
+            		
+            		html += '<a id="updatereply" data-toggle="modal" href="#myModal' +data[i].reviewID+ '">수정</a>';
+             		html += '<a id="deletereply" href="#" onclick="del(' + data[i].reviewID +')">삭제/</a>';
+	            	html += '<br><br>' +data[i].reviewContent+ '<br><br></td></tr>';
+            	  }
+            	 else{
+            		html += "<tr class='level1'>";
+             		html += '<td><sub class="comment-writer">' +data[i].userNick+ ' | </sub>'; 
+             		html += '<sub class="comment-date">' + data[i].reviewDate + ' | </sub>';
+             		for(j = 0; j < data[i].reviewRating; j++){
+                 	html += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>';
+        			}
+ 	            	html += '<br><br>' +data[i].reviewContent+ '<br><br></td></tr>';
+            	  }
+            }
+            html += "</table>";
+            $("#commentList").html(html);
+        }
+	});
+	
+	
+}
+
+function fn_comment1(){
+	var logincheck = document.getElementById("form_userId").value;
+
+	if(!logincheck) {
+		alert("로그인 후 이용 가능합니다.");
+		location.href="${path}/login";
+	} 
+}
 
 //댓글삭제
 function del(no) {  
@@ -974,9 +1102,44 @@ function del(no) {
   $.ajax({
       type : 'GET',
       url : "<c:url value='/review/delete.do?no=" + no + "'/>",
+    success : function (data) {
+    	getCommentList();
+	}
   });
-
 }
+
+// 댓글 수정
+
+$(document).on("click", ".sb", function(){
+	
+	var va1 = $(this).parent().parent().children('#reviewContent').val();
+	var va2 = $(this).parent().parent().children('#reviewID').val();
+	var va3 = document.getElementById("reviewRating1").value;
+	
+	if(!va3){
+		alert('별점을 다시 입력해주세요');
+	}
+	console.log("!!" + va1 +"@@" + va2 + "##" + va3);
+	 
+	var data = {
+			reviewID :  va2,
+			reviewContent :  va1,
+			reviewRating : va3
+		    };  
+	 
+	
+	$.ajax({
+	      type : 'POST',
+	      url : "<c:url value='/review/update.do'/>",
+	      data : data,
+	      success : function(data){
+	        	console.log("업데이트 성공!!");
+	    	  	location.reload();
+	        }
+	  });
+	
+	});
+	
 </script>
 
 	
@@ -1002,7 +1165,7 @@ function del(no) {
 
 		// 마커 위에 표시할 인포윈도우를 생성한다
 		var infowindow = new kakao.maps.InfoWindow({
-			content : '<div style="padding:5px;"><c:out value="${result.get(0).fcltynm}"/>&nbsp</div>' // 인포윈도우에 표시할 내용
+			content : '<div style="padding:5px; width:max-content;"><c:out value="${result.get(0).fcltynm}"/>&nbsp</div>' // 인포윈도우에 표시할 내용
 		});
 
 		// 인포윈도우를 지도에 표시한다
@@ -1048,6 +1211,11 @@ $.each(tabMenu, function(index, value) {
 	});
 	
 });
+
+
+// 줄 바꿈 처리 
+
+
 
 $("#plcMap").hide();
 
