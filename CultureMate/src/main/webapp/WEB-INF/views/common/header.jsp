@@ -52,19 +52,18 @@
 	              <a href="${ path }/show/boList?genre=classic">클래식</a>
 	            </div>
 	          </div>
-          <div class="list list02">
-            <a href="">메이트</a>
-            <div class="list02_under under">
-              <a href="${path}/mate/list">같이가요</a>
-              <a href="${path}/share/list">티켓나눔</a>
-            </div>
-          </div>
-          <div class="list list03">
-            <a href="">이벤트</a>
-          </div>
-          <div class="list list04">
-            <a href="${path}/help/csmain">고객센터</a>
-          </div>
+	          <div class="list list02">
+	            <a href="${path}/mate/list">메이트</a>
+	          </div>
+			  <div class="list list03">
+				  <a href="${path}/share/list">티켓나눔</a>
+			  </div>
+	          <div class="list list04">
+	            <a href="">이벤트</a>
+	          </div>
+	          <div class="list list05">
+	            <a href="${path}/help/csmain">고객센터</a>
+	          </div>
         </div>
       </div>
       <div class="line"></div>
