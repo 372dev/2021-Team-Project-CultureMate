@@ -42,5 +42,13 @@ public class ShowReviewServiceImpl implements ShowReviewService {
 		return showDao.findUserNick(no);
 	}
 
+	@Override
+	public int updateReview(ShowReview review) {
+		// TODO Auto-generated method stub
+	
+		return showDao.updateReview(review);
+		
+	}
+
 	
 }

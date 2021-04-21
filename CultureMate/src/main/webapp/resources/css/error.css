@@ -1,0 +1,34 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+.colBorder {
+	border-bottom: solid 3px DARKORANGE;
+	margin-bottom: 20px;
+}
+
+.gridContainer {
+	width: 90%;
+}
+
+.errorCode {
+	font-family: 'Orbitron', sans-serif;
+	font-size: 5rem;
+	color: DARKORANGE;
+}
+
+.detailMessageDiv {
+	padding: 20px;
+}
+
+.errorFirstMessage {
+	font-size: 1.5rem;
+}
+
+.errorDetailMessage {
+	font-size: 1.3rem;
+}
+
+.redirectionToCS {
+	font-size: 2.5rem;
+	color: DARKORANGE;
+}

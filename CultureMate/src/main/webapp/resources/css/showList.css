@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+/* font *********************************************************/
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+.titleFont {
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+.btnFont {
+	font-family: 'Jua', sans-serif;
+}
+
+/* title *********************************************************/
+.showPageTitle {
+	text-align: center;
+}
+
+/* Search *********************************************************/
+
+.showSearchOption {
+	width: 50%;
+	height: 150px;
+	margin: 10px auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.showTitleSearch {
+	border-radius: 5px;
+	width: 250px;
+	height: 40px;
+}
+
+.searchTitleDiv {
+	display: flex;
+	justify-content: center;
+}
+
+.searchTitleDiv > * {
+	margin: 0 5px;
+}
+
+.searchOptionContainer {
+	margin: 10px 0px 20px 0px;
+}

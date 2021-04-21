@@ -5,8 +5,9 @@
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-	<link rel="stylesheet" href="${ path }/resources/css/showListStyle.css?v=1" />
-	<h1>${ cate } 주간 박스 오피스</h1>
+	<link rel="stylesheet" href="${ path }/resources/css/boList.css" />
+	<link rel="stylesheet" href="${ path }/resources/css/listStyle.css" />
+	<h1 class="titleFont">${ cate } 주간 박스 오피스</h1>
 	<div id="boListDiv" class="ListDiv">
 		<c:if test="${ boList == null }">
 			<p>조회된 게시물이 없습니다.</p>
@@ -27,12 +28,27 @@
 		</c:if>
 	</div>
 	<div>
-		<button id="reLocToShowList">
+		<button id="reLocToShowList" class="btn btn-secondary btn-lg btn-block btnFont">
 			더 보기(상세 검색)
 		</button>
 	</div>
 	
 	<script>
-		var genre = null;
+		var pageGenre = '${ cate }';
+		$('#reLocToShowList').on('click', function() {
+			if(pageGenre == '뮤지컬') {
+				reloc('musical');
+			} else if (pageGenre == '연극') {
+				reloc('play');
+			} else if (pageGenre == '클래식') {
+				reloc('classic');
+			}
+		});
+		
+		function reloc(genre) {
+			if(genre != null) {
+				window.location.replace("${ path }/show/showList?genre=" + genre);
+			}
+		}
 	</script>	
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

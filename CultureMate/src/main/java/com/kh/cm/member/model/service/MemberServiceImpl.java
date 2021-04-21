@@ -34,6 +34,8 @@ public class MemberServiceImpl implements MemberService {
 	public Member login(String userId, String password) {
 		Member loginMember = memberDao.selectMember(userId);
 		
+		System.out.println("Impl loginMember : " + loginMember);
+		
 		return loginMember != null && passwordEncoder.matches(password, loginMember.getPassword()) ? loginMember : null;
 	}
 

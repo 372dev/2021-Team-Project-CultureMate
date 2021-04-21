@@ -91,7 +91,7 @@
 			</div>
 		</div>
 		<a class="btn01 btn btn-secondary" href="${path}/">메인으로</a>
-		<a class="btn02 btn btn-secondary" href="${ path }/myPage/ticket">예매내역 확인</a>
+		<a class="btn02 btn btn-secondary" href="${ path }/member/ticket">예매내역 확인</a>
 	</div>
 </div>
 

@@ -18,4 +18,6 @@ public interface ShowReviewDao {
 
 	List<ShowReview> findUserNick(int no);
 
+	int updateReview(ShowReview review);
+
 }

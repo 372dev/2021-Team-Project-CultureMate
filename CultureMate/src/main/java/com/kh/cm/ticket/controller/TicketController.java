@@ -1,21 +1,19 @@
 package com.kh.cm.ticket.controller;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.ticket.model.service.TicketService;
 import com.kh.cm.ticket.model.vo.Ticket;
@@ -65,10 +63,15 @@ public class TicketController {
 	
 	@RequestMapping(value = "ticket/ticketing/success",  method = {RequestMethod.POST})
 	public ModelAndView success(HttpServletRequest request, ModelAndView model, Ticket ticket, 
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember, @ModelAttribute Member member, 
 			@RequestParam("mt20id") String mt20id, @RequestParam("prfnm") String prfnm, 
 			@RequestParam("ticket_date") String ticket_date, @RequestParam("id") int id, 
 			@RequestParam("user_id") String user_id, @RequestParam("ticket_qty") int ticket_qty, 
 			@RequestParam("pcseguidance") String pcseguidance, @RequestParam("ticket_seat") List<String> ticket_seat) {
+		
+		// 여기까지 지우기
+		System.out.println("controller_success loginMember : " + loginMember);
+		System.out.println("controller_success member : " + member);
 		
 		ticket.setMt20id(mt20id);
 		ticket.setPrfnm(prfnm);
@@ -81,7 +84,24 @@ public class TicketController {
 		
 		int result = ticketservice.saveTicket(ticket);
 		
+		
 		if(result > 0) {
+			int count = ticketservice.countTicket(id);
+			
+			System.out.println("ticket : " + ticket);
+			System.out.println("count : " + count);
+			
+			if(count > 4 && count < 10) {
+				
+				int updateRank = ticketservice.updateRank02(loginMember.getId());
+				
+			} else if(count > 9) {
+				
+				int updateRank = ticketservice.updateRank03(loginMember.getId());
+			}
+			
+			System.out.println("controller_success_member : " + member);
+			
 			model.setViewName("ticket/success");
 			model.addObject("mt20id", mt20id);
 			model.addObject("prfnm", prfnm);
@@ -91,6 +111,9 @@ public class TicketController {
 			model.addObject("ticket_qty", ticket_qty);
 			model.addObject("pcseguidance", pcseguidance);
 			model.addObject("ticket_seat", ticket_seat);
+			model.addObject("loginMember", ticketservice.findMemberByUserId(loginMember.getUserId()));
+			
+			System.out.println("member : " + member);
 			
 			int ticket_num = ticket.getTicket_num();
 			model.addObject("ticket_num", ticket_num);
@@ -123,18 +146,74 @@ public class TicketController {
 		return model;
 	}
 	
-	@RequestMapping(value = "myPage/ticket", method = {RequestMethod.GET})
-	public ModelAndView mypage_ticket(ModelAndView model) {
+	@RequestMapping(value = "member/ticket", method = {RequestMethod.GET})
+	public ModelAndView mypage_ticket(ModelAndView model, 
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember, 
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page, 
+			@RequestParam(value = "listLimit", required = false, defaultValue = "10") int listLimit) {
 		
-		List<Ticket> ticket = null;
 		
+		List<Ticket> list = null;
+		int ticketCount = ticketservice.getTicketCount(loginMember.getId());		
+		PageInfo pageInfo = new PageInfo(page, 10, ticketCount, listLimit);
 		
+		System.out.println(ticketCount);
+		
+		list = ticketservice.getTicketList(pageInfo, loginMember.getId());
+		
+		model.addObject("list", list);
+		model.addObject("pageInfo", pageInfo);
 		model.setViewName("ticket/list");
+		
+		System.out.println("list : " + list);
 		
 		return model;
 	}
 	
-	
+	@RequestMapping(value = "member/ticket/cancel", method = {RequestMethod.POST})
+	public ModelAndView cancel(ModelAndView model, @RequestParam("ticket_num") int ticket_num, 
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember, @ModelAttribute Member member) {
+		
+		int result = ticketservice.deleteTicket(ticket_num);
+		
+		System.out.println(result);
+		
+		if(result > 0) {
+			
+			int count = ticketservice.countTicket(loginMember.getId());
+			
+			System.out.println("count : " + count);
+			
+			System.out.println("cancel member : " + member);
+			
+			if(count > 4 && count < 10) {
+				
+				int updateRank = ticketservice.updateRank02(loginMember.getId());
+				
+			} else if(count > 9) {
+				
+				int updateRank = ticketservice.updateRank03(loginMember.getId());
+			} else {
+				
+				int updateRank = ticketservice.updateRankDefault(loginMember.getId());
+			}
+			
+			model.addObject("loginMember", ticketservice.findMemberByUserId(loginMember.getUserId()));
+			model.addObject("msg", "예매 취소를 완료했습니다.");
+			model.addObject("location", "/member/ticket");
+			model.setViewName("common/msg");
+			
+		} else {
+			model.addObject("msg", "예매 취소를 실패했습니다.");
+			model.addObject("location", "/member/ticket");
+			model.setViewName("common/msg");
+			
+		}
+		
+		System.out.println("cancel loginMember : " + loginMember);
+		
+		return model;
+	}
 	
 	
 	
