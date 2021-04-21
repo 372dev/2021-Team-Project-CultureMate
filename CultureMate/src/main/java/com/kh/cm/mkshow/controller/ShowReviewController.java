@@ -44,7 +44,9 @@ public class ShowReviewController {
 			HttpServletRequest request) {
 		
 		System.out.println("컨트롤러 호출");
-
+		log.info("prfnm값 " + review.getPrfnm());
+		
+		
 		service.saveReview(review);
 		int reviewnum = service.countReview(review.getMt20id());
         
@@ -122,6 +124,7 @@ public class ShowReviewController {
 		    		HttpServletRequest request) {
 		    	
 		        System.out.println("수정 함수 실행" + review.getReviewID());
+		        log.info("수정 날짜" + review.getReviewDate()) ;
 		        service.updateReview(review);
 		      
 		        model.setViewName("home");
@@ -129,12 +132,5 @@ public class ShowReviewController {
 		        return model;
 		    }
 	 		
-	 		@RequestMapping(value = "/reco.do", method = {RequestMethod.POST})
-	 		@ResponseBody
-	 		public String reco(int no, int reco, HttpServletRequest request) {
 	 		
-	 			//service.updatereco();
-	 			
-	 		
-	 		return "";}
 }

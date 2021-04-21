@@ -34,7 +34,6 @@
   			#{mt20id},
   			#{reviewContent},
   			SYSDATE,
-  			DEFAULT,
   			#{reviewRating},
   			DEFAULT,
   			#{id},

@@ -22,7 +22,20 @@
 <script src="${path}/js/slick.js"></script>
 <script src="${path}/js/index.js"></script>
 
+
+
+
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+.titleFont {
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+.btnFont {
+	font-family: 'Jua', sans-serif;
+}
+
 .dot {
 	cursor: pointer;
 	height: 13px;
@@ -99,6 +112,7 @@
 .title{
 	border-bottom: solid 1px;
 	width: 1181px;
+	font-family: DO HYEON;
 }
 
 .bls_tbbk {
@@ -188,10 +202,12 @@ ul, ol, li, dl, dt, dd {
 .pt th{
 	border: solid 1px;
 	min-width: 50px;
+	padding: 10px;
 }
 
 .pt td{
 border: solid 1px;
+padding: 10px;
 }
 
 
@@ -199,12 +215,12 @@ border: solid 1px;
 
 .rn{
 	position: absolute;
-    width: 238px;
+    width: 238px;padding: 10px;
     padding-left: 1px;
     font-size: 30px;
     font-weight: bold;
     color: #333;
-    font-family: 'Noto Sans KR','NanumBarunGothic','맑은 고딕','Malgun Gothic',sans-serif;
+    font-family: 'Noto Sans KR',sans-serif;
 }
 
 .rn-1{
@@ -255,7 +271,6 @@ div#comment-container {
   height: 200px;
   background: #e6f0b6;
   padding: 20px;
-  border: solid 1px; 
 }
 
 div#comment-container button#btn-insert {
@@ -279,6 +294,7 @@ table#tbl-comment tr td {
   border-bottom: 1px solid;
   text-align: left;
   width: 1000px;
+  padding-top: 15px;
 }
 
 table#tbl-comment sub.comment-writer {
@@ -297,8 +313,13 @@ table#tbl-comment sub.comment-date {
 
 
 a#btn-insert {
-    margin-bottom: 30px;
-    /* top: -10px; */
+   margin-bottom: 30px;
+    width: 100px;
+    height: 97.55px;
+    line-height: 97.55px;
+    font-size: 20px;
+    background-color: #9db81f;
+    color: white;
 }
 
 .disable { background-color: gray;  }
@@ -322,9 +343,11 @@ div#datepicker {
  margin-top: 50px;
 }
 
-#today_text{
-text-align: center;
-
+#today_text {
+    text-align: center;
+    border-top: solid;
+    padding-top: 50px;
+    font-family: 'Do Hyeon';
 }
 
 .text_today {
@@ -383,8 +406,10 @@ text-align: center;
 
 #ticketing{
 	width: 220px;
-	margin-top: 20px;
-	margin-left: 50px;
+    margin-top: 20px;
+    margin-left: 50px;
+    background-color: #9db81f;
+    border: solid 0px;
 }
 
 .rn-0904-tt1 {
@@ -401,12 +426,46 @@ text-align: center;
     padding: 1.5px;
 }
 
+span#showreview {
+    font-size: 30px;
+    font-weight: 600;
+    border-bottom: solid;
+}
+
+.tib {
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+td#replytd {
+    padding: 5px;
+}
+
+textarea#reviewContent {
+    float: left;
+}
+
+
+#noreply{
+	text-align: center;
+	margin-top: 30px;
+}
+
+h3 {
+    font-family: 'Do Hyeon';
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #FF8C00;
+    border: solid 0px;
+}
 </style>
 			<section>
 			<c:set var="show" value="${result.get(0)}"></c:set>
 			
 			<div class="title">
-				<h3>[<c:out value="${show.genrenm}"/>]<c:out value="${show.prfnm}"/></h3>
+				<h3>[<c:out value="${show.genrenm}"/>] <c:out value="${show.prfnm}"/></h3>
 				<br>
 			</div>	
 			<div class="rn-03"><!--상단-->
@@ -562,7 +621,7 @@ text-align: center;
 		</td>
         </tr>
         <tr>
-          <th>최석수</th>
+          <th>좌석수</th>
           <td>
           	<c:out value="${place.get(0).seatscale}"/> 
           </td>
@@ -602,7 +661,7 @@ text-align: center;
 		
 		<div class="bxo_vcb" style="display: none">
 			<div class="tib">
-				<h4 class="nb_tit1" id="showreview">관람 후기</h4>
+				<span class="nb_tit1" id="showreview">관람 후기</span>
 			</div>
 			<div id="comment-container">
 				<div> 게시판 운영규정에 맞지 않는 글은 사전 통보없이 삭제될 수 있습니다.  </div>
@@ -615,7 +674,15 @@ text-align: center;
 					<a id=star1 value=5>★</a> 
 					별점을 선택해 주세요.
 					</p>
-					<textarea name="reviewContent" cols="100" rows="4" onfocus="" id="reviewContent" style="white-space: pre;"></textarea>
+					<textarea name="reviewContent" cols="130" rows="4" onfocus="" id="reviewContent" style="white-space: pre;"></textarea>
+					<c:choose>
+					 	<c:when test="${!empty loginMember}">
+					 	<a href="#" id="btn-insert" onClick='fn_comment()' class="btn pull-right ">등록</a>
+					 	</c:when>
+					 	<c:otherwise>
+					 	<a  id="btn-insert"  onClick='fn_comment1()' class="btn pull-right disable ">등록</a>
+					 	</c:otherwise>
+					 </c:choose>
 					<input type="hidden" id="mt20id" name="mt20id" value="${result.get(0).mt20id}">
 					<input type="hidden" id="prfnm" name="prfnm" value="${result.get(0).prfnm}">
 					<c:if test="${ !empty loginMember}">
@@ -625,60 +692,22 @@ text-align: center;
 					
 					</div>
 					</c:if>
-					 
-					 <c:choose>
-					 	<c:when test="${!empty loginMember}">
-					 	<a href="#" id="btn-insert" onClick='fn_comment()' class="btn pull-right btn-success ">등록</a>
-					 	</c:when>
-					 	<c:otherwise>
-					 	<a  id="btn-insert"  onClick='fn_comment1()' class="btn pull-right disable ">등록</a>
-					 	</c:otherwise>
-					 </c:choose>
-					
 				</form>
 			</div>
 			<br>
 			
+			<div id="editmodal">
+       		
+       		</div>
+       		
+			
 			<div id="commentList">
        		
        		</div>
+       		
 			
 		</div>
 		
-		<!-- 댓글 수정 모달창 -->
-			<c:forEach var="review2"  items="${review}">
-				<div class="modal fade" id="myModal${review2.reviewID}" role="dialog">
-			    <div class="modal-dialog">
-			      <!-- Modal content-->
-			      <div class="modal-content">
-			        <div class="modal-header">
-			          <h4 class="modal-title">댓글 수정 <c:out value="${review2.reviewID}"/></h4>
-			        </div>
-			        <div class="modal-body">
-			        별점수정
-			        <P id="ustar"> 
-					<a id=star1 value=1>★</a> 
-					<a id=star1 value=2>★</a> 
-					<a id=star1 value=3>★</a> 
-					<a id=star1 value=4>★</a> 
-					<a id=star1 value=5>★</a> 
-					</p>
-			        <input type="hidden" id="rname" value="reviewupdate${review2.reviewID}">
-			        <form  method="post" id="reviewupdate${review2.reviewID}">
-			           <input type="hidden" name="reviewID" id="reviewID" value="${review2.reviewID}"/>
-			          <textarea name="reviewContent" cols="57" rows="4" onfocus="" id="reviewContent"><c:out value="${review2.reviewContent}"/></textarea>
-			          <input type="hidden" id="reviewRating1" name="reviewRating1" value="">
-			        <div class="modal-footer">
-			          <a class="btn btn-default sb" data-dismiss="modal" href="">save </a>
-			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        </div>
-			         </form>
-			        </div>
-			      </div>
-			    </div>
-			  </div>
-			</c:forEach>
-
 
 		
 		<div class="bxo_vcb" style="display: none" >
@@ -809,7 +838,7 @@ text-align: center;
 			<hr>
 		<!-- 환불  -->
 		<div class="rn">
-			취소수수료
+			환불
 			</div>
 			<div class="rn-1">
 			예매수수료는 예매 당일 밤 12시 이전까지 환불되며, 그 이후 기간에는 환불되지 않습니다.<br>
@@ -1005,9 +1034,9 @@ $('#star a').click(function(){
 	});
 	
 });
-	
-// 댓글 평점 수정 
-$('#ustar a').click(function(){ 
+
+//댓글 평점 수정 
+$(document).on('click','#ustar a',function(){ 
 	$(this).parent().children("a").removeClass("on"); 
 	$(this).addClass("on").prevAll("a").addClass("on"); 
 	console.log($(this).attr("value"));
@@ -1015,6 +1044,8 @@ $('#ustar a').click(function(){
 	document.getElementById('reviewRating1').value = $(this).attr("value");
 	
 });
+	
+
 //댓글 작성
 function fn_comment(){
     console.log("에이작스 호출");
@@ -1060,11 +1091,22 @@ function getCommentList(){
         contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
         success : function(data){
         	var html = "";
+        	var html2 = "";
             var cCnt = data.length;
             var logincheck = document.getElementById("form_id").value;
           
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = ("0" + (1 + date.getMonth())).slice(-2);
+            var day = ("0" + date.getDate()).slice(-2);
+            
+            var rtoday = year + "/" + month + "/" + day;
+            console.log("수정될 날짜" + rtoday);            
+            
             var html1 = data[0].reviewsize;
             $("#stats1").html(html1);
+          
+            console.log("댓글길이값 : " + cCnt);
             
             if(html1 > 0){
             
@@ -1072,7 +1114,7 @@ function getCommentList(){
             for(i=0; i<data.length; i++){
             	if(logincheck == data[i].userId){
             		html += "<tr class='level1'>";
-            		html += '<td>';
+            		html += "<td id='replytd'>";
             		
             		if(data[i].reserve == 'Y'){
             			html += '<sub class="rn-0904-tt1">예매자</sub>'; 
@@ -1083,16 +1125,16 @@ function getCommentList(){
             		html += '<sub class="comment-date">' + data[i].reviewDate + ' | </sub>';
 	               
             		for(j = 0; j < data[i].reviewRating; j++){
-             		html += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>';
+             		html += '<img alt="" src="http://tkfile.yes24.com/imgNew/common/rn-ico-tt4-1.png">'
     					}
             		
-            		html += '<a id="updatereply" data-toggle="modal" href="#myModal' +data[i].reviewID+ '">수정</a>';
-             		html += '<a id="deletereply" href="#" onclick="del(' + data[i].reviewID +')">삭제/</a>';
+             		html += '<a id="deletereply" href="#" onclick="del(' + data[i].reviewID +')" ><img alt="삭제" src="${ path }/resources/images/view/trash-fill.svg"></a>';
+            		html += '<a id="updatereply" data-toggle="modal" href="#myModal' +data[i].reviewID+ '"><img alt="수정" src="${ path }/resources/images/view/pencil-square.svg"></a>';
 	            	html += '<br><br>' +data[i].reviewContent+ '<br><br></td></tr>';
             	  }
             	 else{
             		html += "<tr class='level1'>";
-             		html += '<td>';
+            		html += "<td id='replytd'>";
              		
              		if(data[i].reserve == 'Y'){
             			html += '<sub class="rn-0904-tt1">예매자</sub>'; 
@@ -1107,16 +1149,49 @@ function getCommentList(){
             	  }
             }
             html += "</table>";
+            
+            for(i=0; i<data.length; i++){
+            html2 += '<div class="modal fade" id="myModal' +data[i].reviewID+ '" role="dialog">';
+            html2 += '<div class="modal-dialog">';
+            html2 += '<div class="modal-content">';
+            html2 += '<div class="modal-header">';
+            html2 += '<h4 class="modal-title">댓글 수정'  +data[i].reviewID+ '</h4>';
+            html2 += '</div>';
+            html2 += '<div class="modal-body"> 별점수정';
+            html2 += '<p id="ustar">';
+           	html2 += '<a id=star1 value=1>★</a>';
+           	html2 += '<a id=star1 value=2>★</a>';
+        	html2 += '<a id=star1 value=3>★</a>';
+        	html2 += '<a id=star1 value=4>★</a>';
+        	html2 += '<a id=star1 value=5>★</a>';
+        	html2 += '</p>';
+            html2 += '<input type="hidden" id="rname" value="reviewupdate' +data[i].reviewID+ '">';
+            html2 += '<form  method="post" id="reviewupdate' +data[i].reviewID+ '">';
+            html2 += '<input type="hidden" name="reviewID" id="reviewID" value="' +data[i].reviewID+ '"/>';
+            html2 += '<textarea id="reviewContent" name="reviewContent" cols="57" rows="4" onfocus="" >' +data[i].reviewContent+ '</textarea>';
+            html2 += '<input type="hidden" id="reviewRating1" name="reviewRating1" value="">'
+            html2 += '<input type="hidden" id="reviewDate1" name="reviewDate1" value="' +rtoday+ '">';
+            html2 += '<div class="modal-footer">';
+            html2 += '<a class="btn btn-default sb" data-dismiss="modal" href="#">수정</a>';
+            html2 += '<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>';
+            html2 += '</div></form></div></div></div></div>';
+            
+            }
+           
+            
+            
             }else{
-            	html += "<p>작성된 댓글이 없습니다.</p>";
+            	html += "<p id='noreply'>작성된 댓글이 없습니다.</p>";
             }
             
             $("#commentList").html(html);
+            $("#editmodal").html(html2);
         }
 	});
 	
 	
 }
+
 
 function fn_comment1(){
 	var logincheck = document.getElementById("form_userId").value;
@@ -1129,7 +1204,8 @@ function fn_comment1(){
 
 //댓글삭제
 function del(no) {  
-	
+	var rlt = confirm("삭제하시겠습니까?");
+	if(rlt){
 	console.log("del실행" + no);
   $.ajax({
       type : 'GET',
@@ -1141,15 +1217,20 @@ function del(no) {
     	getCommentList();
 	}
   });
+  	alert("삭제되었습니다.");
+	}else{
+		alert("취소하였습니다.");
+	}
 }
 
 // 댓글 수정
 
-$(document).on("click", ".sb", function(){
+ $(document).on("click", ".sb",function(){
 	
 	var va1 = $(this).parent().parent().children('#reviewContent').val();
 	var va2 = $(this).parent().parent().children('#reviewID').val();
 	var va3 = document.getElementById("reviewRating1").value;
+	var va4 = $(this).parent().parent().children('#reviewDate1').val();
 	
 	if(!va3){
 		alert('별점을 다시 입력해주세요');
@@ -1159,7 +1240,8 @@ $(document).on("click", ".sb", function(){
 	var data = {
 			reviewID :  va2,
 			reviewContent :  va1,
-			reviewRating : va3
+			reviewRating : va3,
+			reviewDate : va4
 		    };  
 	 
 	
@@ -1169,7 +1251,7 @@ $(document).on("click", ".sb", function(){
 	      data : data,
 	      success : function(data){
 	        	console.log("업데이트 성공!!");
-	    	  	location.reload();
+	        	getCommentList();
 	        }
 	  });
 	
