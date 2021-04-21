@@ -24,7 +24,7 @@
 			<label>댓글 그룹 <input style="border-radius:5px;height:25px;width:40px;border: 0.5px solid;" type="text" name="shareReplyId" id="shareReplyId" value="${shareReply.shareReplyId }" readonly="readonly"></label> 
 			<label>작성자 <input style="border-radius:5px;height:25px;width:50px;border: 0.5px solid;" type="text" name="writer" id="writer"   value='${loginMember != null ? loginMember.userNick : "" }'></label>
 		     <br><br>
-		    	<textarea style="border-radius:5px;border: 0.5px solid;" rows="5" cols="30" name="content"></textarea>  <br>
+		    	<textarea style="resize: none;border-radius:5px;border: 0.5px solid;" rows="5" cols="30" name="content"></textarea>  <br>
 		    	<br>
 		    	<button id="reWriteBtn" type="submit" style="border-radius:5px;border:0.5px solid;height:30px;width:80px;font-size:10pt;background-color: #6c757d; color:white;">댓글 등록</button>
 		    	

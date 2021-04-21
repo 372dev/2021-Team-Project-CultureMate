@@ -8,11 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/event")
 public class EventController {
 
-	@RequestMapping(value="/eventList", method = {RequestMethod.GET}) 
+	@RequestMapping(value="/event", method = {RequestMethod.GET}) 
 	public String eventView( ) {
-		return "event/event1";
+		return "event/event";
+	}
+	@RequestMapping(value="/showBegginner", method = {RequestMethod.GET}) 
+	public String eventView1() {
+		return "event/showBegginner";
 	}
 }

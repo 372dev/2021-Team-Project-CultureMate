@@ -117,7 +117,7 @@
 	     </tr>
 		  <tr id="shareUpdate-tr1">
 		       <td colspan="7">
-		       <textarea style="border-radius:5px;" name="shareContent" id="shareContent" cols="80" rows="10">${share.shareContent}</textarea>
+		       <textarea style="resize: none;border-radius:5px;" name="shareContent" id="shareContent" cols="80" rows="10">${share.shareContent}</textarea>
 		       </td>
 		</tr>
 		</table>

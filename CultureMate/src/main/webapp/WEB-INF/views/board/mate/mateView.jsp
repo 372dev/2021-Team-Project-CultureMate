@@ -173,7 +173,7 @@ table#tbl-comment sub.comment-date {
 	    		<form action="${path }/mate/reply/write" method="post" onsubmit="return checkEmpty()">
 	    			<input type="hidden" name="mateId" value="${mate.mateId}">
 	    			<input type="hidden" name="writer" value='${loginMember != null ? loginMember.userNick : "" }'>
-					<textarea style="border-radius:5px;height:70px;" id="content" name="content" cols="55" rows="3"></textarea>
+					<textarea style="border-radius:5px;height:70px;resize: none;" id="content" name="content" cols="55" rows="3"></textarea>
 					<button type="submit" id="btn-insert" onclick="return checkLogin()">등록</button>	    			
 	    		</form>
 	    	</div>

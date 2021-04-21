@@ -158,7 +158,7 @@
 			</tr>
 		   <tr id="mateUpdate-tr1">
 		       <td colspan="7">
-		       <textarea style="border-radius:5px; text-align: left;" name="mateContent" id="mateContent" cols="80" rows="10">${mate.mateContent }</textarea>
+		       <textarea style="resize: none;border-radius:5px; text-align: left;" name="mateContent" id="mateContent" cols="80" rows="10">${mate.mateContent }</textarea>
 		    </td>
 		</tr>
 		</table>

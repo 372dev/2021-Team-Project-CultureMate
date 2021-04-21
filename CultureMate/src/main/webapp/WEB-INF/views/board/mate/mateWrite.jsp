@@ -145,7 +145,7 @@
 			</tr>
 		    <tr>
 			     <td colspan="4">
-			       <textarea style="border-radius:5px" name="mateContent" id="mateContent" cols="80" rows="10"></textarea>
+			       <textarea style="resize: none;border-radius:5px" name="mateContent" id="mateContent" cols="80" rows="10"></textarea>
 			    </td>
 			</tr>			
 		 </table>
