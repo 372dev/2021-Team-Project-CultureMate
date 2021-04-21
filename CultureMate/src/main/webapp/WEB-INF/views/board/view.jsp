@@ -442,7 +442,6 @@ td#replytd {
 }
 
 textarea#reviewContent {
-    float: left;
 }
 
 
@@ -460,6 +459,11 @@ h3 {
     background-color: #FF8C00;
     border: solid 0px;
 }
+
+.recontent{
+	float: left;
+}
+
 </style>
 			<section>
 			<c:set var="show" value="${result.get(0)}"></c:set>
@@ -674,10 +678,10 @@ h3 {
 					<a id=star1 value=5>★</a> 
 					별점을 선택해 주세요.
 					</p>
-					<textarea name="reviewContent" cols="130" rows="4" onfocus="" id="reviewContent" style="white-space: pre;"></textarea>
+					<textarea name="reviewContent" cols="130" rows="4" onfocus="" id="reviewContent" class="recontent" style="white-space: pre;"></textarea>
 					<c:choose>
 					 	<c:when test="${!empty loginMember}">
-					 	<a href="#" id="btn-insert" onClick='fn_comment()' class="btn pull-right ">등록</a>
+					 	<a href="#" id="btn-insert" onClick='fn_comment()' class="btn pull-right">등록</a>
 					 	</c:when>
 					 	<c:otherwise>
 					 	<a  id="btn-insert"  onClick='fn_comment1()' class="btn pull-right disable ">등록</a>
