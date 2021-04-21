@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.member.model.vo.Member;
+import com.kh.cm.mkshow.model.service.ShowReviewService;
 import com.kh.cm.ticket.model.service.TicketService;
 import com.kh.cm.ticket.model.vo.Ticket;
 
@@ -26,6 +27,9 @@ public class TicketController {
 	
 	@Autowired
 	private TicketService ticketservice;
+	
+	@Autowired
+	private ShowReviewService showreviewservice;
 	
 	@RequestMapping("ticket/ticketing/seat")
 	public String seat() {
@@ -87,7 +91,6 @@ public class TicketController {
 		
 		if(result > 0) {
 			int count = ticketservice.countTicket(id);
-			
 			System.out.println("ticket : " + ticket);
 			System.out.println("count : " + count);
 			
@@ -124,7 +127,7 @@ public class TicketController {
 		}
 		
 		System.out.println("controller_success_model : " + model);
-		
+		showreviewservice.setreserve(ticket);
 		return model;
 	}
 
@@ -172,6 +175,8 @@ public class TicketController {
 	
 	@RequestMapping(value = "member/ticket/cancel", method = {RequestMethod.POST})
 	public ModelAndView cancel(ModelAndView model, @RequestParam("ticket_num") int ticket_num, 
+			@RequestParam("ticket_mt20id") String mt20id, 
+			@RequestParam("ticket_id") int id, 
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember, @ModelAttribute Member member) {
 		
 		int result = ticketservice.deleteTicket(ticket_num);
@@ -212,6 +217,10 @@ public class TicketController {
 		
 		System.out.println("cancel loginMember : " + loginMember);
 		
+		Ticket ticket = new Ticket();
+		ticket.setMt20id(mt20id);
+		ticket.setId(id);
+		showreviewservice.resetreserve(ticket);
 		return model;
 	}
 	

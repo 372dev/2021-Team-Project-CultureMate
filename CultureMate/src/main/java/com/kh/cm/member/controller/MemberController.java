@@ -1,5 +1,7 @@
 package com.kh.cm.member.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.cm.member.model.dao.MemberDao;
 import com.kh.cm.member.model.service.MemberService;
 import com.kh.cm.member.model.vo.Member;
+import com.kh.cm.mkshow.model.service.ShowReviewService;
+import com.kh.cm.mkshow.model.vo.ShowReview;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +30,10 @@ public class MemberController {
 	
 		@Autowired
 		private MemberService service;
+		
+
+		@Autowired
+		ShowReviewService showreview;
 		
 		@Autowired
 		MemberDao memberDao;
@@ -267,11 +275,29 @@ public class MemberController {
 		
 		// 내가 쓴 리뷰 조회
 		@RequestMapping(value="/member/myReviews", method = {RequestMethod.GET})
-		public String myReviewsGet() {
+		public ModelAndView myReviewsGet(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+				ModelAndView model) {
 			log.info("내가 쓴 리뷰 글 페이지 get 요청");
 			
-			return "member/myReviews";
+			
+			System.out.println("나의 아이디" + loginMember.getId());
+			
+			List<ShowReview> review = showreview.findMyRevuew(loginMember.getId());
+			
+			if(review.size() < 1) {
+				System.out.println("작성된 리뷰 없음");
+			}else {
+				System.out.println("나의 리뷰 첫번쨰" + review.get(0).getMt20id());
+				log.info("리부사이즈" + review.size());
+				
+			}
+			
+			model.addObject("review", review);
+			model.setViewName("member/myReviews");
+			
+			return model;
 		}
+		
 		
 		// 아이디 찾기 GET 요청
 		@RequestMapping(value="/member/findId", method = {RequestMethod.GET})

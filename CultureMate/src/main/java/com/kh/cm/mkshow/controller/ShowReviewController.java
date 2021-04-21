@@ -39,23 +39,18 @@ public class ShowReviewController {
 	
 	@RequestMapping(value = "/add.do",  method = {RequestMethod.POST})
 	@ResponseBody
-	public String ajax_addComment(
+	public int ajax_addComment(
 			@ModelAttribute("review") ShowReview review,
 			HttpServletRequest request) {
 		
-		System.out.println("내용값 ? : " + review.getReviewContent());
-		System.out.println("별점 값은? : " + review.getReviewRating());
 		System.out.println("컨트롤러 호출");
+		log.info("prfnm값 " + review.getPrfnm());
 		
-        try{
-          service.saveReview(review);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        //List<ShowReview> slist = service.getReviewList(review.getMt20id());
-       //System.out.println("사이즈" + slist.size());
+		
+		service.saveReview(review);
+		int reviewnum = service.countReview(review.getMt20id());
         
-        return "success";
+        return reviewnum;
 	}
 	
 	
@@ -71,12 +66,7 @@ public class ShowReviewController {
 	        System.out.println("원하는 제목 값 " + review.getMt20id());
 	        
 	        List<ShowReview> commentVO = service.getReviewList(review.getMt20id());
-	       
-	        if(commentVO.size()>0) {
-	        	System.out.println("닉네임~!~!" + commentVO.get(0).getUserNick());
-	        	System.out.println("내용~!~!" + commentVO.get(0).getReviewContent());
-	        }
-	        
+	        log.info("사이즈값" + commentVO.size());
 	        if(commentVO.size() > 0){
 	            for(int i=0; i<commentVO.size(); i++){
 	                HashMap<String, Comparable> hm = new HashMap();
@@ -86,9 +76,15 @@ public class ShowReviewController {
 	                hm.put("reviewRating", commentVO.get(i).getReviewRating());
 	                hm.put("userNick", commentVO.get(i).getUserNick());
 	                hm.put("userId", commentVO.get(i).getId());
+	                hm.put("reviewsize", commentVO.size());
+	                hm.put("reserve", commentVO.get(i).getReserve());
 	                hmlist.add(hm);
 	            }
 	            
+	        }else {
+	        	HashMap<String, Comparable> hm = new HashMap();
+	        	 hm.put("reviewsize", commentVO.size());
+	        	 hmlist.add(hm);
 	        }
 	        
 	        JSONArray json = new JSONArray(hmlist);        
@@ -96,35 +92,18 @@ public class ShowReviewController {
 	    }
 	 
 	 	@RequestMapping(value = "/delete.do", method = {RequestMethod.GET})
-	    public ModelAndView deleteReview(int no, ModelAndView model, @SessionAttribute(name="loginMember", required = false)  Member loginMember,
+	 	@ResponseBody
+	    public int deleteReview(int no, ModelAndView model, @SessionAttribute(name="loginMember", required = false)  Member loginMember,
 	    		HttpServletRequest request) {
 	    	
-	 		String usernick = "";
 	      	System.out.println(no);
 	        System.out.println("삭제 함수 실행");
 	        
-	        if(loginMember != null) {
-	        System.out.println(loginMember.getUserId());
-	        System.out.println("유저의 닉네임 : " +  service.findReviewWriter(no).get(0).getUserNick());
-	        usernick  = service.findReviewWriter(no).get(0).getUserNick();
-	        }
-	        
-	        
-	        if(loginMember.getUserNick().equals(usernick)) {
-	        	System.out.println("정상적으로 삭제되었습니다.");
-	        	service.delReview(no);
-	        	model.addObject("msg", "정상적으로 삭제되었습니다.");
-				model.addObject("location", "/");
-	        }else {
-	        	model.addObject("msg", "본인만 삭제가 가능합니다.");
-				model.addObject("location", "/show/showlist");
-	        }
-	        model.setViewName("/common/msg");
-	       
-	        
-	       // service.findReviewWriter(no);
+	        service.delReview(no);
+	        String rno = service.findReviewWriter(no).get(0).getMt20id();
+	        int reviewcount = service.countReview(rno);
 	      
-	        return model;
+	        return reviewcount;
 	    }
 	 	
 	 		@RequestMapping(value = "/star.do", method = {RequestMethod.POST})
@@ -133,7 +112,6 @@ public class ShowReviewController {
 	 		
 	 			String star = (String) param.get("num");
 	 			int star1 = Integer.parseInt(star);
-	 		System.out.println("평점컨트롤러 실행 " + star1*2);
 	 		
 	 		return star;
 	 	}
@@ -145,11 +123,8 @@ public class ShowReviewController {
 		    		 ModelAndView model,
 		    		HttpServletRequest request) {
 		    	
-		      	//System.out.println(no);
-		        System.out.println("수정 함수 실행" + review.getReviewID() + "@@@@");
-		        System.out.println("@@@" + review.getReviewContent());
-		        System.out.println("###" + review.getReviewRating());
-		       // System.out.println(reviewContent);
+		        System.out.println("수정 함수 실행" + review.getReviewID());
+		        log.info("수정 날짜" + review.getReviewDate()) ;
 		        service.updateReview(review);
 		      
 		        model.setViewName("home");
@@ -157,12 +132,5 @@ public class ShowReviewController {
 		        return model;
 		    }
 	 		
-	 		@RequestMapping(value = "/reco.do", method = {RequestMethod.POST})
-	 		@ResponseBody
-	 		public String reco(int no, int reco, HttpServletRequest request) {
 	 		
-	 			//service.updatereco();
-	 			
-	 		
-	 		return "";}
 }
