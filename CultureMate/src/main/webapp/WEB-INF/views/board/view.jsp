@@ -939,7 +939,7 @@ $('#reviewContent').val().replace(/\n/g, "<br>");
 
 		price = price * 0.95;
 
-		price_after.innerText = "전석 " + price + "원 [친한친구 등급 할인!]";
+		price_after.innerText = "전석 " + price + "원 \n [친한친구 등급 5% 할인!]";
 
 		console.log(price);
 	} else if(rank == "베스트프랜드") {
@@ -947,7 +947,7 @@ $('#reviewContent').val().replace(/\n/g, "<br>");
 
 		price = price * 0.9;
 
-		price_after.innerText = "전석 " + price + "원 [베스트프랜드 등급 할인!]";
+		price_after.innerText = "전석 " + price + "원 \n [베스트프랜드 등급 10% 할인!]";
 
 		console.log(price);
 	}
