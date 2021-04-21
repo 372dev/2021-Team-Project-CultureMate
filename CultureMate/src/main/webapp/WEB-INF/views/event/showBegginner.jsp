@@ -90,6 +90,7 @@
 		</p>
 </div>
 	<div>
+	https://post.naver.com/viewer/postView.nhn?volumeNo=10452835&memberNo=2067294
 		https://magazine.hankyung.com/job-joy/article/202102195945d
 	</div>
 </div >

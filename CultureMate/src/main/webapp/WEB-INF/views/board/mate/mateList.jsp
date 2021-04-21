@@ -8,6 +8,7 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
+	     font-family: 'Do Hyeon', sans-serif;
 	}
     #mateList-container{ 
         text-align: center;
@@ -65,13 +66,15 @@
        vertical-align: top;
     } 
 </style>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="mateSection">
 	
 	<div id="mateList-container">
-		<div id="mate-Title">
+		<div id="mate-Title" style="line-through;">
 			        <h1>같이 가요</h1>
 			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
 		    	</div>
