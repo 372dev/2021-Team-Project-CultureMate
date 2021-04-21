@@ -1,8 +1,10 @@
 package com.kh.cm.mate.model.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.cm.mate.model.vo.Mate;
@@ -14,6 +16,8 @@ public interface MateDao {
 	int selectMateCount();
 
 	List<Mate>selectMateList(RowBounds rowBounds);
+	
+	List<Collection> selectPostsByUserId(RowBounds rowBounds, @Param("mateWriteId") int mateWriteId, @Param("shareWriteId") int shareWriteId);
 
 	Mate selectMateDetail(int mateId);
 
@@ -32,7 +36,5 @@ public interface MateDao {
 	int updateMateReply(MateReply mateReply);
 
 	int insertMateReply(MateReply mateReply);
-
-	
 
 }

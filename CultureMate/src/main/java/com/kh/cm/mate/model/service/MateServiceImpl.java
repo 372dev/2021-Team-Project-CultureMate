@@ -1,5 +1,6 @@
 package com.kh.cm.mate.model.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -31,6 +32,7 @@ public class MateServiceImpl implements MateService {
 		return mateDao.selectMateList(rowBounds);
 	}
 
+	
 	@Override
 	public Mate findMateByMateId(int mateId) {
 		return mateDao.selectMateDetail(mateId);
@@ -83,6 +85,14 @@ public class MateServiceImpl implements MateService {
 		}
 	return result;
 		
+	}
+
+	@Override
+	public List<Collection> getPostsByUserId(PageInfo pageInfo, int mateWriteId, int shareWriteId) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return mateDao.selectPostsByUserId(rowBounds, mateWriteId, shareWriteId);
 	}
 
 }

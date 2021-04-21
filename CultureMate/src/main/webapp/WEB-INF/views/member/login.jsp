@@ -1,31 +1,58 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-
+<style>
+	section{
+		padding: 100 300 0 300;
+		width: 100%;
+	}
+	
+	#wrapper{
+		text-align: center;
+	}
+	
+	.l_form{
+		margin: .2em 0;
+		font-size: 1em;
+		padding: .5em;
+		border: 1px solid #ccc;
+		border-color: #dbdbdb #d2d2d2 #d0d0d0 #d2d2d3;
+		box-shadow: insert 0.1em 0.1em 0.15em rgb(0 0 0 / 10%);
+		vertical-align: middle;
+		line-height: 1.25em;
+		outline: 0;
+		width: 20em;
+	}
+	
+	.btn{
+		margin-left: 5em;
+		background-color: #9DB81F;
+	}
+	
+	.btn:hover{
+		color: white;
+	}
+</style>
 
 <section>
- <div class="wrapper">
-	<form class="loginForm" method="post" action="${path}/member/login">
-		<div class="col-md-5 col-md-offset-3">
-			<input type="text" name="userId" class="form-control" placeholder="아이디" required autofocus>
-		</div>
-		
-		<div class="col-md-5 col-md-offset-3">
-			<input type="password" name="password" class="form-control" placeholder="비밀번호" required>
-		</div>
-		
-		<div id="remember" class="checkbox">
-			<label>
-				<input type="checkbox" value="remember-me">로그인 유지
-			</label>
-		</div>
-		
-		<button class="btn btn-lg btn-success btn-block btn-login">로그인</button>
-	</form>
-	<a href="${ path }/member/findIdAndPwd">
+    <div id="wrapper">
+        <form action="${ path }/member/login" method="post">
+            <input type="text" class="l_form" name="userId" placeholder="아이디" required><br>
+            <input type="password" class="l_form" name="password" placeholder="비밀번호" required="required"> <br>
+            <label>
+                <input type="checkbox" id="remember-me" value="remember-me">로그인 유지
+            </label>
+            <br><br><br>
+            <div class="form-group">
+              <div class="col-lg-offset-2 col-lg-10">
+                  <button type="submit" class="btn px-5" id="login">로그인</button>
+              </div>
+            </div>
+        </form>
+    </div>
+	<a href="${ path }/member/findIdAndPwd" >
 		아이디 | 비밀번호 찾기
 	</a>
- </div>
 </section>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

@@ -7,7 +7,41 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
-
+<style>
+	.list-group-item.active{
+		background-color: #b7ba41;
+		border-color: #b7ba41;
+	}
+    #postList-tbl{           
+        border-collapse: collapse;	   
+	    text-align: center;       
+        margin: 0 auto;
+        width: 800px;
+    }
+    #postList-tr{
+   		border-bottom: 1px solid lightgray;
+     	border-top: 1px solid lightgray;
+    }
+    #postList-tr>td:nth-child(8){
+    	width: 300px;
+    }
+    #postList-tr>td:nth-child(3){
+    	width: 130px;
+    }
+    #postList-tr>td:nth-child(4){
+    	width: 150px;
+    }
+    #postList-tr>td:nth-child(6){
+    	width: 130px;
+    }
+    #postList-tr>td:nth-child(10){
+    	width: 200px;
+    }
+    #postList-tr>td{
+    	padding: 6px;
+    	width:80px;
+    }
+</style>
 <div class="container">
 	<div class="row">
 		<div class="col-md-3 ">
@@ -30,32 +64,65 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<table class="table table-hover">
-							  <th>번호</th>
-							  <th>제목</th>
-							  <th>작성일</th>
-							  <c:if test="${ mateList == null }">
-							  	<tr>
-							  		<td colspan="3">
-							  			조회된 게시글이 없습니다.
-							  		</td>
-							  	</tr>
-							  </c:if>
-							  <c:if test="${ mateList != null }">
-							  <c:forEach var="mate" items="${mateList}">
-							  	<tr>
-							  		<td><c:out value="${ mate.mateId }"></c:out></td>
-							  		<td>
-										<a href="${path}/mate/view?mateId=${mate.mateId}">
-											<c:out value="${mate.mateTitle}"/>
-										</a>
-									</td>
-							  		<td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>       
-							  	</tr>
-							  </c:forEach>
-							  </c:if>
-							</table>
+							<table id="postList-tbl">
+								<tr id="postList-tr">
+									<td>모집상태</td>			
+									<td>제목</td>
+									<td>작성일</td>
+								</tr>
+					            <c:if test="${postList == null}">
+									<tr id="postList-tr">
+										<td colspan="5">
+											조회된 게시글이 없습니다.
+										</td>
+									</tr>	
+								</c:if>
+								<c:if test="${postList != null}">
+									<c:forEach var="post" items="${postList}">
+										<tr id="postList-tr">
+					                        <td><c:out value="${post.mateOpen}"/></td>
+											<td>
+												<c:if test="${fn:contains(post.mateOpen, '모집')}">
+													<a href="${path}/mate/view?mateId=${post.mateId}">
+														<c:out value="${post.mateTitle}"/>
+													</a>
+												</c:if>
+												<c:if test="${fn:contains(post.mateOpen, '나눔')}">
+													<a href="${path}/share/view?shareId=${post.mateId}">
+														<c:out value="${post.mateTitle}"/>
+													</a>
+												</c:if>
+											</td>
+											<td><fmt:formatDate value="${post.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"></fmt:formatDate></td>                     
+				                       	</tr>
+			                        </c:forEach>
+		                    	</c:if>  
+		                	 </table>
+							<br>
 						</div>
+					</div>
+						<div id="pageBar">
+							<!-- 맨 처음으로 -->
+							<button onclick="location.href='${path}/member/myPosts?page=1'">&lt;&lt;</button>
+							
+							<!-- 이전 페이지로 -->
+							<button onclick="location.href='${path}/member/myPosts?page=${pageInfo.prvePage}'">&lt;</button>
+				
+							<!--  10개 페이지 목록 -->
+							<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+								<c:if test="${status.current == pageInfo.currentPage}">
+									<button disabled><c:out value="${status.current}"/></button>
+				   				</c:if>
+								<c:if test="${status.current != pageInfo.currentPage}">
+									<button onclick="location.href='${path}/member/myPosts?page=${status.current}'"><c:out value="${status.current}"/></button>
+				   				</c:if>
+							</c:forEach>
+							
+							<!-- 다음 페이지로 -->
+							<button onclick="location.href='${path}/member/myPosts?page=${pageInfo.nextPage}'">&gt;</button>
+							
+							<!-- 맨 끝으로 -->
+							<button onclick="location.href='${path}/member/myPosts?page=${pageInfo.maxPage}'">&gt;&gt;</button>
 					</div>
 				</div>
 			</div>

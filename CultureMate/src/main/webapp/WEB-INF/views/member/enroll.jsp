@@ -30,6 +30,14 @@
 	.col-lg-2.control-label{
 		font-weight: bold;
 	}
+	
+	.btn{
+		background-color: #9DB81F;
+	}
+	
+	.btn:hover{
+		color: white;
+	}
 </style>
 <section>
 	<div class="form-group">
@@ -243,10 +251,10 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
               <label for="inputGender" class="col-lg-2 control-label">성별</label>
               <div class="col-lg-10">
 	              <div class="btn-group" data-toggle="buttons">
-				  		<label class="btn btn-primary active">
+				  		<label class="btn btn-success active">
 				  			<input type="radio" name="gender" autocomplete="off" value="남자" checked>남자
 				  		</label>
-				  		<label class="btn btn-primary">
+				  		<label class="btn btn-success">
 				  			<input type="radio" name="gender" autocomplete="off" value="여자">여자
 				  		</label>
 	              </div>
@@ -257,7 +265,7 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
               <label for="inputAddress" class="col-lg-2 control-label">주소</label>
               <div class="col-lg-10">
 					<input type="text" id="daum_postcode" name="postcode"  class="d_form mini" placeholder="우편번호" required>
-					<input type="button" onclick="execDaumPostcode()" class="btn btn-primary" value="우편번호 찾기"><br>
+					<input type="button" onclick="execDaumPostcode()" class="btn" value="우편번호 찾기"><br>
 					<input type="text" id="daum_address" name="address" class="d_form large" placeholder="주소" required><br>
 					<input type="text" id="daum_detailAddress" name="detailAddr" class="d_form" placeholder="상세주소" required >
 					<input type="text" id="daum_extraAddress" name="extraAddr" class="d_form" placeholder="참고항목" >
@@ -266,7 +274,7 @@ CULTUREMATE 내의 개별 서비스 이용, 이벤트 응모 및 경품 신청 �
           
           <div class="form-group">
               <div class="col-lg-offset-2 col-lg-10">
-                  <button type="submit" class="btn btn-success px-3" id="reg_submit">가입하기</button>
+                  <button type="submit" class="btn px-3" id="reg_submit">가입하기</button>
               </div>
           </div>
       </form>

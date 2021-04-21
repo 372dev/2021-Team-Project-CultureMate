@@ -2,15 +2,37 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <style>
+	section{
+		padding: 10 300 0 300;
+		width: 100%;
+	}
+	
 	#background_modal {
 		display : none;
 		background-color : #FFFFFF;
 		position : absolute;
 		top:200px;
 		left:600px;
+		width: 300px;
 		padding:10px;
 		border:2px solid #E2E2E2;
-		z-Index:9999
+		z-Index:9999;
+	}
+	
+	#findIdBtn{
+		background-color: #9DB81F;
+	}	
+	
+	#findPwdBtn{
+		background-color: #9DB81F;
+	}
+	
+	#gobackBtn{
+		background-color: #FF8C00;
+	}
+	
+	.btn:hover{
+		color: white;
 	}
 </style>
 <section>
@@ -22,7 +44,7 @@
 				<b>회원님의 아이디는</b><span class="close">&times;</span>
 			</h4>
 			<br>
-				<h2 id="id_value"></h2> <h3> 입니다.</h3>
+				<h2 id="id_value"></h2>
 			<br>
 		</div>
 	</div>
@@ -35,6 +57,8 @@
 		<input type="radio" class="custom-control-input" id="find_2" name="find_total" onclick="find_check(2);">
 		<label class="custom-control-label font-weight-bold" for="find_2">비밀번호 찾기</label>
 	</div>
+	
+	<br><br>
 	
 	<!-- 아이디 찾기 -->
 	<div id="findI">
@@ -57,8 +81,8 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<button id="findIdBtn" type="submit" class="btn btn-primary btn-block">확인</button>
-			<button class="btn btn-danger btn-block" onclick="history.go(-1)">취소</button>
+			<button id="findIdBtn" type="submit" class="btn btn-block">확인</button>
+			<button id="gobackBtn" class="btn btn-default btn-block" onclick="history.go(-1)">취소</button>
 		</div>
 	</div>
 	
@@ -84,8 +108,8 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<button id="findPwdBtn" type="submit" class="btn btn-primary btn-block">확인</button>
-			<a class="btn btn-danger btn-block" href="${ path }">취소</a>
+			<button id="findPwdBtn" type="submit" class="btn btn-block">확인</button>
+			<button id="gobackBtn" class="btn btn-block" onclick="history.go(-1)">취소</button>
 		</div>
 	</div>
 	</form>
@@ -105,7 +129,7 @@
 	// 모달창 불러오기
 	$(document).ready(function(){
 		// 모달창 hidden 불러오기
-		$('#findBtn').click(function(){
+		$('#findIdBtn').click(function(){
 			$('#background_modal').show();
 		});
 		
