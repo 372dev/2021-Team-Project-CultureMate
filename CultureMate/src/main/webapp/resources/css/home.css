@@ -35,12 +35,12 @@
 }
 
 .treeMenuLv0 {
-	margin: 8px 5px 2px 20px;
+	margin: 8px 5px 3px 20px;
 	font-size: 19px;
 }
 
 .treeMenuLv1 {
-	margin: 1px 5px 1px 30px;
+	margin: 2px 5px 1px 30px;
 	font-size: 17px;
 }
 
@@ -132,11 +132,17 @@
 }
 
 /* BoxOffice *************************************************/
-#boContainer > .ListDiv {
+.boContainer {
+	width: 85%;
+	margin: 0 auto;
+}
+
+.boContainer > .ListDiv {
 	margin-bottom: 5rem;
-	border-top: 7px solid #b7ba41;
-	border-bottom: 7px solid #b7ba41;
 	border-radius: 10px;
+	border-top: 10px solid rgb(157, 184, 31);
+	border-bottom: 10px solid rgb(157, 184, 31);
+	background-color: rgba(157, 184, 31, 0.05);
 	padding-top: 1rem;
 	padding-bottom: 1rem;
 }

@@ -3,8 +3,11 @@
 .ListDiv {
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: space-around;
 }
 .card {
+	position: relative;
+	right: 35px;
 	margin: 11px;
 	width: 13.5rem;
 }
@@ -27,4 +30,12 @@
 }
 .card-body {
 	background-color: GAINSBORO;
+}
+.rankImg {
+	position: relative;
+	height: 65px;
+	width: 65px;
+	left: 40px;
+	bottom: 10px;
+	z-index: 100;
 }

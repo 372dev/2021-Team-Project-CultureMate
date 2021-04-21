@@ -4,7 +4,7 @@
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 
     <link rel="stylesheet" href="${ path }/resources/css/home.css" />
-	<link rel="stylesheet" href="${ path }/resources/css/listStyle.css" />
+	<link rel="stylesheet" href="${ path }/resources/css/listStyleHome.css" />
 	<link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -17,9 +17,8 @@
 	    		<a href="${ path }/show/boList?genre=musical" class="treeMenuLv1">뮤지컬</a>
 	    		<a href="${ path }/show/boList?genre=play" class="treeMenuLv1">연극</a>
 	    		<a href="${ path }/show/boList?genre=classic" class="treeMenuLv1">클래식</a>
-    		<a href="" class="treeMenuLv0">메이트</a>
-	    		<a href="${ path }/mate/list" class="treeMenuLv1">같이가요</a>
-	    		<a href="${ path }/share/list" class="treeMenuLv1">티켓나눔</a>	    	
+    		<a href="${ path }/mate/list" class="treeMenuLv0">메이트</a>
+    		<a href="${ path }/share/list" class="treeMenuLv0">티켓나눔</a>
     		<a href="" class="treeMenuLv0">이벤트</a>
     		<a href="" class="treeMenuLv0">고객센터</a>
     	</div>
@@ -107,7 +106,7 @@
 		</div>
 	</div>
 	
-	<div id="boContainer"></div>
+	<div id="boContainer" class="boContainer"></div>
 	
 	<script>
 	$(document).ready(ajaxCall("m")).ready(ajaxCall("p")).ready(ajaxCall("c"));
@@ -174,8 +173,16 @@
 							+ (result[0].cate == "뮤지컬" ? "musical" : (result[0].cate == "연극" ? "play" : "classic"))
 							+ 'Reloc">더 보기</button></div>';
 						toAdd += '<div class="ListDiv">';
-						for(i = 0; i < 5; i++) {
-							toAdd += '<div class="card">';
+						for(i = 0; i < 3; i++) {
+							toAdd += '<img src="${ path }/resources/images/main/';
+							if(i == 0) {
+								toAdd += '1st-place.png" class="rankImg">';
+							} else if(i == 1) {
+								toAdd += '2nd-place.png" class="rankImg">';
+							} else {
+								toAdd += '3rd-place.png" class="rankImg">';
+							}
+							toAdd += '<div class="card ' + i + 'nd">';
 							toAdd += '<div class="cardImgWrapper" onclick="location.href=\'' + '${ path }/show/restview?name=' + result[i].mt20id + '\';">';
 							toAdd += '<img src="http://www.kopis.or.kr' + result[i].poster + '" class="card-img-top" alt="' + result[i].prfnm + '">';
 							toAdd += '</div>';
@@ -196,12 +203,12 @@
 
 	function reloc(genre) {
 		if(genre != null) {
-			window.location.replace("${ path }/show/boList?genre=" + genre);
+	        $(location).attr("href", "${ path }/show/boList?genre=" + genre);
 		}
 	}
 
 	function mainShowSearch(searchInput, radioGenre) {
-		window.location.replace("${ path }/show/showList?title=" + searchInput + "&genre=" + radioGenre);	
+	    $(location).attr("href", "${ path }/show/showList?title=" + searchInput + "&genre=" + radioGenre);
 	}
 	</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
