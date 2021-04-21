@@ -24,7 +24,7 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	@Transactional
 	public int saveqnaBoard(QnaBoard qnaboard) {
 		int result =0;
-
+	
 		if(qnaboard.getQnaId() != 0) {
 			result = qnaboardDao.updateqnaBoard(qnaboard);
 		}else {
@@ -53,11 +53,20 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	}
 
 	@Override
-	public int getqnaReply(QnaReply qnareply) {
+	public int addreply(QnaReply qnareply) {
 		
 		return qnaboardDao.insertqnaReply(qnareply);
 	}
 
+
+
+	
+	
+
+
+
+
+	
 
 	
 

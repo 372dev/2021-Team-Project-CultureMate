@@ -41,6 +41,25 @@
 		<result property="authkey" column="AUTHKEY" />
 	</resultMap>
 	
+	<resultMap type="Member" id="memberDetailResultMap">
+		<id property="id" column="ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="password" column="PASSWORD" />
+		<result property="userNick" column="USER_NICK" />
+		<result property="userName" column="USER_NAME" />
+		<result property="userRole" column="USER_ROLE" />
+		<result property="dateBirth" column="DATE_BIRTH" />
+		<result property="gender" column="GENDER" />
+		<result property="phone" column="PHONE" />
+		<result property="postcode" column="POSTCODE" />
+		<result property="address" column="ADDRESS" />
+		<result property="detailAddr" column="DETAIL_ADDR" />
+		<result property="extraAddr" column="EXTRA_ADDR" />
+		<result property="rank" column="RANK" />
+		<result property="status" column="STATUS" />
+		<result property="authkey" column="AUTHKEY" />
+	</resultMap>
+	
 	<select id="selectMember" parameterType="string" resultMap="memberResultMap">
 		<include refid="selectMemberSql"></include>
 		AND USER_ID = #{userId}
@@ -59,6 +78,54 @@
 		SELECT USER_ID
 		FROM MEMBER
 		WHERE AUTHKEY = #{authkey}
+	</select>
+	
+	<!-- 모든멤버 수 조회 -->
+	<select id="selectMemberCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+	</select>
+		 	
+	<!-- 모든멤버 리스트 조회 -->
+	<select id="selectMemberList" parameterType="Member" resultMap="memberResultMap">
+		SELECT ID,
+			   USER_ID,
+			   PASSWORD,
+			   USER_NICK,
+			   USER_NAME,
+			   USER_ROLE,
+			   DATE_BIRTH,
+			   GENDER,
+			   EMAIL,
+			   PHONE,
+			   POSTCODE,
+			   ADDRESS,
+			   DETAIL_ADDR,
+			   EXTRA_ADDR,
+			   RANK,
+			   STATUS
+		FROM MEMBER
+		ORDER BY ID DESC
+	</select>
+	
+	<select id="allfindMemberDetail" parameterType="_int" resultMap="memberDetailResultMap">
+	   SELECT ID,
+			   USER_ID,
+			   PASSWORD,
+			   USER_NICK,
+			   USER_NAME,
+			   USER_ROLE,
+			   DATE_BIRTH,
+			   GENDER,
+			   PHONE,
+			   POSTCODE,
+			   ADDRESS,
+			   DETAIL_ADDR,
+			   EXTRA_ADDR,
+			   RANK
+		FROM MEMBER
+		WHERE USER_ROLE = #{userRole}
+		
 	</select>
 	
 	<insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
@@ -148,4 +215,5 @@
 		WHERE
 			USER_ID = #{userId}
 	</delete>
+	
 </mapper>

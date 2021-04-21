@@ -30,9 +30,9 @@
     <div class="table-responsive qnalist">
       <table class="table table-hover qnalist" >
           <tr>
-              <th>분류</th>
+              <th>문의</th>
               <th>제목</th>
-              <th>답변상태</th>
+              <th>작성자</th>
           </tr>
          <c:if test="${qnalist == null}">
 				<tr>
@@ -41,6 +41,7 @@
 					</td>
 				</tr>	
 			</c:if>
+
 			<c:if test="${qnalist != null}">
 			  <c:forEach var="qnalist" items="${qnalist}">
           <tr>
@@ -53,7 +54,7 @@
               </a>
              </td>
              <td>
-              내용
+              <c:out value="${qnalist.userId}"/>
              </td>
              </tr>
           </c:forEach>

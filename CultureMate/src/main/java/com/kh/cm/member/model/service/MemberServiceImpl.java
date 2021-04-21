@@ -1,5 +1,7 @@
 package com.kh.cm.member.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -159,6 +161,35 @@ public class MemberServiceImpl implements MemberService {
 	public int updateMember(Member member, String password) {
 		return passwordEncoder.matches(password, member.getPassword()) ? memberDao.updateMember(member) : 0;
 	}
+
+	//모든 멤버 수 조회
+	@Override
+	public int memberAllCount() {
+	
+		return memberDao.selectMemberCount();
+	}
+
+	//모든멤버 리스트 조회
+	@Override
+	public List<Member> getMemberList() {
+		
+		return memberDao.selectMemberList();
+	}
+
+	@Override
+	public Member findMember(String userId) {
+		
+		return memberDao.allfindMemberDetail(userId);
+	}
+
+
+
+
+	
+
+	
+
+
 
 
 }

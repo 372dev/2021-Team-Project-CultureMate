@@ -42,8 +42,8 @@
 <div class="row" style="border:1px solid black;">
 		<div class="col">
 			<ul class="nav nav-tabs">
-				<li class="nav-item1"><a class="nav-link active"
-					data-toggle="tab" href="#qwe">전체보기</a></li>
+				<!--  <li class="nav-item1"><a class="nav-link active"
+					data-toggle="tab" href="#qwe">전체보기</a></li>-->
 				<li class="nav-item1"><a class="nav-link" data-toggle="tab"
 					href="#asd">예매/취소</a></li>
 				<li class="nav-item1"><a class="nav-link" data-toggle="tab"
@@ -54,12 +54,12 @@
 					href="#hjk">메이트/소모임</a></li>
 			</ul>
 
-
+  
 			<div class="tab-content">
-				<div class="tab-pane fade show active" id="qwe">
+<!--					<div class="tab-pane fade show active" id="qwe">
 					<div class="table-responsive">
 						<table class="table table-hover">
-							<tr>
+						<tr>
 								<th>분류</th>
 								<th>제목</th>
 							</tr>
@@ -78,9 +78,9 @@
 						</table>
 					</div>
 				</div>
+-->
 
-
-				<div class="tab-pane fade" id="asd">
+				<div class="tab-pane fade show active" id="asd">
 					<div class="table-responsive">
 						<table class="table table-hover">
 							<thead>
@@ -178,6 +178,14 @@
 								<tr>
 									<td>메이트/소모임</td>
 									<td><a href="#">메이트/소모임에 글을 올리고 싶은데 어떻게 하나요?</a></td>
+								</tr>
+								<tr>
+									<td>메이트/소모임</td>
+									<td><a href="#">티켓 나눔글을 올리고 싶어요!!</a></td>
+								</tr>
+								<tr>
+									<td>메이트/소모임</td>
+									<td><a href="#">메이트 게시판에는 어떤 글을 올려야 하나요?</a></td>
 								</tr>
 							</tbody>
 						</table>

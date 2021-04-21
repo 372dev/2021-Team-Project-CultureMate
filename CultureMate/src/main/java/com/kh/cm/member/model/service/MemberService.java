@@ -1,5 +1,7 @@
 package com.kh.cm.member.model.service;
 
+import java.util.List;
+
 import com.kh.cm.member.model.vo.Member;
 
 public interface MemberService {
@@ -31,6 +33,19 @@ public interface MemberService {
 	Member userAuth(String userId, String authkey);
 
 	int updateMember(Member member, String password);
+
+	// 모든멤버 수 조회
+	int memberAllCount();
+    
+	// 모든 멤버 리스트 조회
+	List<Member> getMemberList();
+
+	Member findMember(String userId);
+
+
+
+	
+
 
 
 }

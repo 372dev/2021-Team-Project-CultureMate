@@ -23,11 +23,14 @@ public class QnaBoard {
 	
 	private String qnaContent;
 	
+	private String qnaOpenStatus;
+	
 	private Date qnaCreateDate;
 	
 	private String status;
 	
 	private List<QnaReply> replies;
+	
 	
 	
 		

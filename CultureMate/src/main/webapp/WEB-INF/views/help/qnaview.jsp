@@ -1,105 +1,154 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 
-    <%@ include file="/WEB-INF/views/common/header.jsp"%>
-    
-    <h2>게시판</h2>
-    
-    <div class="row">
-        <div class="col-xs-2 col-md-2"></div>
-        <div class="col-xs-8 col-md-8">
-        <h2 class="text-center">게시글 보기</h2><p>&nbsp;</p>
-        <div class="table table-responsive">
-            <table class="table">
-        
-             
-            <tr>
-                <th class="success">작성자</th>
-                <td>${qnaboard.userId}</td>
-                <th class="success">작성일</th>
-                <td>${qnaboard.qnaCreateDate}</td>
-            </tr>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-            <tr>
-                <th class="success">제목</th>
-                <td colspan="3">${qnaboard.qnaTitle}</td>
-            </tr>
-             
-            <tr>
-                <th class="success">글 내용</th>
-                <td colspan="3">${qnaboard.qnaContent}</td>
-            </tr>
-             
-            <tr>
-			<th colspan="2">                  
-			<c:if test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
-				<button type="button" onclick="updateBoard()">수정</button>
-				<button type="button" onclick="deleteBoard()">삭제</button>
-			</c:if>
-				<button type="button" onclick="location.replace('${path}/help/qnalist')">목록으로</button>
-			</th>
-		   </tr>    
-        </table>
-        </div>
-    </div>
+<h2>게시판</h2>
 
-      <div class="container">
-        <label for="content">댓글</label>
-        <form name="commentInsertForm">
-            <div class="input-group">
-               <input type="hidden" name="qnaId" value="${qnaboard.qnaId}"/>
-               <input type="text" class="form-control" id="qnaReContent" name="qnaReContent" placeholder="내용을 입력하세요.">
-               <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit" name="commentInsertBtn">등록</button>
-               </span>
-              </div>
-              
-        </form>
-    </div>
-            
-        <div class="container">
-          <div class="commentList"></div>
-   
-            </div>
-        </div>
+<div class="row">
+	<div class="col-xs-2 col-md-2"></div>
+	<div class="col-xs-8 col-md-8">
+		<h2 class="text-center">게시글 보기</h2>
+		<p>&nbsp;</p>
+		<div class="table table-responsive">
+			<table class="table">
 
 
-<script>
-	function updateBoard(){
-			location.href = "${path}/help/qnaupdate?qnaId=${qnaboard.qnaId}";
-	}
+				<tr>
+					<th class="success">작성자</th>
+					<td>${qnaboard.userId}</td>
+					<th class="success">작성일</th>
+					<td>${qnaboard.qnaCreateDate}</td>
+				</tr>
+
+				<tr>
+					<th class="success">제목</th>
+					<td colspan="3">${qnaboard.qnaTitle}</td>
+				</tr>
+
+				<tr>
+					<th class="success">글 내용</th>
+					<td colspan="3">${qnaboard.qnaContent}</td>
+				</tr>
+
+				<tr>
+					<th colspan="2"><c:if
+							test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
+							<button type="button" onclick="updateBoard()">수정</button>
+							<button type="button" onclick="deleteBoard()">삭제</button>
+						</c:if>
+					<button type="button"
+							onclick="location.replace('${path}/help/qnalist')">목록으로</button>
+					</th>
+				</tr>
+			</table>
+		</div>
 		
-	function deleteBoard(){		
-		if(confirm("정말로 게시글을 삭제 하시겠습니까?")){
+		<div class="container">
+		<form method="post" name="commentInsertForm">
+		<label for="content">댓글</label>
+			<div class="input-group">
+				<c:if
+					test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
+					<input type="hidden" name="qnaId" value="${qnaboard.qnaId}" />
+					<input type="text" class="form-control" id="qnaReContent"
+						name="qnaReContent" placeholder="내용을 입력하세요.">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="submit" onclick="fn_reply('${qnareply.qnaReId}')"
+							name="commentInsertBtn" id="commentInsertBtn">등록</button>
+					</span>
+				</c:if>
+			</div>
+
+		</form>
+	</div>
+
+	<div class="container">
+		<form id="commentListForm" name="commentListForm" method="post">
+        <div id="commentList">
+        </div>
+       </form>
+		</div>
+	</div>
+</div>
+<script>
+	function updateBoard() {
+		location.href = "${path}/help/qnaupdate?qnaId=${qnaboard.qnaId}";
+	}
+
+	function deleteBoard() {
+		if (confirm("정말로 게시글을 삭제 하시겠습니까?")) {
 			location.replace('${path}/help/qnadelete?qnaId=${qnaboard.qnaId}');
 		}
 	}
+	
+	function fn_reply(){
+		
+		$.ajax({
+			type : 'POST',
+			url : "<c:url value='/help/addreply.do'/>",
+			data: $("#commentInsertForm").serialize(),
+			success : function(data){
+				if(data == "success")
+			{
+					getCommentList();
+					$("#qnaReContent").val("");
+			}
+		},
+		error:function(request,status,error){
+		}
+			
+		});
+	}
+	
+	$(function(){
+		
+		 getreplyList();
+	});
+	
+	function getreplyist(){
+		
+		$.ajax({
+			type:'GET'
+			url: "<c:url value='/help/replylist.do/>'",
+			dataType: "json",
+			data: $("#commentListForm").serialize(),
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			success  : function(data){
+				
+				var html = "";
+	            var cCnt = data.length;
+	            
+	            if(data.length > 0){
+	                
+	                for(i=0; i<data.length; i++){
+	                    html += "<div>";
+	                    html += "<div><table class='table'><h6><strong>"+data[i].replyWriterNo+"</strong></h6>";
+	                    html += data[i].comment + "<tr><td></td></tr>";
+	                    html += "</table></div>";
+	                    html += "</div>";
+	                }
+	                
+	            } else {
+	                
+	                html += "<div>";
+	                html += "<div><table class='table'><h6><strong>등록된 댓글이 없습니다.</strong></h6>";
+	                html += "</table></div>";
+	                html += "</div>";
+	                
+	            }
+	            
+	            $("#cCnt").html(cCnt);
+	            $("#commentList").html(html);
+	            
+	        },
+	        error:function(request,status,error){
+	            
+	       }
+	        
+	    });
+	}
 </script>
 
- 
- <script>
- var qnaId = '${qnaboard.qnaId}';
- 
- $('[name=commentInsertBtn]').clik(function(){
-	 var insertData = $('[name=commentInsertForm]').serialize();
-	 commentInsert(insertData);
- });
- 
 
- function commentInsert(insertData)
-  $.ajax({
-	  url : '/help/qnareply',
-	  type : 'post'
-	  data : insertData,
-	  sucess : finction(data){
-		  if(data == 1){
-			  commentList();
-			  $('[name=qnaReContent]').val('');
-		  }
-	  }
-  });
- }
-
-</script>
- 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

@@ -1,8 +1,13 @@
 package com.kh.cm.member.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -304,5 +309,44 @@ public class MemberController {
 			
 			return "member/findPassword";
 		}
+		
+		//관리자페이지 멤버전체조회
+		@RequestMapping(value = "/admin/adminpage", method = {RequestMethod.GET})
+		public ModelAndView memberAllList(ModelAndView model, 
+				                          @SessionAttribute(name = "loginMember") Member loginMember) {
+			
+			   List<Member> list = null;
+			   int memberCount  = service.memberAllCount();
+			   
+			   System.out.println(memberCount);
+			   
+			   list = service.getMemberList();
+			   
+			   model.addObject("memlist",list);
+			   model.setViewName("admin/adminpage");
+			
+			return model;
+			
+		}
+		
+		// 관리자페이지에서 회원정보 페이지뷰
+		@RequestMapping(value = "/admin/memupdate", method = {RequestMethod.GET})
+		public void adminUpdateMemView() {
+			
+		}
+		
+		@RequestMapping(value = "/admin/memupdate", method = {RequestMethod.POST})
+		public ModelAndView adminUpdateMember(ModelAndView model,
+				               @RequestParam("userId") String userId) {
+			
+			
+	      Member  member = service.findMember(userId);
+	      
+	       model.addObject("mem", member);
+	       model.setViewName("admin/adminpage");
+	       
+		return model;
+		
+		}	
 		
 }

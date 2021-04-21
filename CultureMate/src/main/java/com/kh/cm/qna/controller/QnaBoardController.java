@@ -1,17 +1,25 @@
 package com.kh.cm.qna.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cm.cs.model.vo.CsBoard;
@@ -33,7 +41,8 @@ public class QnaBoardController {
 	@RequestMapping(value = "/qnalist", method = {RequestMethod.GET})
 	public ModelAndView qnalist(
 			ModelAndView model,
-			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+			QnaBoard qnaboard) {
 		
 		List<QnaBoard> list = null;
 		int boardCount = service.getqnaBoardCount();
@@ -59,6 +68,8 @@ public class QnaBoardController {
 
 		int result =0;
 		
+		
+		
 		if(loginMember.getUserId().equals(qnaboard.getUserId())) {
 			qnaboard.setQnaWriterNo(loginMember.getId());
 			
@@ -81,6 +92,7 @@ public class QnaBoardController {
 		return model;
 	}
 	
+    
 	@RequestMapping(value = "qnaview", method = {RequestMethod.GET})
 	public ModelAndView qnaview(@RequestParam("qnaId") int qnaId, ModelAndView model) {
 		
@@ -92,28 +104,80 @@ public class QnaBoardController {
 		return model;
 	}
 
-	@RequestMapping(value = "qnareply", method = {RequestMethod.POST})
-	public ModelAndView qnareply(
-			            @SessionAttribute(name = "loginMember", required = false) Member loginMember,
-			            @RequestParam int qnaId, @RequestParam int replyWriterNo, @RequestParam String qnaReContent,
-			            ModelAndView model) {
-		int result=0;
+//	@RequestMapping(value = "qnareply", method = {RequestMethod.POST})
+//	public ModelAndView qnareply(
+//			            @SessionAttribute(name = "loginMember", required = false) Member loginMember,
+//			            @RequestParam int qnaId, @RequestParam int replyWriterNo, @RequestParam String qnaReContent,
+//			            ModelAndView model) {
+//		int result=0;
+//		
+//		   QnaReply qnareply = new QnaReply();
+//		   
+//		   qnareply.setQnaId(qnaId);
+//		   qnareply.setReplyWriterNo(loginMember.getId());
+//		   qnareply.setQnaReContent(qnaReContent);
+//		
+//		   System.out.println(qnareply);
+//		   
+//		   result = service.getqnaReply(qnareply);
+//		   
+//		   model.addObject("qnareply", qnareply);
+//		   model.setViewName("help/qnaview");
+//		   
+//		return model;
+//	}
+	
+	@RequestMapping(value = "addreply.do", method = {RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+     public String ajax_addReply(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
+    		 @SessionAttribute("loginMember") Member loginMember) {
 		
-		   QnaReply qnareply = new QnaReply();
-		   
-		   qnareply.setQnaId(qnaId);
-		   qnareply.setReplyWriterNo(loginMember.getId());
-		   qnareply.setQnaReContent(qnaReContent);
+		    try {
+		    	qnareply.setReplyWriterNo(loginMember.getId());
+		    	service.addreply(qnareply);
+		    }catch(Exception e){
+	            e.printStackTrace();
 		
-		   System.out.println(qnareply);
-		   
-		   result = service.getqnaReply(qnareply);
-		   
-		   model.addObject("qnareply", qnareply);
-		   model.setViewName("help/qnaview");
-		   
-		return model;
+		    }
+		    System.out.println(qnareply);
+		return "success";
 	}
+	
+//	 @RequestMapping(value="/board/replyList.do", produces="application/json; charset=utf8")
+//	    @ResponseBody
+//	    public ResponseEntity ajax_commentList(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
+//	    		@SessionAttribute(name = "loginMember",  required = false)  Member loginMember) throws Exception{
+//	        
+//	        HttpHeaders responseHeaders = new HttpHeaders();
+//	        ArrayList<HashMap> replylist = new ArrayList<HashMap>();
+//	        
+//	        List<QnaReply> reply = service.getqnareplyList(qnareply.getQnaId());        
+//	        
+//	        if(reply.size() > 0){
+//	        	
+//	            for(int i=0; i<reply.size(); i++){
+//	            	
+//	                HashMap hm = new HashMap();
+//	                
+//	                hm.put("qnaReId", reply.get(i).getQnaReId());
+//	                hm.put("qnaId", reply.get(i).getQnaId());
+//	                hm.put("userId", reply.get(i).getUserId());
+//	                hm.put("replyWriterNo", reply.get(i).getReplyWriterNo());
+//	                hm.put("qnaReContent", reply.get(i).getQnaReContent());
+//	                hm.put("replyCreateDate", reply.get(i).getReplyCreateDate());
+//	                
+//	                
+//	                replylist.add(hm);
+//	            }
+//	            
+//	        }
+//	        
+//	        JSONArray json = new JSONArray(replylist);        
+//	        return 
+//	        
+//	    }
+
+	
 	
 	@RequestMapping(value = "/qnaupdate", method = {RequestMethod.GET})
 	public ModelAndView qnaupdate(

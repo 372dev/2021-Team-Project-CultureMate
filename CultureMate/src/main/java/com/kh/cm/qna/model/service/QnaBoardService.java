@@ -16,15 +16,10 @@ public interface QnaBoardService {
 
 	QnaBoard findqnaBoardById(int qnaId);
 
-	int getqnaReply(QnaReply qnareply);
+//	int saveqnaReBoard(QnaReply qnareply);
 
+	int addreply(QnaReply qnareply);
 
 	
-
-
-
-
-
-
 
 }

@@ -1,5 +1,7 @@
 package com.kh.cm.member.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -7,6 +9,8 @@ import com.kh.cm.member.model.vo.Member;
 
 @Mapper
 public interface MemberDao {
+    
+	int selectMemberCount(); // 모든멤버수조회 카운트
 
 	Member selectMember(@Param("userId") String userId);
 	
@@ -29,5 +33,15 @@ public interface MemberDao {
 	Member checkAuth(String authkey); // 이메일 인증코드 확인
 
 	int successAuthkey(Member member); // 인증 후 계정 활성화
+
+	List<Member> selectMemberList(); // 모든 멤버리스트 조회
+
+	Member allfindMemberDetail(String userId);
+
+
+
+	
+
+
 
 }
