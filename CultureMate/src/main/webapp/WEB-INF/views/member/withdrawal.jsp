@@ -4,6 +4,8 @@
 
 <link rel="stylesheet" href="${path}/resources/css/withdrawal.css" />
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+	
 	#withdrawal{
 		padding: 0 120 0 120;
 	}
@@ -12,6 +14,7 @@
 		background: #dcdcdc;
 		height: 350px;
 		padding: 45px;
+		font-family: 'Noto Sans KR', sans-serif;
 	}
 	
 	#deleteDiv{
@@ -33,12 +36,22 @@
 	
 	.btn{
 		margin-left: 150px;
+		background-color: #9DB81F;
+		border: #9DB81F;
+	}
+	
+	.btn:hover{
+		color: white;
+	}
+	
+	h3{
+		font-family: 'Noto Sans KR', sans-serif;
 	}
 </style>
 <section>
     <div id="withdrawal" class="withdrawal">
         
-        <h3>탈퇴 안내</h2>
+        <h3 id="title">탈퇴 안내</h2>
         <p>회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</p>
         <div id="withdrawalInfo">
             <h4>* 사용하고 계신 아이디(<span style="color: green" >${ loginMember.userId }</span>)는 탈퇴할 경우 <span style="color: red">재사용 및 복구가 불가능</span>합니다.</h4>
@@ -55,7 +68,7 @@
         </div>
         <br><br>
         <div>
-            <h4>회원님의 정보 내역을 확인해 주세요.</h4>
+            <h3>회원님의 정보 내역을 확인해 주세요.</h4>
             <p>회원탈퇴 후 모두 소멸됩니다.</p>
             <ul>
             	<li> 이름 : ${ loginMember.userName }
@@ -112,7 +125,7 @@
             <br><br><br>
             <div class="form-group">
               <div class="col-lg-offset-2 col-lg-10">
-                  <button type="submit" class="btn btn-success px-3" id="deleteMember">탈퇴하기</button>
+                  <button type="submit" class="btn px-3" id="deleteMember">탈퇴하기</button>
               </div>
             </div>
         </form>

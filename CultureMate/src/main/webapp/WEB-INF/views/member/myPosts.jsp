@@ -8,6 +8,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+	
 	.list-group-item.active{
 		background-color: #b7ba41;
 		border-color: #b7ba41;
@@ -41,6 +43,14 @@
     	padding: 6px;
     	width:80px;
     }
+    
+    #title{
+		font-family: 'Noto Sans KR', sans-serif;
+	}
+	
+	.pagination{
+		justify-content: center;
+	}
 </style>
 <div class="container">
 	<div class="row">
@@ -58,7 +68,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-12">
-							<h4>내가 쓴 글 조회</h4>
+							<h4 id="title">내가 쓴 글 조회</h4>
 							<hr>
 						</div>
 					</div>
@@ -101,29 +111,28 @@
 							<br>
 						</div>
 					</div>
-						<div id="pageBar">
-							<!-- 맨 처음으로 -->
-							<button onclick="location.href='${path}/member/myPosts?page=1'">&lt;&lt;</button>
-							
-							<!-- 이전 페이지로 -->
-							<button onclick="location.href='${path}/member/myPosts?page=${pageInfo.prvePage}'">&lt;</button>
-				
-							<!--  10개 페이지 목록 -->
-							<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+					<nav aria-label="Page navigation example">
+					  <ul class="pagination">
+					    <li class="page-item">
+					      <a class="page-link" href="${path}/member/myPosts?page=1" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>
+					    <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 								<c:if test="${status.current == pageInfo.currentPage}">
-									<button disabled><c:out value="${status.current}"/></button>
+									<li class="page-item"><a class="page-link" href='${path}/member/myPosts?page=${status.current}'"><c:out value="${status.current}"/></a></li>
 				   				</c:if>
 								<c:if test="${status.current != pageInfo.currentPage}">
-									<button onclick="location.href='${path}/member/myPosts?page=${status.current}'"><c:out value="${status.current}"/></button>
+									<li class="page-item"><a class="page-link" href='${path}/member/myPosts?page=${status.current}'"><c:out value="${status.current}"/></a></li>
 				   				</c:if>
-							</c:forEach>
-							
-							<!-- 다음 페이지로 -->
-							<button onclick="location.href='${path}/member/myPosts?page=${pageInfo.nextPage}'">&gt;</button>
-							
-							<!-- 맨 끝으로 -->
-							<button onclick="location.href='${path}/member/myPosts?page=${pageInfo.maxPage}'">&gt;&gt;</button>
-					</div>
+						</c:forEach>
+					    <li class="page-item">
+					      <a class="page-link" href="${path}/member/myPosts?page=${pageInfo.nextPage}" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					  </ul>
+					</nav>
 				</div>
 			</div>
 		</div>

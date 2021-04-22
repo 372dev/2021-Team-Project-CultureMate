@@ -8,6 +8,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+
 	.list-group-item.active{
 		background-color: #9DB81F;
 		border-color: #9DB81F;
@@ -23,6 +25,10 @@
 	
 	.btn:hover{
 		color: white;
+	}
+	
+	#title{
+		font-family: 'Noto Sans KR', sans-serif;
 	}
 </style>
 <div class="container">
@@ -41,7 +47,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-12">
-							<h4>비밀번호 변경</h4>
+							<h4 id="title">비밀번호 변경</h4>
 							<hr>
 						</div>
 					</div>

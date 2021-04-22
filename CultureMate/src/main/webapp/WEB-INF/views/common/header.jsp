@@ -31,7 +31,7 @@
 					<a class="login btn-secondary" href="${path}/login">로그인</a>
 				</c:if>
 				<c:if test="${loginMember != null}">
-					<a class="logOut btn-secondary" href="">로그아웃</a>
+					<a class="logOut btn-secondary" href="${path}/logout">로그아웃</a>
 					<c:choose>
 						<c:when test="${loginMember.userRole == 'ROLE_ADMIN'}">
 							<a class="mypage btn-secondary" href="${path}/member/myPage">마이페이지</a>
