@@ -47,122 +47,131 @@
             <div class="seat_box">
                 <div class="line line01">
                     <div class="seat able">A1</div>
-                    <div class="seat able">B1</div>
+                    <div class="seat none">B1</div>
                     <div class="seat able">C1</div>
-                    <div class="seat able">D1</div>
+                    <div class="seat none">D1</div>
                     <div class="seat able">E1</div>
-                    <div class="seat able">F1</div>
+                    <div class="seat none">F1</div>
                     <div class="seat able">G1</div>
-                    <div class="seat able">H1</div>
+                    <div class="seat none">H1</div>
                 </div>
                 <div class="line line02">
-                    <div class="seat able">A2</div>
+                    <div class="seat none">A2</div>
                     <div class="seat able">B2</div>
-                    <div class="seat able">C2</div>
+                    <div class="seat none">C2</div>
                     <div class="seat able">D2</div>
-                    <div class="seat able">E2</div>
+                    <div class="seat none">E2</div>
                     <div class="seat able">F2</div>
-                    <div class="seat able">G2</div>
+                    <div class="seat none">G2</div>
                     <div class="seat able">H2</div>
                 </div>
                 <div class="line line03">
                     <div class="seat able">A3</div>
-                    <div class="seat able">B3</div>
+                    <div class="seat none">B3</div>
                     <div class="seat able">C3</div>
-                    <div class="seat able">D3</div>
+                    <div class="seat none">D3</div>
                     <div class="seat able">E3</div>
-                    <div class="seat able">F3</div>
+                    <div class="seat none">F3</div>
                     <div class="seat able">G3</div>
-                    <div class="seat able">H3</div>
+                    <div class="seat none">H3</div>
                 </div>
                 <div class="line line04">
-                    <div class="seat able">A4</div>
+                    <div class="seat none">A4</div>
                     <div class="seat able">B4</div>
-                    <div class="seat able">C4</div>
+                    <div class="seat none">C4</div>
                     <div class="seat able">D4</div>
-                    <div class="seat able">E4</div>
+                    <div class="seat none">E4</div>
                     <div class="seat able">F4</div>
-                    <div class="seat able">G4</div>
+                    <div class="seat none">G4</div>
                     <div class="seat able">H4</div>
                 </div>
                 <div class="line line05">
                     <div class="seat able">A5</div>
-                    <div class="seat able">B5</div>
-                    <div class="seat none">C5</div>
-                    <div class="seat able">D5</div>
+                    <div class="seat none">B5</div>
+                    <div class="seat able">C5</div>
+                    <div class="seat none">D5</div>
                     <div class="seat able">E5</div>
-                    <div class="seat able">F5</div>
-                    <div class="seat none">G5</div>
-                    <div class="seat able">H5</div>
+                    <div class="seat none">F5</div>
+                    <div class="seat able">G5</div>
+                    <div class="seat none">H5</div>
                 </div>
                 <div class="line line06">
-                    <div class="seat able">A6</div>
+                    <div class="seat none">A6</div>
                     <div class="seat able">B6</div>
                     <div class="seat none">C6</div>
-                    <div class="seat none">D6</div>
-                    <div class="seat able">E6</div>
+                    <div class="seat able">D6</div>
+                    <div class="seat none">E6</div>
                     <div class="seat able">F6</div>
                     <div class="seat none">G6</div>
-                    <div class="seat none">H6</div>
+                    <div class="seat able">H6</div>
                 </div>
                 <div class="line line07">
                     <div class="seat able">A7</div>
-                    <div class="seat able">B7</div>
+                    <div class="seat none">B7</div>
                     <div class="seat able">C7</div>
-                    <div class="seat able">D7</div>
+                    <div class="seat none">D7</div>
                     <div class="seat able">E7</div>
-                    <div class="seat able">F7</div>
+                    <div class="seat none">F7</div>
                     <div class="seat able">G7</div>
                     <div class="seat none">H7</div>
                 </div>
                 <div class="line line08">
-                    <div class="seat">A8</div>
-                    <div class="seat">B8</div>
-                    <div class="seat">C8</div>
-                    <div class="seat">D8</div>
-                    <div class="seat">E8</div>
-                    <div class="seat">F8</div>
-                    <div class="seat">G8</div>
-                    <div class="seat">H8</div>
+                    <div class="seat none">A8</div>
+                    <div class="seat able">B8</div>
+                    <div class="seat none">C8</div>
+                    <div class="seat able">D8</div>
+                    <div class="seat none">E8</div>
+                    <div class="seat able">F8</div>
+                    <div class="seat none">G8</div>
+                    <div class="seat able">H8</div>
                 </div>
                 <div class="line line09">
-                    <div class="seat none">A9</div>
-                    <div class="seat able">B9</div>
+                    <div class="seat able">A9</div>
+                    <div class="seat none">B9</div>
                     <div class="seat able">C9</div>
                     <div class="seat none">D9</div>
                     <div class="seat able">E9</div>
-                    <div class="seat able">F9</div>
+                    <div class="seat none">F9</div>
                     <div class="seat able">G9</div>
-                    <div class="seat able">H9</div>
+                    <div class="seat none">H9</div>
                 </div>
                 <div class="line line10">
-                    <div class="seat able">A10</div>
+                    <div class="seat none">A10</div>
                     <div class="seat able">B10</div>
-                    <div class="seat able">C10</div>
-                    <div class="seat none">D10</div>
-                    <div class="seat able">E10</div>
+                    <div class="seat none">C10</div>
+                    <div class="seat able">D10</div>
+                    <div class="seat none">E10</div>
                     <div class="seat able">F10</div>
-                    <div class="seat able">G10</div>
+                    <div class="seat none">G10</div>
                     <div class="seat able">H10</div>
                 </div>
             </div>
+        </div>
+        <form id="result_view" action="">
+            <label>좌석번호 : <input id="seat_num_view" class="list list01" type="text" readonly></label> <br>
+            <label>티켓수 : <input id="seat_count_view" class="list list02" type="text" value="" readonly></label> <br>
+            <label>가격 : <input id="seat_price_view" class="list list03" type="text" value="" readonly></label>
+        </form>
+        <div id="btn_container">
+            <button id="reset" class="font btn" onclick="remove()">초기화</button>
+            <button id="complete" class="font btn" onclick="payment()">결제하기</button>
         </div>
         <form id="result" action="">
             <label>좌석번호 : <input id="seat_num" class="list list01" type="text" readonly></label> <br>
             <label>개수 : <input id="seat_count" class="list list02" type="text" value="0" readonly></label> <br>
             <label>가격 : <input id="seat_price" class="list list03" type="text" value="0" readonly></label>
         </form>
-        <div id="btn_container">
-            <button id="reset" class="font btn" onclick="remove()">초기화</button>
-            <button id="complete" class="font btn" onclick="payment()">결제하기</button>
-        </div>
     </div>
 
     <script>
         var price = opener.document.getElementById("form_pcseguidance").value;
+        var price_view = null;
         var seat_count = document.getElementById('seat_count');
         var seat_price = document.getElementById('seat_price');
         var seat_num = document.getElementById('seat_num');
+        var seat_count_view = document.getElementById('seat_count_view');
+        var seat_price_view = document.getElementById('seat_price_view');
+        var seat_num_view = document.getElementById('seat_num_view');
 
         // 좌석 클릭 이벤트
         const container = document.querySelector(".seat_box");
@@ -192,6 +201,10 @@
                     seat_count.value = null;
                     seat_price.value = null;
                     seat_num.value = null;
+
+                    seat_count_view.value = null;
+                    seat_price_view.value = null;
+                    seat_num_view.value = null;
                 } else{
                     for(let i = 0; i < count; i++) {
                         seat_num_arr[i] = seat_num_for[i].innerHTML;
@@ -200,6 +213,12 @@
                     seat_count.value = count;
                     seat_price.value = price * count;
                     seat_num.value = seat_num_arr;
+
+                    price_view = (price * count).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+                    seat_count_view.value = count;
+                    seat_price_view.value = price_view + "원";
+                    seat_num_view.value = seat_num_arr;
 
                     console.log(seat_num_arr);
                 }
@@ -216,6 +235,10 @@
             seat_count.value = null;
             seat_price.value = null;
             seat_num.value = null;
+
+            seat_count_view.value = null;
+            seat_price_view.value = null;
+            seat_num_view.value = null;
         }
         
      	// 결제하기
