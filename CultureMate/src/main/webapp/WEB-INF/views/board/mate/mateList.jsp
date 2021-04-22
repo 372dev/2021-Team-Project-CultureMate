@@ -14,11 +14,20 @@
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 900px;
+		height: 950px;
    
     }
     #mate-Title{
         text-align: left;
+    }
+    #mate-Title > a{
+    	color: black;
+    	text-decoration:none; 
+ 	       
+    }
+    #mate-Title > h2 {
+    	text-decoration:line-through #b7ba41;
+    	margin-left:100px;
     }
     #mate-Search{
     	text-align: right;
@@ -27,7 +36,7 @@
     	float: left;
     }
     #mate-Search2{
-    	text-align: right;
+    	text-align: right;    
     }
     #mateList-frm{
         text-align: center;    
@@ -74,9 +83,9 @@
 <section id="mateSection">
 	
 	<div id="mateList-container">
-		<div id="mate-Title" style="line-through;">
-			        <h1>같이 가요</h1>
-			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
+		<div id="mate-Title">
+			        <a href="${path}/mate/list"><h1 style="font-size: 48pt;">같이가요</h1></a>
+			        <h2>- 같이 갈 메이트 괌</h4>
 		    	</div>
 		 <div id="mate-Search">
 		
@@ -121,7 +130,7 @@
 			<c:if test="${mateList != null}">
 			<c:forEach var="mate" items="${mateList}">
 			<c:if test="${mate.mateOpen == '모집완료' }">
-					<tr id="mateList-tr" style="background-color: #f2f2f7;">
+					<tr id="mateList-tr" style="background-color: #f2f2f7;color:#c7c7c9;">
 						<td><c:out value="${mate.mateId}"/></td>
 						<td><c:out value="${mate.mateShow}"/></td>						
                         <td><span id="mateOpen"><c:out value="${mate.mateOpen}"/></span></td>                       
@@ -130,7 +139,7 @@
                         <td><c:out value="${mate.mateNum}"/></td>
                         <td><c:out value="${mate.mateLoc}"/></td>
 						<td>
-							<a href="${path}/mate/view?mateId=${mate.mateId}">
+							<a style="text-decoration: none;color:#c7c7c9;" href="${path}/mate/view?mateId=${mate.mateId}">
 								<c:out value="${mate.mateTitle}"/>
 							</a>
 						</td>
@@ -149,7 +158,7 @@
                         <td><c:out value="${mate.mateNum}"/></td>
                         <td><c:out value="${mate.mateLoc}"/></td>
 						<td>
-							<a href="${path}/mate/view?mateId=${mate.mateId}">
+							<a style="text-decoration: none;color:black;" href="${path}/mate/view?mateId=${mate.mateId}">
 								<c:out value="${mate.mateTitle}"/>
 							</a>
 						</td>

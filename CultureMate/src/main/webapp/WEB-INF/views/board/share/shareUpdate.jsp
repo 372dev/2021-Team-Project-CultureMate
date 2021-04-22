@@ -8,18 +8,26 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
- 
- 
+ 		 font-family: 'Do Hyeon', sans-serif;
 	}
     #shareUpdate-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 900px;
+		height: 950px;
    
     }
     #shareTitle{
         text-align: left;
+    }
+     #share-Title > a{
+   	color: black;
+   	text-decoration:none; 
+ 	       
+    }
+    #share-Title > h2 {
+    	text-decoration:line-through #b7ba41;
+    	margin-left:100px;
     }
     #shareUpdate-frm{
         text-align: center;    
@@ -39,12 +47,13 @@
     }
     #shareUpdate-tr>td{
     	padding: 5px;
+    	width: 80px;
     }
     #shareUpdate-tr>td:nth-child(4){
-    	width: 300px;
+    	width: 200px;
     }
     #shareUpdate-tr>td:nth-child(6){
-    	width: 100px;
+    	width: 150px;
     }
     #shareUpdate-tr1>td{
     	padding: 5px;
@@ -58,14 +67,14 @@
   }	
    
 </style>
-</head>
-<body>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <section id="shareSection">
        
 		    <div id="shareUpdate-container">
 		        <div id="shareTitle">
-			       <h1>티켓 나눔</h1>
-			        <h4>&nbsp; - 공연 티켓 괌</h4>
+			      <a style="color: black;text-decoration:none;" href="${path}/share/list"><h1 style="font-size: 48pt;">티켓나눔</h1></a>
+			        <h2 style="text-decoration:line-through #b7ba41;margin-left:100px;">- 공연 티켓 괌</h4>	
 		    	</div>
 		    <hr>
 		    <form action="${path}/share/update" id="shareUpdate-frm" method="post" enctype="multipart/form-data">
@@ -98,7 +107,7 @@
 		            <td>
 		        		<input style="border-radius:5px;height:28px;border:1px solid;width:80px;" type="text" name="userNick" id="userNick" value="${loginMember.userNick }" readonly>
 		        	</td>          
-		            <td>${share.shareCreateDate}</td>	           
+		            <td><fmt:formatDate value="${share.shareCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>	           
 		            <td>${share.shareCount}</td>			            
 		        </tr>
 		<tr id="shareUpdate-tr1">

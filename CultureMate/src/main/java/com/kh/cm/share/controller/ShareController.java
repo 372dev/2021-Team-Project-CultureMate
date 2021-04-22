@@ -172,32 +172,6 @@ public class ShareController {
 	        model.setViewName("/board/share/shareView");
 	        return model;
 	 }	
-//	@RequestMapping(value="/view", method = {RequestMethod.GET}) 
-//	public ModelAndView shareView(@RequestParam("shareId")int shareId, ModelAndView model,
-//			@RequestParam(value="page", required=false, defaultValue="1") int page,
-//			@RequestParam(value="listlimit", required=false, defaultValue="3") int listLimit) {
-//		Share share = service.findShareByShareId(shareId);
-//		
-////		List<ShareReply> shareReplies = service.findShareReplyByShareId(shareId);
-//		boolean updateShareCount = service.updateShareCount(shareId);
-//		int shareReplyCount = service.getShareReplyCount(shareId);
-//		
-//		PageInfo pageInfo = new PageInfo(page, 5, shareReplyCount, 3);
-//		List<ShareReply> shareReplies = service.findShareReplyByShareId(shareId, pageInfo);
-//		
-////		shareReplies = service.findShareReplyByShareId(pageInfo);
-//			
-//		model.addObject("share", share);
-//		model.addObject("shareReplies", shareReplies);
-//		model.addObject("pageInfo", pageInfo);
-//		model.setViewName("/board/share/shareView");
-//		
-//		System.out.println(shareReplies);
-//		
-//		return model;
-//	}
-
-	
 	
 	@RequestMapping(value="/write", method = {RequestMethod.POST}) 
 	public ModelAndView shareWrite(ModelAndView model,
@@ -449,42 +423,7 @@ public class ShareController {
 	}
 		return resultMsg;
 	}
-//	@RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
-//	public ModelAndView reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
-//			@RequestParam(name ="shareReplyId") int shareReplyId,@RequestParam(name ="shareId") int shareId,
-//			@RequestParam(name ="writer") String writer,
-//			@RequestParam(name ="content") String content, ShareReply shareReply,
-//			ModelAndView model) {
-//		int result = 0;
-//		
-//		if(loginMember.getUserNick().equals(writer)) {
-//			shareReply.setShareId(shareId);
-//			shareReply.setShareReplyContent(content);
-//			shareReply.setShareReplyWriteId(loginMember.getId());
-//			shareReply.setShareReplyGroup(shareReplyId);
-//			
-//			System.out.println(shareReplyId);
-//			
-//			result = service.saveShareReReply(shareReply);
-//			
-//			if(result > 0) {
-//				model.addObject("msg", "댓글 등록에 성공했습니다.");
-//				
-//				model.addObject("location", "/share/view?shareId=" + shareReply.getShareId());
-//			} else {
-//				model.addObject("msg", "댓글 등록에 실패했습니다.");
-//				model.addObject("location", "/share/list");
-//				
-//			}
-//		} else {
-//			model.addObject("msg", "잘못된 접근입니다.");
-//			model.addObject("location", "/share/list");
-//		}
-//		
-//		model.setViewName("common/msg");
-//		return model;
-//	}
-	
+
 	@RequestMapping(value ="/reply/delete", method ={RequestMethod.GET})
 	public ModelAndView deleteReply(ModelAndView model, ShareReply shareReply , @RequestParam(name="shareReplyId") int shareReplyId
 			, @RequestParam(name="shareId") int shareId) {

@@ -13,18 +13,25 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
- 
- 
+ 		 font-family: 'Do Hyeon', sans-serif; 
 	}
     #mateUpdate-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 900px;
+		height: 950px;
    
     }
     #mateTitle{
         text-align: left;
+    }
+   	#mate-Title > a{
+    	color: black;
+    	text-decoration:none;  	       
+    }
+    #mate-Title > h2 {
+    	text-decoration:line-through #9db81f;
+    		margin-left:100px;
     }
     #mateUpdate-frm{
         text-align: center;    
@@ -56,18 +63,21 @@
      	height:35px;
 	  	border: none;
 		border-radius: 5px;
-		background: #b7ba41;
+		background: #9db81f;
 		color: white;
   }
 </style>
-</head>
-<body>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="mateSection">
        
 		    <div id="mateUpdate-container">
 		        <div id="mateTitle">
-			        <h1>같이 가요</h1>
-			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
+			       <a style="color: black;text-decoration:none;" href="${path}/mate/list"><h1 style="font-size: 48pt;">같이가요</h1></a>
+			        <h2 style="text-decoration:line-through #b7ba41;margin-left:100px;">- 같이 갈 메이트 괌</h4>
 		    	</div>
 		    <hr>
 		    <form action="${path}/mate/update" id="mateUpdate-frm" method="post" >

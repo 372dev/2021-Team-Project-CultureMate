@@ -8,18 +8,26 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
- 
- 
+		 font-family: 'Do Hyeon', sans-serif; 
 	}
     #shareWrite-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 800px;
+		height: 900px;
    
     }
     #share-Title{
         text-align: left;
+    }
+     #share-Title > a{
+   	color: black;
+   	text-decoration:none; 
+ 	       
+    }
+    #share-Title > h2 {
+    	text-decoration:line-through #b7ba41;
+    	margin-left:100px;
     }
     #shareWrite-frm{
         text-align: center;    
@@ -34,24 +42,30 @@
 	    text-align: center;    
         margin: auto;       
     }
+     #shareWrite-tr1>td:nth-child(3){
+     	width: 100px;
+     }
    #shareWrite-tr1>td{
    	   padding: 5px;
+   	   width: 50px;
    }
      #shareButton{
      height:35px;
   	 border: none;
 	 border-radius: 5px;
-	 background: yellowgreen;
+	 background: #9db81f;
 	 color: white;
   }	
    
 </style>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <section id="shareSection">
        
 		    <div id="shareWrite-container">
 		        <div id="share-Title">
-			        <h1>티켓 나눔</h1>
-			        <h4>&nbsp; - 공연 티켓 괌</h4>
+			       <a href="${path}/share/list"><h1 style="font-size: 48pt;">티켓나눔</h1></a>
+			        <h2>- 공연 티켓 괌</h4>	
 		    	</div>
 		    <hr>
 		    <form action="${path}/share/write" id="shareWrite-frm" method="post" enctype="multipart/form-data" >

@@ -13,16 +13,26 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto; 
+	     font-family: 'Do Hyeon', sans-serif;
 	}
     #mateView-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 960px;
+		height: 1000px;
    
     }
     #mate-Title{
         text-align: left;
+    }
+      #mate-Title > a{
+    	color: black;
+    	text-decoration:none; 
+ 	       
+    }
+    #mate-Title > h2 {
+    	text-decoration:line-through #b7ba41;
+    		margin-left:100px;
     }
     #mateView-frm{
         text-align: center;    
@@ -68,7 +78,7 @@
 	background: #9db81f;
 	color: white;
 	position:relative;
-	top:-30px;
+	top:-31px;
 }
   #mateButton{
    height:35px;
@@ -79,15 +89,15 @@
   }
   /*댓글테이블*/
 table#tbl-comment {
-	width:480px; 
+	width:460px; 
 	margin:0 auto; 
 	border-collapse:collapse; 
 	clear:both; 
 } 
 
 table#tbl-comment tr td {
-	border-bottom:0.5px solid; 
-	border-top:0.5px solid; 
+	border-bottom:0.5px solid gray; 
+	border-top:0.5px solid gray; 
 	padding:5px; 
 	text-align:left; 
 	line-height:100%;
@@ -104,7 +114,7 @@ table#tbl-comment tr td:last-of-type {
 
 table#tbl-comment sub.comment-writer {
 	vertical-align: top;
-	color:navy; 
+	color:#6c757d; 
 	font-size:9pt;
 	top:8px;
 }
@@ -123,14 +133,16 @@ table#tbl-comment sub.comment-date {
 	font-size: 7pt;
 }	
 </style>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="mateSection">
 	  <div id="mateView-container">
 		        <div id="mate-Title">
-			        <h1>같이 가요</h1>
-			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
+			        <a href="${path}/mate/list"><h1 style="font-size: 48pt;">같이가요</h1></a>
+			        <h2>- 같이 갈 메이트 괌</h4>
 		    	</div>
 		    <hr>
 		     <table id="mateView-tbl">
@@ -166,10 +178,11 @@ table#tbl-comment sub.comment-date {
 				    <button id="mateButton" type="button" onclick="location.replace('${path}/mate/list')">목록으로</button> &nbsp;
 			<c:if test="${ !empty loginMember && (loginMember.userNick == mate.userNick || loginMember.userRole == 'ROLE_ADMIN')}">  	    
 				    <button id="mateButton" type="button" onclick="location.replace('${path}/mate/delete?mateId=${mate.mateId}')">삭제하기</button>
-			</c:if>	    	
+			</c:if>	
+		  	
 		 <div id="comment-container">
+		 <br>
 	    	<div class="comment-editor">
-	    	<br>
 	    		<form action="${path }/mate/reply/write" method="post" onsubmit="return checkEmpty()">
 	    			<input type="hidden" name="mateId" value="${mate.mateId}">
 	    			<input type="hidden" name="writer" value='${loginMember != null ? loginMember.userNick : "" }'>
@@ -179,14 +192,14 @@ table#tbl-comment sub.comment-date {
 	    	</div>
 	    </div>
 		<table id="tbl-comment">
-			<c:if test="${mateReplies == null }">
+			<c:if test="${empty mateReplies}">
 				<tr>
-					<td>
+					<td style="text-align: center;">
 						등록된 댓글이 없습니다.
 					</td>
 				</tr>
 			</c:if>
-			<c:if test="${mateReplies != null }">
+			<c:if test="${!empty mateReplies }">
 		    	<c:forEach var = "mateReply" items="${mateReplies}">
 		    	 <c:if test="${mateReply.mateReplyId == mateReply.mateReplyGroup }">
 			    	<tr class="level1">
@@ -260,7 +273,9 @@ table#tbl-comment sub.comment-date {
 		    	</c:if>
 		    </table>
 		     <br>
+		    
 		    <div id="pageBar">
+    	 <c:if test="${!empty mateReplies}">
 			<!-- 맨 처음으로 -->
 			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=1'"><span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-menu-left"></span></button>
 			
@@ -282,6 +297,7 @@ table#tbl-comment sub.comment-date {
 			
 			<!-- 맨 끝으로 -->
 			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>	
+		</c:if>	
 	 </div>
 	 <script type="text/javascript">
 	 function checkEmpty() {
@@ -298,12 +314,6 @@ table#tbl-comment sub.comment-date {
 				return false;
 			}
 		}
-	
-	function updateMateReply() {
-		var mateReplyId = $("#mateReplyId").val();
-		location.href= '${path}/mate/reply/update?mateReplyId=' + mateReplyId;
-	}
-	
 	
 	<!-- Ajax script -->
 	

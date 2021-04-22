@@ -41,12 +41,8 @@ public interface MateDao {
 
 	int deleteMateReply(int mateReplyGroup);
 
-//	int updateMateReReply(MateReply mateReply);
-
 	int insertMateReReply(MateReply mateReply);
 
 	MateReply selectMateReply(int mateReplyId);
-//	MateReply selectMateReply(int mateReplyGroup);
-
 
 }

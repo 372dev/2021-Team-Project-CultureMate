@@ -125,11 +125,4 @@ public class MateServiceImpl implements MateService {
 		return mateDao.selectMateReply(mateReplyId);
 	}
 	
-	/*@Override
-	public MateReply findMateReplyByMateReplyId(int mateReplyGroup) {
-		
-		return mateDao.selectMateReply(mateReplyGroup);
-	}
-	 * */
-
 }

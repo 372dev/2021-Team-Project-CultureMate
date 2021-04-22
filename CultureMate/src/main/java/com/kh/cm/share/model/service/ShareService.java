@@ -20,8 +20,6 @@ public interface ShareService {
 
 	Share findShareByShareId(int shareId);
 
-//	List<ShareReply> findShareReplyByShareId(int shareId);
-
 	boolean updateShareCount(int shareId);
 
 	List<Share> getFindShare(String searchShare, String keyword, int start, int end);
@@ -39,8 +37,5 @@ public interface ShareService {
 	ShareReply findShareReplyByShareReplyId(int shareReplyId);
 
 	int saveShareReReply(ShareReply shareReply);
-
-	
-
 	
 }

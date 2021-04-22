@@ -6,18 +6,28 @@
 <style>
      #shareSection {
 	     min-height: 800px;
-	     width: 1000px;
+	     width: 1280px;
 	     margin: 0 auto;
+	      font-family: 'Do Hyeon', sans-serif;
 	}
     #shareList-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 800px;
+		height: 950px;
    
     }
     #share-Title{
         text-align: left;
+    }
+    #share-Title > a{
+   	color: black;
+   	text-decoration:none; 
+ 	       
+    }
+    #share-Title > h2 {
+    	text-decoration:line-through #b7ba41;
+    	margin-left:100px;
     }
     #share-Search1{
     	float: left;
@@ -47,22 +57,23 @@
     	width: 200px;
     }
     #shareList-tr>td{
-    	padding: 10px;
+    	padding: 6px;
     	width:100px;
     }
      .searchButton{
        vertical-align: top;
     }
 </style>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="shareSection">
 	<div id="shareList-container">
 		<div id="share-Title">
-			        <h1>티켓 나눔</h1>
-			        <h4>&nbsp; - 공연 티켓 괌</h4>
-		 
+			        <a href="${path}/share/list"><h1 style="font-size: 48pt;">티켓나눔</h1></a>
+			        <h2>- 공연 티켓 괌</h4>		 
 		    	</div>
 		   <div id="share-Search">
 		 <div id="share-Search1">
@@ -107,12 +118,12 @@
 			<c:if test="${shareList != null}"> 
 				<c:forEach var="share" items="${shareList}">
 					<c:if test="${share.shareOpen == '나눔완료'}">
-					<tr id="shareList-tr" style="background-color: #f2f2f7;">
+					<tr id="shareList-tr" style="background-color: #f2f2f7;color:#c7c7c9;">
 						<td><c:out value="${share.shareId}"/></td>				
                         <td><c:out value="${share.shareShow}"/></td>
                         <td><span><c:out value="${share.shareOpen }"/></span></td>
 						<td>
-							<a href="${path}/share/view?shareId=${share.shareId}">
+							<a style="text-decoration: none;color:#c7c7c9;" href="${path}/share/view?shareId=${share.shareId}">
 								<c:out value="${share.shareTitle}"/>
 							</a>
 						</td>
@@ -127,7 +138,7 @@
                         <td><c:out value="${share.shareShow}"/></td>
                         <td><span><c:out value="${share.shareOpen }"/></span></td>
 						<td>
-							<a href="${path}/share/view?shareId=${share.shareId}">
+							<a style="text-decoration: none;color:black;" href="${path}/share/view?shareId=${share.shareId}">
 								<c:out value="${share.shareTitle}"/>
 							</a>
 						</td>
@@ -166,31 +177,5 @@
 		</div>
   </div>
 </section>
-<script type="text/javascript">
-	/*
-	*$(document).on('click', '#searchButton', function(e) {
-	    e.preventDefault();
-	    var url = "${pageContext.request.contextPath}/share/list";
-	    url = url + "?searchShare=" + $('searchShare').val();
-	    url = url + "&keyword=" + $('#keyword').val();
-	    location.href = url;
-	    console.log(url);
-	});
-	*/
-/*
- * function search() {
-		var searchShare = document.getElementById("searchShare").value;
-		var page = document.getElementById("pageInfo").value;
-		var searchText = document.getElementById("searchText").value;
-		
-		if(searchShare === '작성자'){
-			location.href="${path}/share/list/find?userNick="+ searchText+ "&page=" + page ;	
-		}else if(searchShare === '제목'){
-			location.href="${path}/share/list/find?shareTitle="+ searchText+ "&page=" + page ;	
-		}else{
-			location.href="${path}/share/list/find?shareContent="+ searchText+ "&page=" + page ;	
-		}
-	}
- */
-</script>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

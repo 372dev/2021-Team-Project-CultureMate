@@ -47,7 +47,4 @@ public interface ShareDao {
 
 	int insertShareReReply(ShareReply shareReply);
 
-	
-	
-
 }

@@ -14,18 +14,26 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
- 
- 
+ 		 font-family: 'Do Hyeon', sans-serif;
 	}
     #shareView-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 900px;
+		height: 950px;
    
     }
     #share-Title{
         text-align: left;
+    }
+     #share-Title > a{
+   	color: black;
+   	text-decoration:none; 
+ 	       
+    }
+    #share-Title > h2 {
+    	text-decoration:line-through #b7ba41;
+    	margin-left:100px;
     }
     #shareView-frm{
         text-align: center;    
@@ -43,14 +51,14 @@
      	border-top: 1px solid lightgray;
     }
      #shareView-tr>td:nth-child(4){
-     	width: 300px;
-     }
-     #shareView-tr>td:nth-child(6){
      	width: 200px;
      }
+     #shareView-tr>td:nth-child(6){
+     	width: 150px;
+     }
     #shareView-tr>td{
-    	padding:7px;
-    	width:100px;
+    	padding:5px;
+    	width:80px;
     }
     #shareView-tr1>td{
     	padding: 5px;
@@ -63,7 +71,7 @@
 		background:#9db81f;
 		color: white;
 		position:relative;
-		top:-30px;
+		top:-31px;
 	}
     .shareButton{
      	height:35px;
@@ -79,15 +87,15 @@
   
 /*댓글테이블*/
 table#tbl-comment {
-	width:480px; 
+	width:460px; 
 	margin:0 auto; 
 	border-collapse:collapse; 
 	clear:both; 
 } 
 
 table#tbl-comment tr td {
-	border-bottom:0.5px solid; 
-	border-top:0.5px solid; 
+	border-bottom:0.5px solid gray; 
+	border-top:0.5px solid gray; 
 	padding:5px; 
 	text-align:left; 
 	line-height:100%;
@@ -104,7 +112,7 @@ table#tbl-comment tr td:last-of-type {
 
 table#tbl-comment sub.comment-writer {
 	vertical-align: top;
-	color:navy; 
+	color:#6c757d; 
 	font-size:9pt;
 	top:8px;
 }
@@ -124,14 +132,16 @@ table#tbl-comment sub.comment-date {
 }
    
 </style>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="shareSection">
 <div id="shareView-container">
 		        <div id="share-Title">
-			        <h1>티켓 나눔</h1>
-			        <h4>&nbsp; - 공연 티켓 괌</h4>
+			        <a href="${path}/share/list"><h1 style="font-size: 48pt;">티켓나눔</h1></a>
+			        <h2>- 공연 티켓 괌</h4>	
 		    	</div>
 		    <hr>
 		     <table id="shareView-tbl">
@@ -205,12 +215,16 @@ table#tbl-comment sub.comment-date {
 	    	</div>
 	    </div>
 		<table id="tbl-comment">
+				<c:if test="${empty shareReplies}">
+					<tr>
+						<td style="text-align: center;">
+							등록된 댓글이 없습니다.
+						</td>
+					</tr>
+				</c:if>
 		    	<c:forEach var = "shareReply" items="${shareReplies}">
 		    	<c:if test="${shareReply.shareReplyId == shareReply.shareReplyGroup }">
-			    	<tr class="level1">
-			    <!-- 	<c:if test="${ !empty loginMember && (loginMember.id == shareReply.id || loginMember.userRole == 'ROLE_ADMIN')}">
-			    </c:if>
-			     --> 			     	
+			    	<tr class="level1">     	
 			    		<td>
 			    			<sub class="comment-writer">${shareReply.userNick}</sub>
 			    			<sub class="comment-Id">${shareReply.shareReplyId}</sub>
@@ -218,13 +232,6 @@ table#tbl-comment sub.comment-date {
 			    			<br>
 			    			<span style="font-size:9pt;"><c:out value="${shareReply.shareReplyContent}"></c:out></span>
 			    		</td>
-		    		
-			    	<!--	<c:if test= "${empty loginMember || loginMember.id != shareReply.id}">
-				    		<td>
-				    			<c:out value="비밀댓글입니다."></c:out>
-				    		</td>	
-		    		</c:if>
-		    		  -->
 			    		<td>			    		
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input class="shareReplyId" type="hidden" name="shareReplyId" value="${shareReply.shareReplyId }">
@@ -284,6 +291,7 @@ table#tbl-comment sub.comment-date {
 		    </table>
 		    <br>
 		    <div id="pageBar">
+		    <c:if test="${!empty shareReplies}">
 			<!-- 맨 처음으로 -->
 			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=1'"><span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-menu-left"></span></button>
 			
@@ -305,7 +313,8 @@ table#tbl-comment sub.comment-date {
 			
 			<!-- 맨 끝으로 -->
 			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>
-		</div>	
+		</c:if>
+	  </div>	
 	</div>
 	<script>
 	function checkEmpty() {
@@ -320,11 +329,6 @@ table#tbl-comment sub.comment-date {
 		if(${empty loginMember}) {
 			alert("로그인 후 댓글등록이 가능합니다.");
 			return false;
-		}
-	}
-	function updateShareReply(){
-		if(confirm("댓글을 수정 하시겠습니까?")){
-			location.href= '${path}/share/reply/update?shareReplyId=${shareReply.shareReplyId}';
 		}
 	}
 </script>

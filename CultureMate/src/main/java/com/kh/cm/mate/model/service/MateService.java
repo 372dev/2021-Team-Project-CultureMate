@@ -34,7 +34,6 @@ public interface MateService {
 
 	int saveMateReReply(MateReply mateReply);
 
-//	MateReply findMateReplyByMateReplyId(int mateReplyGroup);
 	MateReply findMateReplyByMateReplyId(int mateReplyId);
 
 }
