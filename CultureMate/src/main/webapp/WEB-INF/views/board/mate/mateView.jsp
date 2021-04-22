@@ -1,23 +1,38 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@page import="com.kh.cm.mate.model.vo.Mate"%>
+<%@page import="com.kh.cm.mate.model.vo.MateReply"%>
+<%
+	Mate mate = (Mate)request.getAttribute("mate");	
+%>
+<link rel="stylesheet" href="${ path }/resources/css/mateViewAPI.css" />
 <style>
      #mateSection {
 	     min-height: 800px;
 	     width: 1280px;
-	     margin: 0 auto;
- 
- 
+	     margin: 0 auto; 
+	     font-family: 'Do Hyeon', sans-serif;
 	}
     #mateView-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 900px;
+		height: 1000px;
    
     }
     #mate-Title{
         text-align: left;
+    }
+      #mate-Title > a{
+    	color: black;
+    	text-decoration:none; 
+ 	       
+    }
+    #mate-Title > h2 {
+    	text-decoration:line-through #b7ba41;
+    		margin-left:100px;
     }
     #mateView-frm{
         text-align: center;    
@@ -60,36 +75,36 @@
 	height: 70px;
 	border: none;
 	border-radius: 5px;
-	background: yellowgreen;
+	background: #9db81f;
 	color: white;
 	position:relative;
-	top:-30px;
+	top:-31px;
 }
   #mateButton{
    height:35px;
   	border: none;
 	border-radius: 5px;
-	background: yellowgreen;
+	background: #9db81f;
 	color: white;
   }
   /*댓글테이블*/
 table#tbl-comment {
-	width:580px; 
+	width:460px; 
 	margin:0 auto; 
 	border-collapse:collapse; 
 	clear:both; 
 } 
 
 table#tbl-comment tr td {
-	border-bottom:1px solid; 
-	border-top:1px solid; 
+	border-bottom:0.5px solid gray; 
+	border-top:0.5px solid gray; 
 	padding:5px; 
 	text-align:left; 
-	line-height:120%;
+	line-height:100%;
 }
 
 table#tbl-comment tr td:first-of-type {
-	padding: 5px 5px 5px 50px;
+	padding: 5px 5px 5px 20px;
 }
 
 table#tbl-comment tr td:last-of-type {
@@ -97,49 +112,37 @@ table#tbl-comment tr td:last-of-type {
 	width: 100px;
 }
 
-table#tbl-comment button.btn-reply {
-	display:none;
-}
-
-table#tbl-comment button.btn-update {
-	display:none;
-}
-table#tbl-comment button.btn-delete {
-	display:none;
-}
-
-table#tbl-comment tr:hover {
-	background:lightgray;
-}
-
-table#tbl-comment tr:hover button.btn-reply {
-	display:inline;
-}
-
-table#tbl-comment tr:hover button.btn-update {
-	display:inline;
-}
-table#tbl-comment tr:hover button.btn-delete {
-	display:inline;
-}
-
 table#tbl-comment sub.comment-writer {
 	vertical-align: top;
-	color:navy; 
-	font-size:14px
+	color:#6c757d; 
+	font-size:9pt;
+	top:8px;
 }
 
 table#tbl-comment sub.comment-date {
 	vertical-align: top;
 	color:lightgray;
-	font-size:10px
+	font-size:9pt;
+	top:8px;
+}
+.level1 >td> sub {
+	font-size: 7pt;
+}
+.level2 >td> sub {
+	margin-left:30px;
+	font-size: 7pt;
 }	
 </style>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="mateSection">
 	  <div id="mateView-container">
 		        <div id="mate-Title">
-			        <h1>같이 가요</h1>
-			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
+			        <a href="${path}/mate/list"><h1 style="font-size: 48pt;">같이가요</h1></a>
+			        <h2>- 같이 갈 메이트 괌</h4>
 		    	</div>
 		    <hr>
 		     <table id="mateView-tbl">
@@ -156,11 +159,14 @@ table#tbl-comment sub.comment-date {
 		            <td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>	           
 		            <td>${mate.mateCount}</td>	           
 		        </tr>		       
+		        <tr><td colspan="11">
+        		    <div id="ajaxResultDiv" class="ajaxResultDiv"></div>
+		        </td></tr>
 		    <tr id="mateView-tr1">
 		     <td colspan="11">
-			      <textarea style="height:200px;width:400px;border:0.5px solid lightgray;margin: 0 auto;text-align: left;" wrap="hard" readonly="readonly">
-		       	 	${mate.mateContent}
-		       `</textarea>
+		     <div style="border-radius:5px;height: 250px;width: 500px;background-color: GAINSBORO;margin:0 auto; display: flex; align-items: center;">
+     <div style="background-color:white;white-space:pre;border-radius:5px;height:210px;width:460px;border:0.5px solid lightgray;margin: 0 auto;padding:0 auto; middle;text-align: left;">${mate.mateContent}"</div>
+			</div>
 			 </td>
 			</tr>
 		 </table>
@@ -172,102 +178,194 @@ table#tbl-comment sub.comment-date {
 				    <button id="mateButton" type="button" onclick="location.replace('${path}/mate/list')">목록으로</button> &nbsp;
 			<c:if test="${ !empty loginMember && (loginMember.userNick == mate.userNick || loginMember.userRole == 'ROLE_ADMIN')}">  	    
 				    <button id="mateButton" type="button" onclick="location.replace('${path}/mate/delete?mateId=${mate.mateId}')">삭제하기</button>
-			</c:if>	    	
+			</c:if>	
+		  	
 		 <div id="comment-container">
+		 <br>
 	    	<div class="comment-editor">
-	    	<br>
-	    		<form action="${path }/mate/reply/write" method="post">
+	    		<form action="${path }/mate/reply/write" method="post" onsubmit="return checkEmpty()">
 	    			<input type="hidden" name="mateId" value="${mate.mateId}">
 	    			<input type="hidden" name="writer" value='${loginMember != null ? loginMember.userNick : "" }'>
-					<textarea style="border-radius:5px;height:70px;" name="content" cols="55" rows="3" onfocus="checkLogin()"></textarea>
-					<button type="submit" id="btn-insert">등록</button>	    			
+					<textarea style="border-radius:5px;height:70px;resize: none;" id="content" name="content" cols="55" rows="3"></textarea>
+					<button type="submit" id="btn-insert" onclick="return checkLogin()">등록</button>	    			
 	    		</form>
 	    	</div>
 	    </div>
 		<table id="tbl-comment">
+			<c:if test="${empty mateReplies}">
+				<tr>
+					<td style="text-align: center;">
+						등록된 댓글이 없습니다.
+					</td>
+				</tr>
+			</c:if>
+			<c:if test="${!empty mateReplies }">
 		    	<c:forEach var = "mateReply" items="${mateReplies}">
+		    	 <c:if test="${mateReply.mateReplyId == mateReply.mateReplyGroup }">
 			    	<tr class="level1">
 			    		<td>
 			    			<sub class="comment-writer">${mateReply.userNick}</sub>
-			    			<sub class="comment-date">${mateReply.mateReplyCreateDate}</sub>
+			    			<sub class="comment-Id">${mateReply.mateReplyId}</sub>
+			    			<sub class="comment-date"><fmt:formatDate value="${mateReply.mateReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
-			    			<c:out value="${mateReply.mateReplyContent}"></c:out>
+			    			<span style="font-size:9pt;"><c:out value="${mateReply.mateReplyContent}"></c:out></span>
 			    		</td>
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
-		    		    	<input type="hidden" name="mateReplyNo" id="mateReplyNo" value="${matereply.relyNo}">
-		    				<button class="btn-update" onclick="updateMateReply()">수정</button>
-		    				<button class="btn-delete" onclick="deleteMateReply()">삭제</button>
+		    		    	<input type="hidden" class="mateReplyId" name="mateReplyId" value="${mateReply.mateReplyId }">
+		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
+		    		<!--  	<button class="btn-update">수정</button> -->	
+		    			    <a href="javascript:deleteMateReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>
 		    			</c:if>
+		    			<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;top:10px;margin-right:5px;" class=" glyphicon glyphicon-pencil">답글</span></a>
+		    			<script type="text/javascript">
+		    				$("#btn-reWrite").on("click", () => {
+		    					//	var mateReplyId = $("#mateReplyId").val();
+		    						
+		    						const url = "${path}/mate/reply/reWrite?mateReplyId=" + $(".mateReplyId").val();
+		    						const title = "RE";
+		    						const status = "left=500px, top=100px, width=500px, height=300px";
+		    						
+		    						window.open(url, title, status);
+		    						
+		    						
+		    					});
+		    				
+		    				function deleteMateReply(){
+		    					let mateReplyId = $(".mateReplyId").val();
+		    					if(confirm("댓글을 삭제 하시겠습니까?")){
+		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + mateReplyId);
+		    					}
+		    				}
+		    				
+		    				</script>
 			    		</td>
 			    	</tr>
+			    	</c:if>
 			    	 <c:if test="${mateReply.mateReplyId != mateReply.mateReplyGroup }">			    				
 			    	<tr class="level2">	    	
 			    		<td>
-			    			<sub class="comment-writer">&nbsp;&nbsp;RE:${mateReply.userNick}</sub>
-			    			<sub class="comment-date">${mateReply.mateReplyCreateDate}</sub> 
+			    			<sub class="comment-writer">RE:${mateReply.userNick}</sub>
+			    			<sub class="comment-Id">RE:${mateReply.mateReplyId}</sub>
+			    			<sub class="comment-date"><fmt:formatDate value="${mateReply.mateReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
-			    			&nbsp;&nbsp;<c:out value="→${mateReply.mateReplyContent}"></c:out>
+			    			<span style="margin-left:30px;font-size:9pt;">→<c:out value="${mateReply.mateReplyContent}"></c:out></span>
 			    		</td>			    		
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
-		    		    	<input type="hidden" name="mateReplyId" value="${mateReply.mateReplyId }">
-		    		    	<input type="hidden" name="mateId" value="${shareReply.shareId }">
-		    				<button class="btn-update" onclick="updateMateReply()">수정</button>
-		    				<button class="btn-delete" onclick="deleteMateReply()">삭제</button>		    				
+		    		    	<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
+		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
+		    					<!--  	<button class="btn-update">수정</button> -->	
+		    				<a href="javascript:deleteMateReReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>		    				
+		    				<script type="text/javascript">
+		    				function deleteMateReReply(){
+		    					let mateReplyId = $("#mateReplyId").val();
+		    					if(confirm("댓글을 삭제 하시겠습니까?")){
+		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + mateReplyId);
+		    					}
+		    				}
+		    		    	</script>
 		    			</c:if>
 			    		</td>
-			    	</tr>
+			    	</tr>			    	
 			    	</c:if>			    	
 		    	</c:forEach>
+		    	</c:if>
 		    </table>
 		     <br>
+		    
 		    <div id="pageBar">
+    	 <c:if test="${!empty mateReplies}">
 			<!-- 맨 처음으로 -->
-			<button onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=1'">&lt;&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=1'"><span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-menu-left"></span></button>
 			
 			<!-- 이전 페이지로 -->
-			<button onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.prvePage}'">&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.prvePage}'"><span class="glyphicon glyphicon-menu-left"></span></button>
 
 			<!--  10개 페이지 목록 -->
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 				<c:if test="${status.current == pageInfo.currentPage}">
-					<button disabled><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" disabled><c:out value="${status.current}"/></button>
    				</c:if>
 				<c:if test="${status.current != pageInfo.currentPage}">
-					<button onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${status.current}'"><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${status.current}'"><c:out value="${status.current}"/></button>
    				</c:if>
 			</c:forEach>
 			
 			<!-- 다음 페이지로 -->
-			<button onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.nextPage}'">&gt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.nextPage}'"><span class="glyphicon glyphicon-menu-right"></span></button>
 			
 			<!-- 맨 끝으로 -->
-			<button onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.maxPage}'">&gt;&gt;</button>	
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>	
+		</c:if>	
 	 </div>
-	</div>
-	 <script>
-	/*
-	function checkLogin() {
-		if(${ loginMember } == null){
-			alert("로그인 후 이용해주세요!");
-	//		$("#userId").focus();
+	 <script type="text/javascript">
+	 function checkEmpty() {
+			var content = $("#content").val();
+			if( content == ""  || content == null || content == '&nbsp;' || content == '<p>&nbsp;</p>') {
+				alert('입력값이 없습니다.');
+				return false;
+			}
 		}
-	}
+	 
+	 function checkLogin() {
+			if(${empty loginMember}) {
+				alert("로그인 후 댓글등록이 가능합니다.");
+				return false;
+			}
+		}
 	
-	*/
-	function updateMateReply(){
-		if(confirm("댓글을 수정 하시겠습니까?")){
-		location.href= '${path}/mate/reply/update?mateReplyId=${mateReply.mateReplyId}';
-		}
-	}
-	function deleteMateReply(){
-		var mateReplyNo = document.getElementById("mateReplyNo").value;
-		if(confirm("댓글을 삭제 하시겠습니까?")){
-			location.replace('${path}/mate/reply/delete?mateReplyId=' + mateReplyNo);
-		}
-	}
-</script> 	
+	<!-- Ajax script -->
+	
+	$(document).ready(function () {
+		
+		var mt20id = "${ mate.mt20id }";
+		$.ajax({
+			type : "GET",
+			url : "/cm/show/mateAjax",
+			data : {
+				"mt20id" : mt20id,
+			},
+			error : function(error) {
+				console.log("ajax-error");
+			},
+			success : function(result) {
+				console.log("ajax-success");
+				$("#ajaxResultDiv").empty();
+				var toAdd = '';
+				if(result == null || $.isEmptyObject(result)) {
+					console.log("no result");
+					toAdd += "<p>검색 조건에 맞는 게시물이 없습니다.</p>";
+				} else {
+					console.log(result);
+					toAdd += '<div class= "divImgWrapper">';
+					toAdd += '<img src="' + result[0].poster + '" alt="' + result[0].prfnm + '"';
+					toAdd += 'onclick="location.href=\'' + '${ path }/show/restview?name=' + result[0].mt20id + '\';"';
+					toAdd += 'class= "imgLeft">';
+					toAdd += '</div>';
+					toAdd += '<div class="tableWrapper"><table class="showTable">';
+					toAdd += '<tr><th colspan="2" class="tableTitle">' + result[0].prfnm + '</th></tr>';
+					toAdd += '<tr><td class="colOne">공연장</td><td class="colTwo">' + result[0].fcltynm + '</td></tr>';
+					toAdd += '<tr><td class="colOne">공연기간</td><td>' + result[0].prfpdfrom + '~' + result[0].prfpdto + '</td></tr>';
+					toAdd += '<tr><td class="colOne">런타임</td><td>' + result[0].prfruntime + '</td></tr>';
+					toAdd += '<tr><td class="colOne">관람연령</td><td>' + result[0].prfage + '</td></tr>';
+					toAdd += '<tr><td class="colOne">티켓가격</td><td>' + result[0].pcseguidance + '</td></tr>';
+					toAdd += '<tr><td class="colOne">출연진</td><td>';
+					if(result[0].prfcast == " " || "") {
+						toAdd += "정보가 없습니다.";
+					} else {
+						toAdd += result[0].prfcast;
+					}
+					toAdd += '</td></tr></table></div>';
+				}
+				$("#ajaxResultDiv").append(toAdd);
+			}
+		});
+	})
+	
+	</script>
+	</div>
+
 </section>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

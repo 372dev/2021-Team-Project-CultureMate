@@ -7,7 +7,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -21,11 +24,13 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cm.common.util.PageInfo;
+import com.kh.cm.mate.model.vo.MateReply;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.share.model.service.ShareService;
 import com.kh.cm.share.model.vo.Share;
@@ -70,64 +75,103 @@ public class ShareController {
 		
 		return model;
 	}
-	
-//	@RequestMapping(value="/list.do", method = {RequestMethod.POST}) 
-//	public ModelAndView shareFindList(ModelAndView model, Share share,
-//				@RequestParam(value="page", required=false, defaultValue="1") int page,
-//				@RequestParam(defaultValue="userNick") String searchShare,@RequestParam(defaultValue="") String keyword,
-//				@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit)  throws Exception{
-//		//@RequestParam("userNick") String userNick, @RequestParam("shareTitle") String shareTitle, @RequestParam("shareContent") String shareContent,
-//
-//		List<Share> shareList = null;
-//		
-//		int shareCount = service.getShareCount();
-//		
-//		PageInfo pageInfo = new PageInfo(page, 10, shareCount, listLimit);
-//		int start = pageInfo.getStartList();
-//        int end =  pageInfo.getEndList();
-//        
-//        shareList = service.getFindShare(searchShare, keyword, start, end);
-//        
-//        Map<String,Object> map = new HashMap<>();    //넘길 데이터가 많기 때문에 해쉬맵에 저장한 후에 modelandview로 값을 넣고 페이지를 지정
-//        
-//        map.put("shareList", shareList);                         //map에 list(게시글 목록)을 list라는 이름의 변수로 자료를 저장함.
-//        map.put("pageInfo", pageInfo);
-//        map.put("shareCount", shareCount);
-//        map.put("searchShare", searchShare);
-//        map.put("keyword", keyword);
-//        
-//        model.addObject("map", map);         
-//					
-//		model.setViewName("board/share/shareList");
-//		return model;
-//	}
-	
-	@RequestMapping(value="/view", method = {RequestMethod.GET}) 
-	public ModelAndView shareView(@RequestParam("shareId")int shareId, ModelAndView model,
+	@RequestMapping(value="/list.do", method = {RequestMethod.POST}) 
+	public ModelAndView shareSearchList(ModelAndView model,
 			@RequestParam(value="page", required=false, defaultValue="1") int page,
-			@RequestParam(value="listlimit", required=false, defaultValue="3") int listLimit) {
-		Share share = service.findShareByShareId(shareId);
+			@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit,
+			@RequestParam String search,@RequestParam String keyword) {
+				
+		List<Share> shareList = null;
 		
-//		List<ShareReply> shareReplies = service.findShareReplyByShareId(shareId);
-		boolean updateShareCount = service.updateShareCount(shareId);
-		int shareReplyCount = service.getShareReplyCount(shareId);
+		int shareCount = service.getShareSearchCount(search, keyword);
 		
-		PageInfo pageInfo = new PageInfo(page, 5, shareReplyCount, 3);
-		List<ShareReply> shareReplies = service.findShareReplyByShareId(shareId, pageInfo);
+		PageInfo pageInfo = new PageInfo(page, 10, shareCount, listLimit);
 		
-//		shareReplies = service.findShareReplyByShareId(pageInfo);
-			
-		model.addObject("share", share);
-		model.addObject("shareReplies", shareReplies);
+		pageInfo.setSearch(search);
+		pageInfo.setKeyword(keyword);
+		
+		shareList = service.getShareSearchList(pageInfo);
+		
+		System.out.println(search);
+		System.out.println(keyword);
+		
+		model.addObject("shareList", shareList);
 		model.addObject("pageInfo", pageInfo);
-		model.setViewName("/board/share/shareView");
-		
-		System.out.println(shareReplies);
+		model.setViewName("/board/share/shareList");
 		
 		return model;
 	}
 
-	
+	 @RequestMapping(value = "/view", method = {RequestMethod.GET})
+	    public ModelAndView shareView(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+	            @RequestParam int shareId, ModelAndView model,@RequestParam(value="page", required=false, defaultValue="1") int page,
+				@RequestParam(value="listlimit", required=false, defaultValue="3") int listLimit) {
+		 
+		 Share share = service.findShareByShareId(shareId);
+		 int shareReplyCount = service.getShareReplyCount(shareId);
+		 
+		 PageInfo pageInfo = new PageInfo(page, 5, shareReplyCount, 3);
+		 List<ShareReply> shareReplies = service.findShareReplyByShareId(shareId, pageInfo);
+		 
+		 Cookie[] cookies = request.getCookies();
+	        
+	        // 비교하기 위해 새로운 쿠키
+	        Cookie viewCookie = null;
+	 
+	        // 쿠키가 있을 경우 
+	        if (cookies != null && cookies.length > 0) 
+	        {
+	            for (int i = 0; i < cookies.length; i++)
+	            {
+	                // Cookie의 name이 cookie + reviewNo와 일치하는 쿠키를 viewCookie에 넣어줌 
+	                if (cookies[i].getName().equals("cookie"+shareId))
+	                { 
+	                    System.out.println("처음 쿠키가 생성한 뒤 들어옴.");
+	                    viewCookie = cookies[i];
+	                }
+	            }
+	        }
+	        
+	        if(share != null) {
+	        	  System.out.println("System - 해당 상세 페이지로 넘어감");
+	        	  model.addObject("share", share);
+	  			  model.addObject("shareReplies", shareReplies);
+	  			  model.addObject("pageInfo", pageInfo);
+	  			  
+	  			 if (viewCookie == null) {    
+		                System.out.println("cookie 없음");
+		                
+		                // 쿠키 생성(이름, 값)
+		                Cookie newCookie = new Cookie("cookie"+ shareId, "|" + shareId + "|");
+		                                
+		                // 쿠키 추가
+		                response.addCookie(newCookie);
+		                
+		                boolean updateShareCount = service.updateShareCount(shareId);
+		                if(updateShareCount == true) {
+		                	 System.out.println("조회수 증가");
+		                }else {
+		                    System.out.println("조회수 증가 에러");
+		                }
+	  			 }
+	  			 // viewCookie가 null이 아닐경우 쿠키가 있으므로 조회수 증가 로직을 처리하지 않음.
+		            else {
+		                System.out.println("cookie 있음");
+		                
+		                // 쿠키 값 받아옴.
+		                String value = viewCookie.getValue();
+		                
+		                System.out.println("cookie 값 : " + value);
+	        }
+
+			model.setViewName("/board/share/shareView");			
+		   return model;
+	 } else {
+		 
+	 }
+	        model.setViewName("/board/share/shareView");
+	        return model;
+	 }	
 	
 	@RequestMapping(value="/write", method = {RequestMethod.POST}) 
 	public ModelAndView shareWrite(ModelAndView model,
@@ -317,7 +361,7 @@ public class ShareController {
 				@RequestParam(name ="content") String content, ShareReply shareReply,
 				ModelAndView model) {
 		int result = 0;
-		
+	
 		if(loginMember.getUserNick().equals(writer)) {
 			shareReply.setShareId(shareId);
 			shareReply.setShareReplyContent(content);
@@ -331,21 +375,58 @@ public class ShareController {
 			} else {
 				model.addObject("msg", "댓글 등록에 실패했습니다.");
 				model.addObject("location", "/share/list");
-				
 			}
 		} else {
 			model.addObject("msg", "잘못된 접근입니다.");
-			model.addObject("location", "/share/list");
+			model.addObject("location", "/");
 		}
 		
 		model.setViewName("common/msg");
+				
 		return model;
 	}
 	
+	@RequestMapping(value="/reply/reWrite", method = {RequestMethod.GET}) 
+	public ModelAndView reWriteReply(@RequestParam("shareReplyId")int shareReplyId, ModelAndView model) {
+		ShareReply shareReply = service.findShareReplyByShareReplyId(shareReplyId);
+		
+		model.addObject("shareReply", shareReply);
+		model.setViewName("/board/share/shareReplyReWrite");
+		return model;
+	}
+	
+	@RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
+	@ResponseBody
+	public String reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
+			@RequestParam(name ="shareReplyId") int shareReplyId,@RequestParam(name ="shareId") int shareId,
+			@RequestParam(name ="writer") String writer,
+			@RequestParam(name ="content") String content, ShareReply shareReply) {
+		
+		int result = 0;
+		String resultMsg = null;
+		
+		if(loginMember.getUserNick().equals(writer)) {
+			shareReply.setShareId(shareId);
+			shareReply.setShareReplyContent(content);
+			shareReply.setShareReplyWriteId(loginMember.getId());
+			shareReply.setShareReplyGroup(shareReplyId);
+			
+			System.out.println(shareReplyId);
+			
+			result = service.saveShareReReply(shareReply);
+			
+			if(result > 0) {
+				resultMsg="<script>opener.parent.location.reload(); window.close();</script>";
+			} else {
+				resultMsg="<script>opener.parent.location.reload(); window.close();</script>";
+			}
+	}
+		return resultMsg;
+	}
+
 	@RequestMapping(value ="/reply/delete", method ={RequestMethod.GET})
 	public ModelAndView deleteReply(ModelAndView model, ShareReply shareReply , @RequestParam(name="shareReplyId") int shareReplyId
 			, @RequestParam(name="shareId") int shareId) {
-		// @RequestParam(name ="boardNO") ,defaultValue="207"
 		int result = 0;
 		
 		result = service.deleteShareReply(shareReplyId);

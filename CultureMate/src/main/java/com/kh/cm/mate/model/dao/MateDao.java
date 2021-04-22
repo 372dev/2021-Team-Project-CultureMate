@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.mate.model.vo.Mate;
 import com.kh.cm.mate.model.vo.MateReply;
 
@@ -14,8 +15,12 @@ import com.kh.cm.mate.model.vo.MateReply;
 public interface MateDao {
 	
 	int selectMateCount();
-
+	
 	List<Mate>selectMateList(RowBounds rowBounds);
+	
+	int selectMateSearchCount(@Param("search") String search, @Param("keyword")String keyword);
+	
+	List<Mate> selectMateSearchList(RowBounds rowBounds, PageInfo pageInfo);
 	
 	List<Collection> selectPostsByUserId(RowBounds rowBounds, @Param("mateWriteId") int mateWriteId, @Param("shareWriteId") int shareWriteId);
 
@@ -36,5 +41,11 @@ public interface MateDao {
 	int updateMateReply(MateReply mateReply);
 
 	int insertMateReply(MateReply mateReply);
+
+	int deleteMateReply(int mateReplyGroup);
+
+	int insertMateReReply(MateReply mateReply);
+
+	MateReply selectMateReply(int mateReplyId);
 
 }
