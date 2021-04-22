@@ -20,9 +20,9 @@
 			</div>
 			<div class="line line01"></div>
 			<div class="text02">
-				<a href="" class="list list01">팀 소개</a>
+				<a href="${path}/TeamIntro" class="list list01">팀 소개</a>
 				<p>|</p>
-				<a href="" class="list list02">서비스 소개</a>
+				<a href="${path}/ServiceIntro" class="list list02">서비스 소개</a>
 				<p>|</p>
 				<a href="" class="list list03">입문자 가이드</a>
 				<p>|</p>

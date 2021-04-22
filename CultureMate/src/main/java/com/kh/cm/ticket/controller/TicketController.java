@@ -215,7 +215,17 @@ public class TicketController {
 		return model;
 	}
 	
+	@RequestMapping("ServiceIntro")
+	public String ServiceIntro() {
+		
+		return "ticket/ServiceIntro";
+	}
 	
+	@RequestMapping("TeamIntro")
+	public String TeamIntro() {
+		
+		return "ticket/TeamIntro";
+	}
 	
 	
 	
