@@ -1,15 +1,22 @@
 package com.kh.cm.mate.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,8 +25,6 @@ import com.kh.cm.mate.model.service.MateService;
 import com.kh.cm.mate.model.vo.Mate;
 import com.kh.cm.mate.model.vo.MateReply;
 import com.kh.cm.member.model.vo.Member;
-import com.kh.cm.share.model.vo.Share;
-import com.kh.cm.share.model.vo.ShareReply;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,18 +45,56 @@ public class MateController {
 		int mateCount = service.getMateCount();
 		
 		PageInfo pageInfo = new PageInfo(page, 10, mateCount, listLimit);
+				
+		mateList= service.getMateList(pageInfo);
+				
+		model.addObject("mateList", mateList);
+		model.addObject("pageInfo", pageInfo);
+		model.setViewName("board/mate/mateList");
 		
-		mateList = service.getMateList(pageInfo);
+	 return model;
+	}
+	
+	@RequestMapping(value="/list.do", method = {RequestMethod.POST}) 
+	public ModelAndView mateSearchList(ModelAndView model,
+			@RequestParam(value="page", required=false, defaultValue="1") int page,
+			@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit,
+			@RequestParam String search,@RequestParam String keyword) {
+		
+		List<Mate> mateList = null;
+		int mateCount = service.getMateSearchCount(search, keyword);
+		
+		System.out.println(mateCount);
+		
+		PageInfo pageInfo = new PageInfo(page, 10, mateCount, listLimit);
+		
+		
+		pageInfo.setSearch(search);
+		pageInfo.setKeyword(keyword);
+		
+		mateList= service.getMateSearchList(pageInfo);
+		
+		System.out.println(mateList);
+		System.out.println(search);
+		System.out.println(keyword);
 		
 		model.addObject("mateList", mateList);
 		model.addObject("pageInfo", pageInfo);
 		model.setViewName("board/mate/mateList");
-	 return model;
+		
+		return model;
 	}
 	
 	@RequestMapping(value="/write", method = {RequestMethod.GET}) 
-	public String mateWrite( ) {
-		return "board/mate/mateWrite";
+	public ModelAndView mateWrite(
+			ModelAndView model,
+    		@RequestParam(value = "id", defaultValue = "PF172344") String id,
+    		@RequestParam(value = "title") String title
+			) {
+		model.addObject("mt20id", id);
+		model.addObject("title", title);
+		model.setViewName("board/mate/mateWrite");
+		return model;
 	}
 	
 	@RequestMapping(value="/write", method = {RequestMethod.POST}) 
@@ -83,31 +126,82 @@ public class MateController {
 		return model;
 }
 	
-	@RequestMapping(value="/view", method = {RequestMethod.GET}) 
-	public ModelAndView mateView(@RequestParam("mateId")int mateId, ModelAndView model,
-			@RequestParam(value="page", required=false, defaultValue="1") int page,
-			@RequestParam(value="listlimit", required=false, defaultValue="3") int listLimit) {
-		Mate mate = service.findMateByMateId(mateId);
-		
-		boolean updateMateCount = service.updateMateCount(mateId);
-		int mateReplyCount = service.getMateReplyCount(mateId);
-		
-		PageInfo pageInfo = new PageInfo(page, 5, mateReplyCount, 3);
-		List<MateReply> mateReplies = service.findMateReplyByMateId(mateId, pageInfo);
-		
+	 @RequestMapping(value = "/view", method = {RequestMethod.GET})
+	    public ModelAndView mateView(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+	            @RequestParam int mateId, ModelAndView model,@RequestParam(value="page", required=false, defaultValue="1") int page,
+				@RequestParam(value="listlimit", required=false, defaultValue="3") int listLimit) {
+		 
+		 	Mate mate = service.findMateByMateId(mateId);
 
+			int mateReplyCount = service.getMateReplyCount(mateId);
 			
-		model.addObject("mate", mate);
-		model.addObject("mateReplies", mateReplies);
-		model.addObject("pageInfo", pageInfo);
-		model.setViewName("/board/mate/mateView");
-		
-		System.out.println(mateReplies);
-		
-		return model;
-	}
-
-	
+			PageInfo pageInfo = new PageInfo(page, 5, mateReplyCount, 3);
+			List<MateReply> mateReplies = service.findMateReplyByMateId(mateId, pageInfo);
+	        
+	        Cookie[] cookies = request.getCookies();
+	        
+	        // 비교하기 위해 새로운 쿠키
+	        Cookie viewCookie = null;
+	 
+	        // 쿠키가 있을 경우 
+	        if (cookies != null && cookies.length > 0) 
+	        {
+	            for (int i = 0; i < cookies.length; i++)
+	            {
+	                // Cookie의 name이 cookie + reviewNo와 일치하는 쿠키를 viewCookie에 넣어줌 
+	                if (cookies[i].getName().equals("cookie"+mateId))
+	                { 
+	                    System.out.println("처음 쿠키가 생성한 뒤 들어옴.");
+	                    viewCookie = cookies[i];
+	                }
+	            }
+	        }
+	        
+	        if (mate != null) {
+	            System.out.println("System - 해당 상세 페이지로 넘어감");
+	            
+	            model.addObject("mate", mate);
+	            model.addObject("mateReplies", mateReplies);
+				model.addObject("pageInfo", pageInfo);
+	 
+	            // 만일 viewCookie가 null일 경우 쿠키를 생성해서 조회수 증가 로직을 처리함.
+	            if (viewCookie == null) {    
+	                System.out.println("cookie 없음");
+	                
+	                // 쿠키 생성(이름, 값)
+	                Cookie newCookie = new Cookie("cookie" + mateId, "|" + mateId + "|");
+	                                
+	                // 쿠키 추가
+	                response.addCookie(newCookie);
+	 
+	                // 쿠키를 추가 시키고 조회수 증가시킴
+	//                int result = bService.viewUp(reviewNo);
+	                
+	                boolean updateMateCount = service.updateMateCount(mateId);
+	                if(updateMateCount == true) {
+	                    System.out.println("조회수 증가");
+	                }else {
+	                    System.out.println("조회수 증가 에러");
+	                }
+	            }
+	            // viewCookie가 null이 아닐경우 쿠키가 있으므로 조회수 증가 로직을 처리하지 않음.
+	            else {
+	                System.out.println("cookie 있음");
+	                
+	                // 쿠키 값 받아옴.
+	                String value = viewCookie.getValue();
+	                
+	                System.out.println("cookie 값 : " + value);
+	        
+	            } 
+	            model.setViewName("/board/mate/mateView");
+	            return model;
+	        } else {
+	        	
+	        }	        
+	        model.setViewName("/board/mate/mateView");
+	        return model;
+	    }
 
 	@RequestMapping(value="/update", method = {RequestMethod.GET}) 
 	public ModelAndView mateUpdateView(ModelAndView model, @RequestParam("mateId") int mateId) {
@@ -175,7 +269,7 @@ public class MateController {
 			mateReply.setMateReplyWriteId(loginMember.getId());
 			
 			result = service.saveMateReply(mateReply);
-			
+
 			if(result > 0) {
 				model.addObject("msg", "댓글 등록에 성공했습니다.");
 				model.addObject("location", "/mate/view?mateId=" + mateReply.getMateId());
@@ -192,28 +286,67 @@ public class MateController {
 		model.setViewName("common/msg");
 		return model;
 	}
-//	
-//	@RequestMapping(value="/update", method = {RequestMethod.GET}) 
-//	public String mateUpdate( ) {
-//		return "board/mate/mateUpdate";
-//	}
-//	
-//	@RequestMapping(value="/view", method = {RequestMethod.GET}) 
-//	public String mateView( ) {
-//		return "board/mate/mateView";
-//	}
-//	@RequestMapping(value="/list", method = {RequestMethod.GET}) 
-//	public String mateList( ) {
-//		return "board/mate/mateList";
-//	}
 	
-//	@RequestMapping(value="/update", method = {RequestMethod.POST}) 
-//	public ModelAndView mateUpdate(@RequestParam("mateId") Mate mateId,ModelAndView model) {
-//		
-//		return model;
-//	}
 	
-//	public ModelAndView mateView(ModelAndView model) {
-//		return model;
-//	}
+	
+	@RequestMapping(value="/reply/reWrite", method = {RequestMethod.GET}) 
+	public ModelAndView reWriteReply(@RequestParam(name = "mateReplyId")int mateReplyId, ModelAndView model) {
+		MateReply mateReply = service.findMateReplyByMateReplyId(mateReplyId);
+		
+		model.addObject("mateReply", mateReply);
+		model.setViewName("/board/mate/mateReplyReWrite");
+		return model;
+	}
+	
+	@RequestMapping(value = "/reply/reWrite", method={RequestMethod.POST})
+	@ResponseBody
+	public String reWriteReply(@SessionAttribute(name = "loginMember", required=false) Member loginMember,
+			@RequestParam(name ="mateReplyId") int mateReplyId,@RequestParam(name ="mateId") int mateId,
+			@RequestParam(name ="writer") String writer,
+			@RequestParam(name ="content") String content, MateReply mateReply) {
+		
+		int result = 0;
+		String resultMsg = null;
+		
+		if(loginMember.getUserNick().equals(writer)) {
+			mateReply.setMateId(mateId);
+			mateReply.setMateReplyContent(content);
+			mateReply.setMateReplyWriteId(loginMember.getId());
+			mateReply.setMateReplyGroup(mateReplyId);
+			
+			System.out.println(mateReplyId);
+			
+			result = service.saveMateReReply(mateReply);
+			
+			if(result > 0) {
+				resultMsg="<script>opener.parent.location.reload(); window.close();</script>";
+			} else {
+				resultMsg="<script>opener.parent.location.reload(); window.close();</script>";
+				
+			}
+		}
+			
+		return resultMsg;
+	}
+	
+	@RequestMapping(value ="/reply/delete", method ={RequestMethod.GET})
+	public ModelAndView deleteReReply(ModelAndView model, @RequestParam(name="mateReplyId") int mateReplyId
+			, @RequestParam(name="mateId") int mateId) {
+		int result = 0;
+		
+		result = service.deleteMateReply(mateReplyId);
+		
+		if(result > 0) {
+			
+			model.addObject("msg", "댓글이 삭제되었습니다.");
+			model.addObject("location", "/mate/view?mateId=" + mateId);
+		} else {
+			model.addObject("msg", "댓글 삭제에 실패했습니다.");
+			model.addObject("location", "/mate/list");
+		}
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
 }

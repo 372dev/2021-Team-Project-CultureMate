@@ -31,6 +31,20 @@ public class MateServiceImpl implements MateService {
 		
 		return mateDao.selectMateList(rowBounds);
 	}
+	
+	@Override
+	public int getMateSearchCount(String search, String keyword) {
+		
+		return mateDao.selectMateSearchCount(search, keyword);
+	}
+	
+	@Override
+	public List<Mate> getMateSearchList(PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return mateDao.selectMateSearchList(rowBounds, pageInfo);
+	}
 
 	
 	@Override
@@ -88,6 +102,31 @@ public class MateServiceImpl implements MateService {
 	}
 
 	@Override
+	public int deleteMateReply(int mateReplyGroup) {
+		
+		return mateDao.deleteMateReply(mateReplyGroup);
+	}
+
+	@Override
+	public int saveMateReReply(MateReply mateReply) {
+		int result = 0;
+		
+		if(mateReply.getMateReplyId() != 0) {
+			if(mateReply.getMateReplyGroup() == mateReply.getMateReplyId()) {
+			result = mateDao.insertMateReReply(mateReply);
+		}
+		} else {
+			
+		}
+	return result;
+	}
+	
+	@Override
+	public MateReply findMateReplyByMateReplyId(int mateReplyId) {
+		
+		return mateDao.selectMateReply(mateReplyId);
+	}
+	
 	public List<Collection> getPostsByUserId(PageInfo pageInfo, int mateWriteId, int shareWriteId) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());

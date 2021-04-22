@@ -6,18 +6,28 @@
 <style>
      #shareSection {
 	     min-height: 800px;
-	     width: 1000px;
+	     width: 1280px;
 	     margin: 0 auto;
+	      font-family: 'Do Hyeon', sans-serif;
 	}
     #shareList-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 800px;
+		height: 950px;
    
     }
     #share-Title{
         text-align: left;
+    }
+    #share-Title > a{
+   	color: black;
+   	text-decoration:none; 
+ 	       
+    }
+    #share-Title > h2 {
+    	text-decoration:line-through #b7ba41;
+    	margin-left:100px;
     }
     #share-Search1{
     	float: left;
@@ -47,19 +57,23 @@
     	width: 200px;
     }
     #shareList-tr>td{
-    	padding: 10px;
+    	padding: 6px;
     	width:100px;
     }
      .searchButton{
        vertical-align: top;
     }
 </style>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="shareSection">
 	<div id="shareList-container">
 		<div id="share-Title">
-			        <h1>티켓 나눔</h1>
-			        <h4>&nbsp; - 공연 티켓 괌</h4>
-		 
+			        <a href="${path}/share/list"><h1 style="font-size: 48pt;">티켓나눔</h1></a>
+			        <h2>- 공연 티켓 괌</h4>		 
 		    	</div>
 		   <div id="share-Search">
 		 <div id="share-Search1">
@@ -70,16 +84,16 @@
 		 </div>   	
  <div id="share-Search2">
 	<form name="form1" method="post" action="${path}/share/list.do">
-		<select id="searchShare" style="border-radius:5px;height:30px;">
-            	<option value="userNick"<c:if test="${map.searchShare == 'userNick'}">
-            			selected</c:if>>작성자</option>
-            	<option value="userNick"<c:if test="${map.searchShare == 'shareTitle'}">
-            			selected</c:if>>제목</option>
-            	<option value="userNick"<c:if test="${map.searchShare == 'shareContent'}">
-            			selected</c:if>>내용</option>
+		<select name="search" style="border-radius:5px;height:30px;">
+            	<option value="userNick"${pageInfo.search eq 'userNick'? 'selected' : '' }>
+            		작성자</option>
+            	<option value="shareTitle" ${pageInfo.search eq 'shareTitle'? 'selected' : '' }>
+            		제목</option>
+            	<option value="shareContent"${pageInfo.search eq 'shareContent'? 'selected' : '' }>
+            		내용</option>
 	 		</select> 
-	 		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" placeholder="내용을 입력하세요" value="${map.keyword}">
-		     <input class="searchButton" id="searchButton" type="submit" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" value="검색"></input>      
+	 		 <input style="border-radius:5px;border:0.5px solid;height:30px;" type="text" name="keyword" placeholder="내용을 입력하세요" value="${pageInfo.keyword }">
+		     <input class="searchButton" id="searchButton" type="submit" onclick="$('form1').submit()" style="border-radius:5px;border:0.5px solid;height:30px;width:50px;font-size:10pt;background-color: #6c757d; color:white;" value="검색"></input>      
 	</form>     	 	 
 </div>      
 </div> 			    	
@@ -103,12 +117,13 @@
 			</c:if>
 			<c:if test="${shareList != null}"> 
 				<c:forEach var="share" items="${shareList}">
-					<tr id="shareList-tr">
+					<c:if test="${share.shareOpen == '나눔완료'}">
+					<tr id="shareList-tr" style="background-color: #f2f2f7;color:#c7c7c9;">
 						<td><c:out value="${share.shareId}"/></td>				
                         <td><c:out value="${share.shareShow}"/></td>
-                        <td><c:out value="${share.shareOpen }"/></td>
+                        <td><span><c:out value="${share.shareOpen }"/></span></td>
 						<td>
-							<a href="${path}/share/view?shareId=${share.shareId}">
+							<a style="text-decoration: none;color:#c7c7c9;" href="${path}/share/view?shareId=${share.shareId}">
 								<c:out value="${share.shareTitle}"/>
 							</a>
 						</td>
@@ -116,6 +131,22 @@
                         <td><fmt:formatDate value="${share.shareCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>
                         <td><c:out value="${share.shareCount}"/></td>
                      </tr>
+                   </c:if>
+                   <c:if test="${share.shareOpen != '나눔완료'}">
+                   <tr id="shareList-tr">
+						<td><c:out value="${share.shareId}"/></td>				
+                        <td><c:out value="${share.shareShow}"/></td>
+                        <td><span><c:out value="${share.shareOpen }"/></span></td>
+						<td>
+							<a style="text-decoration: none;color:black;" href="${path}/share/view?shareId=${share.shareId}">
+								<c:out value="${share.shareTitle}"/>
+							</a>
+						</td>
+                        <td><c:out value="${share.userNick}"/></td>
+                        <td><fmt:formatDate value="${share.shareCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>
+                        <td><c:out value="${share.shareCount}"/></td>
+                     </tr>
+                     </c:if>
                 </c:forEach>
               </c:if>
           </table>              
@@ -123,54 +154,28 @@
 		<br>
 		<div id="pageBar">
 			<!-- 맨 처음으로 -->
-			<button onclick="location.href='${path}/share/list?page=1'">&lt;&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/list?page=1'"><span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-menu-left"></span></button>
 			
 			<!-- 이전 페이지로 -->
-			<button onclick="location.href='${path}/share/list?page=${pageInfo.prvePage}'">&lt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/list?page=${pageInfo.prvePage}'"><span class="glyphicon glyphicon-menu-left"></span></button>
 
 			<!--  10개 페이지 목록 -->
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 				<c:if test="${status.current == pageInfo.currentPage}">
-					<button disabled><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" disabled><c:out value="${status.current}"/></button>
    				</c:if>
 				<c:if test="${status.current != pageInfo.currentPage}">
-					<button onclick="location.href='${path}/share/list?page=${status.current}'"><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-default btn-xs" onclick="location.href='${path}/share/list?page=${status.current}'"><c:out value="${status.current}"/></button>
    				</c:if>
 			</c:forEach>
 			
 			<!-- 다음 페이지로 -->
-			<button onclick="location.href='${path}/share/list?page=${pageInfo.nextPage}'">&gt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/list?page=${pageInfo.nextPage}'"><span class="glyphicon glyphicon-menu-right"></span></button>
 			
 			<!-- 맨 끝으로 -->
-			<button onclick="location.href='${path}/share/list?page=${pageInfo.maxPage}'">&gt;&gt;</button>
+			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/list?page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>
 		</div>
   </div>
 </section>
-<script type="text/javascript">
-	/*
-	*$(document).on('click', '#searchButton', function(e) {
-	    e.preventDefault();
-	    var url = "${pageContext.request.contextPath}/share/list";
-	    url = url + "?searchShare=" + $('searchShare').val();
-	    url = url + "&keyword=" + $('#keyword').val();
-	    location.href = url;
-	    console.log(url);
-	});
-	*/
-/*
- * function search() {
-		var searchShare = document.getElementById("searchShare").value;
-		var page = document.getElementById("pageInfo").value;
-		var searchText = document.getElementById("searchText").value;
-		
-		if(searchShare === '작성자'){
-			location.href="${path}/share/list/find?userNick="+ searchText+ "&page=" + page ;	
-		}else if(searchShare === '제목'){
-			location.href="${path}/share/list/find?shareTitle="+ searchText+ "&page=" + page ;	
-		}else{
-			location.href="${path}/share/list/find?shareContent="+ searchText+ "&page=" + page ;	
-		}
-	}
- */
-</script>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

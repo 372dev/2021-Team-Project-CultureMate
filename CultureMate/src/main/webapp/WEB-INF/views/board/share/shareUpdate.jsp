@@ -8,18 +8,26 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
- 
- 
+ 		 font-family: 'Do Hyeon', sans-serif;
 	}
     #shareUpdate-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 900px;
+		height: 950px;
    
     }
     #shareTitle{
         text-align: left;
+    }
+     #share-Title > a{
+   	color: black;
+   	text-decoration:none; 
+ 	       
+    }
+    #share-Title > h2 {
+    	text-decoration:line-through #b7ba41;
+    	margin-left:100px;
     }
     #shareUpdate-frm{
         text-align: center;    
@@ -39,12 +47,13 @@
     }
     #shareUpdate-tr>td{
     	padding: 5px;
+    	width: 80px;
     }
     #shareUpdate-tr>td:nth-child(4){
-    	width: 300px;
+    	width: 200px;
     }
     #shareUpdate-tr>td:nth-child(6){
-    	width: 100px;
+    	width: 150px;
     }
     #shareUpdate-tr1>td{
     	padding: 5px;
@@ -53,19 +62,19 @@
      	height:35px;
 	  	border: none;
 		border-radius: 5px;
-		background: yellowgreen;
+		background: #9db81f;
 		color: white;
   }	
    
 </style>
-</head>
-<body>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <section id="shareSection">
        
 		    <div id="shareUpdate-container">
 		        <div id="shareTitle">
-			       <h1>티켓 나눔</h1>
-			        <h4>&nbsp; - 공연 티켓 괌</h4>
+			      <a style="color: black;text-decoration:none;" href="${path}/share/list"><h1 style="font-size: 48pt;">티켓나눔</h1></a>
+			        <h2 style="text-decoration:line-through #b7ba41;margin-left:100px;">- 공연 티켓 괌</h4>	
 		    	</div>
 		    <hr>
 		    <form action="${path}/share/update" id="shareUpdate-frm" method="post" enctype="multipart/form-data">
@@ -78,22 +87,27 @@
 		            <td>${share.shareId}</td>		           
 		            <td>
 			        <select style="border-radius:5px;height:28px;" name="shareShow" id="shareShow">
-			            <option value="뮤지컬">뮤지컬</option>
-			            <option value="연극">연극</option>
-			            <option value="클래식">클래식</option>
+			            <option value="뮤지컬"
+			             <c:if test="${share.shareShow == '뮤지컬'}">selected</c:if>>뮤지컬</option>
+			            <option value="연극"
+			             <c:if test="${share.shareShow == '연극'}">selected</c:if>>연극</option>
+			            <option value="클래식"
+			             <c:if test="${share.shareShow == '클래식'}">selected</c:if>>클래식</option>
 			        </select>
 			    	</td>
 			    	<td>
 					   <select style="border-radius:5px;height:28px;" name="shareOpen" id="shareOpen">
-					            <option value="나눔중">나눔중</option>
-					            <option value="나눔완료">나눔완료</option>
+					            <option value="나눔중"
+					             <c:if test="${share.shareOpen == '나눔중'}">selected</c:if>>나눔중</option>
+					            <option value="나눔완료"
+					             <c:if test="${share.shareOpen == '나눔완료'}">selected</c:if>>나눔완료</option>
 					    </select>
 					</td>
 		            <td><input style="border-radius:5px;height:28px;border:1px solid" type="text" name="shareTitle" id="shareTitle" value="${share.shareTitle }" ></td>		            
 		            <td>
 		        		<input style="border-radius:5px;height:28px;border:1px solid;width:80px;" type="text" name="userNick" id="userNick" value="${loginMember.userNick }" readonly>
 		        	</td>          
-		            <td>${share.shareCreateDate}</td>	           
+		            <td><fmt:formatDate value="${share.shareCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>	           
 		            <td>${share.shareCount}</td>			            
 		        </tr>
 		<tr id="shareUpdate-tr1">
@@ -112,7 +126,7 @@
 	     </tr>
 		  <tr id="shareUpdate-tr1">
 		       <td colspan="7">
-		       <textarea style="border-radius:5px;" name="shareContent" id="shareContent" cols="80" rows="10" wrap="hard">${share.shareContent}</textarea>
+		       <textarea style="resize: none;border-radius:5px;" name="shareContent" id="shareContent" cols="80" rows="10">${share.shareContent}</textarea>
 		       </td>
 		</tr>
 		</table>
