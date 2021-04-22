@@ -9,10 +9,29 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <style>
+
+
+th.td1 {
+    width: 10%;
+}
+
+th.td2 {
+    width: 15%;
+}
+
+th.td3 {
+    width: 16%;
+}
+
+th.td4 {
+    width: 20%;
+}
+
 .list-group-item.active{
 		background-color: #9DB81F;
 		border-color: #9DB81F;
 	}
+
 </style>
 
 <div class="container">
@@ -38,19 +57,19 @@
 					<div class="row">
 						<div class="col-md-12">
 							<table class="table table-hover">
-							  <th>번호</th>
-							  <th>작성일</th>
-							  <th>별점</th>
-							  <th>공연 이름</th>
-							  <th>리뷰 내용</th>
+							  <th class="td1">번호</th>
+							  <th class="td2">작성일</th>
+							  <th class="td3">별점</th>
+							  <th class="td4">공연 이름</th>
+							  <th class="th5">리뷰 내용</th>
 							  <c:if test="${ review.size() < 1}">
 							  	<tr>
-							  		<td colspan="3">
-							  			조회된 게시글이 없습니다.
+							  		<td colspan="5">
+							  			조회된 댓글이 없습니다.
 							  		</td>
 							  	</tr>
 							  </c:if>
-							   <c:if test="${ review.size() > 1}">
+							   <c:if test="${ review.size() > 0}">
 							  <c:forEach var="i" begin="0" end="${review.size()-1}">
 							  	<tr>
 							  		<td><c:out value="${i}"></c:out></td>
