@@ -123,9 +123,6 @@ public class ShowController {
         // 공연 정보
         List<ShowDTO> result = showList.getShowInfo();
         
-        System.out.println("0번쨰 이름 : " + result.get(0).getPrfnm());
-        System.out.println("0배열 : " + result.get(0).getMt10id());
-        
         place = getPlace(result.get(0).getMt10id());
         
         //리뷰가져오기

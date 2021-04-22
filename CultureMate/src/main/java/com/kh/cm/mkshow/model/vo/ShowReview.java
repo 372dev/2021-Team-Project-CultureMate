@@ -29,5 +29,7 @@ public class ShowReview {
 	
 	private String userNick;
 	
-
+	private String reserve;
+	
+	private String prfnm;
 }

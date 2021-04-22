@@ -139,7 +139,6 @@
 		WHERE TICKET_NUM = #{ticket_num}
 	</update>
   	
-  	
 </mapper>
 
 
