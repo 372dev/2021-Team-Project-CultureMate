@@ -38,12 +38,12 @@
 							  <th>리뷰 내용</th>
 							  <c:if test="${ review.size() < 1}">
 							  	<tr>
-							  		<td colspan="3">
-							  			조회된 게시글이 없습니다.
+							  		<td colspan="5">
+							  			조회된 댓글이 없습니다.
 							  		</td>
 							  	</tr>
 							  </c:if>
-							   <c:if test="${ review.size() > 1}">
+							   <c:if test="${ review.size() > 0}">
 							  <c:forEach var="i" begin="0" end="${review.size()-1}">
 							  	<tr>
 							  		<td><c:out value="${i}"></c:out></td>
