@@ -330,7 +330,9 @@ public class MemberController {
 		@RequestMapping(value="/member/findIdAndPwd", method = {RequestMethod.GET})
 		public String findIdAndPwdGet() {
 			log.info("아이디/비밀번호 찾기 페이지 get 요청");
-
+			
+			return "member/findIdAndPwd";
+		}
 		
 		// 아이디 찾기
 		@RequestMapping(value="/member/findId", method= {RequestMethod.POST})
