@@ -14,7 +14,7 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
- 		 font-family: 'Do Hyeon', sans-serif;
+ 		
 	}
     #shareView-container{ 
         text-align: center;
@@ -25,6 +25,7 @@
     }
     #share-Title{
         text-align: left;
+        font-family: 'Do Hyeon', sans-serif;
     }
      #share-Title > a{
    	color: black;
@@ -87,7 +88,7 @@
   
 /*댓글테이블*/
 table#tbl-comment {
-	width:460px; 
+	width:500px; 
 	margin:0 auto; 
 	border-collapse:collapse; 
 	clear:both; 
@@ -236,7 +237,7 @@ table#tbl-comment sub.comment-date {
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input class="shareReplyId" type="hidden" name="shareReplyId" value="${shareReply.shareReplyId }">
 		    		    	<input type="hidden" name="shareId" id="shareId" value="${shareReply.shareId }">
-		    		    	<a href="javascript:deleteShareReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>
+		    		    	<a href="javascript:deleteShareReply(${shareReply.shareReplyId })" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>
 		    		    	<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;margin-right:5px;top:10px;" class=" glyphicon glyphicon-pencil">답글</span></a>
 		    				
 		    				<script type="text/javascript">
@@ -250,10 +251,10 @@ table#tbl-comment sub.comment-date {
 		    						window.open(url, title, status);
 		    				});
 		    				
-		    				function deleteShareReply(){
+		    				function deleteShareReply(no){
 		    					let shareReplyId = $(".shareReplyId").val();
 		    					if(confirm("댓글을 삭제 하시겠습니까?")){
-		    						location.href = '${path}/share/reply/delete?shareId=' + <%=share.getShareId()%> + '&shareReplyId=' + shareReplyId;
+		    						location.href = '${path}/share/reply/delete?shareId=' + <%=share.getShareId()%> + '&shareReplyId=' + no;
 		    					}
 		    				}
 		    				</script>
@@ -274,12 +275,12 @@ table#tbl-comment sub.comment-date {
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input type="hidden" name="shareReplyId" id="shareReplyId" value="${shareReply.shareReplyId }">
 		    		    	<input type="hidden" name="shareId" id="shareId" value="${shareReply.shareId }">
-		    				<a href="javascript:deleteShareReReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>	    				
+		    				<a href="javascript:deleteShareReReply(${shareReply.shareReplyId })" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>	    				
 		    				<script type="text/javascript">
-		    				function deleteShareReReply(){
+		    				function deleteShareReReply(no){
 		    					let shareReplyId = $("#shareReplyId").val();
 		    					if(confirm("댓글을 삭제 하시겠습니까?")){
-		    						location.replace('${path}/share/reply/delete?shareId='+ <%=share.getShareId()%>+ '&shareReplyId=' + shareReplyId);
+		    						location.replace('${path}/share/reply/delete?shareId='+ <%=share.getShareId()%>+ '&shareReplyId=' + no);
 		    					}
 		    				}
 		    		    	</script>

@@ -8,7 +8,7 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
-		 font-family: 'Do Hyeon', sans-serif; 
+		
 	}
     #shareWrite-container{ 
         text-align: center;
@@ -19,6 +19,7 @@
     }
     #share-Title{
         text-align: left;
+        font-family: 'Do Hyeon', sans-serif; 
     }
      #share-Title > a{
    	color: black;

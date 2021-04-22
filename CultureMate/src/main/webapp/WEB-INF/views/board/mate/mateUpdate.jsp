@@ -13,7 +13,7 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
- 		 font-family: 'Do Hyeon', sans-serif; 
+ 		
 	}
     #mateUpdate-container{ 
         text-align: center;
@@ -24,6 +24,7 @@
     }
     #mateTitle{
         text-align: left;
+        font-family: 'Do Hyeon', sans-serif; 
     }
    	#mate-Title > a{
     	color: black;
@@ -103,7 +104,7 @@
 							<c:if test="${mate.mateOpen == '모집완료'}">selected</c:if>>모집완료</option>
 						</select>
 					</td>
-		            <td><input style="border-radius:5px;height:28px;border:1px solid; width:200px;" type="text" name="mateTitle" id="mateTitle" value="${mate.mateTitle }"></td>		            
+		            <td><input style="border-radius:5px;height:28px;border:1px solid; width:200px;" type="text" name="mateTitle" value="${mate.mateTitle }"></td>		            
 		            <td> <input style="border-radius:5px;height:28px;border:1px solid; width:80px;" type="text" name="userNick" value="${loginMember.userNick }" readonly> </td>
 		                               
 		            		            <td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>	           

@@ -13,7 +13,7 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto; 
-	     font-family: 'Do Hyeon', sans-serif;
+	     
 	}
     #mateView-container{ 
         text-align: center;
@@ -24,6 +24,7 @@
     }
     #mate-Title{
         text-align: left;
+        font-family: 'Do Hyeon', sans-serif;
     }
       #mate-Title > a{
     	color: black;
@@ -89,7 +90,7 @@
   }
   /*댓글테이블*/
 table#tbl-comment {
-	width:460px; 
+	width:500px; 
 	margin:0 auto; 
 	border-collapse:collapse; 
 	clear:both; 
@@ -165,7 +166,7 @@ table#tbl-comment sub.comment-date {
 		    <tr id="mateView-tr1">
 		     <td colspan="11">
 		     <div style="border-radius:5px;height: 250px;width: 500px;background-color: GAINSBORO;margin:0 auto; display: flex; align-items: center;">
-     <div style="background-color:white;white-space:pre;border-radius:5px;height:210px;width:460px;border:0.5px solid lightgray;margin: 0 auto;padding:0 auto; middle;text-align: left;">${mate.mateContent}"</div>
+     <div style="background-color:white;white-space:pre;border-radius:5px;height:210px;width:460px;border:0.5px solid lightgray;margin: 0 auto;padding:0 auto; middle;text-align: left;">${mate.mateContent}</div>
 			</div>
 			 </td>
 			</tr>
@@ -215,7 +216,8 @@ table#tbl-comment sub.comment-date {
 		    		    	<input type="hidden" class="mateReplyId" name="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
 		    		<!--  	<button class="btn-update">수정</button> -->	
-		    			    <a href="javascript:deleteMateReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>
+		    			<!--    <a href="javascript:deleteMateReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>  --> 
+	    			    <a href="javascript:deleteMateReply(${mateReply.mateReplyId })" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>
 		    			</c:if>
 		    			<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;top:10px;margin-right:5px;" class=" glyphicon glyphicon-pencil">답글</span></a>
 		    			<script type="text/javascript">
@@ -231,10 +233,10 @@ table#tbl-comment sub.comment-date {
 		    						
 		    					});
 		    				
-		    				function deleteMateReply(){
+		    				function deleteMateReply(no){
 		    					let mateReplyId = $(".mateReplyId").val();
 		    					if(confirm("댓글을 삭제 하시겠습니까?")){
-		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + mateReplyId);
+		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + no);
 		    					}
 		    				}
 		    				
@@ -256,12 +258,12 @@ table#tbl-comment sub.comment-date {
 		    		    	<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
 		    					<!--  	<button class="btn-update">수정</button> -->	
-		    				<a href="javascript:deleteMateReReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>		    				
+		    				<a href="javascript:deleteMateReReply(${mateReply.mateReplyId })" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>		    				
 		    				<script type="text/javascript">
-		    				function deleteMateReReply(){
+		    				function deleteMateReReply(no){
 		    					let mateReplyId = $("#mateReplyId").val();
 		    					if(confirm("댓글을 삭제 하시겠습니까?")){
-		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + mateReplyId);
+		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + no);
 		    					}
 		    				}
 		    		    	</script>
@@ -298,6 +300,7 @@ table#tbl-comment sub.comment-date {
 			<!-- 맨 끝으로 -->
 			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>	
 		</c:if>	
+		</div>
 	 </div>
 	 <script type="text/javascript">
 	 function checkEmpty() {
@@ -364,7 +367,6 @@ table#tbl-comment sub.comment-date {
 	})
 	
 	</script>
-	</div>
 
 </section>
 

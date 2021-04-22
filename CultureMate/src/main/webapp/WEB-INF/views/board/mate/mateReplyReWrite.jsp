@@ -9,15 +9,10 @@
 #replyReWrite-container {
 	text-align: center;
 	margin:0 auto;
-	font-family: 'Do Hyeon', sans-serif;
 }
 
 </style>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-	<div id="replyReWrite-container">
-		
-	
+	<div id="replyReWrite-container">	
 		<form  id="reWriteFrm" name="reWriteFrm" action="${path}/mate/reply/reWrite" method="post">			
 				<input type="hidden" name="mateReplyId"  value = "${mateReply.mateReplyId}">
 				<lable>게시글   <input style="border-radius:5px;height:25px;width:40px;border: 0.5px solid;" type="text" name="mateId" id="mateId" value="${mateReply.mateId }" readonly="readonly"></label>

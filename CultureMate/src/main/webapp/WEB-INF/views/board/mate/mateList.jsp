@@ -8,17 +8,20 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
-	     font-family: 'Do Hyeon', sans-serif;
+	    
 	}
     #mateList-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
 		height: 950px;
-   
+    }
+     #font-container {
+    	font-family: 'Noto Sans KR', sans-serif;
     }
     #mate-Title{
         text-align: left;
+         font-family: 'Do Hyeon', sans-serif;
     }
     #mate-Title > a{
     	color: black;
