@@ -108,7 +108,7 @@
 		ORDER BY ID DESC
 	</select>
 	
-	<select id="allfindMemberDetail" parameterType="_int" resultMap="memberDetailResultMap">
+	<select id="allfindMemberDetail" parameterType="string" resultMap="memberDetailResultMap">
 	   SELECT ID,
 			   USER_ID,
 			   PASSWORD,
@@ -117,6 +117,7 @@
 			   USER_ROLE,
 			   DATE_BIRTH,
 			   GENDER,
+			   EMAIL,
 			   PHONE,
 			   POSTCODE,
 			   ADDRESS,
@@ -124,7 +125,7 @@
 			   EXTRA_ADDR,
 			   RANK
 		FROM MEMBER
-		WHERE USER_ROLE = #{userRole}
+		WHERE USER_ID = #{userId}
 		
 	</select>
 	
@@ -215,5 +216,28 @@
 		WHERE
 			USER_ID = #{userId}
 	</delete>
+	   
+	<delete id="admindeleteMember" parameterType="Member">
+		UPDATE MEMBER
+		SET
+			STATUS = 'N'
+		WHERE
+			USER_ID = #{userId}
+	</delete>
+	
+	<update id="allfindMemberUpdate" parameterType="string">
+	 UPDATE MEMBER
+		SET	
+			USER_NICK = #{userNick},
+			EMAIL = #{email},
+			PHONE = #{phone},
+			POSTCODE = #{postcode},
+			ADDRESS = #{address},
+			DETAIL_ADDR = #{detailAddr},
+			EXTRA_ADDR = #{extraAddr},
+			RANK = #{rank}
+		WHERE 
+			USER_ID = #{userId}
+	</update>
 	
 </mapper>

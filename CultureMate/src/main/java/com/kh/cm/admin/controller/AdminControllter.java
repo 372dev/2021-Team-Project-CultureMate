@@ -13,11 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/admin")
 public class AdminControllter {
 
-	
-	@RequestMapping(value = "/showbook", method = {RequestMethod.GET})
-	public void showbookList() {
-		
-	}
-	
+
 }
 

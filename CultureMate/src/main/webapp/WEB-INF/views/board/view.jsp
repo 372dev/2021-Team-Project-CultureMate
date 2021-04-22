@@ -660,7 +660,7 @@ text-align: center;
 			          <input type="hidden" id="reviewRating1" name="reviewRating1" value="">
 			        <div class="modal-footer">
 			          <a class="btn btn-default sb" data-dismiss="modal" href="">save </a>
-			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			          <button type="button" class="btn btn-defaulrepltt" data-dismiss="modal">Close</button>
 			        </div>
 			         </form>
 			        </div>

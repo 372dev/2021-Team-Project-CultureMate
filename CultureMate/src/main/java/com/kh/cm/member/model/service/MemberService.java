@@ -39,8 +39,15 @@ public interface MemberService {
     
 	// 모든 멤버 리스트 조회
 	List<Member> getMemberList();
-
+    
+	// 관리자페이지에서 멤버조회
 	Member findMember(String userId);
+
+	// 관리자페지에서 멤버정보업데이트
+	int adminupdateMember(Member member);
+
+	// 관리자페이지에서 멤버 탈퇴시키기
+	int admindeleteMember(String userId);
 
 
 

@@ -2,6 +2,8 @@ package com.kh.cm.qna.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
+
 import com.kh.cm.qna.model.vo.QnaBoard;
 import com.kh.cm.qna.model.vo.QnaReply;
 
@@ -13,11 +15,15 @@ public interface QnaBoardDao {
 
 	int selectCount();
 
-	List<QnaBoard> selectqnaBoardList();
+	List<QnaBoard> selectqnaBoardList(RowBounds rowBounds);
 
 	QnaBoard selectqnaBoardDetail(int qnaId);
 
 	int insertqnaReply(QnaReply qnareply);
+
+	int deleteQna(int qnaId);
+
+//	List<QnaReply> selectqnaReplyList(int qnaId);
 
 
 

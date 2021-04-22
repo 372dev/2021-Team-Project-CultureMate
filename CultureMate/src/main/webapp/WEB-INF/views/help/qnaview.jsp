@@ -11,9 +11,8 @@
 		<h2 class="text-center">게시글 보기</h2>
 		<p>&nbsp;</p>
 		<div class="table table-responsive">
+		
 			<table class="table">
-
-
 				<tr>
 					<th class="success">작성자</th>
 					<td>${qnaboard.userId}</td>
@@ -30,7 +29,6 @@
 					<th class="success">글 내용</th>
 					<td colspan="3">${qnaboard.qnaContent}</td>
 				</tr>
-
 				<tr>
 					<th colspan="2"><c:if
 							test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
@@ -45,12 +43,12 @@
 		</div>
 		
 		<div class="container">
-		<form method="post" name="commentInsertForm">
+		<form method="post" name="commentInsertForm" id="commentInsertForm">
 		<label for="content">댓글</label>
 			<div class="input-group">
 				<c:if
 					test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
-					<input type="hidden" name="qnaId" value="${qnaboard.qnaId}" />
+					<input type="hidden" name="qnaId" id="qnaId" value="${qnaboard.qnaId}" />
 					<input type="text" class="form-control" id="qnaReContent"
 						name="qnaReContent" placeholder="내용을 입력하세요.">
 					<span class="input-group-btn">
@@ -78,7 +76,7 @@
 
 	function deleteBoard() {
 		if (confirm("정말로 게시글을 삭제 하시겠습니까?")) {
-			location.replace('${path}/help/qnadelete?qnaId=${qnaboard.qnaId}');
+			location.replace('${path}/help/delete?qnaId=${qnaboard.qnaId}');
 		}
 	}
 	
@@ -91,7 +89,7 @@
 			success : function(data){
 				if(data == "success")
 			{
-					getCommentList();
+					//getqnaReplyList();
 					$("#qnaReContent").val("");
 			}
 		},
@@ -99,54 +97,6 @@
 		}
 			
 		});
-	}
-	
-	$(function(){
-		
-		 getreplyList();
-	});
-	
-	function getreplyist(){
-		
-		$.ajax({
-			type:'GET'
-			url: "<c:url value='/help/replylist.do/>'",
-			dataType: "json",
-			data: $("#commentListForm").serialize(),
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			success  : function(data){
-				
-				var html = "";
-	            var cCnt = data.length;
-	            
-	            if(data.length > 0){
-	                
-	                for(i=0; i<data.length; i++){
-	                    html += "<div>";
-	                    html += "<div><table class='table'><h6><strong>"+data[i].replyWriterNo+"</strong></h6>";
-	                    html += data[i].comment + "<tr><td></td></tr>";
-	                    html += "</table></div>";
-	                    html += "</div>";
-	                }
-	                
-	            } else {
-	                
-	                html += "<div>";
-	                html += "<div><table class='table'><h6><strong>등록된 댓글이 없습니다.</strong></h6>";
-	                html += "</table></div>";
-	                html += "</div>";
-	                
-	            }
-	            
-	            $("#cCnt").html(cCnt);
-	            $("#commentList").html(html);
-	            
-	        },
-	        error:function(request,status,error){
-	            
-	       }
-	        
-	    });
 	}
 </script>
 

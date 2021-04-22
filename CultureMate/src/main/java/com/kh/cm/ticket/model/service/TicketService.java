@@ -25,6 +25,10 @@ public interface TicketService {
 	int deleteTicket(int ticket_num);
 
 	int updateRankDefault(int id);
+
+	int showAllCount();
+
+	List<Ticket> getTiketAllList();
 	
 	
 	

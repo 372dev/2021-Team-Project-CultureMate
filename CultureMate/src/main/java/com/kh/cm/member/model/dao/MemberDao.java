@@ -9,7 +9,7 @@ import com.kh.cm.member.model.vo.Member;
 
 @Mapper
 public interface MemberDao {
-    
+
 	int selectMemberCount(); // 모든멤버수조회 카운트
 
 	Member selectMember(@Param("userId") String userId);
@@ -36,7 +36,11 @@ public interface MemberDao {
 
 	List<Member> selectMemberList(); // 모든 멤버리스트 조회
 
-	Member allfindMemberDetail(String userId);
+	Member allfindMemberDetail(String userId); // 멤버상세조회
+
+	int allfindMemberUpdate(Member member);// 관리자페이지에서 멤버 정보수정
+
+	int admindeleteMember(String userId);
 
 
 

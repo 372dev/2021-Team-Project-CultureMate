@@ -82,6 +82,18 @@ public class TicketServiceImpl implements TicketService{
 		
 		return result;
 	}
+
+	@Override
+	public int showAllCount() {
+		
+		return ticketdao.showCount();
+	}
+
+	@Override
+	public List<Ticket> getTiketAllList() {
+		
+		return ticketdao.showAllList();
+	}
 	
 	
 	

@@ -23,6 +23,7 @@ import com.kh.cm.member.model.service.MemberService;
 import com.kh.cm.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
+import oracle.net.aso.r;
 
 @Slf4j
 @Controller
@@ -321,7 +322,7 @@ public class MemberController {
 			   System.out.println(memberCount);
 			   
 			   list = service.getMemberList();
-			   
+			    System.out.println(list);
 			   model.addObject("memlist",list);
 			   model.setViewName("admin/adminpage");
 			
@@ -329,24 +330,79 @@ public class MemberController {
 			
 		}
 		
-		// 관리자페이지에서 회원정보 페이지뷰
+		// 관리자페이지에서 회원정보 상세조회
 		@RequestMapping(value = "/admin/memupdate", method = {RequestMethod.GET})
-		public void adminUpdateMemView() {
-			
-		}
-		
-		@RequestMapping(value = "/admin/memupdate", method = {RequestMethod.POST})
-		public ModelAndView adminUpdateMember(ModelAndView model,
+		public ModelAndView adminUpdateMemberView(ModelAndView model,
 				               @RequestParam("userId") String userId) {
 			
+			log.info("멤버조회" + userId);
 			
 	      Member  member = service.findMember(userId);
 	      
-	       model.addObject("mem", member);
-	       model.setViewName("admin/adminpage");
+	      log.info("멤버정보" + member);
+	      	      
+	       model.addObject("member", member);
+	       model.setViewName("admin/memupdate");
 	       
-		return model;
+		   return model;
 		
-		}	
+		}
+		
+		// 관리자페이지에서 회원정보수정
+		@RequestMapping(value = "/admin/memupdate", method = {RequestMethod.POST})
+		public ModelAndView adminUpdateMember(ModelAndView model, @RequestParam("userId") String userId,
+				             Member member) {
+			
+			int result = 0;
+		
+   				
+		        	 result = service.adminupdateMember(member);
+		        	 
+		        	 if(result > 0) {
+							model.addObject("msg", "회원정보 수정을 완료했습니다.");
+							model.addObject("location", "/admin/adminpage");
+						} else {
+							model.addObject("msg", "회원정보 수정에 실패했습니다.");
+							model.addObject("location", "/admin/memupdate");
+						}
+
+					
+
+				model.setViewName("common/msg");
+				
+				return model;
+		}
+
+		
+		// 관리자페이지에서 회원 탈퇴
+		@RequestMapping(value = "/admin/delteMemebr", method = {RequestMethod.GET})
+		public ModelAndView adminDelteMember(Member member, ModelAndView model,
+				             @RequestParam("userId") String userId) {
+			
+			log.info("회원유저 아이디 불러쪄?? :" + userId);
+			
+			int result = 0;
+			 
+			 
+			if(member.getUserId().equals(userId)) {
+				
+			result = service.admindeleteMember(userId);
+			log.info("회원멤버 불러쪄? :" + userId);
+			
+			if(result > 0) {
+				model.addObject("msg", "정상적으로 탈퇴되었습니다.");
+				model.addObject("location", "/admin/adminpage");
+			} else {
+				model.addObject("msg", "회원탈퇴에 실패하였습니다.");
+				model.addObject("location", "/admin/adminpage");
+			}
+			}
+			
+	        model.setViewName("common/msg");
+	
+			
+			
+			return model;
+		}
 		
 }

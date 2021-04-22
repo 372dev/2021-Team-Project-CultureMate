@@ -90,6 +90,15 @@
 	      WHERE Q.STATUS='Y' AND Q.QNA_ID=#{qnaId}
 	</select>
 	
+	<!-- 
+	<select id="selectqnaReplyList" parameterType="string" resultMap="qnaboardReplyResultMap">
+	  SELECT *
+	  FROM QNA_REPLY
+	  WHERE QNA_ID = #{qnaId} AND STATUS = 'Y'
+	  ORDER BY REPLY_CREATE_DATE
+	</select>
+	 -->
+	
 	<insert id="insertqnaBoard" parameterType="map"
   		useGeneratedKeys="true" keyProperty="qnaId" keyColumn="QNA_ID" >
   		
@@ -137,6 +146,13 @@
 		ORDER BY R.QNA_REPLY DESC
 	    </select>
 	
+	<update id="deleteQna" parameterType="_int">
+	  UPDATE QNA_BOARD
+		SET
+			STATUS = 'N'
+		WHERE 
+			QNA_ID=#{qnaId}	
+	</update>
   	
 	
 </mapper>

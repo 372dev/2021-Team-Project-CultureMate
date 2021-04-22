@@ -176,10 +176,23 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectMemberList();
 	}
 
+	// 멤버 
 	@Override
 	public Member findMember(String userId) {
 		
 		return memberDao.allfindMemberDetail(userId);
+	}
+
+	@Override
+	public int adminupdateMember(Member member) {
+		
+		return memberDao.allfindMemberUpdate(member);
+	}
+
+	@Override
+	public int admindeleteMember(String userId) {
+		
+		return memberDao.admindeleteMember(userId);
 	}
 
 

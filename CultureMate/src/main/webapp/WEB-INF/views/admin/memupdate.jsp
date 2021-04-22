@@ -24,47 +24,53 @@
                               <div class="form-group row">
                                 <label for="username" class="col-4 col-form-label">아이디</label> 
                                 <div class="col-8">
-                                  <input id="userId" name="userId" value="${ mem.userId }" class="form-control here" readonly required="required" type="text">
+                                  <input id="userId" name="userId" value="${ member.userId }" class="form-control here" readonly required="required" type="text">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="password" class="col-4 col-form-label">현재 비밀번호</label> 
                                 <div class="col-8">
-                                  <input id="password" name="password" value="${ mem.password }" class="form-control here" type="password" readonly>
+                                  <input id="password" name="password" value="${ member.password }" class="form-control here" type="password" readonly>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="userName" class="col-4 col-form-label">이름</label> 
                                 <div class="col-8">
-                                  <input id="userName" name="userName" value="${ mem.userName }" class="form-control here" readonly required="required" type="text">
+                                  <input id="userName" name="userName" value="${ member.userName }" class="form-control here" readonly required="required" type="text">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="userNick" class="col-4 col-form-label">닉네임</label> 
                                 <div class="col-8">
-                                  <input id="userNick" name="userNick" placeholder="닉네임" value="${ mem.userNick }" class="form-control here" required="required" type="text">
+                                  <input id="userNick" name="userNick" placeholder="닉네임" value="${ member.userNick }" class="form-control here" required="required" type="text">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="rank" class="col-4 col-form-label">등급</label> 
+                                <div class="col-8">
+                                  <input id="rank" name="rank" placeholder="등급" value="${ member.rank }" class="form-control here" required="required" type="text">
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="email" class="col-4 col-form-label">이메일</label> 
                                 <div class="col-8">
-                                  <input id="email" name="email" placeholder="이메일" value="${ mem.email }" class="form-control here" type="email" required>
+                                  <input id="email" name="email" placeholder="이메일" value="${ member.email }" class="form-control here" type="email" required>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <label for="phone" class="col-4 col-form-label">휴대전화</label> 
                                 <div class="col-8">
-                                  <input id="phone" name="phone" placeholder="(-없이)" value="${ mem.phone }" maxlength="11" class="form-control here" type="tel">
+                                  <input id="phone" name="phone" placeholder="(-없이)" value="${ member.phone }" maxlength="11" class="form-control here" type="tel">
                                 </div>
                               </div>           
                               <div class="form-group row">
                                 <label for="address" class="col-4 col-form-label">주소</label> 
                                 <div class="col-8">
-	                                <input type="text" id="sample6_postcode" value="${ mem.postcode }" name="postcode" placeholder="우편번호" required>
+	                                <input type="text" id="sample6_postcode" value="${ member.postcode }" name="postcode" placeholder="우편번호" required>
 									<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-									<input type="text" id="sample6_address"  value="${ mem.address }" name="address" placeholder="주소" required><br>
-									<input type="text" id="sample6_detailAddress" value="${ mem.detailAddr }" name="detailAddr" placeholder="상세주소" required >
-									<input type="text" id="sample6_extraAddress"  value="${ mem.extraAddr }" name="extraAddr" placeholder="참고항목" >
+									<input type="text" id="sample6_address"  value="${ member.address }" name="address" placeholder="주소" required><br>
+									<input type="text" id="sample6_detailAddress" value="${ member.detailAddr }" name="detailAddr" placeholder="상세주소" required >
+									<input type="text" id="sample6_extraAddress"  value="${ member.extraAddr }" name="extraAddr" placeholder="참고항목" >
                                 </div>
                               </div> 
                               <div class="form-group" align="center">

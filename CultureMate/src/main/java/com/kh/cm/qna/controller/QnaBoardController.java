@@ -7,11 +7,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.cs.model.vo.CsBoard;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.qna.model.service.QnaBoardService;
@@ -42,16 +41,20 @@ public class QnaBoardController {
 	public ModelAndView qnalist(
 			ModelAndView model,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-			QnaBoard qnaboard) {
+			QnaBoard qnaboard,
+			@RequestParam(value="page", required=false, defaultValue="1") int page,
+			@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit) {
 		
 		List<QnaBoard> list = null;
 		int boardCount = service.getqnaBoardCount();
 		
-		System.out.println(boardCount);
+		PageInfo pageInfo = new PageInfo(page, 10, boardCount, listLimit);
+		
 	
-		list = service.getqnaBoardList();
+		list = service.getqnaBoardList(pageInfo);
 		
 		model.addObject("qnalist", list);
+		model.addObject("pageInfo", pageInfo);
 		model.setViewName("help/qnalist");
 		
 		return model;
@@ -143,40 +146,29 @@ public class QnaBoardController {
 		return "success";
 	}
 	
-//	 @RequestMapping(value="/board/replyList.do", produces="application/json; charset=utf8")
-//	    @ResponseBody
-//	    public ResponseEntity ajax_commentList(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
-//	    		@SessionAttribute(name = "loginMember",  required = false)  Member loginMember) throws Exception{
-//	        
-//	        HttpHeaders responseHeaders = new HttpHeaders();
-//	        ArrayList<HashMap> replylist = new ArrayList<HashMap>();
-//	        
-//	        List<QnaReply> reply = service.getqnareplyList(qnareply.getQnaId());        
-//	        
-//	        if(reply.size() > 0){
-//	        	
-//	            for(int i=0; i<reply.size(); i++){
-//	            	
-//	                HashMap hm = new HashMap();
-//	                
-//	                hm.put("qnaReId", reply.get(i).getQnaReId());
-//	                hm.put("qnaId", reply.get(i).getQnaId());
-//	                hm.put("userId", reply.get(i).getUserId());
-//	                hm.put("replyWriterNo", reply.get(i).getReplyWriterNo());
-//	                hm.put("qnaReContent", reply.get(i).getQnaReContent());
-//	                hm.put("replyCreateDate", reply.get(i).getReplyCreateDate());
-//	                
-//	                
-//	                replylist.add(hm);
-//	            }
-//	            
-//	        }
-//	        
-//	        JSONArray json = new JSONArray(replylist);        
-//	        return 
-//	        
-//	    }
-
+//	@RequestMapping(value = "replyList.do", produces = "applicaion/json; charset=utf-8")
+//	@ResponseBody
+//	public String ajax_replyList(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
+//			                   @SessionAttribute(name = "loginMember", required = false ) Member loginMember) throws Exception{
+//
+//		ArrayList<HashMap> hmList = new ArrayList<HashMap>();
+//		
+//		List<QnaReply> replyVo = service.getqnaReplyList(qnareply.getQnaId());
+//		
+//		if(replyVo.size() > 0) {
+//			for(int i = 0; i < replyVo.size(); i++) {
+//				HashMap<String, Comparable> hm = new HashMap();
+//				hm.put("userId", replyVo.get(i).getUserId());
+//				hm.put("replyWriterNo", replyVo.get(i).getReplyWriterNo());
+//				hm.put("qnaReContent", replyVo.get(i).getQnaReContent());
+//				hmList.add(hm);
+//			}
+//		}
+//		
+//		JSONArray json = new JSONArray(hmList);   
+//		return json.toString();
+//
+//	}
 	
 	
 	@RequestMapping(value = "/qnaupdate", method = {RequestMethod.GET})
@@ -190,6 +182,7 @@ public class QnaBoardController {
 		
 		return model;
 	}
+	
 	
 	@RequestMapping(value = "/qnaupdate", method = {RequestMethod.POST})
 	public ModelAndView qnaupdateview (
@@ -217,6 +210,24 @@ public class QnaBoardController {
 		
 	
 	   model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/delete", method = {RequestMethod.GET})
+	private ModelAndView delete(ModelAndView model, @RequestParam("qnaId") int qnaId ) {
+		int result = 0;
+		
+		result = service.deleteQna(qnaId);
+		
+		if(result > 0) {
+			model.addObject("msg", "게시글이 삭제되었습니다.");
+			model.addObject("location", "/help/qnalist");
+		} else {
+			model.addObject("msg", "게시글 삭제에 실패했습니다.");
+			model.addObject("location", "/");
+		}
+		model.setViewName("common/msg");
 		
 		return model;
 	}

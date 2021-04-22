@@ -51,28 +51,50 @@
      <thead>
       <tr>
           <th>회원ID</th>
-          <th>이름</th>
+          <th>공연날짜</th>
           <th>공연명</th>
+          <th>인원수</th>
+          <th>티켓가격</th>
+          <th>좌석번호</th>
           <th>예약상태</th>
-          <th>수정/삭제</th>
+          <th>예약관리</th>
       </tr>
      </thead>
      <tbody>
+        <c:forEach var="ticket" items="${ticketList}">
          <td>
-             <a href="#">ID</a>
+             <a href="#">
+                <c:out value="${ticket.user_id}"/>
+             </a>
          </td>
          <td>
-          홍길동
+          <c:out value="${ticket.ticket_date}"/>
+         </td>
+          <td>
+          <c:out value="${ticket.prfnm}"/>
          </td>
          <td>
-          <a href="#">위키드</a>
+          <a href="#">
+           <c:out value="${ticket.ticket_qty}"/>
+          </a>
+         </td>
+          <td>
+          <c:out value="${ticket.pcseguidance}"/>
          </td>
          <td>
-          예약완료
+          <c:out value="${ticket.ticket_seat}"/>
          </td>
          <td>
-          <button>예약취소</button>
+          <c:out value="${ticket.ticket_status}"/>
          </td>
+          <td>
+          <form action="${path}/admin/ticketcancel" method="post" onsubmit="return confirm('정말 취소하시겠습니까?');">
+			 <input name="ticket_num" value="${ ticket.ticket_num }">
+			 <button type="submit" class="btn btn-light">취소하기</button>
+		  </form>
+          </td>
+         <tr>
+        </c:forEach>
      </tbody>
   </table>
 </div>

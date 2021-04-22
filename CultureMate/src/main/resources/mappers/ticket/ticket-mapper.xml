@@ -114,7 +114,28 @@
  		FROM TICKET 
  		WHERE ID = #{id} AND TICKET_STATUS='Y'
   	</select>
+  	
+  	<select id="showCount" parameterType="map" resultType="_int">
+  	SELECT COUNT(*)
+		FROM TICKET
+  	</select>
 	
+	<select id="showAllList" parameterType="Ticket" resultMap="ticketResultMap">
+	   SELECT T.TICKET_NUM, 
+	           T.MT20ID, 
+	           T.PRFNM, 
+	           T.TICKET_DATE, 
+	           T.ID, 
+	           T.USER_ID, 
+	           T.TICKET_QTY, 
+	           T.TICKET_TIME, 
+	           T.CHANGE_TIME, 
+	           T.PCSEGUIDANCE, 
+	           T.TICKET_SEAT, 
+	           T.TICKET_STATUS 
+		FROM TICKET T 
+		ORDER BY T.TICKET_NUM DESC 
+	</select>
 	<update id="updateRank02" parameterType="Ticket">
 		UPDATE MEMBER SET 
 		RANK = '친한친구'

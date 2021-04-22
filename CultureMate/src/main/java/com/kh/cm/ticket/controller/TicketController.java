@@ -215,35 +215,77 @@ public class TicketController {
 		return model;
 	}
 	
+	// 관리자 페이지 예약된 공연리스트 불러오기
+	@RequestMapping(value = "/admin/showbook", method = {RequestMethod.GET})
+	public ModelAndView showbookList(ModelAndView model, Ticket ticket) {
+		
+		List<Ticket> list = null;
+		int showCount = ticketservice.showAllCount();
+		
+		System.out.println(showCount);
+		
+		list =  ticketservice.getTiketAllList();
+		
+		System.out.println(list);
+		
+		model.addObject("ticketList", list);
+		model.setViewName("admin/showbook");
+		
+		return model;
+	}
+	
+	// 관리자페이지에서 공연취소하기
+	@RequestMapping(value = "/admin/ticketcancel", method = {RequestMethod.POST})
+	public ModelAndView ticketcancel(ModelAndView model, @RequestParam("ticket_num") int ticket_num, 
+			                           @ModelAttribute Member member) {
+		
+		int result = ticketservice.deleteTicket(ticket_num);
+		
+		System.out.println(result);
+		
+		if(result > 0) {
+			
+			int count = ticketservice.countTicket(member.getId());
+			
+			System.out.println("count : " + count);
+			
+			System.out.println("cancel member : " + member);
+			
+			if(count > 4 && count < 10) {
+				
+				int updateRank = ticketservice.updateRank02(member.getId());
+				
+			} else if(count > 9) {
+				
+				int updateRank = ticketservice.updateRank03(member.getId());
+			} else {
+				
+				int updateRank = ticketservice.updateRankDefault(member.getId());
+			}
+			
+			model.addObject("loginMember", ticketservice.findMemberByUserId(member.getUserId()));
+			model.addObject("msg", "예매 취소를 완료했습니다.");
+			model.addObject("location", "/member/ticket");
+			model.setViewName("common/msg");
+			
+		} else {
+			model.addObject("msg", "예매 취소를 실패했습니다.");
+			model.addObject("location", "/member/ticket");
+			model.setViewName("common/msg");
+			
+		}
+		
+		System.out.println("cancel loginMember : " + member);
+		
+		return model;
+	}
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

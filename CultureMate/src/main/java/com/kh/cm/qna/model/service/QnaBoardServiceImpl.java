@@ -2,10 +2,12 @@ package com.kh.cm.qna.model.service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.cs.model.vo.CsBoard;
 import com.kh.cm.qna.model.dao.QnaBoardDao;
 import com.kh.cm.qna.model.vo.QnaBoard;
@@ -40,10 +42,11 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	}
 
 	@Override
-	public List<QnaBoard> getqnaBoardList() {
+	public List<QnaBoard> getqnaBoardList(PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
 		
-		
-		return qnaboardDao.selectqnaBoardList();
+		return qnaboardDao.selectqnaBoardList(rowBounds);
 	}
 
 	@Override
@@ -57,6 +60,17 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		
 		return qnaboardDao.insertqnaReply(qnareply);
 	}
+
+	@Override
+	public int deleteQna(int qnaId) {
+		return qnaboardDao.deleteQna(qnaId);
+	}
+
+//	@Override
+//	public List<QnaReply> getqnaReplyList(int qnaId) {
+//		
+//		return qnaboardDao.selectqnaReplyList(qnaId);
+//	}
 
 
 

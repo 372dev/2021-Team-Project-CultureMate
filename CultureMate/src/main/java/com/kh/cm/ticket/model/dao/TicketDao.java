@@ -25,6 +25,10 @@ public interface TicketDao {
 	int deleteTicket(int ticket_num);
 
 	int updateRankDefault(int id);
+
+	int showCount();
+
+	List<Ticket> showAllList();
 	
 	
 	
