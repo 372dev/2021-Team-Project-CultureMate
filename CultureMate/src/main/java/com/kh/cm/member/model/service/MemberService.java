@@ -11,22 +11,17 @@ public interface MemberService {
 	
 	int deleteMember(String userId);
 	
-	Member findId(String userName, String email, String phone);
+	String findId(String userName, String email, String phone);
 	
-	Member findPwd(String userId, String userName, String email, String phone);
+	void findPwd(String userId, String email, String phone) throws Exception;
+	
+//	void sendMailAndUpdatePwd(Member member);
 	
 	int changePwd(String userId, String password);
 
 	int validate(String userId);
 
-	//int updateMember(Member member);
-
-//	Member userAuth(String authkey);
-
 	void sendMail(Member member) throws Exception;
-
-
-//	Member userAuth(Member member);
 
 	Member userAuth(String userId, String authkey);
 

@@ -8,21 +8,21 @@ import com.kh.cm.member.model.vo.Member;
 @Mapper
 public interface MemberDao {
 
-	Member selectMember(@Param("userId") String userId);
+	Member selectMember(@Param("userId") String userId); 
 	
 	int validate(String userId);
 	
-	int insertMember(Member member);
+	int insertMember(Member member); // 회원가입
 	
-	int updateMember(Member member);
+	int updateMember(Member member); // 회원정보 수정
 	
-	int updatePassword(String userId, String password);
+	int updatePassword(@Param("userId") String userId, @Param("password") String password);
 
 	int deleteMember(String userId);
 	
-	Member findId(String userName, String email, String phone);
+	String findId(@Param("userName") String userName, @Param("email") String email, @Param("phone") String phone); // 아이디 찾기
 	
-	Member findPwd(String userId, String userName, String email, String phone);
+	void updateTempPwd(String userId, String email, String phone, @Param("tempPwd") String password);
 
 	void updateAuthkey(Member member); // 인증키 수정
 

@@ -11,6 +11,7 @@
 			   USER_NAME,
 			   USER_ROLE,
 			   DATE_BIRTH,
+			   EMAIL,
 			   GENDER,
 			   PHONE,
 			   POSTCODE,
@@ -22,7 +23,7 @@
 		WHERE STATUS = 'Y'
 	</sql>
 
-	<resultMap type="Member" id="memberResultMap">
+	<resultMap type="com.kh.cm.member.model.vo.Member" id="memberResultMap">
 		<id property="id" column="ID" />
 		<result property="userId" column="USER_ID" />
 		<result property="password" column="PASSWORD" />
@@ -31,6 +32,7 @@
 		<result property="userRole" column="USER_ROLE" />
 		<result property="dateBirth" column="DATE_BIRTH" />
 		<result property="gender" column="GENDER" />
+		<result property="email" column="EMAIL" />
 		<result property="phone" column="PHONE" />
 		<result property="postcode" column="POSTCODE" />
 		<result property="address" column="ADDRESS" />
@@ -46,6 +48,20 @@
 		AND USER_ID = #{userId}
 	</select>
 	
+	<!-- 대입해주는 파라미터가 여러 개일 경우 map 형태로 넘겨주어야 한다. -->
+	<select id="findId" parameterType="map" resultType="string">
+		SELECT NVL(USER_ID, 0) <!-- userId가 있으면 userId 넘겨주고 없으면 데이터로 0 리턴 -->
+		FROM MEMBER
+		WHERE 
+			USER_NAME = #{userName}
+		AND 
+			EMAIL = #{email}
+		AND 
+			PHONE = #{phone}
+		AND 
+			STATUS = 'Y'
+	</select>
+	
 	<select id="validate" resultType="int">
 		SELECT COUNT(*) 
 		FROM MEMBER 
@@ -53,9 +69,6 @@
 	</select>
 	
 	<select id="checkAuth" parameterType="Member" resultMap="memberResultMap">
-<!-- 		SELECT AUTHKEY
-		FROM MEMBER
-		WHERE USER_ID = #{userId} -->
 		SELECT USER_ID
 		FROM MEMBER
 		WHERE AUTHKEY = #{authkey}
@@ -139,6 +152,21 @@
 			STATUS = 'Y'
 		WHERE 
 			USER_ID = #{userId}
+	</update>
+	
+	<!-- 임시 비밀번호 -->
+	<update id="updateTempPwd" parameterType="Member">
+		UPDATE MEMBER
+		SET
+			PASSWORD = #{param4}
+		WHERE
+			USER_ID = #{param1}
+		AND
+			EMAIL = #{param2}
+		AND
+			PHONE = #{param3}
+		AND
+			STATUS = 'Y'
 	</update>
 	
 	<delete id="deleteMember" parameterType="string">

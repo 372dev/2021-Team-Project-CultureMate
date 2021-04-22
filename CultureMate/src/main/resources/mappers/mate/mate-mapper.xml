@@ -41,7 +41,7 @@
 		<result property="mateContent" column="MATE_CONTENT"/>
 		<result property="mateCount" column="MATE_COUNT"/>
 		<result property="mateStatus" column="STATUS"/>
-		<result property="mateCreateDate" column="MATE_CREATE_DATE"/>			
+		<result property="mateCreateDate" column="MATE_CREATE_DATE"/>	
  	</resultMap>
  	
  	<resultMap type="Mate" id="mateDetailResultMap">
@@ -75,6 +75,25 @@
 	<select id="selectMateList" parameterType="map" resultMap="mateResultMap">
 		<include refid="mateListSql"></include>
 		ORDER BY B.MATE_ID DESC
+	</select>
+	
+	<!-- 메이트, 나눔 게시글 모두 가져오기 -->
+	<select id="selectPostsByUserId" parameterType="map" resultMap="mateResultMap">
+ 		SELECT B.MATE_ID,
+			   B.MATE_OPEN, 
+			   B.MATE_TITLE, 
+			   B.MATE_CREATE_DATE 
+		FROM MATEBOARD B
+		JOIN MEMBER M ON(B.MATE_WRITER_ID = M.ID)
+		WHERE B.MATE_WRITER_ID = #{mateWriteId} AND B.STATUS='Y'
+		UNION ALL
+		SELECT S.SHARE_ID,
+			   S.SHARE_OPEN, 
+			   S.SHARE_TITLE, 
+			   S.SHARE_CREATE_DATE 
+		FROM SHAREBOARD S
+		JOIN MEMBER M ON(S.SHARE_WRITER_ID = M.ID)
+		WHERE S.SHARE_WRITER_ID = #{shareWriteId} AND S.STATUS = 'Y'
 	</select>
 	
 	<select id="selectMateReplyList" parameterType="map" resultMap="mateReplyResultMap">

@@ -7,7 +7,30 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
 
+	.list-group-item.active{
+		background-color: #9DB81F;
+		border-color: #9DB81F;
+	}
+	
+	#update_pwd{
+		background-color: #9DB81F;
+	}
+	
+	#revert{
+		background-color: #ff8c00;
+	}
+	
+	.btn:hover{
+		color: white;
+	}
+	
+	#title{
+		font-family: 'Noto Sans KR', sans-serif;
+	}
+</style>
 <div class="container">
 	<div class="row">
 		<div class="col-md-3 ">
@@ -24,13 +47,13 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-12">
-							<h4>비밀번호 변경</h4>
+							<h4 id="title">비밀번호 변경</h4>
 							<hr>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<form action="${path}/member/update" method="POST">
+							<form action="${path}/member/updatePwd" method="POST">
 								<div class="form-group row">
 									<label for="inputPwd" class="col-4 col-form-label">현재 비밀번호</label>
 									<div class="col-8">
@@ -52,8 +75,8 @@
 									 <div class="check_font" id="pwd_check2"></div>
 								</div>
                               	<div class="form-group" align="center">
-                              		<button type="submit" class="btn btn-primary" id="update_pwd">수정</button>
-                              		<button type="reset" class="btn btn-default">취소</button>
+                              		<button type="submit" class="btn" id="update_pwd">수정</button>
+                              		<button type="reset" class="btn" id="revert">취소</button>
                               	</div>
 							</form>
 						</div>
@@ -73,11 +96,15 @@
 			if(pwJ.test($("#newpwd1").val())){
 				console.log('true');
 				$("#pwd_check1").text('');
+			} else if($("#newpwd1").val() == $("#password").val()){
+				console.log('same');
+				$("#pwd_check1").text('현재 비밀번호와 동일합니다.');
+				$("#pwd_check1").css("color", "red");
 			} else {
 				console.log('false');
 				$("#pwd_check1").text("숫자 또는 문자로만 8~15자리 입력해주세요.");
 				$("#pwd_check1").css("color", "red");
-			}
+			} 
 		});
 		
 		// 2. 비밀번호 일치 확인
@@ -89,6 +116,16 @@
 				console.log('비밀번호 불일치');
 				$("#pwd_check2").text("비밀번호가 일치하지 않습니다.");
 				$("#pwd_check2").css("color", "red");
+			}
+		});
+		
+		$("#update_pwd").click(function(){
+			if($("#newpwd1").val().trim() === ($("#newpwd2").val().trim()) 
+					&& $('#password').val().trim() !== $('#newpwd1').val().trim()){
+				console.log('비밀번호 수정');
+			} else {
+				console.log('수정 불가');
+				event.preventDefault();
 			}
 		});
 </script>
