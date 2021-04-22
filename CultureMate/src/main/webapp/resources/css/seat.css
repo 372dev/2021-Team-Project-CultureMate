@@ -155,7 +155,7 @@
     color: rgb(204, 204, 204);
 }
 
-#result{
+#result_view{
     width: 440px;
     height: 120px;
     position: absolute;
@@ -164,47 +164,51 @@
     transform: translate(-50%, 0);
 }
 
-#result *{
+#result_view *{
     font-size: 18px;
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 400;
     color: rgb(29, 29, 28);
 }
 
-#result > label > input{
+#result_view > label > input{
     width: 330px;
     border: none;
     background: transparent;
 }
 
-#result > label > input:focus{
+#result_view > label > input:focus{
     outline: none;
 }
 
-#result > label > .list01{
+#result_view > label > .list01{
     margin-left: 10px;
 }
 
-#result > label > .list02{
-    margin-left: 46px;
+#result_view > label > .list02{
+    width: 323px;
+    margin-left: 28px;
 }
 
-#result > label > .list03{
+#result_view > label > .list03{
     margin-left: 46px;
 }
-
-
-
-
-
-
-
 
 #under_div{
     width: 100px;
     height: 20px;
     border: 1px solid red;
 }
+
+#result{
+    display: none;
+}
+
+
+
+
+
+
 
 
 

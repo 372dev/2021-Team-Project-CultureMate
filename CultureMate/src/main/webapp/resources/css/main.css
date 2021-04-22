@@ -22,7 +22,7 @@ body{
     height: 100px;
     position: relative;
     margin-bottom: 50px;
-    z-index: 99999999;
+    z-index: 9999;
 }
 
 #header-container{

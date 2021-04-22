@@ -4,6 +4,11 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 <style>
+	.list-group-item.active{
+		background-color: #9DB81F;
+		border-color: #9DB81F;
+	}
+
 	#ticket_list > thead > tr > th{
 		font-size: 18px;
 		font-family: 'Noto Sans KR', sans-serif;
