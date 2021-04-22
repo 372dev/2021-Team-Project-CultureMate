@@ -1,5 +1,6 @@
 package com.kh.cm.mate.model.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -21,6 +22,8 @@ public interface MateDao {
 	
 	List<Mate> selectMateSearchList(RowBounds rowBounds, PageInfo pageInfo);
 	
+	List<Collection> selectPostsByUserId(RowBounds rowBounds, @Param("mateWriteId") int mateWriteId, @Param("shareWriteId") int shareWriteId);
+
 	Mate selectMateDetail(int mateId);
 
 	boolean updateMateCount(int mateId);

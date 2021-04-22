@@ -40,7 +40,7 @@
 		<button id="submitSearchForm" class="btn btn-secondary btnFont">검색</button>
 		</div>
 	</div>
-	<button id="toggleBtn" class="btn btn-secondary btn-lg btn-block" type="button" data-toggle="collapse"
+	<button id="toggleBtn" class="btn btnBahia btn-lg btn-block" type="button" data-toggle="collapse"
 	data-target="#showSearchOption" aria-expanded="false" aria-controls="showSearchOption">▼ 상세검색 펼치기 ▼</button>
 </div>
 

@@ -1,5 +1,6 @@
 package com.kh.cm.mate.model.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.kh.cm.common.util.PageInfo;
@@ -15,6 +16,8 @@ public interface MateService {
 	int getMateSearchCount(String search, String keyword);
 	
 	List<Mate> getMateSearchList(PageInfo pageInfo);
+
+	List<Collection> getPostsByUserId(PageInfo pageInfo, int mateWriteId, int shareWriteId);
 
 	Mate findMateByMateId(int mateId);
 
@@ -35,5 +38,6 @@ public interface MateService {
 	int saveMateReReply(MateReply mateReply);
 
 	MateReply findMateReplyByMateReplyId(int mateReplyId);
+
 
 }

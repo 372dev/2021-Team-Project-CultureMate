@@ -55,6 +55,7 @@
 			<exclude-mapping path="/member/enroll"/>
 			<exclude-mapping path="/member/idCheck"/>
 			<exclude-mapping path="/member/login"/>
+			<exclude-mapping path="/member/findIdAndPwd"/>
 			<exclude-mapping path="/member/findId"/>
 			<exclude-mapping path="/member/findPassword"/>
 			<exclude-mapping path="/help/csmain"/>

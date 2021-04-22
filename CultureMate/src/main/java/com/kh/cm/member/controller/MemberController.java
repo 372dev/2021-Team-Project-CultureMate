@@ -1,5 +1,8 @@
 package com.kh.cm.member.controller;
 
+
+import java.util.Collection;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,9 +16,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.cm.common.util.PageInfo;
+import com.kh.cm.mate.model.service.MateService;
+import com.kh.cm.mate.model.vo.Mate;
 import com.kh.cm.member.model.dao.MemberDao;
 import com.kh.cm.member.model.service.MemberService;
 import com.kh.cm.member.model.vo.Member;
+import com.kh.cm.share.model.vo.Share;
+import com.kh.cm.mkshow.model.service.ShowReviewService;
+import com.kh.cm.mkshow.model.vo.ShowReview;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +35,13 @@ public class MemberController {
 	
 		@Autowired
 		private MemberService service;
+		
+
+		@Autowired
+		ShowReviewService showreview;
+		
+		@Autowired
+		private MateService mateService;
 		
 		@Autowired
 		MemberDao memberDao;
@@ -48,10 +64,6 @@ public class MemberController {
 			log.info("{},{}", userId, password);
 			
 			Member loginMember = service.login(userId, password);
-			
-			System.out.println("controller uerId : " + userId);
-			System.out.println("controller password : " + password);
-			System.out.println("controller loginMember : " + loginMember);
 			
 			if(loginMember != null) {
 				model.addObject("loginMember", loginMember);
@@ -105,8 +117,6 @@ public class MemberController {
 		// 이메일 인증키 확인
 		@RequestMapping(value="/emailConfirm", method= {RequestMethod.GET})
 		public String emailConfirm(@RequestParam("userId") String userId, @RequestParam("authkey") String authkey , ModelAndView model) {
-//			Member member = memberDao.selectMember(userId);
-//			member = service.userAuth(member);
 			
 			service.userAuth(userId, authkey);
 			
@@ -120,7 +130,6 @@ public class MemberController {
 				model.addObject("location", "/");
 			}
 			
-//			model.addObject("member", member);
 			model.setViewName("common/msg");
 			
 			return "/member/emailConfirm";
@@ -153,23 +162,23 @@ public class MemberController {
 			int result = 0;
 			
 			if(loginMember.getUserId().equals(member.getUserId())){
-				log.info(loginMember.toString());
-				log.info(member.toString());
 				member.setId(loginMember.getId());
 				member.setPassword(loginMember.getPassword());
-				log.info("설정 후" + member.toString());
 				
 				if(encoder.matches(password, loginMember.getPassword())) {
 					result = service.updateMember(member, password);
 				
 					if(result > 0) {
-						model.addObject("loginMember", service.findMemberByUserId(loginMember.getUserId()));
+//						model.addObject("loginMember", service.findMemberByUserId(loginMember.getUserId()));
 						model.addObject("msg", "회원정보 수정을 완료했습니다.");
 						model.addObject("location", "/member/myPage");
 					} else {
 						model.addObject("msg", "회원정보 수정에 실패했습니다.");
 						model.addObject("location", "/member/myPage");
 					}
+				} else {
+					model.addObject("msg", "비밀번호가 일치하지 않습니다.");
+					model.addObject("location", "/member/myPage");
 				}
 				
 			} else {
@@ -191,24 +200,30 @@ public class MemberController {
 		}
 		
 		// 비밀번호 변경 메소드
-		@RequestMapping(value="/member/updatePwd")
+		@RequestMapping(value="/member/updatePwd", method = {RequestMethod.POST})
 		public ModelAndView updatePwd(ModelAndView model, 
 									@SessionAttribute(name="loginMember", required=false) Member loginMember, 
-									@RequestParam("password") String password) {
+									@RequestParam("password") String password,
+									@RequestParam("newpwd1") String password2) {
 			int result = 0;
 			
+			log.info("로그인 멤버 패스워드 : " + encoder.encode(loginMember.getPassword()));
+			log.info("현재 패스워드 : " + password);
+			log.info("새로운 패스워드 : " + password2);
+			
 			if(encoder.matches(password, loginMember.getPassword())) {
-				result = service.changePwd(loginMember.getUserId(), password);
+				result = service.changePwd(loginMember.getUserId(), password2);
 				
 				if(result > 0) {
 					model.addObject("msg", "비밀번호 수정을 완료했습니다.");
-					model.addObject("location", "/member/updatePwd");
 				} else {
 					model.addObject("msg", "비밀번호 변경에 실패했습니다.");
-					model.addObject("location", "/member/updatePwd");
 				}
+			} else {
+				model.addObject("msg", "비밀번호가 일치하지 않습니다.");
 			}
 			
+			model.addObject("location", "/member/updatePwd");
 			model.setViewName("common/msg");
 			
 			return model;
@@ -216,13 +231,13 @@ public class MemberController {
 		
 		// 회원탈퇴 GET 요청
 		@RequestMapping(value="/member/withdrawal", method = {RequestMethod.GET})
-		public String withdrawl() {
+		public String withdrawlGet() {
 			log.info("회원탈퇴 페이지 get 요청");
 			
 			return "member/withdrawal";
 		}
 
-		
+		// 회원탈퇴
 		@RequestMapping("/member/delete")
 		public ModelAndView deleteMember(ModelAndView model, 
 										@SessionAttribute(name="loginMember", required = false) Member loginMember, 
@@ -257,52 +272,103 @@ public class MemberController {
 			return model;
 		}
 		
-		// 내가 쓴 메이트 글 조회
+		// 내가 쓴 메이트/티켓나눔 글 조회페이지
 		@RequestMapping(value="/member/myPosts", method = {RequestMethod.GET})
-		public String myPostsGet() {
-			log.info("내가 쓴 메이트 글 페이지 get 요청");
+		public ModelAndView myPostsGet(ModelAndView model, Mate mate, Share share,
+										@SessionAttribute(name="loginMember", required=false) Member loginMember,
+										@RequestParam(value="page", required=false, defaultValue="1") int page,
+										@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit) {
 			
-			return "member/myPosts";
+			log.info("내가 쓴 메이트/티켓나눔 글 페이지 get 요청");
+			
+			mate.setMateWriteId(loginMember.getId());
+			share.setShareWriteId(loginMember.getId());
+			
+			// 상속해서 사용하는 편을 권장함.
+			List<Collection> postList = null;
+			
+			int postCount = mateService.getMateCount();
+			
+			PageInfo pageInfo = new PageInfo(page, 10, postCount, listLimit);
+			
+			postList = mateService.getPostsByUserId(pageInfo, mate.getMateWriteId(), share.getShareWriteId());
+			
+			model.addObject("postList", postList);
+			model.addObject("pageInfo", pageInfo);
+			
+			model.setViewName("member/myPosts");
+			
+			return model;
 		}
 		
 		// 내가 쓴 리뷰 조회
 		@RequestMapping(value="/member/myReviews", method = {RequestMethod.GET})
-		public String myReviewsGet() {
+		public ModelAndView myReviewsGet(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+				ModelAndView model) {
 			log.info("내가 쓴 리뷰 글 페이지 get 요청");
 			
-			return "member/myReviews";
-		}
-		
-		// 아이디 찾기 GET 요청
-		@RequestMapping(value="/member/findId", method = {RequestMethod.GET})
-		public String findIdGet() {
-			log.info("아이디 찾기 페이지 get 요청");
 			
-			return "member/findId";
-		}
-		
-		@RequestMapping(value="/member/findId", method= {RequestMethod.POST})
-		@ResponseBody
-		public String findId(@ModelAttribute Member member, @RequestParam("userName") String userName, 
-								@RequestParam("email") String email, @RequestParam("phone") String phone) {
+			System.out.println("나의 아이디" + loginMember.getId());
 			
-			if(userName.equals(member.getUserName()) && email.equals(member.getEmail()) && phone.equals(member.getPhone())) {
-//				service.findId(userName, email, phone);
-//				String userId = "{\"userId\":\""
-//				return 
-			} else {
+			List<ShowReview> review = showreview.findMyRevuew(loginMember.getId());
+			
+			if(review.size() < 1) {
+				System.out.println("작성된 리뷰 없음");
+			}else {
+				System.out.println("나의 리뷰 첫번쨰" + review.get(0).getMt20id());
+				log.info("리부사이즈" + review.size());
 				
 			}
-			return phone;
 			
+			model.addObject("review", review);
+			model.setViewName("member/myReviews");
+			
+			return model;
+		}
+	
+		// 아이디/비밀번호 찾기 GET 요청
+		@RequestMapping(value="/member/findIdAndPwd", method = {RequestMethod.GET})
+		public String findIdAndPwdGet() {
+			log.info("아이디/비밀번호 찾기 페이지 get 요청");
+			
+			return "member/findIdAndPwd";
 		}
 		
-		// 비밀번호 찾기 GET 요청
-		@RequestMapping(value="/member/findPassword", method = {RequestMethod.GET})
-		public String findPasswordGet() {
-			log.info("비밀번호 찾기 페이지 get 요청");
+		// 아이디 찾기
+		@RequestMapping(value="/member/findId", method= {RequestMethod.POST})
+		@ResponseBody
+		public String findId(@RequestParam("inputName_1") String userName, @RequestParam("inputEmail_1") String email, 
+							@RequestParam("inputPhone_1") String phone) {
+			log.info(userName);
+			String result = service.findId(userName, email, phone);
+			log.info("controller 받은 후 : " + result);
+			return result;
+		}
+
+		// 비밀번호 찾기
+		@SuppressWarnings("unused")
+		@RequestMapping(value="/member/findPassword", method = {RequestMethod.POST})
+		@ResponseBody
+		public ModelAndView findPassword(ModelAndView model, @ModelAttribute Member member,
+				@RequestParam("inputId_1") String userId, @RequestParam("inputEmail_2") String email, 
+				@RequestParam("inputPhone_2") String phone) throws Exception {
 			
-			return "member/findPassword";
+			member = memberDao.selectMember(userId);
+			
+			log.info(member.toString());
+			
+			if(member != null) {
+				service.findPwd(userId, email, phone);
+				model.addObject("msg", "임시 비밀번호가 이메일로 발송되었습니다. :)");
+				model.addObject("location", "/");
+			} else {
+				model.addObject("msg", "등록하신 회원 정보가 없습니다. :<");
+				model.addObject("location", "/member/findIdAndPwd");
+			}
+			
+			model.setViewName("common/msg");
+			
+			return model;
 		}
 		
 }
