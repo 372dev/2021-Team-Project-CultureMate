@@ -537,7 +537,7 @@ h3 {
 						<dd><c:out value="${show.prfcast}"/> </dd>
 						<c:if test="${show.prfcast.length() == 1}">
 						<dd><c:out value="정보가 없습니다."/> </dd>
-						</c:if>
+<%-- 						</c:if> --%>
 						
 						<br>
 						<dt>제작사</dt>
@@ -559,6 +559,7 @@ h3 {
 			<div id="cal">
 			<div id="datepicker" ></div>
 			<button id="ticketing" class="btn btn-primary" onclick="openSeatSelect()">예매하기</button>
+			<a id="mateBtn" class="btn btn-secondary" href="${path}/mate/write?id=${show.mt20id}&title=${show.prfnm}">메이트</a>
 				<form id="ticketing_form" action='${path}/ticket/ticketing' method="post">
 					<input type="hidden" id="form_mt20id" name="mt20id" value="${show.mt20id}">
 					<input type="hidden" id="form_prfnm" name="prfnm" value="${show.prfnm}">
