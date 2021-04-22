@@ -18,11 +18,24 @@
 				김민규, 김정은, 박상철, 손진주, 이지연, 황의정 <br><br>
 				<p>© 2021 Team NO REGETS ALL rights reserved.</p>
 			</div>
+			<div class="line line01"></div>
 			<div class="text02">
-				회사소개 | 개인정보처리방침 | 이용약관 | 티켓판매안내 | 청소년보호정책
+				<a href="${path}/TeamIntro" class="list list01">팀 소개</a>
+				<p>|</p>
+				<a href="${path}/ServiceIntro" class="list list02">서비스 소개</a>
+				<p>|</p>
+				<a href="" class="list list03">입문자 가이드</a>
+				<p>|</p>
+				<a href="" class="list list04">개인정보처리방침</a>
+				<p>|</p>
+				<a href="" class="list list05">이용약관</a>
+				<p>|</p>
+				<a href="" class="list list06">티켓판매안내</a>
+				<p>|</p>
+				<a href="" class="list list07">청소년보호정책</a>
 			</div>
 		</div>
-		<div class="line"></div>
+		<div class="line line02"></div>
 	</div>
 	</div>
 </body>

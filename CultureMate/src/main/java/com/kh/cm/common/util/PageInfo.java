@@ -1,6 +1,7 @@
 package com.kh.cm.common.util;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @ToString
@@ -13,7 +14,11 @@ public class PageInfo {
 	private int listCount;
 	
 	@Getter
-	private int listLimit;	
+	private int listLimit;
+	
+	@Getter
+	@Setter
+	private String search, keyword;
 	
 	/**
 	 * 

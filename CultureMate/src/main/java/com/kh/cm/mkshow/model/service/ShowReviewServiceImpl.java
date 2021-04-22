@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.cm.mkshow.model.dao.ShowReviewDao;
 import com.kh.cm.mkshow.model.vo.ShowReview;
+import com.kh.cm.ticket.model.vo.Ticket;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +28,9 @@ public class ShowReviewServiceImpl implements ShowReviewService {
 	@Override
 	public int saveReview(ShowReview review) {
 		// TODO Auto-generated method stub
+		String type = showDao.getreserve(review);
+		log.info(type);
+		review.setReserve(type);
 		return showDao.saveReview(review);
 	}
 
@@ -48,6 +52,38 @@ public class ShowReviewServiceImpl implements ShowReviewService {
 	
 		return showDao.updateReview(review);
 		
+	}
+
+	@Override
+	public int countReview(String mt20id) {
+		// TODO Auto-generated method stub
+		return showDao.countReview(mt20id);
+	}
+	
+	@Override
+	public int setreserve(Ticket ticket) {
+
+		log.info(ticket.getMt20id());
+		System.out.println("티켓아이디 : " + ticket.getId());
+		
+		String a = ticket.getMt20id();
+		
+		return showDao.setreserve(ticket);
+		
+	}
+
+	@Override
+	public void resetreserve(Ticket ticket) {
+		// TODO Auto-generated method stub
+		showDao.resetreserve(ticket);
+		
+	}
+
+	@Override
+	public List<ShowReview> findMyRevuew(int id) {
+		log.info("나의 아이디" + id);
+		
+		return showDao.findMyReview(id);
 	}
 
 	

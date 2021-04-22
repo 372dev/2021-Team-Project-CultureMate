@@ -27,8 +27,10 @@ public interface TicketService {
 	int updateRankDefault(int id);
 
 	int showAllCount();
-
+	
 	List<Ticket> getTiketAllList();
+
+
 	
 	
 	

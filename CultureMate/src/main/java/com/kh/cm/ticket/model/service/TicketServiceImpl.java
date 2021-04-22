@@ -83,6 +83,7 @@ public class TicketServiceImpl implements TicketService{
 		return result;
 	}
 
+
 	@Override
 	public int showAllCount() {
 		
@@ -94,11 +95,7 @@ public class TicketServiceImpl implements TicketService{
 		
 		return ticketdao.showAllList();
 	}
-	
-	
-	
-	
-	
+
 }
 
 

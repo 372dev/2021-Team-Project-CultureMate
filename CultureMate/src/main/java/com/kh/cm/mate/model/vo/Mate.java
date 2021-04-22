@@ -20,7 +20,7 @@ public class Mate {
 	
 	private int Id;
 	
-//	private String mt20id;
+	private String mt20id;
 	
 	private String userNick;
 	

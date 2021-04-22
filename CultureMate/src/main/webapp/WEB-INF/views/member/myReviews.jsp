@@ -8,13 +8,39 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
+<style>
+
+
+th.td1 {
+    width: 10%;
+}
+
+th.td2 {
+    width: 15%;
+}
+
+th.td3 {
+    width: 16%;
+}
+
+th.td4 {
+    width: 20%;
+}
+
+.list-group-item.active{
+		background-color: #9DB81F;
+		border-color: #9DB81F;
+	}
+
+</style>
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-3 ">
 			<div class="list-group ">
               <a href="${ path }/member/myPage" class="list-group-item list-group-item-action">회원정보 수정</a>
               <a href="${ path }/member/updatePwd" class="list-group-item list-group-item-action">비밀번호 변경</a>
-			  <a href="${ path }/myPage/ticket" class="list-group-item list-group-item-action">예매내역</a>
+			  <a href="${ path }/member/ticket" class="list-group-item list-group-item-action">예매내역</a>
               <a href="${ path }/member/myPosts" class="list-group-item list-group-item-action">내가 쓴 글 조회</a>
               <a href="${ path }/member/myReviews" class="list-group-item list-group-item-action active">내가 쓴 리뷰 조회</a>
 			</div>
@@ -30,26 +56,37 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<form action="${path}/member/update" method="POST">
-								<div class="form-group row">
-									<label for="inputPwd" class="col-4 col-form-label">현재 비밀번호</label>
-									<div class="col-8">
-										<input id="password" name="password" class="form-control here" required="required" type="password">
-									</div>
-								</div>
-								<div class="form-group row">
-									<label for="inputNewPwd" class="col-4 col-form-label">새로운 비밀번호</label>
-									<div class="col-8">
-										<input id="newpwd1" name="newpwd1" class="form-control here" required="required" type="password">
-									</div>
-								</div>
-								<div class="form-group row">
-									<label for="inputNewPwdChk" class="col-4 col-form-label">새 비밀번호 확인</label>
-									<div class="col-8">
-										<input id="newpwd2" name="newpwd2" class="form-control here" required="required" type="password">
-									</div>
-								</div>
-							</form>
+							<table class="table table-hover">
+							  <th class="td1">번호</th>
+							  <th class="td2">작성일</th>
+							  <th class="td3">별점</th>
+							  <th class="td4">공연 이름</th>
+							  <th class="th5">리뷰 내용</th>
+							  <c:if test="${ review.size() < 1}">
+							  	<tr>
+							  		<td colspan="5">
+							  			조회된 댓글이 없습니다.
+							  		</td>
+							  	</tr>
+							  </c:if>
+							   <c:if test="${ review.size() > 0}">
+							  <c:forEach var="i" begin="0" end="${review.size()-1}">
+							  	<tr>
+							  		<td><c:out value="${i}"></c:out></td>
+							  		<td>
+										<c:out value="${review.get(i).reviewDate.substring(0,10)}"/>
+									</td>
+									<td>
+										<c:forEach var="j" begin="1" end="${review.get(i).reviewRating}" >
+										★
+										</c:forEach>
+									</td>
+							  		<td><a href="${path}/show/restview?name=<c:out value="${review.get(i).mt20id}"/>">  <c:out value="${review.get(i).prfnm}"/> </a></td>  
+							  		<td><c:out value="${review.get(i).reviewContent}"/> </td>     
+							  	</tr>
+							  </c:forEach>
+							  </c:if>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -58,5 +95,5 @@
 	</div>
 </div>
 
-		
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

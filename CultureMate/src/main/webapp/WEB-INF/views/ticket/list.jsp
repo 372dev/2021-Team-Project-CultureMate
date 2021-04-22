@@ -4,6 +4,11 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 <style>
+	.list-group-item.active{
+		background-color: #9DB81F;
+		border-color: #9DB81F;
+	}
+
 	#ticket_list > thead > tr > th{
 		font-size: 18px;
 		font-family: 'Noto Sans KR', sans-serif;
@@ -136,6 +141,8 @@
 							<td class="list07 list">
 								<form action="${path}/member/ticket/cancel" method="post" onsubmit="return confirm('정말 취소하시겠습니까?');">
 									<input type="text" name="ticket_num" value="${ ticket.ticket_num }">
+									<input type="hidden" name="ticket_mt20id" value="${ ticket.mt20id }">
+									<input type="hidden" name="ticket_id" value="${ ticket.id }">
 									<button type="submit" class="btn btn-light">취소하기</button>
 								</form>
 							</td>

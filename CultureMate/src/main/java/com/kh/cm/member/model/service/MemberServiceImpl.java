@@ -1,6 +1,9 @@
 package com.kh.cm.member.model.service;
 
+
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -89,23 +92,7 @@ public class MemberServiceImpl implements MemberService {
         sendMail.send();
 	}
 	
-	// 이메일 인증 키 검증
-//	@Override
-//	public Member userAuth(String authkey) {
-//		Member member = new Member();
-//		member = memberDao.checkAuth(authkey); // 이메일 인증 코드 확인
-//		
-//		if(member != null) {
-//			try {
-//				memberDao.successAuthkey(member); // 인증 후 계정 활성화
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		return member;
-//	}
-	
+
 	@Override
 	public Member userAuth(String userId, String authkey) {
 		Member member = memberDao.selectMember(userId);
@@ -130,22 +117,50 @@ public class MemberServiceImpl implements MemberService {
 
 	// 아이디 찾기
 	@Override
-	public Member findId(String userName, String email, String phone) {
-		return null;
+	public String findId(String userName, String email, String phone) {
+		String result = memberDao.findId(userName, email, phone);
+
+		return result;
 	}
 
-	// 비밀번호 찾기
+	// 비밀번호 찾기 - 이메일로 임시 비밀번호 발급
 	@Override
-	public Member findPwd(String userId, String userName, String email, String phone) {
-		return null;
+	public void findPwd(String userId, String email, String phone) throws Exception {
+		Member member = memberDao.selectMember(userId);
+		String tempPwd = new TempKey().getKey();
+		
+		member.setPassword(passwordEncoder.encode(tempPwd));
+		memberDao.updateTempPwd(userId, email, phone, member.getPassword());
+		
+		log.info("비밀번호 찾기: " + userId + ", " + email + ", " + phone);
+		
+		
+		MailHandler sendMail = new MailHandler(mailSender);
+        sendMail.setSubject("[컬쳐메이트] 임시 비밀번호가 발급되었습니다.");
+        
+		sendMail.setText(new StringBuffer().append("<h2>안녕하세요 ")
+				.append(member.getUserName())
+				.append(" 님, 컬쳐메이트를 이용해주셔서 감사합니다!</h2><br><br>")
+				.append("<h4>회원님의 임시 비밀번호는'")
+		        .append(tempPwd)
+		        .append("'이며 로그인 후 보안을 위해 꼭 비밀번호를 변경해주세요~<br>")
+		        .append("<a href='http://localhost:8088/cm/'>컬쳐메이트 접속</a></h4>")
+		        .toString());
+			
+		sendMail.setFrom("CultureMate", "컬쳐메이트");
+		sendMail.setTo(member.getEmail());
+		sendMail.send();
 	}
+
 
 	// 비밀번호 변경
 	@Override
 	public int changePwd(String userId, String password) {
 		int result = 0;
+		log.info(password);
+		password = passwordEncoder.encode(password);
 		
-		result = memberDao.updatePassword(userId, passwordEncoder.encode(password));
+		result = memberDao.updatePassword(userId, password);
 		
 		return result;
 	}
@@ -201,6 +216,7 @@ public class MemberServiceImpl implements MemberService {
 	
 
 	
+
 
 
 

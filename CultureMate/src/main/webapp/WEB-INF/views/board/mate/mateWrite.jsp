@@ -8,16 +8,26 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
+	     font-family: 'Do Hyeon', sans-serif;
 	}
     #mateWrite-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 900px;
+		height: 950px;
    
     }
     #mate-Title{
         text-align: left;
+    }
+      #mate-Title > a{
+    	color: black;
+    	text-decoration:none; 
+ 	       
+    }
+    #mate-Title > h2 {
+    	text-decoration:line-through #b7ba41;
+    		margin-left:100px;
     }
     #mateWrite-frm{
         text-align: center;    
@@ -32,27 +42,55 @@
 	    text-align: center;          
         margin: 0 auto;
     }
-    #mateWrite-tr1>td {
-    
-    }
     #mateButton{
      height:35px;
   	border: none;
 	border-radius: 5px;
-	background: yellowgreen;
+	background: #9db81f;
 	color: white;
-  }	 
+  }	
+  
+<!-- 공연제목 시작 -->
+
+	.showTitleDiv {
+		margin: 10px auto;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+	}
+	.showTitleDiv > h5 {
+		height: 30px;
+		margin: auto 0;
+	}
+	.searchBtnStyle {
+		height: 30px;
+		border: none;
+		border-radius: 5px;
+		background: #9db81f;
+		color: white;
+	}
+	
+<!-- 공연제목 끝 -->
    
 </style>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <section id="mateSection">
        
 		    <div id="mateWrite-container">
 		        <div id="mate-Title">
-			        <h1>같이 가요</h1>
-			        <h4>&nbsp; - 같이 갈 메이트 괌</h4>
+			       <a href="${path}/mate/list"><h1 style="font-size: 48pt;">같이가요</h1></a>
+			        <h2>- 같이 갈 메이트 괌</h4>
 		    	</div>
 		    <hr>
 		    <form action="${path}/mate/write" id="mateWrite-frm" method="post">
+		    <input name="mt20id" value="${ mt20id }" style="display: none;">
+		    <div class="showTitleDiv">
+		    <h5>선택된 공연 - ${ title }</h5>
+		    <button class="searchBtnStyle" type="button"
+		    	onclick="location.href='${ path }/show/showList'"
+		    >다시 선택하기</button>
+		    </div>
 		     <table id="mateWrite-tbl">
 		        <tr id="mateWrite-tr1">
 		        	 <td>
@@ -73,18 +111,8 @@
 		          
 		        </tr>	     
 		       <tr>
-		          <td colspan="4">API
-		  <!--       <div class="card">
-				<div class="cardImgWrapper" onclick="location.href='${path}/show/restview?name=${showList.mt20id}';">
-					<img src="${ showList.poster }" class="card-img-top" alt="${ showList.prfnm }">
-				</div>
-				<div class="card-body">
-					<h5 class="card-title">${ showList.prfnm }</h5>
-					<p class="card-text subTitle">${ showList.fcltynm }</p>
-					<p class="card-text">${ showList.prfpdfrom } - ${ showList.prfpdto }</p>
-				</div>
-			</div>
-			 -->  
+		          <td colspan="4">
+		  				${mate.mt20id }
 		          </td> 
 		        </tr>
 		    <tr>
@@ -117,42 +145,16 @@
 	                <option value="서울">서울</option>
 	                <option value="경기도">경기도</option>
 	                <option value="강원도">강원도</option>
-	                <option value="충청북도">충청북도</option>
-	                <option value="충청남도">충청남도</option>
-	                <option value="전라북도">전라북도</option>
-	                <option value="전라남도">전라남도</option>
-	                <option value="경상북도">경상북도</option>
-	                <option value="경상남도">경상남도</option>
+	                <option value="충청도">충청도</option>
+	                <option value="전라도">전라도</option>
+	                <option value="경상도">경상도</option>
 	                <option value="제주도">제주도</option>
-	                <option value="을릉도">을릉도</option>
-	                <option value="독도">독도</option>
             </select>				
 			</td>
 			</tr>
-		<!--  	<tr>
-				<td>모집성별</td>
-				<td>
-					<select name="martGender" id="mateGender" style="border-radius:5px;height:28px;">
-						<option value="여성">여성</option>
-						<option value="남성">남성</option>
-						<option value="아무나 환영">아무나 환영</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-			    <td>인원수</td>
-			    <td>
-			    <select name="mateNum" id="mateNum" style="border-radius:5px;height:28px;">
-			        <option value="1명">1명</option>
-			        <option value="5명 이하">5명 이하</option>
-			        <option value="10명 이하">10명 이하</option>
-			        <option value="15명 이하">15명 이하</option>
-				</select>
-				</td>
-			</tr> -->
 		    <tr>
 			     <td colspan="4">
-			       <textarea style="border-radius:5px" name="mateContent" id="mateContent" cols="80" rows="10" wrap="hard"></textarea>
+			       <textarea style="resize: none;border-radius:5px" name="mateContent" id="mateContent" cols="80" rows="10"></textarea>
 			    </td>
 			</tr>			
 		 </table>

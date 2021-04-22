@@ -7,7 +7,30 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
-
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+	
+	.list-group-item.active{
+		background-color: #9DB81F;
+		border-color: #9DB81F;
+	}
+	
+	#update_submit{
+		background-color: #9DB81F;
+	}
+	
+	#revert{
+		background-color: #FF8C00;
+	}
+	
+	.btn:hover{
+		color:white;
+	}
+	
+	#title{
+		font-family: 'Noto Sans KR', sans-serif;
+	}
+</style>
 <div class="container">
 	<div class="row">
 		<div class="col-md-3 ">
@@ -24,7 +47,7 @@
 		        <div class="card-body">
 		            <div class="row">
 		                <div class="col-md-12">
-		                    <h4>회원정보 수정</h4>
+		                    <h4 id="title">회원정보 수정</h4>
 		                    <hr>
 		                </div>
 		            </div>
@@ -78,8 +101,8 @@
                                 </div>
                               </div> 
                               <div class="form-group" align="center">
-                              	<button type="submit" class="btn btn-primary" id="update_submit">수정</button>
-                              	<button type="reset" class="btn btn-default">취소</button>
+                              	<button type="submit" class="btn" id="update_submit">수정</button>
+                              	<button type="reset" class="btn" id="revert">취소</button>
                               </div>
                             </form>
                             <div align="right">
