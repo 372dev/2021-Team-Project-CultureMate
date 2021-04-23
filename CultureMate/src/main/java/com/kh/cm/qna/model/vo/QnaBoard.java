@@ -1,6 +1,7 @@
 package com.kh.cm.qna.model.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,9 +23,14 @@ public class QnaBoard {
 	
 	private String qnaContent;
 	
+	private String qnaOpenStatus;
+	
 	private Date qnaCreateDate;
 	
 	private String status;
+	
+	private List<QnaReply> replies;
+	
 	
 	
 		

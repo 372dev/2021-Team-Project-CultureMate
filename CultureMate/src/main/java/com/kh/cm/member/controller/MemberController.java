@@ -3,9 +3,12 @@ package com.kh.cm.member.controller;
 
 import java.util.Collection;
 import java.util.List;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,10 +26,13 @@ import com.kh.cm.member.model.dao.MemberDao;
 import com.kh.cm.member.model.service.MemberService;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.share.model.vo.Share;
+import com.kh.cm.ticket.model.dao.TicketDao;
+import com.kh.cm.ticket.model.vo.Ticket;
 import com.kh.cm.mkshow.model.service.ShowReviewService;
 import com.kh.cm.mkshow.model.vo.ShowReview;
 
 import lombok.extern.slf4j.Slf4j;
+import oracle.net.aso.r;
 
 @Slf4j
 @Controller
@@ -35,16 +41,18 @@ public class MemberController {
 	
 		@Autowired
 		private MemberService service;
-		
 
 		@Autowired
-		ShowReviewService showreview;
+		private MemberDao memberDao;
+
+		@Autowired
+		private ShowReviewService showreview;
 		
 		@Autowired
 		private MateService mateService;
 		
 		@Autowired
-		MemberDao memberDao;
+		private TicketDao ticketDao;
 		
 		@Autowired
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -82,7 +90,7 @@ public class MemberController {
 			
 			status.setComplete();
 			
-			log.info("status.iscComplete" + status.isComplete());
+			log.info("status.isComplete" + status.isComplete());
 			
 			return "redirect:/";
 		}
@@ -169,7 +177,7 @@ public class MemberController {
 					result = service.updateMember(member, password);
 				
 					if(result > 0) {
-//						model.addObject("loginMember", service.findMemberByUserId(loginMember.getUserId()));
+						model.addObject("loginMember", service.findMemberByUserId(loginMember.getUserId()));
 						model.addObject("msg", "회원정보 수정을 완료했습니다.");
 						model.addObject("location", "/member/myPage");
 					} else {
@@ -231,16 +239,22 @@ public class MemberController {
 		
 		// 회원탈퇴 GET 요청
 		@RequestMapping(value="/member/withdrawal", method = {RequestMethod.GET})
-		public String withdrawlGet() {
+		public ModelAndView withdrawlGet(ModelAndView model,
+				@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 			log.info("회원탈퇴 페이지 get 요청");
+		
+			int ticketSum = ticketDao.countTicket(loginMember.getId());
 			
-			return "member/withdrawal";
+			model.addObject("ticketSum", ticketSum);
+			model.setViewName("member/withdrawal");
+			
+			return model;
 		}
 
 		// 회원탈퇴
 		@RequestMapping("/member/delete")
-		public ModelAndView deleteMember(ModelAndView model, 
-										@SessionAttribute(name="loginMember", required = false) Member loginMember, 
+		public ModelAndView deleteMember(ModelAndView model, SessionStatus status,
+										@SessionAttribute(name="loginMember", required = false) Member loginMember, 								
 										@RequestParam("userId") String userId, @RequestParam("password") String password) {
 			int result = 0;
 			log.info(password);
@@ -251,6 +265,7 @@ public class MemberController {
 					result = service.deleteMember(userId);
 					
 					if(result > 0) {
+						status.setComplete();
 						model.addObject("msg", "정상적으로 탈퇴되었습니다.");
 						model.addObject("location", "/");
 					} else {
@@ -368,6 +383,130 @@ public class MemberController {
 			
 			model.setViewName("common/msg");
 			
+			return model;
+		}
+		
+		//관리자페이지 멤버전체조회
+		@RequestMapping(value = "/admin/adminpage", method = {RequestMethod.GET})
+		public ModelAndView memberAllList(ModelAndView model, 
+				                          @SessionAttribute(name = "loginMember") Member loginMember,
+				                          @RequestParam(value="page", required=false, defaultValue="1") int page,
+				          				  @RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit) {
+			
+			   List<Member> list = null;
+			   int memberCount  = service.memberAllCount();
+			   
+			   System.out.println(memberCount);
+			   
+			   PageInfo pageInfo = new PageInfo(page, 10, memberCount, listLimit);
+			   
+			   list = service.getMemberList(pageInfo);
+			   
+			    System.out.println(list);
+			   model.addObject("memlist",list);
+			   model.addObject("pageInfo", pageInfo);
+			   model.setViewName("admin/adminpage");
+			
+			return model;
+			
+		}
+		
+		@RequestMapping(value = "/admin/list.do", method = {RequestMethod.POST})
+		public ModelAndView memberAllSerch(
+				@RequestParam(value="page", required=false, defaultValue="1") int page,
+				@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit,
+				@RequestParam String search, ModelAndView model,
+				@RequestParam String keyword) {
+			
+            List<Member> memberList = null;
+            int memberCount = service.memberSearchCount(search, keyword);
+            
+            System.out.println(memberCount);
+            
+            PageInfo pageInfo = new PageInfo(page, 10, memberCount, listLimit);
+		
+            pageInfo.setSearch(search);
+    		pageInfo.setKeyword(keyword);
+    		
+    		memberList = service.memberSearchList(pageInfo);
+    		
+    		System.out.println(memberList);
+    		System.out.println(search);
+    		System.out.println(keyword);
+    		
+    		model.addObject("memlist", memberList);
+    		model.addObject("pageInfo", pageInfo);
+    		model.setViewName("/admin/adminpage");
+    		
+		return model;
+		}
+		
+		// 관리자페이지에서 회원정보 상세조회
+		@RequestMapping(value = "/admin/memupdate", method = {RequestMethod.GET})
+		public ModelAndView adminUpdateMemberView(ModelAndView model,
+				               @RequestParam("userId") String userId) {
+			
+			log.info("멤버조회" + userId);
+			
+	      Member  member = service.findMember(userId);
+	      
+	      log.info("멤버정보" + member);
+	      	      
+	       model.addObject("member", member);
+	       model.setViewName("admin/memupdate");
+	       
+		   return model;
+		
+		}
+		
+		// 관리자페이지에서 회원정보수정
+		@RequestMapping(value = "/admin/memupdate", method = {RequestMethod.POST})
+		public ModelAndView adminUpdateMember(ModelAndView model, @RequestParam("userId") String userId,
+				                         Member member) {
+			
+			int result = 0;
+		
+   				
+		        	 result = service.adminupdateMember(member);
+		        	 
+		        	 if(result > 0) {
+							model.addObject("msg", "회원정보 수정을 완료했습니다.");
+							model.addObject("location", "/admin/adminpage");
+						} else {
+							model.addObject("msg", "회원정보 수정에 실패했습니다.");
+							model.addObject("location", "/admin/memupdate");
+						}
+
+					
+
+				model.setViewName("common/msg");
+				
+				return model;
+		}
+
+		
+		// 관리자페이지에서 회원 탈퇴
+		@RequestMapping(value = "/admin/delteMemebr", method = {RequestMethod.POST})
+		public ModelAndView adminDelteMember(Member member, ModelAndView model,
+				             @RequestParam("userId") String userId) {
+			
+			log.info("회원 아이디 불러쪄?? :" + userId);
+			
+			int result = 0;
+			 			
+			result = service.admindeleteMember(userId);
+			log.info("불러쪄? :" + userId);
+			
+			if(result > 0) {
+				model.addObject("msg", "정상적으로 탈퇴되었습니다.");
+				model.addObject("location", "/admin/adminpage");
+			} else {
+				model.addObject("msg", "회원탈퇴에 실패하였습니다.");
+				model.addObject("location", "/admin/adminpage");
+			}
+			
+	        model.setViewName("common/msg");
+	        
 			return model;
 		}
 		

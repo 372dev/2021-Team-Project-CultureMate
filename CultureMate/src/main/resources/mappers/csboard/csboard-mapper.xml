@@ -13,8 +13,7 @@
 		       C.CSBOARD_CONTENT,
 		       C.CSBOARD_ORIGINAL_FILE,
 		       C.STATUS,
-		       C.CSBOARD_CREATE_DATE,
-		       C.CSBOARD_COUNT
+		       C.CSBOARD_CREATE_DATE
 		FROM CSBOARD C
 		JOIN MEMBER M ON(C.CSBOARD_WRITERNO = M.ID)		
 		WHERE C.STATUS ='Y'	
@@ -31,7 +30,19 @@
 		<result property="csboardRenamedFile" column="CSBOARD_RENAMED_FILE"/>
 		<result property="status" column="STATUS"/>
 		<result property="csboardCreateDate" column="CSBOARD_CREATE_DATE"/>
-		<result property="csboardCount" column="CSBOARD_COUNT"/>
+	</resultMap>
+	
+	<resultMap type="csBoard" id="csboardDetailResultMap">
+		<id property="csboardId" column="CSBOARD_ID"/>
+		<result property="csboardKind" column="CSBOARD_KIND"/>
+		<result property="csboardType" column="CSBOARD_TYPE"/>
+		<result property="userId" column="C_USER_ID"/>
+		<result property="csboardTitle" column="CSBOARD_TITLE"/>
+		<result property="csboardContent" column="CSBOARD_CONTENT"/>
+		<result property="csboardOriginalFile" column="CSBOARD_ORIGINAL_FILE"/>
+		<result property="csboardRenamedFile" column="CSBOARD_RENAMED_FILE"/>
+		<result property="status" column="C_STATUS"/>
+		<result property="csboardCreateDate" column="CSBOARD_CREATE_DATE"/>
 	</resultMap>
 	
 	<select id="selectCsBoardList" parameterType="map" resultMap="csboardResultMap">
@@ -43,7 +54,34 @@
 		SELECT COUNT(*)
 		FROM CSBOARD
 		WHERE STATUS='Y'
-	</select>	 	
+	</select>
+	
+	<select id="selectnoticeList" parameterType="map" resultMap="csboardResultMap">
+		<include refid="csBoardListSql"></include>
+		ORDER BY C.CSBOARD_ID DESC
+	</select>
+	
+	<select id="selectnoticeCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM CSBOARD
+		WHERE STATUS='Y'
+	</select>	
+	
+	<select id="selectcsBoardDetail" parameterType="_int" resultMap="csboardDetailResultMap">
+		SELECT C.CSBOARD_ID,
+		       C.CSBOARD_KIND,
+		       C.CSBOARD_TYPE,
+		       M.USER_ID AS C_USER_ID,
+		       C.CSBOARD_TITLE,
+		       C.CSBOARD_CONTENT,
+		       C.CSBOARD_ORIGINAL_FILE,
+		       C.CSBOARD_RENAMED_FILE,
+		       C.STATUS AS C_STATUS,
+		       C.CSBOARD_CREATE_DATE
+		FROM CSBOARD C
+		JOIN MEMBER M ON(C.CSBOARD_WRITERNO = M.ID)		
+		WHERE C.STATUS ='Y'	AND C.CSBOARD_ID=#{csboardId}
+	</select> 		 	
 	
 	<insert id="insertCsBoard" parameterType="map"
   		useGeneratedKeys="true" keyProperty="csboardId" keyColumn="CSBOARD_ID">
@@ -58,7 +96,6 @@
   			#{csboardContent},
   			#{csboardOriginalFile},
   			#{csboardRenamedFile},
-  			DEFAULT,
   			DEFAULT,
   			DEFAULT,
   			DEFAULT

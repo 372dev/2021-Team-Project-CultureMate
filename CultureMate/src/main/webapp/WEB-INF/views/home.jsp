@@ -25,33 +25,33 @@
 	        <ol class="carousel-indicators">
 	          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 	          <li data-target="#myCarousel" data-slide-to="1"></li>
-	          <li data-target="#myCarousel" data-slide-to="2"></li>
+	          <!--<li data-target="#myCarousel" data-slide-to="2"></li>-->
 	        </ol>
 	        <div class="carousel-inner">
 	          <div class="carousel-item active">
-	          	<a href="">
+	          	<a href="${ path }/event">
 		          	<img
-		              src="https://dummyimage.com/1050x300/ffe812/000.png&text=Hello"
+		              src="${ path }/resources/images/main/1050x300_01.jpg"
 		              alt="First Slide"
 		            />
 	            </a>
 	          </div>
 	          <div class="carousel-item">
-	          	<a href="">
+	          	<a href="${ path }/event">
 		            <img
-		              src="https://dummyimage.com/1050x300/ff8c00/000.png&text=How"
+		              src="${ path }/resources/images/main/1050x300_02.jpg"
 		              alt="Second Slide"
 		            />
 		        </a>
 	          </div>
-	          <div class="carousel-item">
+	          <!--<div class="carousel-item">
 	          	<a href="">
 		            <img
 		              src="https://dummyimage.com/1050x300/228b22/000.png&text=RU"
 		              alt="Third Slide"
 		            />
 	            </a>
-	          </div>
+	          </div>-->
 	        </div>
 	        <!-- Carousel controls -->
 	        <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
@@ -168,7 +168,7 @@
 					} else {
 						console.log("result != null");
 						toAdd += '<div class="boTitle"><h2 class="titleFont">' + result[0].cate + ' 주간 박스 오피스</h2>'
-						toAdd += '<button type="button" class="btn btn-secondary btn-lg btnFont" id="'
+						toAdd += '<button type="button" class="btn btn-secondary btn-lg" id="'
 							+ (result[0].cate == "뮤지컬" ? "musical" : (result[0].cate == "연극" ? "play" : "classic"))
 							+ 'Reloc">더 보기</button></div>';
 						toAdd += '<div class="ListDiv">';

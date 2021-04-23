@@ -3,11 +3,9 @@
 <link rel="stylesheet" href="${path}/resources/css/cscenter.css">
     <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-<link rel="stylesheet" href="${path}/resources/css/cscenter.css">
-
 <div class="col">
 	<p>고객센터</p>
-	<form action='${path}/help/qnacontent' method="post" enctype="multipart/form-data">
+	<form action='${path}/help/qnaupdate' method="post" enctype="multipart/form-data">
 	<ul class="nav nav-pills">
 		<li class="nav-item"><a class="nav-link active" 
 			href="${path}/help/csmain">자주묻는질문 & FAQ</a></li>
@@ -27,38 +25,34 @@
 
        <hr>
 
-       <h3>1:1 문의</h3>
+       <h3>1:1 문의 수정</h3>
        
-    
+ 
        <div class="cs_qna">
            <div class="qnalist">
+              <input type="hidden" name="qnaId" value = "${qnaboard.qnaId}">
+           
                <label style="font-size: large;">문의유형</label>
               
                    <select name="qnaType">
-                       <option selected>문의유형선택</option>
+                       <option selected  value="${qnaboard.qnaType}">문의유형선택</option>
                            <option value="공연">공연</option>
                            <option value="메이트">메이트 게시판</option>
                       
                    </select>
            </div>
-           
-            <div class="form-inline">
-               <input type="radio" name="qnaOpenStatus" id="qnaopen" value="Y" class="radio" /><span class="ml_10">공개</span>&nbsp;&nbsp;&nbsp;&nbsp;
-               <input type="radio" name="qnaOpenStatus" id="qnaopen" value="N" class="radio" /><span class="ml_10">비공개</span>&nbsp;
-            </div>
             <div>
 					<lable style="font-size: large;">작성자</label>
-					<input type="text" name="userId" value="${ loginMember.userId }" readonly>
+					<input type="text" name="userId" value="${ loginMember.userId}" readonly>
            </div>
            <div class="qnaname">
-               <label style="font-size: large;"  >문의제목</label>
-               <input type="text"  name="qnaTitle">
+               <label style="font-size: large;">문의제목</label>
+               <input type="text"  name="qnaTitle" value="${ qnaboard.qnaTitle}">
            </div>
 
-          
       
            <div id="msgBody" class="qnacontent">
-               <textarea name="qnaContent" cols="90" rows="15" placeholder="내용을 입력해주세요."></textarea>
+               <textarea name="qnaContent" cols="90" rows="15"><c:out value="${ qnaboard.qnaContent}"/></textarea>
            </div>
       </div>
       
@@ -76,8 +70,8 @@
       </div>
    
            <div class="qnabtn">
-           <input type="submit" value="등록">
-           <input type="reset" value="취소">
+           <input type="submit" value="수정완료">
+           <button type="button" onclick="location.replace('${path}/help/qnalist')">목록으로</button>
           </div>
        </div>
 

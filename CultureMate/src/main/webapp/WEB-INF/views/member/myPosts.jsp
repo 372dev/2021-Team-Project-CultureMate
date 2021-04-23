@@ -21,6 +21,7 @@
         width: 800px;
     }
     #postList-tr{
+    	height: 30px;
    		border-bottom: 1px solid lightgray;
      	border-top: 1px solid lightgray;
     }
@@ -76,9 +77,9 @@
 						<div class="col-md-12">
 							<table id="postList-tbl">
 								<tr id="postList-tr">
-									<td>모집상태</td>			
-									<td>제목</td>
-									<td>작성일</td>
+									<th>모집상태</th>			
+									<th>제목</th>
+									<th>작성일</th>
 								</tr>
 					            <c:if test="${postList == null}">
 									<tr id="postList-tr">
@@ -120,10 +121,10 @@
 					    </li>
 					    <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 								<c:if test="${status.current == pageInfo.currentPage}">
-									<li class="page-item"><a class="page-link" href='${path}/member/myPosts?page=${status.current}'"><c:out value="${status.current}"/></a></li>
+									<li class="page-item"><a class="page-link" href='${path}/member/myPosts?page=${status.current}'><c:out value="${status.current}"/></a></li>
 				   				</c:if>
 								<c:if test="${status.current != pageInfo.currentPage}">
-									<li class="page-item"><a class="page-link" href='${path}/member/myPosts?page=${status.current}'"><c:out value="${status.current}"/></a></li>
+									<li class="page-item"><a class="page-link" href='${path}/member/myPosts?page=${status.current}'><c:out value="${status.current}"/></a></li>
 				   				</c:if>
 						</c:forEach>
 					    <li class="page-item">
