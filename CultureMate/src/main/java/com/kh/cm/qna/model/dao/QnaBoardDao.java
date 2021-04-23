@@ -23,7 +23,9 @@ public interface QnaBoardDao {
 
 	int deleteQna(int qnaId);
 
-//	List<QnaReply> selectqnaReplyList(int qnaId);
+	List<QnaReply> selectqnaReplyList(int qnaId);
+
+	int insertQnaReply(QnaReply qnareply);
 
 
 

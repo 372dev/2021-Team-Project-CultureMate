@@ -43,7 +43,7 @@
 		</div>
 		
 		<div class="container">
-		<form method="post" name="commentInsertForm" id="commentInsertForm">
+		<form method="GET" name="commentInsertForm" id="commentInsertForm">
 		<label for="content">댓글</label>
 			<div class="input-group">
 				<c:if
@@ -69,6 +69,7 @@
 		</div>
 	</div>
 </div>
+
 <script>
 	function updateBoard() {
 		location.href = "${path}/help/qnaupdate?qnaId=${qnaboard.qnaId}";
@@ -80,7 +81,7 @@
 		}
 	}
 	
-	function fn_reply(){
+function fn_reply(){
 		
 		$.ajax({
 			type : 'POST',
@@ -90,7 +91,7 @@
 				if(data == "success")
 			{
 					//getqnaReplyList();
-					$("#qnaReContent").val("");
+				  $("#qnaReContent").val("");
 			}
 		},
 		error:function(request,status,error){
@@ -98,7 +99,7 @@
 			
 		});
 	}
+	
 </script>
-
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

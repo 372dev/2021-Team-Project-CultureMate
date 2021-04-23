@@ -90,6 +90,13 @@
 	      WHERE Q.STATUS='Y' AND Q.QNA_ID=#{qnaId}
 	</select>
 	
+	<select id="selectqnaReplyList" parameterType="string" resultMap="qnaboardReplyResultMap">
+        SELECT *
+		FROM QNA_REPLY
+		WHERE QNA_ID = #{qnaId} AND STATUS = 'Y'
+		ORDER BY R.REPLY_CREATE_DATE
+	    </select>
+	
 	<!-- 
 	<select id="selectqnaReplyList" parameterType="string" resultMap="qnaboardReplyResultMap">
 	  SELECT *
@@ -117,17 +124,7 @@
  		)
   	</insert>
   	
-  	<update id="updateqnaBoard" parameterType="qnaBoard">
-		UPDATE QNA_BOARD 
-		SET 
-			QNA_TITLE=#{qnaTitle},
-			QNA_CONTENT=#{qnaContent},
-			QNA_MODIFY_DATE=SYSDATE 
-		WHERE 
-			QNA_ID=#{qnaId}
-	</update>	
-  	
-  		<insert id="insertqnaReply"  parameterType="map"
+  	<insert id="insertqnaReply"  parameterType="map"
   		useGeneratedKeys="true" keyProperty="qnaReId" keyColumn="QNA_RE_ID">
   			INSERT INTO QNA_REPLY
   			VALUES (
@@ -141,10 +138,16 @@
   			)
   		</insert>
   		
-  		<select id="selectqnaReplyList" parameterType="map" resultMap="qnaboardReplyResultMap">
-		<include refid="qnaReplyListSql"></include>
-		ORDER BY R.QNA_REPLY DESC
-	    </select>
+  	
+  	<update id="updateqnaBoard" parameterType="qnaBoard">
+		UPDATE QNA_BOARD 
+		SET 
+			QNA_TITLE=#{qnaTitle},
+			QNA_CONTENT=#{qnaContent},
+			QNA_MODIFY_DATE=SYSDATE 
+		WHERE 
+			QNA_ID=#{qnaId}
+	</update>	
 	
 	<update id="deleteQna" parameterType="_int">
 	  UPDATE QNA_BOARD

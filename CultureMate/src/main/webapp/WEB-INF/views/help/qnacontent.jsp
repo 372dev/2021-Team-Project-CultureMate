@@ -41,11 +41,6 @@
                       
                    </select>
            </div>
-           
-            <div class="form-inline">
-               <input type="radio" name="qnaOpenStatus" id="qnaopen" value="Y" class="radio" /><span class="ml_10">공개</span>&nbsp;&nbsp;&nbsp;&nbsp;
-               <input type="radio" name="qnaOpenStatus" id="qnaopen" value="N" class="radio" /><span class="ml_10">비공개</span>&nbsp;
-            </div>
             <div>
 					<lable style="font-size: large;">작성자</label>
 					<input type="text" name="userId" value="${ loginMember.userId }" readonly>
@@ -55,7 +50,6 @@
                <input type="text"  name="qnaTitle">
            </div>
 
-          
       
            <div id="msgBody" class="qnacontent">
                <textarea name="qnaContent" cols="90" rows="15" placeholder="내용을 입력해주세요."></textarea>

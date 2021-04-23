@@ -66,11 +66,18 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		return qnaboardDao.deleteQna(qnaId);
 	}
 
-//	@Override
-//	public List<QnaReply> getqnaReplyList(int qnaId) {
-//		
-//		return qnaboardDao.selectqnaReplyList(qnaId);
-//	}
+	@Override
+	public int saveQnaReply(QnaReply qnareply) {
+   
+	    return qnaboardDao.insertQnaReply(qnareply);
+		} 
+			
+
+	@Override
+	public List<QnaReply> getqnaReplyList(int qnaId) {
+		
+		return qnaboardDao.selectqnaReplyList(qnaId);
+	}
 
 
 

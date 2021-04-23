@@ -22,7 +22,9 @@ public interface QnaBoardService {
 
 	int deleteQna(int qnaId);
 
-//	List<QnaReply> getqnaReplyList(int qnaId);
+	List<QnaReply> getqnaReplyList(int qnaId);
+
+	int saveQnaReply(QnaReply qnareply);
 
 
 

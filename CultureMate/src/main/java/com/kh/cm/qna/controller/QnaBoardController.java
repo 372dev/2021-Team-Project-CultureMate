@@ -110,23 +110,34 @@ public class QnaBoardController {
 //	@RequestMapping(value = "qnareply", method = {RequestMethod.POST})
 //	public ModelAndView qnareply(
 //			            @SessionAttribute(name = "loginMember", required = false) Member loginMember,
-//			            @RequestParam int qnaId, @RequestParam int replyWriterNo, @RequestParam String qnaReContent,
+//			            @RequestParam("qnaId") int qnaId, @RequestParam("replyWriterNo") int replyWriterNo, 
+//			            @RequestParam("qnaReContent") String qnaReContent, QnaReply qnareply,
 //			            ModelAndView model) {
 //		int result=0;
 //		
-//		   QnaReply qnareply = new QnaReply();
-//		   
-//		   qnareply.setQnaId(qnaId);
-//		   qnareply.setReplyWriterNo(loginMember.getId());
-//		   qnareply.setQnaReContent(qnaReContent);
+//		if(loginMember.getUserId().equals(qnareply.getUserId())) {
+//			qnareply.setQnaId(qnaId);
+//			qnareply.setQnaReContent(qnaReContent);
+//			qnareply.setReplyWriterNo(loginMember.getId());
+//
+//		   result = service.saveQnaReply(qnareply);
 //		
 //		   System.out.println(qnareply);
 //		   
-//		   result = service.getqnaReply(qnareply);
-//		   
-//		   model.addObject("qnareply", qnareply);
-//		   model.setViewName("help/qnaview");
-//		   
+//		   if(result > 0) {
+//				model.addObject("msg", "댓글이 등록되었습니다.");
+//				model.addObject("location", "/help/qnaview?qnaId=" + qnareply.getQnaId());
+//			} else {
+//				model.addObject("msg", "댓글 등록에 실패했습니다.");
+//				model.addObject("location", "/help/qnalist");
+//			}
+//		} else {
+//			model.addObject("msg", "잘못된 접근입니다.");
+//			model.addObject("location", "/");
+//		}
+//		
+//		model.setViewName("common/msg");
+//				
 //		return model;
 //	}
 	
@@ -146,29 +157,33 @@ public class QnaBoardController {
 		return "success";
 	}
 	
-//	@RequestMapping(value = "replyList.do", produces = "applicaion/json; charset=utf-8")
-//	@ResponseBody
-//	public String ajax_replyList(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
-//			                   @SessionAttribute(name = "loginMember", required = false ) Member loginMember) throws Exception{
-//
-//		ArrayList<HashMap> hmList = new ArrayList<HashMap>();
-//		
-//		List<QnaReply> replyVo = service.getqnaReplyList(qnareply.getQnaId());
-//		
-//		if(replyVo.size() > 0) {
-//			for(int i = 0; i < replyVo.size(); i++) {
-//				HashMap<String, Comparable> hm = new HashMap();
-//				hm.put("userId", replyVo.get(i).getUserId());
-//				hm.put("replyWriterNo", replyVo.get(i).getReplyWriterNo());
-//				hm.put("qnaReContent", replyVo.get(i).getQnaReContent());
-//				hmList.add(hm);
-//			}
-//		}
-//		
-//		JSONArray json = new JSONArray(hmList);   
-//		return json.toString();
-//
-//	}
+	@RequestMapping(value = "replyList.do", produces = "applicaion/json; charset=utf-8")
+	@ResponseBody
+	public String ajax_replyList(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
+			                   @SessionAttribute(name = "loginMember", required = false ) Member loginMember,
+			                    @RequestParam("qnaId")int qnaId) throws Exception{
+
+		ArrayList<HashMap> hmList = new ArrayList<HashMap>();
+	
+	     // 게시물 댓글
+        System.out.println("게시글 아이디 " + qnaId);
+		
+		List<QnaReply> replyVo = service.getqnaReplyList(qnareply.getQnaId());
+		
+		if(replyVo.size() > 0) {
+			for(int i = 0; i < replyVo.size(); i++) {
+				HashMap<String, Comparable> hm = new HashMap();
+				hm.put("userId", replyVo.get(i).getUserId());
+				hm.put("replyWriterNo", replyVo.get(i).getReplyWriterNo());
+				hm.put("qnaReContent", replyVo.get(i).getQnaReContent());
+				hmList.add(hm);
+			}
+		}
+		
+		JSONArray json = new JSONArray(hmList);   
+		return json.toString();
+
+	}
 	
 	
 	@RequestMapping(value = "/qnaupdate", method = {RequestMethod.GET})
