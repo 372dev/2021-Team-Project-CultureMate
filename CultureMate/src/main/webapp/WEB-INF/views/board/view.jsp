@@ -989,18 +989,20 @@ $('#reviewContent').val().replace(/\n/g, "<br>");
 <!--var price = price_before.replace(/[^0-9]/g,'');-->
 <script>
 	var price_before = "${show.pcseguidance}";
-	var price_step01 = price_before.split(",");
+	var price_step01 = price_before.split("원");
 	var price_step02 = null;
 
-	for(let i = 0; i <2; i ++) {
-		price_step02 += price_step01[i];
-	}
+	console.log("price_before : " + price_before);
+
+	console.log("price_step01 : " + price_step01);
+
+	price_step02 += price_step01[0];
 
 	price = price_step02.replace(/[^0-9]/g,'');
 
-	console.log(price_step02);
+	console.log("price_step02 : " + price_step02);
 
-	console.log(price);
+	console.log("price : " + price);
 
 	var form_pcseguidance = document.getElementById("form_pcseguidance");
 
