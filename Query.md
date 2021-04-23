@@ -47,6 +47,7 @@ COMMENT ON COLUMN MEMBER.DETAIL_ADDR IS '상세주소';
 COMMENT ON COLUMN MEMBER.EXTRA_ADDR IS '참고항목';
 COMMENT ON COLUMN MEMBER.RANK IS '회원등급';
 COMMENT ON COLUMN MEMBER.STATUS IS '탈퇴여부';
+COMMENT ON COLUMN MEMBER.AUTHKEY IS '인증키';
 ```
 
 -----------------------------------------------------------------------
