@@ -9,9 +9,15 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <style>
-.list-group-item.active{
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+
+	.list-group-item.active{
 		background-color: #9DB81F;
 		border-color: #9DB81F;
+	}
+	
+    #title{
+		font-family: 'Noto Sans KR', sans-serif;
 	}
 </style>
 
@@ -31,7 +37,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-12">
-							<h4>내가 쓴 리뷰 조회</h4>
+							<h4 id="title">내가 쓴 리뷰 조회</h4>
 							<hr>
 						</div>
 					</div>

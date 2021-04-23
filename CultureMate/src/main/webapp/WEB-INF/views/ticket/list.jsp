@@ -4,6 +4,8 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+	
 	.list-group-item.active{
 		background-color: #9DB81F;
 		border-color: #9DB81F;
@@ -27,8 +29,8 @@
 	}
 	
 	#ticket_list{
-		display: inline-block;
-		width: 850px;
+		border-collapse: collapse;
+		width: 800px;
 		position: relative;
 	}
 
@@ -94,6 +96,10 @@
 	#ticket_list form input{
 		display: none;
 	}
+	
+	#title{
+		font-family: 'Noto Sans KR', sans-serif;
+	}
 </style>
 
 <div class="container">
@@ -107,54 +113,66 @@
               <a href="${ path }/member/myReviews" class="list-group-item list-group-item-action">내가 쓴 리뷰 조회</a>
             </div> 
 		</div>
-
-
-		<table id="ticket_list" class="table">
-			<thead>
-				<tr>
-					<th class="top01 top" scope="col">예매번호</th>
-					<th class="top02 top" scope="col">공연명</th>
-					<th class="top03 top" scope="col">공연날짜</th>
-					<th class="top04 top" scope="col">인원수</th>
-					<th class="top05 top" scope="col">티켓가격</th>
-					<th class="top06 top" scope="col">좌석번호</th>
-					<th class="top07 top"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:if test="${list == '[]'}">
-					<tr>
-						<td colspan="7">
-							예매한 티켓이 없습니다.
-						</td>
-					</tr>	
-				</c:if>
-				<c:if test="${list != null}">
-					<c:forEach var="ticket" items="${ list }">
-						<tr>
-							<td class="list01 list"><c:out value="${ ticket.ticket_num }"/></td>
-							<td class="list02 list"><c:out value="${ ticket.prfnm }"/></td>
-							<td class="list03 list"><c:out value="${ ticket.ticket_date }"/></td>
-							<td class="list04 list"><c:out value="${ ticket.ticket_qty }"/></td>
-							<td class="list05 list"><c:out value="${ ticket.pcseguidance }"/></td>
-							<td class="list06 list"><c:out value="${ ticket.ticket_seat }"/></td>
-							<td class="list07 list">
-								<form action="${path}/member/ticket/cancel" method="post" onsubmit="return confirm('정말 취소하시겠습니까?');">
-									<input type="text" name="ticket_num" value="${ ticket.ticket_num }">
-									<input type="hidden" name="ticket_mt20id" value="${ ticket.mt20id }">
-									<input type="hidden" name="ticket_id" value="${ ticket.id }">
-									<button type="submit" class="btn btn-light">취소하기</button>
-								</form>
-							</td>
-						</tr>
-					</c:forEach>
-				</c:if>
-				
-			</tbody>
-		</table>
+		<div class="col-md-9">
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-12">
+							<h4 id="title">예매내역</h4>
+							<hr>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<table id="ticket_list" class="table">
+								<thead>
+									<tr>
+										<th class="top01 top" scope="col">예매번호</th>
+										<th class="top02 top" scope="col">공연명</th>
+										<th class="top03 top" scope="col">공연날짜</th>
+										<th class="top04 top" scope="col">인원수</th>
+										<th class="top05 top" scope="col">티켓가격</th>
+										<th class="top06 top" scope="col">좌석번호</th>
+										<th class="top07 top"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:if test="${list == '[]'}">
+										<tr>
+											<td colspan="7">
+												예매한 티켓이 없습니다.
+											</td>
+										</tr>	
+									</c:if>
+									<c:if test="${list != null}">
+										<c:forEach var="ticket" items="${ list }">
+											<tr>
+												<td class="list01 list"><c:out value="${ ticket.ticket_num }"/></td>
+												<td class="list02 list"><c:out value="${ ticket.prfnm }"/></td>
+												<td class="list03 list"><c:out value="${ ticket.ticket_date }"/></td>
+												<td class="list04 list"><c:out value="${ ticket.ticket_qty }"/></td>
+												<td class="list05 list"><c:out value="${ ticket.pcseguidance }"/></td>
+												<td class="list06 list"><c:out value="${ ticket.ticket_seat }"/></td>
+												<td class="list07 list">
+													<form action="${path}/member/ticket/cancel" method="post" onsubmit="return confirm('정말 취소하시겠습니까?');">
+														<input type="text" name="ticket_num" value="${ ticket.ticket_num }">
+														<input type="hidden" name="ticket_mt20id" value="${ ticket.mt20id }">
+														<input type="hidden" name="ticket_id" value="${ ticket.id }">
+														<button type="submit" class="btn btn-light">취소하기</button>
+													</form>
+												</td>
+											</tr>
+										</c:forEach>
+									</c:if>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
-
 
 <script>
 
