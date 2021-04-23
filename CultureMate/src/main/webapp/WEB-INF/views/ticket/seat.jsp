@@ -243,13 +243,17 @@
         
      	// 결제하기
         function payment() {
-            opener.document.getElementById("form_ticket_qty").value = seat_count.value;
-            opener.document.getElementById("form_pcseguidance").value = seat_price.value;
-            opener.document.getElementById("form_ticket_seat").value = seat_num.value;
+            if(seat_count.value < 1) {
+                alert('좌석을 선택해 주세요!');
+            } else {
+                opener.document.getElementById("form_ticket_qty").value = seat_count.value;
+                opener.document.getElementById("form_pcseguidance").value = seat_price.value;
+                opener.document.getElementById("form_ticket_seat").value = seat_num.value;
 
-            opener.document.getElementById("ticketing_form").submit();
+                opener.document.getElementById("ticketing_form").submit();
 
-            self.close();
+                self.close();
+            }
         }
     </script>
 
