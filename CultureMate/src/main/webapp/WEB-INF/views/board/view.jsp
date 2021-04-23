@@ -314,7 +314,7 @@ table#tbl-comment sub.comment-date {
 
 a#btn-insert {
    margin-bottom: 30px;
-    width: 100px;
+    width: 97.55px;
     height: 97.55px;
     line-height: 97.55px;
     font-size: 20px;
@@ -336,6 +336,7 @@ div#datepicker {
     width: 20%;
     float: left;
     margin-left: 50px;
+    margin-top: 70px;
 }
 
 #re-button{
@@ -371,14 +372,6 @@ div#datepicker {
     text-align: center;
     width: 250px;
     height: 330px;
-}
-
-#today .list01, .list03, .list05 {
-   
-}
-
-#today .list02, .list04, .list06 {
-   
 }
 
 #price_default{
@@ -450,7 +443,7 @@ textarea#reviewContent {
 	margin-top: 30px;
 }
 
-h3 {
+.hhh {
     font-family: 'Do Hyeon';
 }
 
@@ -464,12 +457,25 @@ h3 {
 	float: left;
 }
 
+a#mateBtn {
+    width: 220px;
+    margin-top: 20px;
+    margin-left: 50px;
+    background-color: #9db81f;
+    border: solid 0px;
+    text-align: center;
+}
+
+section {
+    font-family: 'Noto Sans KR';
+}
+
 </style>
 			<section>
 			<c:set var="show" value="${result.get(0)}"></c:set>
 			
 			<div class="title">
-				<h3>[<c:out value="${show.genrenm}"/>] <c:out value="${show.prfnm}"/></h3>
+				<h1 class="hhh">[<c:out value="${show.genrenm}"/>] <c:out value="${show.prfnm}"/></h1>
 				<br>
 			</div>	
 			<div class="rn-03"><!--상단-->
@@ -537,7 +543,7 @@ h3 {
 						<dd><c:out value="${show.prfcast}"/> </dd>
 						<c:if test="${show.prfcast.length() == 1}">
 						<dd><c:out value="정보가 없습니다."/> </dd>
-<%-- 						</c:if> --%>
+ 						</c:if> 
 						
 						<br>
 						<dt>제작사</dt>
@@ -559,7 +565,9 @@ h3 {
 			<div id="cal">
 			<div id="datepicker" ></div>
 			<button id="ticketing" class="btn btn-primary" onclick="openSeatSelect()">예매하기</button>
+			<c:if test="${!empty loginMember}">
 			<a id="mateBtn" class="btn btn-secondary" href="${path}/mate/write?id=${show.mt20id}&title=${show.prfnm}">메이트</a>
+			</c:if>
 				<form id="ticketing_form" action='${path}/ticket/ticketing' method="post">
 					<input type="hidden" id="form_mt20id" name="mt20id" value="${show.mt20id}">
 					<input type="hidden" id="form_prfnm" name="prfnm" value="${show.prfnm}">
@@ -585,7 +593,7 @@ h3 {
 			<ul class="bls_tbls c3">
 				<li class="on"><p><a href="#n" id="poster">소개</a></p></li>
 				<li><p><a href="#n" id="perf">공연 시설</a></p></li>
-				<li><p id="stat1"><a href="#n" id="stats">관람 후기(<span id="stats1"></span>)</a></p></li>
+				<li><p id="stat1"><a href="#n" id="stats">기대평/관람 후기(<span id="stats1"></span>)</a></p></li>
 				<li><p><a href="#n" id="refund">환불 정보</a></p></li>
 			</ul>
 		</div>
@@ -659,14 +667,14 @@ h3 {
    		
 			</div>
 			<br>
-			<h3 style="text-align: center;">공연장 위치</h3>
+			<h3  style="text-align: center;">공연장 위치</h3>
 		</div>
 		<div id="plcMap" style="width:100%;height:400px;" ></div>
 		
 		
 		<div class="bxo_vcb" style="display: none">
 			<div class="tib">
-				<span class="nb_tit1" id="showreview">관람 후기</span>
+				<span class="nb_tit1" id="showreview">기대평/관람 후기</span>
 			</div>
 			<div id="comment-container">
 				<div> 게시판 운영규정에 맞지 않는 글은 사전 통보없이 삭제될 수 있습니다.  </div>
@@ -1148,7 +1156,7 @@ function getCommentList(){
              		html += '<sub class="comment-writer">' +data[i].userNick+ ' | </sub>'; 
              		html += '<sub class="comment-date">' + data[i].reviewDate + ' | </sub>';
              		for(j = 0; j < data[i].reviewRating; j++){
-                 	html += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>';
+                 	html += '<img alt="" src="http://tkfile.yes24.com/imgNew/common/rn-ico-tt4-1.png">';
         			}
  	            	html += '<br><br>' +data[i].reviewContent+ '<br><br></td></tr>';
             	  }
