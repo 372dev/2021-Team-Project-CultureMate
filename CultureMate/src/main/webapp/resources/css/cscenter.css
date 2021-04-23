@@ -34,10 +34,6 @@ hr {
 }
 
 /*CS 자주묻는 질문 & FAQ*/
-p {
-	margin: 20px 0px;
-}
-
 .notice {
 	margin-top: 30px;
 	background-color: #B3E0FF;
@@ -54,26 +50,7 @@ hr {
 	margin-top: 90px;
 }
 
-.col>p {
-	border: 3px solid #bcbcbc;
-	background-color: #bcbcbc;
-	line-height: 50px;
-	font-size: 25px;
-}
 
-.nav-item {
-	display: inline-block;
-	inline-size: 15%;
-}
-
-.container2 {
-	margin-top: 10%;
-	max-width: px;
-	border: 3px solid red;
-	/* position: relative;
-  top: 50%;
-  left: ; */
-}
 
 .nav-item1 {
 	display: inline-block;

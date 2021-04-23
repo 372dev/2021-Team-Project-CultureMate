@@ -1,3 +1,4 @@
+<%@page import="com.kh.cm.qna.model.vo.QnaBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -29,9 +30,9 @@
     <div class="table-responsive qnalist">
       <table class="table table-hover qnalist" >
           <tr>
-              <th>분류</th>
+              <th>문의</th>
               <th>제목</th>
-              <th>답변상태</th>
+              <th>작성자</th>
           </tr>
          <c:if test="${qnalist == null}">
 				<tr>
@@ -40,6 +41,7 @@
 					</td>
 				</tr>	
 			</c:if>
+
 			<c:if test="${qnalist != null}">
 			  <c:forEach var="qnalist" items="${qnalist}">
           <tr>
@@ -52,15 +54,40 @@
               </a>
              </td>
              <td>
-              내용
+              <c:out value="${qnalist.userId}"/>
              </td>
              </tr>
           </c:forEach>
          </c:if>
       </table>
     </div>
+    
+    <div id="pageBar">
+			<!-- 맨 처음으로 -->
+			<button onclick="location.href='${path}/help/qnalist?page=1'">&lt;&lt;</button>
+			
+			<!-- 이전 페이지로 -->
+			<button onclick="location.href='${path}/help/qnalist?page=${pageInfo.prvePage}'">&lt;</button>
 
- </div>   
+			<!--  10개 페이지 목록 -->
+			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+				<c:if test="${status.current == pageInfo.currentPage}">
+					<button disabled><c:out value="${status.current}"/></button>
+   				</c:if>
+				<c:if test="${status.current != pageInfo.currentPage}">
+					<button onclick="location.href='${path}/help/qnalist?page=${status.current}'"><c:out value="${status.current}"/></button>
+   				</c:if>
+			</c:forEach>
+			
+			<!-- 다음 페이지로 -->
+			<button onclick="location.href='${path}/help/qnalist?page=${pageInfo.nextPage}'">&gt;</button>
+			
+			<!-- 맨 끝으로 -->
+			<button onclick="location.href='${path}/help/qnalist?page=${pageInfo.maxPage}'">&gt;&gt;</button>
+		</div>
+
+ </div>  
+ 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 

@@ -18,14 +18,14 @@
 		                           <option value="faq">FAQ</option>
 		                           <option value="notice">공지사항</option>
 		                   </select>
-		            </div>
-		            <div class="faqlist">
+		         
+		         
 		               <label style="font-size: large;">게시글유형</label>
 		              
 		                   <select name="csboardType">
 		                       <option selected>유형</option>
 		                           <option value="all">전체보기</option>
-		                           <option value="횐불">환불</option>
+		                           <option value="환불">환불</option>
 		                           <option value="구매">구매/결제</option>
 		                           <option value="메이트">메이트/소모임</option>
 		                           <option value="기타">기타</option>
@@ -58,5 +58,5 @@
 			</table>
 		</form>
 	</div>
-	
+ </div>
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>

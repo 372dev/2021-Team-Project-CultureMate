@@ -14,6 +14,8 @@ public class QnaReply {
 	
 	private int qnaId;
 	
+	private String userId;
+	
 	private int replyWriterNo;
 	
 	private String qnaReContent;

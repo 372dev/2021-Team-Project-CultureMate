@@ -22,6 +22,40 @@
 		FROM MEMBER
 		WHERE STATUS = 'Y'
 	</sql>
+	
+	<sql id="selectSearchSql">
+		SELECT ID,
+			   USER_ID,
+			   PASSWORD,
+			   USER_NICK,
+			   USER_NAME,
+			   USER_ROLE,
+			   DATE_BIRTH,
+			   EMAIL,
+			   GENDER,
+			   PHONE,
+			   POSTCODE,
+			   ADDRESS,
+			   DETAIL_ADDR,
+			   EXTRA_ADDR,
+			   RANK,
+			   STATUS
+		FROM MEMBER
+		WHERE STATUS = 'Y' OR STATUS = 'N'
+	</sql>
+	
+	
+	<sql id="searchkeyword">		
+		<if test='search != null and search.equals("userId")'>
+			AND USER_ID LIKE '%' || #{keyword } || '%'
+		</if>
+		<if test='search != null and search.equals("userName")'>
+			AND USER_NAME LIKE '%' || #{keyword } || '%'
+		</if>		
+		<if test='search != null and search.equals("email")'>
+			AND EMAIL LIKE '%' || #{keyword } || '%'
+		</if>		
+	</sql>
 
 	<resultMap type="com.kh.cm.member.model.vo.Member" id="memberResultMap">
 		<id property="id" column="ID" />
@@ -72,6 +106,68 @@
 		SELECT USER_ID
 		FROM MEMBER
 		WHERE AUTHKEY = #{authkey}
+	</select>
+	
+	<!-- 모든멤버 수 조회 -->
+	<select id="selectMemberCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+	</select>
+		 	
+	<!-- 모든멤버 리스트 조회 -->
+	<select id="selectMemberList" parameterType="Member" resultMap="memberResultMap">
+		SELECT ID,
+			   USER_ID,
+			   PASSWORD,
+			   USER_NICK,
+			   USER_NAME,
+			   USER_ROLE,
+			   DATE_BIRTH,
+			   GENDER,
+			   EMAIL,
+			   PHONE,
+			   POSTCODE,
+			   ADDRESS,
+			   DETAIL_ADDR,
+			   EXTRA_ADDR,
+			   RANK,
+			   STATUS
+		FROM MEMBER
+		ORDER BY ID DESC
+	</select>
+	
+	<select id="allfindMemberDetail" parameterType="string" resultMap="memberResultMap">
+	   SELECT ID,
+			   USER_ID,
+			   PASSWORD,
+			   USER_NICK,
+			   USER_NAME,
+			   USER_ROLE,
+			   DATE_BIRTH,
+			   GENDER,
+			   EMAIL,
+			   PHONE,
+			   POSTCODE,
+			   ADDRESS,
+			   DETAIL_ADDR,
+			   EXTRA_ADDR,
+			   RANK
+		FROM MEMBER
+		WHERE USER_ID = #{userId}
+		
+	</select>
+	
+	<select id="selectmemSearchCount" parameterType="map" resultType="_int">
+	  SELECT COUNT(*)
+	  FROM MEMBER 
+	  WHERE STATUS='Y'
+	  <include refid="searchkeyword"></include>
+	</select>
+	
+	<select id="selectmemSearchList" parameterType="map" resultMap="memberResultMap">
+	  <include refid="selectMemberSql"></include>
+		<include refid="searchkeyword"></include>
+		ORDER BY ID DESC
 	</select>
 	
 	<insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
@@ -176,4 +272,28 @@
 		WHERE
 			USER_ID = #{userId}
 	</delete>
+	   
+	<delete id="admindeleteMember" parameterType="Member">
+		UPDATE MEMBER
+		SET
+			STATUS = 'N'
+		WHERE
+			USER_ID = #{userId}
+	</delete>
+	
+	<update id="allfindMemberUpdate" parameterType="string">
+	 UPDATE MEMBER
+		SET	
+			USER_NICK = #{userNick},
+			EMAIL = #{email},
+			PHONE = #{phone},
+			POSTCODE = #{postcode},
+			ADDRESS = #{address},
+			DETAIL_ADDR = #{detailAddr},
+			EXTRA_ADDR = #{extraAddr},
+			RANK = #{rank}
+		WHERE 
+			USER_ID = #{userId}
+	</update>
+	
 </mapper>

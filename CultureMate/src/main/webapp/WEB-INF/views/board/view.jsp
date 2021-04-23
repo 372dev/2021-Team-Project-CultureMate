@@ -721,7 +721,39 @@ section {
 			
 		</div>
 		
-
+		<!-- 댓글 수정 모달창 -->
+			<c:forEach var="review2"  items="${review}">
+				<div class="modal fade" id="myModal${review2.reviewID}" role="dialog">
+			    <div class="modal-dialog">
+			      <!-- Modal content-->
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <h4 class="modal-title">댓글 수정 <c:out value="${review2.reviewID}"/></h4>
+			        </div>
+			        <div class="modal-body">
+			        별점수정
+			        <P id="ustar"> 
+					<a id=star1 value=1>★</a> 
+					<a id=star1 value=2>★</a> 
+					<a id=star1 value=3>★</a> 
+					<a id=star1 value=4>★</a> 
+					<a id=star1 value=5>★</a> 
+					</p>
+			        <input type="hidden" id="rname" value="reviewupdate${review2.reviewID}">
+			        <form  method="post" id="reviewupdate${review2.reviewID}">
+			           <input type="hidden" name="reviewID" id="reviewID" value="${review2.reviewID}"/>
+			          <textarea name="reviewContent" cols="57" rows="4" onfocus="" id="reviewContent"><c:out value="${review2.reviewContent}"/></textarea>
+			          <input type="hidden" id="reviewRating1" name="reviewRating1" value="">
+			        <div class="modal-footer">
+			          <a class="btn btn-default sb" data-dismiss="modal" href="">save </a>
+			          <button type="button" class="btn btn-defaulrepltt" data-dismiss="modal">Close</button>
+			        </div>
+			         </form>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			</c:forEach>
 		
 		<div class="bxo_vcb" style="display: none" >
 			<div class="tib">
@@ -962,24 +994,28 @@ $('#reviewContent').val().replace(/\n/g, "<br>");
 		    console.log("$('#form_ticket_date').val() : " + $('#form_ticket_date').val());
 		});
 </script>
-
+<!--var price = price_before.replace(/[^0-9]/g,'');-->
 <script>
 	var price_before = "${show.pcseguidance}";
-	var price = price_before.replace(/[^0-9]/g,'');
+	var price_step01 = price_before.split(",");
+	var price_step02 = null;
+
+	for(let i = 0; i <2; i ++) {
+		price_step02 += price_step01[i];
+	}
+
+	price = price_step02.replace(/[^0-9]/g,'');
+
+	console.log(price_step02);
+
+	console.log(price);
+
 	var form_pcseguidance = document.getElementById("form_pcseguidance");
 
 	var rank = "${loginMember.rank}";
 	var price_default = document.getElementById("price_default");
 	var price_before = document.getElementById("price_before");
 	var price_after = document.getElementById("price_after");
-
-	if(price.length > 6) {
-		price = price.substring(0, 5);
-	}
-
-	console.log("rank : " + rank);
-
-	console.log("price : " + price);
 
 	if(rank == "" || rank == "친구") {
 		price_default.innerHTML = "전석 " + price + "원";
