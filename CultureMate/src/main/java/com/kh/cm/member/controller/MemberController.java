@@ -26,6 +26,8 @@ import com.kh.cm.member.model.dao.MemberDao;
 import com.kh.cm.member.model.service.MemberService;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.share.model.vo.Share;
+import com.kh.cm.ticket.model.dao.TicketDao;
+import com.kh.cm.ticket.model.vo.Ticket;
 import com.kh.cm.mkshow.model.service.ShowReviewService;
 import com.kh.cm.mkshow.model.vo.ShowReview;
 
@@ -39,16 +41,18 @@ public class MemberController {
 	
 		@Autowired
 		private MemberService service;
-		
 
 		@Autowired
-		ShowReviewService showreview;
+		private MemberDao memberDao;
+
+		@Autowired
+		private ShowReviewService showreview;
 		
 		@Autowired
 		private MateService mateService;
 		
 		@Autowired
-		MemberDao memberDao;
+		private TicketDao ticketDao;
 		
 		@Autowired
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -86,7 +90,7 @@ public class MemberController {
 			
 			status.setComplete();
 			
-			log.info("status.iscComplete" + status.isComplete());
+			log.info("status.isComplete" + status.isComplete());
 			
 			return "redirect:/";
 		}
@@ -173,7 +177,7 @@ public class MemberController {
 					result = service.updateMember(member, password);
 				
 					if(result > 0) {
-//						model.addObject("loginMember", service.findMemberByUserId(loginMember.getUserId()));
+						model.addObject("loginMember", service.findMemberByUserId(loginMember.getUserId()));
 						model.addObject("msg", "회원정보 수정을 완료했습니다.");
 						model.addObject("location", "/member/myPage");
 					} else {
@@ -235,16 +239,22 @@ public class MemberController {
 		
 		// 회원탈퇴 GET 요청
 		@RequestMapping(value="/member/withdrawal", method = {RequestMethod.GET})
-		public String withdrawlGet() {
+		public ModelAndView withdrawlGet(ModelAndView model,
+				@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 			log.info("회원탈퇴 페이지 get 요청");
+		
+			int ticketSum = ticketDao.countTicket(loginMember.getId());
 			
-			return "member/withdrawal";
+			model.addObject("ticketSum", ticketSum);
+			model.setViewName("member/withdrawal");
+			
+			return model;
 		}
 
 		// 회원탈퇴
 		@RequestMapping("/member/delete")
-		public ModelAndView deleteMember(ModelAndView model, 
-										@SessionAttribute(name="loginMember", required = false) Member loginMember, 
+		public ModelAndView deleteMember(ModelAndView model, SessionStatus status,
+										@SessionAttribute(name="loginMember", required = false) Member loginMember, 								
 										@RequestParam("userId") String userId, @RequestParam("password") String password) {
 			int result = 0;
 			log.info(password);
@@ -255,6 +265,7 @@ public class MemberController {
 					result = service.deleteMember(userId);
 					
 					if(result > 0) {
+						status.setComplete();
 						model.addObject("msg", "정상적으로 탈퇴되었습니다.");
 						model.addObject("location", "/");
 					} else {

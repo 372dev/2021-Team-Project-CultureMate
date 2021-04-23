@@ -220,7 +220,7 @@ table#tbl-comment sub.comment-date {
 		    			<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;top:10px;margin-right:5px;" class=" glyphicon glyphicon-pencil">답글</span></a>
 		    			<script type="text/javascript">
 		    				$("#btn-reWrite").on("click", () => {
-		    					//	var mateReplyId = $("#mateReplyId").val();
+		    						var mateReplyId = $("#mateReplyId").val();
 		    						
 		    						const url = "${path}/mate/reply/reWrite?mateReplyId=" + $(".mateReplyId").val();
 		    						const title = "RE";

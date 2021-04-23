@@ -12,7 +12,6 @@
  		B.MATE_NUM,
  		B.MATE_LOC,
  		B.MATE_TITLE,
- 		B.MATE_CONTENT,
  		M.USER_NICK,			 
 	 B.MATE_CREATE_DATE,
 	   B.MATE_COUNT,
@@ -29,18 +28,6 @@
 		WHERE R.STATUS='Y' 
 </sql>
 
- <sql id="search_where">		
-		<if test='search != null and search.equals("mateTitle")'>
-			AND B.MATE_TITLE LIKE '%' || #{keyword } || '%'
-		</if>
-		<if test='search != null and search.equals("mateContent")'>
-			AND B.MATE_CONTENT LIKE '%' || #{keyword } || '%'
-		</if>		
-		<if test='search != null and search.equals("userNick")'>
-			AND M.USER_NICK LIKE '%' || #{keyword } || '%'
-		</if>		
-	</sql>
-	
 <resultMap type="Mate" id="mateResultMap">
  		<id property="mateId" column="MATE_ID" />
  		<result property="userNick" column="USER_NICK"/>
@@ -71,7 +58,6 @@
 		<result property="mateCount" column="MATE_COUNT"/>
 		<result property="mateStatus" column="STATUS"/>
 		<result property="mateCreateDate" column="MATE_CREATE_DATE"/>
-		<result property="mt20id" column="MT20ID"/>
 		<collection property="mateReplies" javaType="java.util.ArrayList" resultMap="mateReplyResultMap"/>	
 	</resultMap>
 	
@@ -91,12 +77,6 @@
 		ORDER BY B.MATE_ID DESC
 	</select>
 	
-	<select id="selectMateSearchList" parameterType="map" resultMap="mateResultMap">
-		<include refid="mateListSql"></include>
-		<include refid="search_where"></include>
-		ORDER BY B.MATE_ID DESC
-	</select>
-		
 	<!-- 메이트, 나눔 게시글 모두 가져오기 -->
 	<select id="selectPostsByUserId" parameterType="map" resultMap="mateResultMap">
  		SELECT B.MATE_ID,
@@ -128,14 +108,6 @@
 		WHERE STATUS='Y'
 	</select>
 	
-	<select id="selectMateSearchCount" parameterType="map" resultType="_int">
-		SELECT COUNT(*)
-		FROM MATEBOARD B
-		JOIN MEMBER M ON(B.MATE_WRITER_ID = M.ID)
-		WHERE  B.STATUS='Y'
-		<include refid="search_where"></include>			
-	</select>
-	
 	<select id="selectReplyCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
 		FROM MATEREPLY
@@ -156,7 +128,6 @@
 	       B.MATE_COUNT,
 	       B.MATE_CREATE_DATE,
 	       B.STATUS AS B_STATUS,
-	       B.MT20ID,
 	          R.MATEREPLY_ID, 
 	          R.MATE_ID, 
 	          M2.USER_NICK AS R_USER_NICK, 
@@ -169,11 +140,6 @@
 	      LEFT OUTER JOIN MATEREPLY R ON(B.MATE_ID = R.MATE_ID)
 	      LEFT OUTER JOIN MEMBER M2 ON(R.MATEREPLY_WRITER_ID = M2.ID)
 	      WHERE B.STATUS='Y' AND B.MATE_ID=#{mateId}
-	</select>
-	
-	<select id="selectMateReply" parameterType="_int" resultMap="mateReplyResultMap" >
-		<include refid="mateReplySql"></include>
-		AND MATEREPLY_ID = #{mateReplyId}
 	</select>
 	
 	<update id="updateMateCount" parameterType="_int">
@@ -200,8 +166,7 @@
 		        DEFAULT,
 		        DEFAULT,
 		        SYSDATE,
-		        SYSDATE,
-		        #{mt20id}
+		        SYSDATE
 )
   	</insert>
   	
@@ -213,21 +178,6 @@
 	  			#{mateId},
 	  			#{mateReplyWriteId},
 	  			SEQ_MATEREPLY_ID.NEXTVAL,
-	  			#{mateReplyContent},
-	  			DEFAULT,
-	  			SYSDATE,
-	  			SYSDATE
-  			)
-  		</insert>
-  		
-  	<insert id="insertMateReReply"  parameterType="map"
-  		useGeneratedKeys="true" keyProperty="mateReplyId" keyColumn="MATEREPLY_ID">
-  			INSERT INTO MATEREPLY
-  			VALUES (
-  				SEQ_MATEREPLY_ID.NEXTVAL,
-	  			#{mateId},
-	  			#{mateReplyWriteId},
-	  			#{mateReplyGroup},
 	  			#{mateReplyContent},
 	  			DEFAULT,
 	  			SYSDATE,
@@ -251,22 +201,6 @@
 			MATE_ID=#{mateId}
 	</update>
 	
-	<update id="updateMateReply" parameterType="MateReply">
-		UPDATE MATEREPLY
-		SET
-			MATEREPLY_CONTENT=#{mateReplyContent}
-		WHERE 
-			MATEREPLY_ID=#{mateReplyId}	
-	</update>
-	
-	<update id="updateMateReReply" parameterType="MateReply">
-		UPDATE MATEREPLY
-		SET
-			MATEREPLY_CONTENT=#{mateReplyContent}
-		WHERE 
-			MATEREPLY_ID=#{mateReplyId}	
-	</update>
-	
 	<update id="deleteMate" parameterType="_int">
 		UPDATE MATEBOARD
 		SET
@@ -276,13 +210,6 @@
 	</update>
 	
 	<update id="deleteMateReply" parameterType="_int">
-		UPDATE MATEREPLY
-		SET
-			STATUS = 'N'
-		WHERE 
-			MATEREPLY_ID=#{mateReplyGroup}	
-	</update>
-	<update id="deleteMateReReply" parameterType="_int">
 		UPDATE MATEREPLY
 		SET
 			STATUS = 'N'
