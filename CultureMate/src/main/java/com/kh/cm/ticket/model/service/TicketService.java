@@ -26,6 +26,15 @@ public interface TicketService {
 
 	int updateRankDefault(int id);
 
+	int showAllCount();
+	
+	List<Ticket> getTiketAllList(PageInfo pageInfo);
+
+	int ticketSearchCount(String search, String keyword);
+
+	List<Ticket> ticketSearchList(PageInfo pageInfo);
+
+
 	
 	
 	

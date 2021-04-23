@@ -224,6 +224,109 @@ public class TicketController {
 		return model;
 	}
 	
+
+	// 관리자 페이지 예약된 공연리스트 불러오기
+	@RequestMapping(value = "/admin/showbook", method = {RequestMethod.GET})
+	public ModelAndView showbookList(ModelAndView model, Ticket ticket,
+			       @RequestParam(value="page", required=false, defaultValue="1") int page,
+			       @RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit	) {
+		
+		List<Ticket> list = null;
+		int showCount = ticketservice.showAllCount();
+		
+		System.out.println(showCount);
+		
+		PageInfo pageInfo = new PageInfo(page, 10, showCount, listLimit);
+		
+		list =  ticketservice.getTiketAllList(pageInfo);
+		
+		System.out.println(list);
+		
+		model.addObject("ticketList", list);
+		model.addObject("pageInfo", pageInfo);
+		model.setViewName("admin/showbook");
+		
+		return model;
+	}
+	
+	//관리자페이지에서 검색 조회
+	@RequestMapping(value = "/admin/showList", method = {RequestMethod.POST})
+	public ModelAndView ticketAllSerch(
+			@RequestParam(value="page", required=false, defaultValue="1") int page,
+			@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit,
+			@RequestParam String search, ModelAndView model,
+			@RequestParam String keyword) {
+		
+		List<Ticket> ticketList = null;
+        int ticketCount = ticketservice.ticketSearchCount(search, keyword);
+        
+        System.out.println(ticketCount);
+        
+        PageInfo pageInfo = new PageInfo(page, 10, ticketCount, listLimit);
+	
+        pageInfo.setSearch(search);
+		pageInfo.setKeyword(keyword);
+		
+		ticketList = ticketservice.ticketSearchList(pageInfo);
+		
+		System.out.println(ticketList);
+		System.out.println(search);
+		System.out.println(keyword);
+		
+		model.addObject("ticketList", ticketList);
+		model.addObject("pageInfo", pageInfo);
+		model.setViewName("/admin/showbook");
+		
+		return model;
+		
+	}
+	
+	// 관리자페이지에서 공연취소하기
+	@RequestMapping(value = "/admin/ticketcancel", method = {RequestMethod.POST})
+	public ModelAndView ticketcancel(ModelAndView model, @RequestParam("ticket_num") int ticket_num, 
+			                           @ModelAttribute Member member) {
+		
+		int result = ticketservice.deleteTicket(ticket_num);
+		
+		System.out.println(result);
+		
+		if(result > 0) {
+			
+			int count = ticketservice.countTicket(member.getId());
+			
+			System.out.println("count : " + count);
+			
+			System.out.println("cancel member : " + member);
+			
+			if(count > 4 && count < 10) {
+				
+				int updateRank = ticketservice.updateRank02(member.getId());
+				
+			} else if(count > 9) {
+				
+				int updateRank = ticketservice.updateRank03(member.getId());
+			} else {
+				
+				int updateRank = ticketservice.updateRankDefault(member.getId());
+			}
+			
+			model.addObject("loginMember", ticketservice.findMemberByUserId(member.getUserId()));
+			model.addObject("msg", "예매 취소를 완료했습니다.");
+			model.addObject("location", "/member/ticket");
+			model.setViewName("common/msg");
+			
+		} else {
+			model.addObject("msg", "예매 취소를 실패했습니다.");
+			model.addObject("location", "/member/ticket");
+			model.setViewName("common/msg");
+			
+		}
+		
+		System.out.println("cancel loginMember : " + member);
+		
+		return model;
+	}
+	
 	@RequestMapping("ServiceIntro")
 	public String ServiceIntro() {
 		
@@ -234,35 +337,10 @@ public class TicketController {
 	public String TeamIntro() {
 		
 		return "ticket/TeamIntro";
+
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
