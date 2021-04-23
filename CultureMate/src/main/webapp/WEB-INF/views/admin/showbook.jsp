@@ -27,20 +27,20 @@
 
       <div class="box"> 
         <table   class = "membertable" border="1" > 
-          <thead>
             <tr> 
-              <th> 검색어 </th> 
-              <td> <input type="text" value="검색"/> </td>
+           <div id="memberSearch">
+	        <form name="form1" method="post" action="${path}/admin/showList">
+		   <select name="search">
+            	<option value="prfnm" ${pageInfo.search eq 'prfnm'? 'selected' : '' }>
+            		공연명</option>
+            	<option value="userId" ${pageInfo.search eq 'userId'? 'selected' : '' }>
+            		아이디</option>
+	 		</select> 
+	 		 <input type="text" name="keyword" placeholder="입력" value="${pageInfo.keyword }">
+		     <input class="searchBtn" id="searchBtn" type="submit" onclick="$('form1').submit()" value="검색"></input>      
+	       </form>     
             </tr> 
-          </thead>
-          <tbody> 
-            <tr> 
-              <th> 예약상태 </th> 
-              <td><input drop value="드롭다운"/> </td>
-            </tr> 
-              </tbody> 
               </table> 
-              <button>검색</button>
       </div>
 
       
@@ -50,6 +50,7 @@
   <table class="table table-hover" >
      <thead>
       <tr>
+          <th>예매번호</th>
           <th>회원ID</th>
           <th>공연날짜</th>
           <th>공연명</th>
@@ -63,9 +64,10 @@
      <tbody>
         <c:forEach var="ticket" items="${ticketList}">
          <td>
-             <a href="#">
+                <c:out value="${ticket.ticket_num}"/>
+         </td>
+         <td>
                 <c:out value="${ticket.user_id}"/>
-             </a>
          </td>
          <td>
           <c:out value="${ticket.ticket_date}"/>
@@ -74,9 +76,7 @@
           <c:out value="${ticket.prfnm}"/>
          </td>
          <td>
-          <a href="#">
            <c:out value="${ticket.ticket_qty}"/>
-          </a>
          </td>
           <td>
           <c:out value="${ticket.pcseguidance}"/>
@@ -89,8 +89,8 @@
          </td>
           <td>
           <form action="${path}/admin/ticketcancel" method="post" onsubmit="return confirm('정말 취소하시겠습니까?');">
-			 <input name="ticket_num" value="${ ticket.ticket_num }">
-			 <button type="submit" class="btn btn-light">취소하기</button>
+			 <input type="hidden" name="ticket_num" value="${ ticket.ticket_num }">
+			 <button type="submit" class="btn btn-danger">취소하기</button>
 		  </form>
           </td>
          <tr>
@@ -99,9 +99,28 @@
   </table>
 </div>
 
+<div id="pageBar">
+			<!-- 맨 처음으로 -->
+			<button onclick="location.href='${path}/admin/showbook?page=1'">&lt;&lt;</button>
+			
+			<!-- 이전 페이지로 -->
+			<button onclick="location.href='${path}/admin/showbook?page=${pageInfo.prvePage}'">&lt;</button>
 
-
-
-
+			<!--  10개 페이지 목록 -->
+			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+				<c:if test="${status.current == pageInfo.currentPage}">
+					<button disabled><c:out value="${status.current}"/></button>
+   				</c:if>
+				<c:if test="${status.current != pageInfo.currentPage}">
+					<button onclick="location.href='${path}/admin/showbook?page=${status.current}'"><c:out value="${status.current}"/></button>
+   				</c:if>
+			</c:forEach>
+			
+			<!-- 다음 페이지로 -->
+			<button onclick="location.href='${path}/admin/showbook?page=${pageInfo.nextPage}'">&gt;</button>
+			
+			<!-- 맨 끝으로 -->
+			<button onclick="location.href='${path}/admin/showbook?page=${pageInfo.maxPage}'">&gt;&gt;</button>
+		</div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

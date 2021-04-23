@@ -28,36 +28,24 @@
 
           <div class="box"> 
             <table   class = "membertable" border="1" > 
-              <thead>
                 <tr> 
-                  <th> 검색어 </th> 
-                  <td> <input type="text" placeholder="검색어"/></td>
-                </tr> 
-              </thead>
-              <tbody> 
-                <tr> 
-                  <th> 회원상태 </th> 
-                  <td><select name="memberType">
-                       <option selected>-------</option>
-                       <option value="Y">Y</option>
-                       <option value="N">N</option>
-                      </select>
-                   </td>
-                </tr> 
-                <tr> 
-                  <th> 회원등급 </th> 
-                  <td><select name="memberGrade">
-                       <option selected>-------</option>
-                       <option value="친구">친구</option>
-                       <option value="친한친구">친한친구</option>
-                       <option value="베스트프랜드">베스트프랜드</option>
-                      </select>
-                   </td>
-                </tr> 
-                  </tbody> 
-                  </table> 
-                  <button>검색</button>
-          </div>
+         <div id="showSearch">
+	     <form name="form1" method="post" action="${path}/admin/list.do">
+		    <select name="search">
+            	<option value="userId" ${pageInfo.search eq 'userId'? 'selected' : '' }>
+            		아이디</option>
+            	<option value="userName" ${pageInfo.search eq 'userName'? 'selected' : '' }>
+            		이름</option>
+            	<option value="email" ${pageInfo.search eq 'email'? 'selected' : '' }>
+            		이메일</option>
+	 		</select> 
+	 		 <input type="text" name="keyword" placeholder="입력" value="${pageInfo.keyword }">
+		     <input class="searchBtn" id="searchBtn" type="submit" onclick="$('form1').submit()" value="검색"></input>      
+	      </form>     
+	    </div>	 
+		 </tr> 
+        </table> 
+       </div>
 
           
 
@@ -95,22 +83,39 @@
               <c:out value="${member.status}"/>
              </td>
              <td>
-             <input name="ticket_num" value="${ member.id }">
-              <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                       onclick="deleteMember()">
-              탈퇴
-              </button>
+             <form action="${path}/admin/delteMemebr" method="post" onsubmit="return confirm('${ member.userId }님을 탈퇴처리하겠습니까?');">
+			 <input type="hidden" name="userId" value="${ member.userId }">
+			 <button type="submit" class="btn btn-danger">탈퇴</button>
+		    </form>
              </td>
            </tr>
            </c:forEach>
          </tbody>
       </table>
   </div>
-<script>
-function deleteMember() {
-	if (confirm("정말로 회원님을 삭제 하시겠습니까?")) {
-		location.replace("${path}/admin/delteMemebr?userId=${member.userId}");
-	}
-}
-</script>
+  
+   <div id="pageBar">
+			<!-- 맨 처음으로 -->
+			<button onclick="location.href='${path}/admin/adminpage?page=1'">&lt;&lt;</button>
+			
+			<!-- 이전 페이지로 -->
+			<button onclick="location.href='${path}/admin/adminpage?page=${pageInfo.prvePage}'">&lt;</button>
+
+			<!--  10개 페이지 목록 -->
+			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+				<c:if test="${status.current == pageInfo.currentPage}">
+					<button disabled><c:out value="${status.current}"/></button>
+   				</c:if>
+				<c:if test="${status.current != pageInfo.currentPage}">
+					<button onclick="location.href='${path}/admin/adminpage?page=${status.current}'"><c:out value="${status.current}"/></button>
+   				</c:if>
+			</c:forEach>
+			
+			<!-- 다음 페이지로 -->
+			<button onclick="location.href='${path}/admin/adminpage?page=${pageInfo.nextPage}'">&gt;</button>
+			
+			<!-- 맨 끝으로 -->
+			<button onclick="location.href='${path}/admin/adminpage?page=${pageInfo.maxPage}'">&gt;&gt;</button>
+		</div>
+  
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

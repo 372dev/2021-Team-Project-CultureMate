@@ -28,7 +28,11 @@ public interface TicketService {
 
 	int showAllCount();
 	
-	List<Ticket> getTiketAllList();
+	List<Ticket> getTiketAllList(PageInfo pageInfo);
+
+	int ticketSearchCount(String search, String keyword);
+
+	List<Ticket> ticketSearchList(PageInfo pageInfo);
 
 
 	

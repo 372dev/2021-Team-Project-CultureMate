@@ -22,6 +22,40 @@
 		FROM MEMBER
 		WHERE STATUS = 'Y'
 	</sql>
+	
+	<sql id="selectSearchSql">
+		SELECT ID,
+			   USER_ID,
+			   PASSWORD,
+			   USER_NICK,
+			   USER_NAME,
+			   USER_ROLE,
+			   DATE_BIRTH,
+			   EMAIL,
+			   GENDER,
+			   PHONE,
+			   POSTCODE,
+			   ADDRESS,
+			   DETAIL_ADDR,
+			   EXTRA_ADDR,
+			   RANK,
+			   STATUS
+		FROM MEMBER
+		WHERE STATUS = 'Y' OR STATUS = 'N'
+	</sql>
+	
+	
+	<sql id="searchkeyword">		
+		<if test='search != null and search.equals("userId")'>
+			AND USER_ID LIKE '%' || #{keyword } || '%'
+		</if>
+		<if test='search != null and search.equals("userName")'>
+			AND USER_NAME LIKE '%' || #{keyword } || '%'
+		</if>		
+		<if test='search != null and search.equals("email")'>
+			AND EMAIL LIKE '%' || #{keyword } || '%'
+		</if>		
+	</sql>
 
 	<resultMap type="com.kh.cm.member.model.vo.Member" id="memberResultMap">
 		<id property="id" column="ID" />
@@ -33,25 +67,6 @@
 		<result property="dateBirth" column="DATE_BIRTH" />
 		<result property="gender" column="GENDER" />
 		<result property="email" column="EMAIL" />
-		<result property="phone" column="PHONE" />
-		<result property="postcode" column="POSTCODE" />
-		<result property="address" column="ADDRESS" />
-		<result property="detailAddr" column="DETAIL_ADDR" />
-		<result property="extraAddr" column="EXTRA_ADDR" />
-		<result property="rank" column="RANK" />
-		<result property="status" column="STATUS" />
-		<result property="authkey" column="AUTHKEY" />
-	</resultMap>
-	
-	<resultMap type="Member" id="memberDetailResultMap">
-		<id property="id" column="ID" />
-		<result property="userId" column="USER_ID" />
-		<result property="password" column="PASSWORD" />
-		<result property="userNick" column="USER_NICK" />
-		<result property="userName" column="USER_NAME" />
-		<result property="userRole" column="USER_ROLE" />
-		<result property="dateBirth" column="DATE_BIRTH" />
-		<result property="gender" column="GENDER" />
 		<result property="phone" column="PHONE" />
 		<result property="postcode" column="POSTCODE" />
 		<result property="address" column="ADDRESS" />
@@ -121,7 +136,7 @@
 		ORDER BY ID DESC
 	</select>
 	
-	<select id="allfindMemberDetail" parameterType="string" resultMap="memberDetailResultMap">
+	<select id="allfindMemberDetail" parameterType="string" resultMap="memberResultMap">
 	   SELECT ID,
 			   USER_ID,
 			   PASSWORD,
@@ -140,6 +155,19 @@
 		FROM MEMBER
 		WHERE USER_ID = #{userId}
 		
+	</select>
+	
+	<select id="selectmemSearchCount" parameterType="map" resultType="_int">
+	  SELECT COUNT(*)
+	  FROM MEMBER 
+	  WHERE STATUS='Y'
+	  <include refid="searchkeyword"></include>
+	</select>
+	
+	<select id="selectmemSearchList" parameterType="map" resultMap="memberResultMap">
+	  <include refid="selectMemberSql"></include>
+		<include refid="searchkeyword"></include>
+		ORDER BY ID DESC
 	</select>
 	
 	<insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">

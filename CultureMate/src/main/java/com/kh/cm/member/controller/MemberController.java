@@ -2,7 +2,9 @@ package com.kh.cm.member.controller;
 
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -377,20 +379,56 @@ public class MemberController {
 		//관리자페이지 멤버전체조회
 		@RequestMapping(value = "/admin/adminpage", method = {RequestMethod.GET})
 		public ModelAndView memberAllList(ModelAndView model, 
-				                          @SessionAttribute(name = "loginMember") Member loginMember) {
+				                          @SessionAttribute(name = "loginMember") Member loginMember,
+				                          @RequestParam(value="page", required=false, defaultValue="1") int page,
+				          				  @RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit) {
 			
 			   List<Member> list = null;
 			   int memberCount  = service.memberAllCount();
 			   
 			   System.out.println(memberCount);
 			   
-			   list = service.getMemberList();
+			   PageInfo pageInfo = new PageInfo(page, 10, memberCount, listLimit);
+			   
+			   list = service.getMemberList(pageInfo);
+			   
 			    System.out.println(list);
 			   model.addObject("memlist",list);
+			   model.addObject("pageInfo", pageInfo);
 			   model.setViewName("admin/adminpage");
 			
 			return model;
 			
+		}
+		
+		@RequestMapping(value = "/admin/list.do", method = {RequestMethod.POST})
+		public ModelAndView memberAllSerch(
+				@RequestParam(value="page", required=false, defaultValue="1") int page,
+				@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit,
+				@RequestParam String search, ModelAndView model,
+				@RequestParam String keyword) {
+			
+            List<Member> memberList = null;
+            int memberCount = service.memberSearchCount(search, keyword);
+            
+            System.out.println(memberCount);
+            
+            PageInfo pageInfo = new PageInfo(page, 10, memberCount, listLimit);
+		
+            pageInfo.setSearch(search);
+    		pageInfo.setKeyword(keyword);
+    		
+    		memberList = service.memberSearchList(pageInfo);
+    		
+    		System.out.println(memberList);
+    		System.out.println(search);
+    		System.out.println(keyword);
+    		
+    		model.addObject("memlist", memberList);
+    		model.addObject("pageInfo", pageInfo);
+    		model.setViewName("/admin/adminpage");
+    		
+		return model;
 		}
 		
 		// 관리자페이지에서 회원정보 상세조회
@@ -414,7 +452,7 @@ public class MemberController {
 		// 관리자페이지에서 회원정보수정
 		@RequestMapping(value = "/admin/memupdate", method = {RequestMethod.POST})
 		public ModelAndView adminUpdateMember(ModelAndView model, @RequestParam("userId") String userId,
-				             Member member) {
+				                         Member member) {
 			
 			int result = 0;
 		
@@ -438,19 +476,16 @@ public class MemberController {
 
 		
 		// 관리자페이지에서 회원 탈퇴
-		@RequestMapping(value = "/admin/delteMemebr", method = {RequestMethod.GET})
+		@RequestMapping(value = "/admin/delteMemebr", method = {RequestMethod.POST})
 		public ModelAndView adminDelteMember(Member member, ModelAndView model,
 				             @RequestParam("userId") String userId) {
 			
-			log.info("회원유저 아이디 불러쪄?? :" + userId);
+			log.info("회원 아이디 불러쪄?? :" + userId);
 			
 			int result = 0;
-			 
-			 
-			if(member.getUserId().equals(userId)) {
-				
+			 			
 			result = service.admindeleteMember(userId);
-			log.info("회원멤버 불러쪄? :" + userId);
+			log.info("불러쪄? :" + userId);
 			
 			if(result > 0) {
 				model.addObject("msg", "정상적으로 탈퇴되었습니다.");
@@ -459,12 +494,9 @@ public class MemberController {
 				model.addObject("msg", "회원탈퇴에 실패하였습니다.");
 				model.addObject("location", "/admin/adminpage");
 			}
-			}
 			
 	        model.setViewName("common/msg");
-	
-			
-			
+	        
 			return model;
 		}
 		

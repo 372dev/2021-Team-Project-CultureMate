@@ -2,6 +2,7 @@ package com.kh.cm.member.model.service;
 
 import java.util.List;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.member.model.vo.Member;
 
 public interface MemberService {
@@ -33,16 +34,22 @@ public interface MemberService {
 	int memberAllCount();
     
 	// 모든 멤버 리스트 조회
-	List<Member> getMemberList();
+	List<Member> getMemberList(PageInfo pageInfopageInfo);
     
 	// 관리자페이지에서 멤버조회
 	Member findMember(String userId);
 
-	// 관리자페지에서 멤버정보업데이트
+	// 관리자페이지에서 멤버정보업데이트
 	int adminupdateMember(Member member);
 
 	// 관리자페이지에서 멤버 탈퇴시키기
 	int admindeleteMember(String userId);
+
+	// 검색한 수 출력
+	int memberSearchCount(String search, String keyword);
+
+	// 검색한 리스트 불러오기
+	List<Member> memberSearchList(PageInfo pageInfo);
 
 
 

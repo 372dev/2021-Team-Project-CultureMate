@@ -5,12 +5,14 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.member.model.dao.MemberDao;
 import com.kh.cm.member.model.vo.MailHandler;
 import com.kh.cm.member.model.vo.Member;
@@ -186,28 +188,48 @@ public class MemberServiceImpl implements MemberService {
 
 	//모든멤버 리스트 조회
 	@Override
-	public List<Member> getMemberList() {
+	public List<Member> getMemberList(PageInfo pageInfo) {
 		
-		return memberDao.selectMemberList();
+		return memberDao.selectMemberList(pageInfo);
 	}
 
-	// 멤버 
+	// 멤버 모든멤버정보 상세조회
 	@Override
 	public Member findMember(String userId) {
 		
 		return memberDao.allfindMemberDetail(userId);
 	}
 
+	// 관리자가 멤버 정보수정
 	@Override
 	public int adminupdateMember(Member member) {
+		
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		
 		return memberDao.allfindMemberUpdate(member);
 	}
 
+	// 관리자가 멤버삭제
 	@Override
 	public int admindeleteMember(String userId) {
 		
 		return memberDao.admindeleteMember(userId);
+	}
+
+	//관리자페이지에서 검색
+	@Override
+	public int memberSearchCount(String search, String keyword) {
+		
+		return memberDao.selectmemSearchCount(search, keyword);
+	}
+
+	// 관리자페이에서 검색 후 리스트
+	@Override
+	public List<Member> memberSearchList(PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return memberDao.selectmemSearchList(rowBounds, pageInfo);
 	}
 
 
