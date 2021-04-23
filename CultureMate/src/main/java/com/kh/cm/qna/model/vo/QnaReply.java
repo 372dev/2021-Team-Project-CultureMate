@@ -20,11 +20,11 @@ public class QnaReply {
 	
 	private String qnaReContent;
 	
-	private String stasus;
+	private String status;
 	
-	private Date replyCreateDate;
+	private String replyCreateDate;
 	
-	
+	private Date replyModifyDate;
 	
 	
 

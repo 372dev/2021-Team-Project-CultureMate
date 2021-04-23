@@ -57,10 +57,11 @@
 	
 	<resultMap type="qnaReply" id="qnaboardReplyResultMap">
 		<id property="qnaReId" column="QNA_RE_ID"/>
-		<result property="qnaId" column="R_QNA_ID"/>
-		<result property="userId" column="R_USER_ID"/>
+		<result property="qnaId" column="QNA_ID"/>
+		<result property="replyWriterNo" column="REPLY_WRITER_NO"/>
+		<result property="userId" column="USER_ID"/>
 		<result property="qnaReContent" column="QNA_RE_CONTENT"/>
-		<result property="status" column="R_STATUS"/>
+		<result property="status" column="STATUS"/>
 		<result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
 		<result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
 	</resultMap>
@@ -90,11 +91,11 @@
 	      WHERE Q.STATUS='Y' AND Q.QNA_ID=#{qnaId}
 	</select>
 	
-	<select id="selectqnaReplyList" parameterType="string" resultMap="qnaboardReplyResultMap">
+	<select id="selectqnaReplyList" parameterType="int" resultMap="qnaboardReplyResultMap">
         SELECT *
 		FROM QNA_REPLY
 		WHERE QNA_ID = #{qnaId} AND STATUS = 'Y'
-		ORDER BY R.REPLY_CREATE_DATE
+		ORDER BY REPLY_CREATE_DATE
 	    </select>
 	
 	<!-- 
@@ -134,7 +135,8 @@
 	  			#{qnaReContent},
 	  			DEFAULT,
 	  			DEFAULT,
-	  			DEFAULT
+	  			DEFAULT,
+	  			#{userId}
   			)
   		</insert>
   		

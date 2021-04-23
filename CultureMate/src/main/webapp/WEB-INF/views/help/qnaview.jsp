@@ -123,9 +123,11 @@ $.ajax({
             
             for(i=0; i<data.length; i++){
                 html += "<div>";
-                html += "<div><table class='table'><h6><strong>"+data[i].writer+"</strong></h6>";
-                html += data[i].comment + "<tr><td></td></tr>";
-                html += "</table></div>";
+                html += "<div><table class='table'><h6><strong>"+data[i].userId+ " | " + data[i].createDate +"</strong>";
+                html += "</h6>";
+                html += data[i].qnaReContent + "<tr><td></td></tr>";
+                html += "</table>"
+                html += "</div>";
                 html += "</div>";
             }
             

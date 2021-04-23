@@ -145,6 +145,7 @@ public class QnaBoardController {
      public String ajax_addReply(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
     		 @SessionAttribute("loginMember") Member loginMember) {
 		
+			System.out.println("유저아이디??" + qnareply.getUserId());
 		    try {
 		    	qnareply.setReplyWriterNo(loginMember.getId());
 		    	service.addreply(qnareply);
@@ -159,15 +160,17 @@ public class QnaBoardController {
 	@RequestMapping(value = "replyList.do", produces = "applicaion/json; charset=utf-8")
 	@ResponseBody
 	public String ajax_replyList(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
-			                   @SessionAttribute(name = "loginMember", required = false ) Member loginMember,
-			                    @RequestParam("qnaId")int qnaId) throws Exception{
+			                   @SessionAttribute(name = "loginMember", required = false ) Member loginMember
+			                ) throws Exception{
 
 		ArrayList<HashMap> hmList = new ArrayList<HashMap>();
 	
 	     // 게시물 댓글
-        System.out.println("게시글 아이디 " + qnaId);
-		
+        //System.out.println("게시글 아이디 " + qnareply.get);
+		System.out.println("게시글의 어아다" + qnareply.getQnaId());
 		List<QnaReply> replyVo = service.getqnaReplyList(qnareply.getQnaId());
+		
+		System.out.println("댓글 리스트 추출 성공?");
 		
 		if(replyVo.size() > 0) {
 			for(int i = 0; i < replyVo.size(); i++) {
@@ -175,6 +178,10 @@ public class QnaBoardController {
 				hm.put("userId", replyVo.get(i).getUserId());
 				hm.put("replyWriterNo", replyVo.get(i).getReplyWriterNo());
 				hm.put("qnaReContent", replyVo.get(i).getQnaReContent());
+				hm.put("createDate", replyVo.get(i).getReplyCreateDate().substring(0, 10));
+				System.out.println("1=" + replyVo.get(i).getUserId());
+				System.out.println("2=" + replyVo.get(i).getReplyWriterNo());
+				System.out.println("3=" + replyVo.get(i).getQnaReContent());
 				hmList.add(hm);
 			}
 		}
