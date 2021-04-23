@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.ticket.model.vo.Ticket;
 
@@ -25,6 +26,14 @@ public interface TicketDao {
 	int deleteTicket(int ticket_num);
 
 	int updateRankDefault(int id);
+
+	int showCount();
+
+	List<Ticket> showAllList(PageInfo pageInfo);
+
+	int selectSearchCount(@Param("search") String search, @Param("keyword") String keyword);
+
+	List<Ticket> selectSearchList(RowBounds rowBounds, PageInfo pageInfo);
 	
 	
 	

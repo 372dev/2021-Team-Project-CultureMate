@@ -713,7 +713,39 @@ h3 {
 			
 		</div>
 		
-
+		<!-- 댓글 수정 모달창 -->
+			<c:forEach var="review2"  items="${review}">
+				<div class="modal fade" id="myModal${review2.reviewID}" role="dialog">
+			    <div class="modal-dialog">
+			      <!-- Modal content-->
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <h4 class="modal-title">댓글 수정 <c:out value="${review2.reviewID}"/></h4>
+			        </div>
+			        <div class="modal-body">
+			        별점수정
+			        <P id="ustar"> 
+					<a id=star1 value=1>★</a> 
+					<a id=star1 value=2>★</a> 
+					<a id=star1 value=3>★</a> 
+					<a id=star1 value=4>★</a> 
+					<a id=star1 value=5>★</a> 
+					</p>
+			        <input type="hidden" id="rname" value="reviewupdate${review2.reviewID}">
+			        <form  method="post" id="reviewupdate${review2.reviewID}">
+			           <input type="hidden" name="reviewID" id="reviewID" value="${review2.reviewID}"/>
+			          <textarea name="reviewContent" cols="57" rows="4" onfocus="" id="reviewContent"><c:out value="${review2.reviewContent}"/></textarea>
+			          <input type="hidden" id="reviewRating1" name="reviewRating1" value="">
+			        <div class="modal-footer">
+			          <a class="btn btn-default sb" data-dismiss="modal" href="">save </a>
+			          <button type="button" class="btn btn-defaulrepltt" data-dismiss="modal">Close</button>
+			        </div>
+			         </form>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			</c:forEach>
 		
 		<div class="bxo_vcb" style="display: none" >
 			<div class="tib">
