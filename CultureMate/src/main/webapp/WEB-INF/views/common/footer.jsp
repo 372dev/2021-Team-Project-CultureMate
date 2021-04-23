@@ -24,7 +24,7 @@
 				<p>|</p>
 				<a href="${path}/ServiceIntro" class="list list02">서비스 소개</a>
 				<p>|</p>
-				<a href="" class="list list03">입문자 가이드</a>
+				<a href="${path}/showBeginner" class="list list03">입문자 가이드</a>
 				<p>|</p>
 				<a href="" class="list list04">개인정보처리방침</a>
 				<p>|</p>

@@ -80,9 +80,8 @@
 </style>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/0fe4d45686.js"
+		crossorigin="anonymous"></script>
 <section id="mateSection">
 	
 	<div id="mateList-container">
@@ -176,26 +175,26 @@
 		<br>
 		<div id="pageBar">
 			<!-- 맨 처음으로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/list?page=1'"><span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-menu-left"></span></button>
+			<button type="button" class="btn btn-light btn-sm" onclick="location.href='${path}/mate/list?page=1'"><i class="fas fa-angle-double-left"></i></button>
 			
 			<!-- 이전 페이지로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/list?page=${pageInfo.prvePage}'"><span class="glyphicon glyphicon-menu-left"></span></button>
+			<button type="button" class="btn btn-light btn-sm" onclick="location.href='${path}/mate/list?page=${pageInfo.prvePage}'"><i class="fas fa-angle-left"></i></button>
 
 			<!--  10개 페이지 목록 -->
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 				<c:if test="${status.current == pageInfo.currentPage}">
-					<button type="button" class="btn btn-default btn-xs" disabled><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-light btn-sm" style="height:25px;font-size:7pt;font-weight:bold;" disabled><c:out value="${status.current}"/></button>
    				</c:if>
 				<c:if test="${status.current != pageInfo.currentPage}">
-					<button type="button" class="btn btn-default btn-xs" onclick="location.href='${path}/mate/list?page=${status.current}'"><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-light btn-sm" style="height:25px;font-size:7pt;font-weight:bold;" onclick="location.href='${path}/mate/list?page=${status.current}'"><c:out value="${status.current}"/></button>
    				</c:if>
 			</c:forEach>
 			
 			<!-- 다음 페이지로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/list?page=${pageInfo.nextPage}'"><span class="glyphicon glyphicon-menu-right"></span></button>
+			<button type="button" class="btn btn-light btn-sm" onclick="location.href='${path}/mate/list?page=${pageInfo.nextPage}'"><i class="fas fa-angle-right"></i></button>
 			
 			<!-- 맨 끝으로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/list?page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>
+			<button type="button" class="btn btn-light btn-sm" onclick="location.href='${path}/mate/list?page=${pageInfo.maxPage}'"><i class="fas fa-angle-double-right"></i></button>
 		</div>		
   </div>
 </section>
