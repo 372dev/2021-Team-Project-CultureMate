@@ -1,22 +1,31 @@
 package com.kh.cm.qna.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.cs.model.vo.CsBoard;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.qna.model.service.QnaBoardService;
 import com.kh.cm.qna.model.vo.QnaBoard;
+import com.kh.cm.qna.model.vo.QnaReply;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,16 +40,21 @@ public class QnaBoardController {
 	@RequestMapping(value = "/qnalist", method = {RequestMethod.GET})
 	public ModelAndView qnalist(
 			ModelAndView model,
-			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+			QnaBoard qnaboard,
+			@RequestParam(value="page", required=false, defaultValue="1") int page,
+			@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit) {
 		
 		List<QnaBoard> list = null;
 		int boardCount = service.getqnaBoardCount();
 		
-		System.out.println(boardCount);
+		PageInfo pageInfo = new PageInfo(page, 10, boardCount, listLimit);
+		
 	
-		list = service.getqnaBoardList();
+		list = service.getqnaBoardList(pageInfo);
 		
 		model.addObject("qnalist", list);
+		model.addObject("pageInfo", pageInfo);
 		model.setViewName("help/qnalist");
 		
 		return model;
@@ -57,6 +71,8 @@ public class QnaBoardController {
 
 		int result =0;
 		
+		
+		
 		if(loginMember.getUserId().equals(qnaboard.getUserId())) {
 			qnaboard.setQnaWriterNo(loginMember.getId());
 			
@@ -65,7 +81,7 @@ public class QnaBoardController {
 		
 		result = service.saveqnaBoard(qnaboard);
 		
-		 if (result>0) { // 리절트가 만족하면 게시글이 정상적으로 등록되었습니다.
+		 if (result>0) { 
 			  model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
 			  model.addObject("loaction", "/help/qnalist");
 		}else {
@@ -78,8 +94,11 @@ public class QnaBoardController {
 		
 		return model;
 	}
+	
+    
 	@RequestMapping(value = "qnaview", method = {RequestMethod.GET})
 	public ModelAndView qnaview(@RequestParam("qnaId") int qnaId, ModelAndView model) {
+		
 		QnaBoard qnaboard = service.findqnaBoardById(qnaId);
 		
 		model.addObject("qnaboard", qnaboard);
@@ -87,4 +106,131 @@ public class QnaBoardController {
 		
 		return model;
 	}
+
+//	@RequestMapping(value = "qnareply", method = {RequestMethod.POST})
+//	public ModelAndView qnareply(
+//			            @SessionAttribute(name = "loginMember", required = false) Member loginMember,
+//			            @RequestParam int qnaId, @RequestParam int replyWriterNo, @RequestParam String qnaReContent,
+//			            ModelAndView model) {
+//		int result=0;
+//		
+//		   QnaReply qnareply = new QnaReply();
+//		   
+//		   qnareply.setQnaId(qnaId);
+//		   qnareply.setReplyWriterNo(loginMember.getId());
+//		   qnareply.setQnaReContent(qnaReContent);
+//		
+//		   System.out.println(qnareply);
+//		   
+//		   result = service.getqnaReply(qnareply);
+//		   
+//		   model.addObject("qnareply", qnareply);
+//		   model.setViewName("help/qnaview");
+//		   
+//		return model;
+//	}
+	
+	@RequestMapping(value = "addreply.do", method = {RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+     public String ajax_addReply(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
+    		 @SessionAttribute("loginMember") Member loginMember) {
+		
+		    try {
+		    	qnareply.setReplyWriterNo(loginMember.getId());
+		    	service.addreply(qnareply);
+		    }catch(Exception e){
+	            e.printStackTrace();
+		
+		    }
+		    System.out.println(qnareply);
+		return "success";
+	}
+	
+//	@RequestMapping(value = "replyList.do", produces = "applicaion/json; charset=utf-8")
+//	@ResponseBody
+//	public String ajax_replyList(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
+//			                   @SessionAttribute(name = "loginMember", required = false ) Member loginMember) throws Exception{
+//
+//		ArrayList<HashMap> hmList = new ArrayList<HashMap>();
+//		
+//		List<QnaReply> replyVo = service.getqnaReplyList(qnareply.getQnaId());
+//		
+//		if(replyVo.size() > 0) {
+//			for(int i = 0; i < replyVo.size(); i++) {
+//				HashMap<String, Comparable> hm = new HashMap();
+//				hm.put("userId", replyVo.get(i).getUserId());
+//				hm.put("replyWriterNo", replyVo.get(i).getReplyWriterNo());
+//				hm.put("qnaReContent", replyVo.get(i).getQnaReContent());
+//				hmList.add(hm);
+//			}
+//		}
+//		
+//		JSONArray json = new JSONArray(hmList);   
+//		return json.toString();
+//
+//	}
+	
+	
+	@RequestMapping(value = "/qnaupdate", method = {RequestMethod.GET})
+	public ModelAndView qnaupdate(
+			@RequestParam("qnaId") int qnaId, ModelAndView model) {
+		
+		QnaBoard qnaboard = service.findqnaBoardById(qnaId);
+		
+		model.addObject("qnaboard",qnaboard);
+		model.setViewName("help/qnaupdate");
+		
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/qnaupdate", method = {RequestMethod.POST})
+	public ModelAndView qnaupdateview (
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember, QnaBoard qnaboard,
+			HttpServletRequest request,
+			ModelAndView model) {
+
+		int result =0;
+		
+		if(loginMember.getUserId().equals(qnaboard.getUserId())) {
+			qnaboard.setQnaWriterNo(loginMember.getId());
+			
+			System.out.println(qnaboard);
+		}
+		
+		result = service.saveqnaBoard(qnaboard);
+		
+		 if (result>0) { 
+			  model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
+			  model.addObject("loaction", "/help/viewupdate?qnaId=" + qnaboard.getQnaId());
+		}else {
+			model.addObject("msg", "게시글 등록을 실패하였습니다.");
+			model.addObject("loaction", "/help/qnalist");
+		}
+		
+	
+	   model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/delete", method = {RequestMethod.GET})
+	private ModelAndView delete(ModelAndView model, @RequestParam("qnaId") int qnaId ) {
+		int result = 0;
+		
+		result = service.deleteQna(qnaId);
+		
+		if(result > 0) {
+			model.addObject("msg", "게시글이 삭제되었습니다.");
+			model.addObject("location", "/help/qnalist");
+		} else {
+			model.addObject("msg", "게시글 삭제에 실패했습니다.");
+			model.addObject("location", "/");
+		}
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	
 }

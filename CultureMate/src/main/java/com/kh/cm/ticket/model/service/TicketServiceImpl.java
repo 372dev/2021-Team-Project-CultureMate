@@ -83,11 +83,33 @@ public class TicketServiceImpl implements TicketService{
 		return result;
 	}
 
-	
-	
-	
-	
-	
+
+	@Override
+	public int showAllCount() {
+		
+		return ticketdao.showCount();
+	}
+
+	@Override
+	public List<Ticket> getTiketAllList(PageInfo pageInfo) {
+		
+		return ticketdao.showAllList(pageInfo);
+	}
+
+	@Override
+	public int ticketSearchCount(String search, String keyword) {
+
+		return ticketdao.selectSearchCount(search, keyword);
+	}
+
+	@Override
+	public List<Ticket> ticketSearchList(PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
+		
+		return ticketdao.selectSearchList(rowBounds, pageInfo);
+	}
+
 }
 
 

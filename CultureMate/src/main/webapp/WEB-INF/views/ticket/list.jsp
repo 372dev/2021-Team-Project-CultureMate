@@ -76,15 +76,27 @@
 		width: 75px;
 	}
 
-	#ticket_list .top05, .list05{
+	#ticket_list .list05{
+		width: 105px;
+	}
+	
+	#ticket_list .top05{
 		width: 105px;
 	}
 
-	#ticket_list .top06, .list06{
+	#ticket_list .list06{
+		width: 95px;
+	}
+	
+	#ticket_list .top06{
 		width: 95px;
 	}
 
-	#ticket_list .top07, .list07{
+	#ticket_list .list07{
+		width: 95px;
+	}
+	
+	#ticket_list .top07{
 		width: 95px;
 	}
 
@@ -100,6 +112,10 @@
 	#title{
 		font-family: 'Noto Sans KR', sans-serif;
 	}
+	
+	.pagination{
+		justify-content: center;
+	}
 </style>
 
 <div class="container">
@@ -108,10 +124,10 @@
 		     <div class="list-group ">
               <a href="${ path }/member/myPage" class="list-group-item list-group-item-action">회원정보 수정</a>
               <a href="${ path }/member/updatePwd" class="list-group-item list-group-item-action">비밀번호 변경</a>
-              <a href="${ path }/member/ticket" class="list-group-item list-group-item-action active">예매내역</a>
+			  <a href="${ path }/member/ticket" class="list-group-item list-group-item-action active">예매내역</a>
               <a href="${ path }/member/myPosts" class="list-group-item list-group-item-action">내가 쓴 글 조회</a>
               <a href="${ path }/member/myReviews" class="list-group-item list-group-item-action">내가 쓴 리뷰 조회</a>
-            </div> 
+			</div> 
 		</div>
 		<div class="col-md-9">
 			<div class="card">
@@ -168,6 +184,28 @@
 							</table>
 						</div>
 					</div>
+					<nav aria-label="Page navigation example">
+					  <ul class="pagination">
+					    <li class="page-item">
+					      <a class="page-link" href="${path}/member/ticket?page=1" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>
+					    <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+								<c:if test="${status.current == pageInfo.currentPage}">
+									<li class="page-item"><a class="page-link" href='${path}/member/ticket?page=${status.current}'><c:out value="${status.current}"/></a></li>
+				   				</c:if>
+								<c:if test="${status.current != pageInfo.currentPage}">
+									<li class="page-item"><a class="page-link" href='${path}/member/ticket?page=${status.current}'><c:out value="${status.current}"/></a></li>
+				   				</c:if>
+						</c:forEach>
+					    <li class="page-item">
+					      <a class="page-link" href="${path}/member/ticket?page=${pageInfo.nextPage}" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					  </ul>
+					</nav>
 				</div>
 			</div>
 		</div>

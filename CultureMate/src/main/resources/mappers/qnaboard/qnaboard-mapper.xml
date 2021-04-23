@@ -10,12 +10,27 @@
 		       Q.QNA_TYPE,
 		       Q.QNA_TITLE,
 		       Q.QNA_CONTENT,
+		       Q.QNA_OPEN_STATUS,
 		       Q.QNA_CREATE_DATE,
 		       Q.STATUS
 		FROM QNA_BOARD Q
 		JOIN MEMBER M ON(Q.QNA_WRITERNO = M.ID)		
 		WHERE Q.STATUS ='Y'	
 	</sql>
+	
+	<sql id="qnaReplyListSql">
+		SELECT R.QNA_RE_ID,
+			   Q.QNA_ID,
+		       R.REPLY_WRITER_NO,
+		       R.QNA_RE_CONTENT,
+		       R.STATUS,
+		       R.REPLY_CREATE_DATE
+		FROM QNA_REPLY R
+		JOIN MEMBER M ON(R.REPLY_WRITER_NO = M.ID)
+		JOIN QNA_BOARD Q ON(R.QNA_ID = Q.QNA_ID)		
+		WHERE R.STATUS ='Y'	
+	</sql>
+	
 
   <resultMap type="qnaBoard" id="qnaboardResultMap">
 		<id property="qnaId" column="QNA_ID"/>
@@ -23,6 +38,7 @@
 		<result property="qnaType" column="QNA_TYPE"/>
 		<result property="qnaTitle" column="QNA_TITLE"/>
 		<result property="qnaContent" column="QNA_CONTENT"/>
+		<result property="qnaOpenStatus" column="QNA_OPEN_STATUS"/>
 		<result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
 	    <result property="status" column="STATUS"/>
 	</resultMap>
@@ -30,12 +46,23 @@
 	<resultMap type="qnaBoard" id="qnaboardDetailResultMap">
 		<id property="qnaId" column="QNA_ID"/>
 		<result property="userId" column="Q_USER_ID"/>
-		<result property="qnaType" column="USER_ID"/>
+		<result property="qnaType" column="QNA_TYPE"/>
 		<result property="qnaTitle" column="QNA_TITLE"/>
 		<result property="qnaContent" column="QNA_CONTENT"/>
+		<result property="qnaOpenStatus" column="QNA_OPEN_STATUS"/>
 		<result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
 		<result property="status" column="Q_STATUS"/>
-
+        <collection property="replies" javaType="java.util.ArrayList" resultMap="qnaboardReplyResultMap"/>	
+	</resultMap>
+	
+	<resultMap type="qnaReply" id="qnaboardReplyResultMap">
+		<id property="qnaReId" column="QNA_RE_ID"/>
+		<result property="qnaId" column="R_QNA_ID"/>
+		<result property="userId" column="R_USER_ID"/>
+		<result property="qnaReContent" column="QNA_RE_CONTENT"/>
+		<result property="status" column="R_STATUS"/>
+		<result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
+		<result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
 	</resultMap>
 	
 	<select id="selectqnaBoardList" parameterType="map" resultMap="qnaboardResultMap">
@@ -55,6 +82,7 @@
 		       Q.QNA_TYPE,
 		       Q.QNA_TITLE,
 		       Q.QNA_CONTENT,
+		       Q.QNA_OPEN_STATUS,
 		       Q.QNA_CREATE_DATE,
 		       Q.STATUS AS Q_STATUS
 	      FROM QNA_BOARD Q
@@ -62,10 +90,19 @@
 	      WHERE Q.STATUS='Y' AND Q.QNA_ID=#{qnaId}
 	</select>
 	
+	<!-- 
+	<select id="selectqnaReplyList" parameterType="string" resultMap="qnaboardReplyResultMap">
+	  SELECT *
+	  FROM QNA_REPLY
+	  WHERE QNA_ID = #{qnaId} AND STATUS = 'Y'
+	  ORDER BY REPLY_CREATE_DATE
+	</select>
+	 -->
+	
 	<insert id="insertqnaBoard" parameterType="map"
   		useGeneratedKeys="true" keyProperty="qnaId" keyColumn="QNA_ID" >
   		
-  		INSERT INTO QNA_BOARD
+  		INSERT INTO QNA_BOARD 
         VALUES (
   			SEQ_QNA_ID.NEXTVAL,
 	        #{qnaWriterNo},
@@ -74,9 +111,48 @@
   			#{qnaContent},
   			DEFAULT,
   			DEFAULT,
+  			DEFAULT,
   			DEFAULT
 
  		)
   	</insert>
+  	
+  	<update id="updateqnaBoard" parameterType="qnaBoard">
+		UPDATE QNA_BOARD 
+		SET 
+			QNA_TITLE=#{qnaTitle},
+			QNA_CONTENT=#{qnaContent},
+			QNA_MODIFY_DATE=SYSDATE 
+		WHERE 
+			QNA_ID=#{qnaId}
+	</update>	
+  	
+  		<insert id="insertqnaReply"  parameterType="map"
+  		useGeneratedKeys="true" keyProperty="qnaReId" keyColumn="QNA_RE_ID">
+  			INSERT INTO QNA_REPLY
+  			VALUES (
+  				SEQ_QNA_RE_ID.NEXTVAL,
+	  			#{qnaId},
+	  			#{replyWriterNo},
+	  			#{qnaReContent},
+	  			DEFAULT,
+	  			DEFAULT,
+	  			DEFAULT
+  			)
+  		</insert>
+  		
+  		<select id="selectqnaReplyList" parameterType="map" resultMap="qnaboardReplyResultMap">
+		<include refid="qnaReplyListSql"></include>
+		ORDER BY R.QNA_REPLY DESC
+	    </select>
+	
+	<update id="deleteQna" parameterType="_int">
+	  UPDATE QNA_BOARD
+		SET
+			STATUS = 'N'
+		WHERE 
+			QNA_ID=#{qnaId}	
+	</update>
+  	
 	
 </mapper>

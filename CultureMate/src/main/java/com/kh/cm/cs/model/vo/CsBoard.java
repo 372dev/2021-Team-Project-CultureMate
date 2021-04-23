@@ -34,7 +34,6 @@ public class CsBoard {
 	
 	private Date csboardModifyDate;
 	
-	private int csboardCount;
 	
 
 }

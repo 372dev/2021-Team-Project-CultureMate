@@ -22,6 +22,32 @@
 		WHERE STATUS = 'Y'
 	</sql>
 	
+	<sql id="searchSearchSql">
+	  SELECT T.TICKET_NUM, 
+	           T.MT20ID, 
+	           T.PRFNM, 
+	           T.TICKET_DATE, 
+	           T.ID, 
+	           T.USER_ID, 
+	           T.TICKET_QTY, 
+	           T.TICKET_TIME, 
+	           T.CHANGE_TIME, 
+	           T.PCSEGUIDANCE, 
+	           T.TICKET_SEAT, 
+	           T.TICKET_STATUS 
+		FROM TICKET T 
+		WHERE T.TICKET_STATUS ='Y'
+	</sql>
+
+	<sql id="searchkeyword">		
+		<if test='search != null and search.equals("prfnm")'>
+			AND PRFNM LIKE '%' || #{keyword } || '%'
+		</if>
+		<if test='search != null and search.equals("userId")'>
+			AND USER_ID LIKE '%' || #{keyword } || '%'
+		</if>
+	</sql>
+	
 	<resultMap type="Ticket" id="ticketResultMap">
 		<id property="ticket_num" column="TICKET_NUM"/>
 		<result property="mt20id" column="MT20ID"/>
@@ -114,7 +140,41 @@
  		FROM TICKET 
  		WHERE ID = #{id} AND TICKET_STATUS='Y'
   	</select>
+  	
+  	<select id="showCount" parameterType="map" resultType="_int">
+  	SELECT COUNT(*)
+		FROM TICKET
+  	</select>
 	
+	<select id="showAllList" parameterType="Ticket" resultMap="ticketResultMap">
+	   SELECT T.TICKET_NUM, 
+	           T.MT20ID, 
+	           T.PRFNM, 
+	           T.TICKET_DATE, 
+	           T.ID, 
+	           T.USER_ID, 
+	           T.TICKET_QTY, 
+	           T.TICKET_TIME, 
+	           T.CHANGE_TIME, 
+	           T.PCSEGUIDANCE, 
+	           T.TICKET_SEAT, 
+	           T.TICKET_STATUS 
+		FROM TICKET T 
+		ORDER BY T.TICKET_NUM DESC 
+	</select>
+	
+	<select id="selectSearchCount" parameterType="map" resultType="_int">
+	   SELECT COUNT(*)
+	   FROM TICKET 
+	   WHERE TICKET_STATUS='Y'
+	  <include refid="searchkeyword"></include>
+	</select>
+	
+	<select id="selectSearchList" parameterType="map" resultMap="ticketResultMap">
+        <include refid="searchSearchSql"></include>
+		<include refid="searchkeyword"></include>
+		ORDER BY TICKET_NUM  DESC
+	</select>
 	<update id="updateRank02" parameterType="Ticket">
 		UPDATE MEMBER SET 
 		RANK = '친한친구'
