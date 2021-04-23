@@ -72,10 +72,7 @@
             <p>회원탈퇴 후 모두 소멸됩니다.</p>
             <ul>
             	<li> 이름 : ${ loginMember.userName }
-            	<!-- TODO 추후 수정 필요 -->
             	<li> 예약중인 공연 : 0건
-            	<li> 예치금 : 0원
-            	<li> 포인트 : 0원
             </ul>
         </div>
         <hr>
@@ -120,7 +117,7 @@
             <input type="text" class="delete_form" name="userId" value="${ loginMember.userId }" readonly><br><p>
             <input type="password" class="delete_form" name="password" placeholder="비밀번호" required="required"><br><br><br>
             <label>
-                <input type="radio" id="c1">안내 사항을 모두 확인하였으며, 이에 동의합니다.
+                <input type="checkbox" id="c1">안내 사항을 모두 확인하였으며, 이에 동의합니다.
             </label>
             <br><br><br>
             <div class="form-group">
@@ -134,9 +131,9 @@
 </section>
 
 <script>
-	function deleteMember(){
-		if(confirm("회원 탈퇴하시겠습니까?")){
-			if($("#c1").prop("checked")){
+	$(function(){
+		$("#deleteMember").on("click", function(){
+			if($("input:checkbox[id='c1']").is(":checked") == true){
 				console.log('체크');
 				$("#deleteMember").prop("disabled", false); // 버튼 활성화
 				location.replace("${path}/member/delete?userId=${loginMember.userId}");
@@ -147,7 +144,7 @@
 				event.preventDefault();
 				document.getElementById("c1").focus();
 			}
-		}
-	}
+		});
+	});
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

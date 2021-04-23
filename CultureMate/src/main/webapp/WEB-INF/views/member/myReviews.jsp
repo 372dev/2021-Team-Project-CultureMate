@@ -9,29 +9,37 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
 
-
-th.td1 {
-    width: 10%;
-}
-
-th.td2 {
-    width: 15%;
-}
-
-th.td3 {
-    width: 16%;
-}
-
-th.td4 {
-    width: 20%;
-}
-
-.list-group-item.active{
+	.list-group-item.active{
 		background-color: #9DB81F;
 		border-color: #9DB81F;
 	}
+	
+    #title{
+		font-family: 'Noto Sans KR', sans-serif;
+	}
 
+
+	th.td1 {
+	    width: 10%;
+	}
+	
+	th.td2 {
+	    width: 15%;
+	}
+	
+	th.td3 {
+	    width: 16%;
+	}
+	
+	th.td4 {
+	    width: 20%;
+	}
+	
+	.pagination{
+		justify-content: center;
+	}
 </style>
 
 <div class="container">
@@ -50,7 +58,7 @@ th.td4 {
 				<div class="card-body">
 					<div class="row">
 						<div class="col-md-12">
-							<h4>내가 쓴 리뷰 조회</h4>
+							<h4 id="title">내가 쓴 리뷰 조회</h4>
 							<hr>
 						</div>
 					</div>
@@ -89,6 +97,28 @@ th.td4 {
 							</table>
 						</div>
 					</div>
+					<nav aria-label="Page navigation example">
+					  <ul class="pagination">
+					    <li class="page-item">
+					      <a class="page-link" href="${path}/member/myReviews?page=1" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>
+					    <c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
+								<c:if test="${status.current == pageInfo.currentPage}">
+									<li class="page-item"><a class="page-link" href='${path}/member/myReviews?page=${status.current}'><c:out value="${status.current}"/></a></li>
+				   				</c:if>
+								<c:if test="${status.current != pageInfo.currentPage}">
+									<li class="page-item"><a class="page-link" href='${path}/member/myReviews?page=${status.current}'><c:out value="${status.current}"/></a></li>
+				   				</c:if>
+						</c:forEach>
+					    <li class="page-item">
+					      <a class="page-link" href="${path}/member/myReviews?page=${pageInfo.nextPage}" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					  </ul>
+					</nav>
 				</div>
 			</div>
 		</div>
