@@ -21,7 +21,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cm.common.util.PageInfo;
-import com.kh.cm.cs.model.vo.CsBoard;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.qna.model.service.QnaBoardService;
 import com.kh.cm.qna.model.vo.QnaBoard;
