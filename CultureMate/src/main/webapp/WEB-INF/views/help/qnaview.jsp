@@ -49,10 +49,11 @@
 				<c:if
 					test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
 					<input type="hidden" name="qnaId" id="qnaId" value="${qnaboard.qnaId}" />
+					<input type="hidden" name="userId" id="userId" value="${loginMember.userId}" />
 					<input type="text" class="form-control" id="qnaReContent"
 						name="qnaReContent" placeholder="내용을 입력하세요.">
 					<span class="input-group-btn">
-						<button class="btn btn-default" type="submit" onclick="fn_reply('${qnareply.qnaReId}')"
+						<button class="btn btn-default" type="submit" onclick="fn_reply()"
 							name="commentInsertBtn" id="commentInsertBtn">등록</button>
 					</span>
 				</c:if>
