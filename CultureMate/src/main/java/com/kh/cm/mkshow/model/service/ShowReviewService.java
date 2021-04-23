@@ -2,6 +2,7 @@ package com.kh.cm.mkshow.model.service;
 
 import java.util.List;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.mkshow.model.vo.ShowReview;
 import com.kh.cm.ticket.model.vo.Ticket;
 
@@ -23,6 +24,8 @@ public interface ShowReviewService  {
 
 	void resetreserve(Ticket ticket);
 
-	 List<ShowReview> findMyRevuew(int id);
+	 List<ShowReview> findMyRevuew(PageInfo pageinfo, int id);
+
+	int getReviewCount(int id);
 
 }

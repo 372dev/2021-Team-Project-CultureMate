@@ -110,7 +110,7 @@
 }
 
 .title{
-	border-bottom: solid 1px;
+	border-bottom: solid 3px;
 	width: 1181px;
 	font-family: DO HYEON;
 }
@@ -567,6 +567,11 @@ section {
 			<button id="ticketing" class="btn btn-primary" onclick="openSeatSelect()">예매하기</button>
 			<c:if test="${!empty loginMember}">
 			<a id="mateBtn" class="btn btn-secondary" href="${path}/mate/write?id=${show.mt20id}&title=${show.prfnm}">메이트</a>
+			<br><br>
+			<div class="matediv" style="width: 270px; float: right; color: #ec7d2c">
+			* 메이트란? <br> &nbsp&nbsp&nbsp같이 가고싶은 사람들을 모집하기 <br>
+			   &nbsp&nbsp&nbsp위한 게시판 입니다.
+			</div>
 			</c:if>
 				<form id="ticketing_form" action='${path}/ticket/ticketing' method="post">
 					<input type="hidden" id="form_mt20id" name="mt20id" value="${show.mt20id}">

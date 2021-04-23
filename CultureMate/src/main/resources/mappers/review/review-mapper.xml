@@ -92,5 +92,11 @@
   		WHERE ID = #{id} AND STATUS = 'Y'
   		ORDER BY REVIEW_DATE
   	</select>
+  	
+  	<select id="getreviewcount" parameterType="int" resultType="int">
+  		SELECT COUNT(*)
+  		FROM REVIEW
+  		WHERE ID = #{id} AND STATUS = 'Y'
+  	</select>
 	
 </mapper>
