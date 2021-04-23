@@ -1,4 +1,5 @@
 CultureMate/src/main/webapp/resources/upload/*
+CultureMate/src/main/webapp/resources/qr/*
 Servers/
 
 # Created by https://www.toptal.com/developers/gitignore/api/java,eclipse,vscode,java-web
