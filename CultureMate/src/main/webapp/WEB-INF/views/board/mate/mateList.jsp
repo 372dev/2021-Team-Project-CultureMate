@@ -153,8 +153,8 @@
                  <c:if test="${mate.mateOpen != '모집완료' }">
                          <tr id="mateList-tr">
 						<td><c:out value="${mate.mateId}"/></td>
-						<td><c:out value="${mate.mateShow}"/></td>						
-                        <td><span id="mateOpen"><c:out value="${mate.mateOpen}"/></span></td>                       
+						<td><c:out value="${mate.mateShow}"/></td>	
+                        <td><span id="mateOpen"><c:out value="${mate.mateOpen}"/></span></td>                     
                         <td><c:out value="${mate.mateGender}"/></td>
                         <td><c:out value="${mate.mateAge}"/></td>
                         <td><c:out value="${mate.mateNum}"/></td>
