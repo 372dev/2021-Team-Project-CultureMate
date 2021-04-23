@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.mkshow.model.vo.ShowReview;
 import com.kh.cm.ticket.model.vo.Ticket;
 
@@ -29,6 +31,8 @@ public interface ShowReviewDao {
 
 	String getreserve(ShowReview review);
 
-	List<ShowReview> findMyReview(int id);
+	List<ShowReview> findMyReview(RowBounds rowbounds, int id);
+
+	int getreviewcount(int id);
 	
 }
