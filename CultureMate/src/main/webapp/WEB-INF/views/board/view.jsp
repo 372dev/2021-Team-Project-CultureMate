@@ -986,24 +986,28 @@ $('#reviewContent').val().replace(/\n/g, "<br>");
 		    console.log("$('#form_ticket_date').val() : " + $('#form_ticket_date').val());
 		});
 </script>
-
+<!--var price = price_before.replace(/[^0-9]/g,'');-->
 <script>
 	var price_before = "${show.pcseguidance}";
-	var price = price_before.replace(/[^0-9]/g,'');
+	var price_step01 = price_before.split(",");
+	var price_step02 = null;
+
+	for(let i = 0; i <2; i ++) {
+		price_step02 += price_step01[i];
+	}
+
+	price = price_step02.replace(/[^0-9]/g,'');
+
+	console.log(price_step02);
+
+	console.log(price);
+
 	var form_pcseguidance = document.getElementById("form_pcseguidance");
 
 	var rank = "${loginMember.rank}";
 	var price_default = document.getElementById("price_default");
 	var price_before = document.getElementById("price_before");
 	var price_after = document.getElementById("price_after");
-
-	if(price.length > 6) {
-		price = price.substring(0, 5);
-	}
-
-	console.log("rank : " + rank);
-
-	console.log("price : " + price);
 
 	if(rank == "" || rank == "친구") {
 		price_default.innerHTML = "전석 " + price + "원";

@@ -68,7 +68,7 @@
 	<p class="text01">후회없이 열심히 하자는 의미로 지었습니다.</p>
 	<p class="text02">열심히 목표를 향해 달려나가겠습니다!</p>
 	<div class="title_sub01">Members</div>
-	<p class="text03">김정은 황의정 이지연 손진주 박상철 김민규</p>
+	<p class="text03">김민규 김정은 박상철 손진주 이지연 황의정</p>
 </div>
 
 
