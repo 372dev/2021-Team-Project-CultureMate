@@ -72,7 +72,7 @@
             <p>회원탈퇴 후 모두 소멸됩니다.</p>
             <ul>
             	<li> 이름 : ${ loginMember.userName }
-            	<li> 예약중인 공연 : 0건
+            	<li> 예약중인 공연 : ${ ticketSum }건
             </ul>
         </div>
         <hr>

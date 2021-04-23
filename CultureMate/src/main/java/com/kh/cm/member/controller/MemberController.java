@@ -26,6 +26,7 @@ import com.kh.cm.member.model.dao.MemberDao;
 import com.kh.cm.member.model.service.MemberService;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.share.model.vo.Share;
+import com.kh.cm.ticket.model.dao.TicketDao;
 import com.kh.cm.ticket.model.vo.Ticket;
 import com.kh.cm.mkshow.model.service.ShowReviewService;
 import com.kh.cm.mkshow.model.vo.ShowReview;
@@ -49,6 +50,9 @@ public class MemberController {
 		
 		@Autowired
 		private MateService mateService;
+		
+		@Autowired
+		private TicketDao ticketDao;
 		
 		@Autowired
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -235,10 +239,16 @@ public class MemberController {
 		
 		// 회원탈퇴 GET 요청
 		@RequestMapping(value="/member/withdrawal", method = {RequestMethod.GET})
-		public String withdrawlGet() {
+		public ModelAndView withdrawlGet(ModelAndView model,
+				@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 			log.info("회원탈퇴 페이지 get 요청");
 		
-			return "member/withdrawal";
+			int ticketSum = ticketDao.countTicket(loginMember.getId());
+			
+			model.addObject("ticketSum", ticketSum);
+			model.setViewName("member/withdrawal");
+			
+			return model;
 		}
 
 		// 회원탈퇴
