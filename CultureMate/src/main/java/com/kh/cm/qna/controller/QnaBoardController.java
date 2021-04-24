@@ -65,21 +65,19 @@ public class QnaBoardController {
 	@RequestMapping(value = "/qnacontent", method = {RequestMethod.POST})
 	public ModelAndView qnacontent (
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember, QnaBoard qnaboard,
-			HttpServletRequest request, @RequestParam("qnaOpenStatus") String qnaOpenStatus,
+			HttpServletRequest request,
 			ModelAndView model) {
-
 		int result =0;
-		
-		
 		
 		if(loginMember.getUserId().equals(qnaboard.getUserId())) {
 			qnaboard.setQnaWriterNo(loginMember.getId());
 			
 			System.out.println(qnaboard);
+			String status = qnaboard != null ? "N" : "Y";
+			qnaboard.setQnaOpenStatus(status);
 		}
 		
 		result = service.saveqnaBoard(qnaboard);
-		
 		 if (result>0) { 
 			  model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
 			  model.addObject("loaction", "/help/qnalist");
