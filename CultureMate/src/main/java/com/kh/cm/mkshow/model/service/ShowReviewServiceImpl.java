@@ -2,9 +2,11 @@ package com.kh.cm.mkshow.model.service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.cm.common.util.PageInfo;
 import com.kh.cm.mkshow.model.dao.ShowReviewDao;
 import com.kh.cm.mkshow.model.vo.ShowReview;
 import com.kh.cm.ticket.model.vo.Ticket;
@@ -80,10 +82,18 @@ public class ShowReviewServiceImpl implements ShowReviewService {
 	}
 
 	@Override
-	public List<ShowReview> findMyRevuew(int id) {
+	public List<ShowReview> findMyRevuew(PageInfo pageinfo,int id) {
 		log.info("나의 아이디" + id);
+		int offset = (pageinfo.getCurrentPage() - 1) * pageinfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, pageinfo.getListLimit());
 		
-		return showDao.findMyReview(id);
+		return showDao.findMyReview(rowBounds,id);
+	}
+
+	@Override
+	public int getReviewCount(int id) {
+		// TODO Auto-generated method stub
+		return showDao.getreviewcount(id);
 	}
 
 	

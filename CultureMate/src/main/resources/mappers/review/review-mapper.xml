@@ -81,7 +81,7 @@
   	 SELECT CASE WHEN EXISTS (
         SELECT 1
         FROM TICKET
-        WHERE MT20ID = #{mt20id} AND ID = #{id}
+        WHERE MT20ID = #{mt20id} AND ID = #{id} AND TICKET_STATUS = 'Y'
 		 ) THEN 'Y' ELSE 'N' END YN
 	FROM DUAL
   	</select>
@@ -91,6 +91,12 @@
   		FROM REVIEW 
   		WHERE ID = #{id} AND STATUS = 'Y'
   		ORDER BY REVIEW_DATE
+  	</select>
+  	
+  	<select id="getreviewcount" parameterType="int" resultType="int">
+  		SELECT COUNT(*)
+  		FROM REVIEW
+  		WHERE ID = #{id} AND STATUS = 'Y'
   	</select>
 	
 </mapper>
