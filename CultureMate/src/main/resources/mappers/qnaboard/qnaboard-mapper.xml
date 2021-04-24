@@ -117,11 +117,10 @@
   			#{qnaType},
   			#{qnaTitle},
   			#{qnaContent},
-  		    DEFAULT,
+  		    #{qnaOpenStatus},
   			DEFAULT,
   			DEFAULT,
-  			DEFAUL
-
+  			DEFAULT
  		)
   	</insert>
   	
