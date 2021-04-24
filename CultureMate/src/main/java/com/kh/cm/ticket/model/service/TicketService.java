@@ -40,5 +40,5 @@ public interface TicketService {
 	
 	void createQR(String ticketId, HttpServletRequest request);
 
-	void sendTicket(Ticket ticket, String email);
+	void sendTicket(Ticket ticket, String email, HttpServletRequest request);
 }

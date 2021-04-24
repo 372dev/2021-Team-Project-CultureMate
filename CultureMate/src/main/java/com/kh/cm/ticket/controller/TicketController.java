@@ -123,7 +123,7 @@ public class TicketController {
 			
 			ticketservice.createQR(String.valueOf(ticket.getTicket_num()), request);
 			log.info("qr 생성");
-			ticketservice.sendTicket(ticket, loginMember.getEmail());
+			ticketservice.sendTicket(ticket, loginMember.getEmail(), request);
 			log.info("티켓 발송");
 			
 		} else {

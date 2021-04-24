@@ -11,9 +11,11 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -136,7 +138,7 @@ public class TicketServiceImpl implements TicketService{
 	public void createQR(String ticketId, HttpServletRequest request) {
 		boolean saveResult = false;
 	    String rootPath = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = rootPath + "/qr"; 
+		String savePath = rootPath + "/qr/"; 
 
 		File folder = new File(savePath);
 
@@ -150,16 +152,16 @@ public class TicketServiceImpl implements TicketService{
 		QRCodeWriter qrCodeWriter = new QRCodeWriter();  
 	    BitMatrix bitMatrix;
 		try {
-			bitMatrix = qrCodeWriter.encode(ticketId, BarcodeFormat.QR_CODE, 350, 350);
+			bitMatrix = qrCodeWriter.encode("CultureMate - We can do it! - Ticket Id : " + ticketId, BarcodeFormat.QR_CODE, 350, 350);
 	    
 			MatrixToImageConfig matrixToImageConfig = new MatrixToImageConfig(codeColor,bgColor); 
 			BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix,matrixToImageConfig);
 
 			String fileName = ticketId;
 			
-			File temp =  new File(savePath + "/" + fileName+".png");  
+			File temp =  new File(savePath + fileName+".png");  
 			
-			saveResult = ImageIO.write(bufferedImage, "png",temp);
+			saveResult = ImageIO.write(bufferedImage, "png", temp);
 			
 		} catch (WriterException e1) {
 			e1.printStackTrace();
@@ -170,16 +172,28 @@ public class TicketServiceImpl implements TicketService{
 	}
 
 	@Override
-	public void sendTicket(Ticket ticket, String email) {
+	public void sendTicket(Ticket ticket, String email, HttpServletRequest request) {
+	    String rootPath = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = rootPath + "/qr/";
+		
 		log.info("entered service - sendTicket()");
 		log.info("ticketId : " + ticket.getTicket_num());
 		log.info("user email : " + email);
 		
 		MailHandler sendMail;
 		try {
+			String fileName = ticket.getTicket_num() + ".png";
+			FileSystemResource file = new FileSystemResource(new File(savePath + fileName));
+			FileSystemResource logo = new FileSystemResource(new File(rootPath + "/images/logo.png"));
+
 			sendMail = new MailHandler(mailSender);
 			sendMail.setSubject("[컬쳐메이트] 티켓 - " + ticket.getPrfnm() + " (" + ticket.getTicket_date() + ")");
-			sendMail.setText(new StringBuffer().append("<h2>컬쳐메이트를 이용해주셔서 감사합니다!</h2>")
+			sendMail.setText(new StringBuffer()
+					.append("<img width=\"424\" height=\"55\" alt=\"Culture Mate\" src=\"cid:")
+					.append("logo.png")
+					.append("\">")
+					.append("<h2>컬쳐메이트를 이용해주셔서 감사합니다!</h2>")
+					.append("<h3>예매확인서</h3><h5>아래 예매확인서와 함께 신분증을 꼭 지참하셔서 공연장 매표소에서 티켓을 수령해 주세요.<br>문의사항이 있는 경우 컬쳐메이트 온라인 고객센터 혹은 문의전화 1577-1234로 연락 주시면 즉각 도와 드리겠습니다</h5>")
 					.append("<table border=\"1\" style=\"border-collapse:collapse;\"><tr><th style=\"width:100px;\">예매번호</th><td style=\"width:250px;\">")
 					.append(ticket.getTicket_num())
 					.append("</td></tr><tr><th>공연명</th><td>")
@@ -192,11 +206,12 @@ public class TicketServiceImpl implements TicketService{
 					.append(ticket.getPcseguidance())
 					.append("</td></tr><tr><th>좌석정보</th><td>")
 					.append(ticket.getTicket_seat())
-					.append("</td></tr><tr><td colspan=\"2\"><img alt=\"QR이 보이지 않는 경우 고객센터에 문의해 주세요\" src=\"")
-					.append("http://localhost:8088/cm/resources/qr/")
-					.append(ticket.getId())
-					.append(".png\"></td></tr></table>")
+					.append("</td></tr><tr><td colspan=\"2\"><img alt=\"QR이 보이지 않는 경우 고객센터에 문의해 주세요\" src=\"cid:")
+					.append(fileName)
+					.append("\"></td></tr></table>")
 					.toString());
+			sendMail.addInline(fileName, file);
+			sendMail.addInline("logo.png", logo);
 			sendMail.setFrom("CultureMate", "컬쳐메이트");
 			sendMail.setTo(email);
 			sendMail.send();
