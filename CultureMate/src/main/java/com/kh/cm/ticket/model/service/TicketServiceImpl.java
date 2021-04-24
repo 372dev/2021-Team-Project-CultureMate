@@ -187,7 +187,7 @@ public class TicketServiceImpl implements TicketService{
 			FileSystemResource logo = new FileSystemResource(new File(rootPath + "/images/logo.png"));
 
 			sendMail = new MailHandler(mailSender);
-			sendMail.setSubject("[컬쳐메이트] 티켓 - " + ticket.getPrfnm() + " (" + ticket.getTicket_date() + ")");
+			sendMail.setSubject("[컬쳐메이트] 예매확인서 - " + ticket.getPrfnm() + " (" + ticket.getTicket_date() + ")");
 			sendMail.setText(new StringBuffer()
 					.append("<img width=\"424\" height=\"55\" alt=\"Culture Mate\" src=\"cid:")
 					.append("logo.png")
