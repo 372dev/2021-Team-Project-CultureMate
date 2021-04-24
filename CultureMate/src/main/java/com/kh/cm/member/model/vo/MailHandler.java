@@ -6,6 +6,7 @@ import javax.activation.DataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -40,8 +41,9 @@ public class MailHandler {
         msgHelper.setTo(email);
     }
     
-    public void addInline(String cotentId, DataSource dataSource) throws MessagingException {
-        msgHelper.addInline(cotentId, dataSource);
+    //	자료형 변경하였음 Datasource -> FileSystemResource
+    public void addInline(String cotentId, FileSystemResource file) throws MessagingException {
+        msgHelper.addInline(cotentId, file);
     }
 
     public void send() {
