@@ -43,12 +43,10 @@
 	
 }  
 </style>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 <section id="eventSection">
 <div id="eventContainer">
-	<div class="card" style="width: 35rem;float:left;margin-left: 3%;">
+	<div class="card" style="width: 22rem;float:left;margin-left: 3%;">
 			  <a href="${path}/show/restview?name=PF173021"><div class="scale"> <img class="card-img-top" src="${path}/resources/event/안녕 여름.jpg" alt="Card image cap"></div> </a>
 			  <div class="card-body">
 			    <div id="cardTitle">초대 이벤트</div><br>
@@ -58,7 +56,7 @@
 			  
 	</div>
 	</div>
-	<div class="card" style="width: 35rem;;float:left;margin-left: 3%;">
+	<div class="card" style="width: 22rem;;float:left;margin-left: 3%;">
 			  <a href="${path}/show/restview?name=PF173006"><div class="scale"> <img class="card-img-top" src="${path}/resources/event/위키드.jpg" alt="Card image cap"></div> </a>
 			  <div class="card-body">
 			    <div id="cardTitle">초대 이벤트</div><br>
@@ -68,7 +66,7 @@
 			  <range></range>
   			</div>
 	</div>
-	<div class="card" style="width: 35rem;float:right;margin-right: 3%;">
+	<div class="card" style="width: 22rem;float:right;margin-right: 3%;">
 			  <a href="${path}/show/restview?name=PF172434"><div class="scale"> <img class="card-img-top" src="${path}/resources/event/태양의 노래.jpg" alt="Card image cap"></div> </a>
 			  <div class="card-body">
 			    <div id="cardTitle" >초대 이벤트</div><br>
@@ -77,7 +75,7 @@
 			     <p style="color:#b5b5b3;">2021.04.16 ~ 2021.04.29 | 2021.04.30 발표</p>  
   			</div>
 	</div>
-	<div class="card" style="width: 35rem;float:left;margin-left: 3%;margin-top: 3%;">
+	<div class="card" style="width: 22rem;float:left;margin-left: 3%;margin-top: 3%;">
 			  <a href="${path}/show/restview?name=PF171029"><div class="scale"> <img class="card-img-top" src="${path}/resources/event/검은사제들.jpg" alt="Card image cap"></div> </a>
 			  <div class="card-body">
 			    <div id="cardTitle">경품 이벤트</div><br>
@@ -87,7 +85,7 @@
 			  
 	</div>
 	</div>
-	<div class="card" style="width: 35rem;float:left;margin-left: 3%;margin-top: 3%;">
+	<div class="card" style="width: 22rem;float:left;margin-left: 3%;margin-top: 3%;">
 			  <a href="${path}/show/restview?name=PF171092"><div class="scale"> <img class="card-img-top" src="${path}/resources/event/위키드.jpg" alt="Card image cap"></div> </a>
 			  <div class="card-body">
 			    <div id="cardTitle">경품 이벤트</div><br>

@@ -13,7 +13,7 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
- 		 font-family: 'Do Hyeon', sans-serif; 
+ 		
 	}
     #mateUpdate-container{ 
         text-align: center;
@@ -24,6 +24,7 @@
     }
     #mateTitle{
         text-align: left;
+        font-family: 'Do Hyeon', sans-serif; 
     }
    	#mate-Title > a{
     	color: black;
@@ -69,9 +70,6 @@
 </style>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <section id="mateSection">
        
 		    <div id="mateUpdate-container">
@@ -103,7 +101,7 @@
 							<c:if test="${mate.mateOpen == '모집완료'}">selected</c:if>>모집완료</option>
 						</select>
 					</td>
-		            <td><input style="border-radius:5px;height:28px;border:1px solid; width:200px;" type="text" name="mateTitle" id="mateTitle" value="${mate.mateTitle }"></td>		            
+		            <td><input style="border-radius:5px;height:28px;border:1px solid; width:200px;" type="text" name="mateTitle" value="${mate.mateTitle }"></td>		            
 		            <td> <input style="border-radius:5px;height:28px;border:1px solid; width:80px;" type="text" name="userNick" value="${loginMember.userNick }" readonly> </td>
 		                               
 		            		            <td><fmt:formatDate value="${mate.mateCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></td>	           

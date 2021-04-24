@@ -14,8 +14,8 @@ public class EventController {
 	public String eventView( ) {
 		return "event/event";
 	}
-	@RequestMapping(value="/showBegginner", method = {RequestMethod.GET}) 
+	@RequestMapping(value="/showBeginner", method = {RequestMethod.GET}) 
 	public String eventView1() {
-		return "event/showBegginner";
+		return "event/showBeginner";
 	}
 }

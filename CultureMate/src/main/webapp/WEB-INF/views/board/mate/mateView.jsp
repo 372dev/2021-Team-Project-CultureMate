@@ -13,17 +13,18 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto; 
-	     font-family: 'Do Hyeon', sans-serif;
+	     
 	}
     #mateView-container{ 
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 1000px;
+		height: 1030px;
    
     }
     #mate-Title{
         text-align: left;
+        font-family: 'Do Hyeon', sans-serif;
     }
       #mate-Title > a{
     	color: black;
@@ -89,7 +90,7 @@
   }
   /*댓글테이블*/
 table#tbl-comment {
-	width:460px; 
+	width:500px; 
 	margin:0 auto; 
 	border-collapse:collapse; 
 	clear:both; 
@@ -128,16 +129,18 @@ table#tbl-comment sub.comment-date {
 .level1 >td> sub {
 	font-size: 7pt;
 }
-.level2 >td> sub {
-	margin-left:30px;
+.level2 >td> sub {	
 	font-size: 7pt;
-}	
+}
+.level2 >td> sub.comment-writer {
+	margin-left:15px;
+}
+
 </style>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/0fe4d45686.js"
+		crossorigin="anonymous"></script>
 <section id="mateSection">
 	  <div id="mateView-container">
 		        <div id="mate-Title">
@@ -165,7 +168,7 @@ table#tbl-comment sub.comment-date {
 		    <tr id="mateView-tr1">
 		     <td colspan="11">
 		     <div style="border-radius:5px;height: 250px;width: 500px;background-color: GAINSBORO;margin:0 auto; display: flex; align-items: center;">
-     <div style="background-color:white;white-space:pre;border-radius:5px;height:210px;width:460px;border:0.5px solid lightgray;margin: 0 auto;padding:0 auto; middle;text-align: left;">${mate.mateContent}"</div>
+     <div style="background-color:white;white-space:pre;border-radius:5px;height:210px;width:460px;border:0.5px solid lightgray;margin: 0 auto;padding:0 auto; middle;text-align: left;">${mate.mateContent}</div>
 			</div>
 			 </td>
 			</tr>
@@ -204,8 +207,7 @@ table#tbl-comment sub.comment-date {
 		    	 <c:if test="${mateReply.mateReplyId == mateReply.mateReplyGroup }">
 			    	<tr class="level1">
 			    		<td>
-			    			<sub class="comment-writer">${mateReply.userNick}</sub>
-			    			<sub class="comment-Id">${mateReply.mateReplyId}</sub>
+			    			<sub class="comment-writer" >${mateReply.userNick}</sub>
 			    			<sub class="comment-date"><fmt:formatDate value="${mateReply.mateReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
 			    			<span style="font-size:9pt;"><c:out value="${mateReply.mateReplyContent}"></c:out></span>
@@ -214,10 +216,9 @@ table#tbl-comment sub.comment-date {
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input type="hidden" class="mateReplyId" name="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
-		    		<!--  	<button class="btn-update">수정</button> -->	
-		    			    <a href="javascript:deleteMateReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>
+	    			    <a href="javascript:deleteMateReply(${mateReply.mateReplyId })" ><span style="font-size:7pt;color:gray;float:right;"><i class="fas fa-times"></i>삭제</span></a>
+		    			<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;margin-right:5px;"><i class="fas fa-pencil-alt"></i>답글</span></a>
 		    			</c:if>
-		    			<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;top:10px;margin-right:5px;" class=" glyphicon glyphicon-pencil">답글</span></a>
 		    			<script type="text/javascript">
 		    				$("#btn-reWrite").on("click", () => {
 		    						var mateReplyId = $("#mateReplyId").val();
@@ -231,10 +232,10 @@ table#tbl-comment sub.comment-date {
 		    						
 		    					});
 		    				
-		    				function deleteMateReply(){
+		    				function deleteMateReply(no){
 		    					let mateReplyId = $(".mateReplyId").val();
 		    					if(confirm("댓글을 삭제 하시겠습니까?")){
-		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + mateReplyId);
+		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + no);
 		    					}
 		    				}
 		    				
@@ -246,22 +247,21 @@ table#tbl-comment sub.comment-date {
 			    	<tr class="level2">	    	
 			    		<td>
 			    			<sub class="comment-writer">RE:${mateReply.userNick}</sub>
-			    			<sub class="comment-Id">RE:${mateReply.mateReplyId}</sub>
 			    			<sub class="comment-date"><fmt:formatDate value="${mateReply.mateReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
-			    			<span style="margin-left:30px;font-size:9pt;">→<c:out value="${mateReply.mateReplyContent}"></c:out></span>
+			    			<span style="margin-left:15px;font-size:9pt;">→<c:out value="${mateReply.mateReplyContent}"></c:out></span>
 			    		</td>			    		
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input type="hidden" name="mateReplyId" id="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
 		    					<!--  	<button class="btn-update">수정</button> -->	
-		    				<a href="javascript:deleteMateReReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>		    				
+		    				<a href="javascript:deleteMateReReply(${mateReply.mateReplyId })" ><span style="font-size:7pt;color:gray;float:right;top:10px;"><i class="fas fa-times"></i>삭제</span></a>		    				
 		    				<script type="text/javascript">
-		    				function deleteMateReReply(){
+		    				function deleteMateReReply(no){
 		    					let mateReplyId = $("#mateReplyId").val();
 		    					if(confirm("댓글을 삭제 하시겠습니까?")){
-		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + mateReplyId);
+		    						location.replace('${path}/mate/reply/delete?mateId='+ <%=mate.getMateId()%>+ '&mateReplyId=' + no);
 		    					}
 		    				}
 		    		    	</script>
@@ -277,27 +277,28 @@ table#tbl-comment sub.comment-date {
 		    <div id="pageBar">
     	 <c:if test="${!empty mateReplies}">
 			<!-- 맨 처음으로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=1'"><span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-menu-left"></span></button>
+			<button type="button" class="btn btn-light btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=1'"><i class="fas fa-angle-double-left"></i></button>
 			
 			<!-- 이전 페이지로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.prvePage}'"><span class="glyphicon glyphicon-menu-left"></span></button>
+			<button type="button" class="btn btn-light btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.prvePage}'"><i class="fas fa-angle-left"></i></button>
 
 			<!--  10개 페이지 목록 -->
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 				<c:if test="${status.current == pageInfo.currentPage}">
-					<button type="button" class="btn btn-default btn-xs" disabled><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-light btn-sm" style="height:25px;font-size:7pt;font-weight:bold;" disabled><c:out value="${status.current}"/></button>
    				</c:if>
 				<c:if test="${status.current != pageInfo.currentPage}">
-					<button type="button" class="btn btn-default btn-xs" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${status.current}'"><c:out value="${status.current}"/></button>
+					<button type="button" class="btn btn-light btn-sm" style="height:25px;font-size:7pt;font-weight:bold;" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${status.current}'"><c:out value="${status.current}"/></button>
    				</c:if>
 			</c:forEach>
 			
 			<!-- 다음 페이지로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.nextPage}'"><span class="glyphicon glyphicon-menu-right"></span></button>
+			<button type="button" class="btn btn-light btn-sm" onclick="location.href='${path}/mate/view?mateId=${mate.mateId }&page=${pageInfo.nextPage}'"><i class="fas fa-angle-right"></i></button>
 			
 			<!-- 맨 끝으로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>	
+			<button type="button" class="btn btn-light btn-sm" onclick="location.href='${path}/mate/view?mateId=${share.shareId }&page=${pageInfo.maxPage}'"><i class="fas fa-angle-double-right"></i></button>	
 		</c:if>	
+		</div>
 	 </div>
 	 <script type="text/javascript">
 	 function checkEmpty() {
@@ -364,7 +365,6 @@ table#tbl-comment sub.comment-date {
 	})
 	
 	</script>
-	</div>
 
 </section>
 

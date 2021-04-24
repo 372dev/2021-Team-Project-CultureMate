@@ -8,7 +8,7 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
-	     font-family: 'Do Hyeon', sans-serif;
+	     
 	}
     #mateWrite-container{ 
         text-align: center;
@@ -19,6 +19,7 @@
     }
     #mate-Title{
         text-align: left;
+        font-family: 'Do Hyeon', sans-serif;
     }
       #mate-Title > a{
     	color: black;
