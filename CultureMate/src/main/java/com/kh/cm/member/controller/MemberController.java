@@ -369,24 +369,24 @@ public class MemberController {
 		}
 
 		// 비밀번호 찾기
-		@SuppressWarnings("unused")
 		@RequestMapping(value="/member/findPassword", method = {RequestMethod.POST})
 		@ResponseBody
 		public ModelAndView findPassword(ModelAndView model, @ModelAttribute Member member,
 				@RequestParam("inputId_1") String userId, @RequestParam("inputEmail_2") String email, 
-				@RequestParam("inputPhone_2") String phone) throws Exception {
+				@RequestParam("inputPhone_2") String phone){
 			
 			member = memberDao.selectMember(userId);
 			
 			log.info(member.toString());
-			
-			if(member != null) {
+
+			try {
 				service.findPwd(userId, email, phone);
 				model.addObject("msg", "임시 비밀번호가 이메일로 발송되었습니다. :)");
 				model.addObject("location", "/");
-			} else {
-				model.addObject("msg", "등록하신 회원 정보가 없습니다. :<");
-				model.addObject("location", "/member/findIdAndPwd");
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addObject("msg", "해당하는 회원 정보가 없습니다.");
+				model.addObject("location", "/");
 			}
 			
 			model.setViewName("common/msg");
