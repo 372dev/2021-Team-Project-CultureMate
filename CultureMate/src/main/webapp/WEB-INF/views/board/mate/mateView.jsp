@@ -133,7 +133,7 @@ table#tbl-comment sub.comment-date {
 	font-size: 7pt;
 }
 .level2 >td> sub.comment-writer {
-	margin-left:30px;
+	margin-left:15px;
 }
 
 </style>
@@ -217,8 +217,8 @@ table#tbl-comment sub.comment-date {
 		    		    	<input type="hidden" class="mateReplyId" name="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
 	    			    <a href="javascript:deleteMateReply(${mateReply.mateReplyId })" ><span style="font-size:7pt;color:gray;float:right;"><i class="fas fa-times"></i>삭제</span></a>
-		    			</c:if>
 		    			<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;margin-right:5px;"><i class="fas fa-pencil-alt"></i>답글</span></a>
+		    			</c:if>
 		    			<script type="text/javascript">
 		    				$("#btn-reWrite").on("click", () => {
 		    						var mateReplyId = $("#mateReplyId").val();
@@ -249,7 +249,7 @@ table#tbl-comment sub.comment-date {
 			    			<sub class="comment-writer">RE:${mateReply.userNick}</sub>
 			    			<sub class="comment-date"><fmt:formatDate value="${mateReply.mateReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
-			    			<span style="margin-left:30px;font-size:9pt;">→<c:out value="${mateReply.mateReplyContent}"></c:out></span>
+			    			<span style="margin-left:15px;font-size:9pt;">→<c:out value="${mateReply.mateReplyContent}"></c:out></span>
 			    		</td>			    		
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">

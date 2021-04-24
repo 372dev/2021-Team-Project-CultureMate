@@ -131,7 +131,7 @@ table#tbl-comment sub.comment-date {
 	font-size: 7pt;
 }
 .level2 >td> sub.comment-writer {
-	margin-left:30px;
+	margin-left:15px;
 }
    
 </style>
@@ -268,7 +268,7 @@ table#tbl-comment sub.comment-date {
 			    			<sub class="comment-writer">RE:${shareReply.userNick}</sub>
 			    			<sub class="comment-date"><fmt:formatDate value="${shareReply.shareReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
-			    			<span style="margin-left:30px;font-size:9pt;">→<c:out value="${shareReply.shareReplyContent}"></c:out></span>
+			    			<span style="margin-left:15px;font-size:9pt;">→<c:out value="${shareReply.shareReplyContent}"></c:out></span>
 			    		</td>			    		
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
