@@ -47,6 +47,55 @@
   .qnalist{
     margin-top: 30px;
   }
+   .page_wrap {
+	text-align:center;
+	font-size:0;
+ }
+.page_nation {
+	display:inline-block;
+}
+.page_nation .none {
+	display:none;
+}
+.page_nation a {
+	display:block;
+	margin:0 3px;
+	float:left;
+	border:1px solid #e6e6e6;
+	width:28px;
+	height:28px;
+	line-height:28px;
+	text-align:center;
+	background-color:#fff;
+	font-size:13px;
+	color:#999999;
+	text-decoration:none;
+}
+.page_nation .arrow {
+	border:1px solid #ccc;
+}
+.page_nation .pprev {
+	background:#f8f8f8 url('img/page_pprev.png') no-repeat center center;
+	margin-left:0;
+}
+.page_nation .prev {
+	background:#f8f8f8 url('img/page_prev.png') no-repeat center center;
+	margin-right:7px;
+}
+.page_nation .next {
+	background:#f8f8f8 url('img/page_next.png') no-repeat center center;
+	margin-left:7px;
+}
+.page_nation .nnext {
+	background:#f8f8f8 url('img/page_nnext.png') no-repeat center center;
+	margin-right:0;
+}
+.page_nation a.active {
+	background-color:#42454c;
+	color:#fff;
+	border:1px solid #42454c;
+}
+
 
 </style>
 
@@ -97,7 +146,7 @@
               <c:if test="${qnalist.qnaOpenStatus eq 'N'}" >
                 <c:choose>
                 <c:when test="${qnalist.userId eq loginMember.userId || loginMember.userRole eq 'ROLE_ADMIN'}">
-                   <a href="${path}/help/qnaview?qnaId=${qnalist.qnaId}"><i class="fas fa-lock"></i> <c:out value="${qnalist.qnaTitle}"/></a>
+                   <a href="${path}/help/qnaview?qnaId=${qnalist.qnaId}" style=color:black;><i class="fas fa-lock"></i> <c:out value="${qnalist.qnaTitle}"/></a>
                 </c:when>
                 <c:otherwise><i class="fas fa-lock"></i> 비밀글은 작성자와 관리자만 볼 수 있습니다.</c:otherwise>
                 </c:choose>
@@ -117,29 +166,31 @@
       </table>
     </div>
     
-    <div id="pageBar">
+    <div id="pageBar" class="page_wrap">
+        <div class="page_nation">
 			<!-- 맨 처음으로 -->
-			<button onclick="location.href='${path}/help/qnalist?page=1'">&lt;&lt;</button>
+			<a onclick="location.href='${path}/help/qnalist?page=1'" class="arrow pprev">&lt;&lt;</a>
 			
 			<!-- 이전 페이지로 -->
-			<button onclick="location.href='${path}/help/qnalist?page=${pageInfo.prvePage}'">&lt;</button>
+			<a onclick="location.href='${path}/help/qnalist?page=${pageInfo.prvePage}'" class="arrow prev" >&lt;</a>
 
 			<!--  10개 페이지 목록 -->
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 				<c:if test="${status.current == pageInfo.currentPage}">
-					<button disabled><c:out value="${status.current}"/></button>
+					<a disabled class="active"><c:out value="${status.current}"/></a>
    				</c:if>
 				<c:if test="${status.current != pageInfo.currentPage}">
-					<button onclick="location.href='${path}/help/qnalist?page=${status.current}'"><c:out value="${status.current}"/></button>
+					<a onclick="location.href='${path}/help/qnalist?page=${status.current}'" class="active"><c:out value="${status.current}"/></a>
    				</c:if>
 			</c:forEach>
 			
 			<!-- 다음 페이지로 -->
-			<button onclick="location.href='${path}/help/qnalist?page=${pageInfo.nextPage}'">&gt;</button>
+			<a onclick="location.href='${path}/help/qnalist?page=${pageInfo.nextPage}'" class="arrow next">&gt;</a>
 			
 			<!-- 맨 끝으로 -->
-			<button onclick="location.href='${path}/help/qnalist?page=${pageInfo.maxPage}'">&gt;&gt;</button>
+			<a onclick="location.href='${path}/help/qnalist?page=${pageInfo.maxPage}'" class="arrow nnext">&gt;&gt;</a>
 		</div>
+	</div>
 
  </div>  
  
