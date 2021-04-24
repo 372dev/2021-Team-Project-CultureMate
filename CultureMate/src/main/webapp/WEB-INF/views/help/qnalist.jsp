@@ -5,7 +5,51 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 <link rel="stylesheet" href="${path}/resources/css/cscenter.css">
+
 <script src="https://kit.fontawesome.com/4d8c9a2b0b.js" crossorigin="anonymous"></script>
+<style>
+ nav {
+    width: 100%;
+    background: white;
+    border: 1px solid black;
+    margin-top: 30px;
+    /* border-right: none; */
+  }
+
+  nav ul {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav ul li {
+    list-style: none;
+    float: left;
+    text-align: center;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #ccc;
+    width: 16.6667%; /* fallback for non-calc() browsers */
+    width: calc(100% / 6);
+    box-sizing: border-box;
+    inline-size: 50%;
+  }
+
+  nav ul li:first-child {
+    border-left: none;
+  }
+
+  nav ul li a {
+    display: block;
+    text-decoration: none;
+    color: #616161;
+    padding: 10px 0;
+  }
+  .qnalist{
+    margin-top: 30px;
+  }
+
+</style>
+
 <div class="col">
 	<p>고객센터</p>
 	
@@ -17,20 +61,16 @@
     <a class="nav-link" href="${path}/help/notice ">공지사항</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link active" href="${path}/help/qnalist">Q&A</a>
+    <a class="nav-link active" style="background-color: #6C757D;" href="${path}/help/qnalist">Q&A</a>
     </li>
     </ul>
     
-      <h5>나의 문의내역</h5>
-      
-      <nav>
-        <ul>
-          <li><a href="${path}/help/qnalist">문의내역</a></li>
-          <li><a href="${path}/help/qnacontent">문의하기</a></li>
+      <nav class="qnalsit">
+        <ul class="qnaul">
+          <li class="qnalist1"><a href="${path}/help/qnalist">Q&A 게시판</a></li>
+          <li class="qnalist2"><a href="${path}/help/qnacontent">문의하기</a></li>
         </ul>
       </nav>
-
-    <hr>
 
     <div class="table-responsive qnalist">
       <table class="table table-hover qnalist" >
@@ -63,7 +103,7 @@
                 </c:choose>
              </c:if>
              <c:if test="${qnalist.qnaOpenStatus eq 'Y'}" >
-                <a href="${path}/help/qnaview?qnaId=${qnalist.qnaId}">
+                <a href="${path}/help/qnaview?qnaId=${qnalist.qnaId}" style = color:black;>
                  <i class="fas fa-lock-open"></i> <c:out value="${qnalist.qnaTitle}"/>
                 </a>
              </c:if>

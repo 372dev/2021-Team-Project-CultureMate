@@ -8,7 +8,7 @@ p {
 .notice {
 	margin-top: 30px;
 	background-color: #B3E0FF;
-	line-height: 40px;
+	line-height: 50px;
 	text-align: center;
 }
 
@@ -25,12 +25,16 @@ hr {
 	background-color: #9DB81F;
 	line-height: 70px;
 	font-size: 25px;
-	border-radius: 10px;
+	border-radius: 5px;
 }
 
 .nav-item {
 	display: inline-block;
 	inline-size: 30%;
+}
+
+.h5, h5{
+	font-size: 1.4rem;
 }
 
 /*CS 자주묻는 질문 & FAQ*/

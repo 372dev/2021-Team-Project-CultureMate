@@ -13,16 +13,13 @@
               <a class="nav-link" href="${path}/help/csmain" id="poster">자주묻는질문(FAQ)</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="${path}/help/notice" id="perf">공지사항</a>
+              <a class="nav-link active" style="background-color: #6C757D;" href="${path}/help/notice" id="perf">공지사항</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="${path}/help/qnalist" id="refund">Q&A</a>
             </li>
           </ul>
-        
-              <h3>공지사항</h3>
-        
-              
+          
             <hr>
         
         
