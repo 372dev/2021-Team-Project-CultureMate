@@ -106,6 +106,7 @@ $(function(){
 	
 	getCommentList();
 });
+
 function getCommentList(){
 	console.log("getCommentList 오는거니?");
 $.ajax({
@@ -121,7 +122,7 @@ $.ajax({
         
         if(data.length > 0){
             
-            for(i=0; i<data.length; i++){
+        	for(i=0; i<data.length; i++){
                 html += "<div>";
                 html += "<div><table class='table'><h6><strong>"+data[i].userId+ " | " + data[i].createDate +"</strong>";
                 html += "</h6>";

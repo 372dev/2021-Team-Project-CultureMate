@@ -5,16 +5,20 @@
 
 <link rel="stylesheet" href="${path}/resources/css/cscenter.css">
 
-<div class="col" style="border:1px solid black;" >
+<div class="col">
         <p>고객센터</p>
         
-        <div class="list" style="border:1px solid black;" >
-            <ul class="bls_tbls c3">
-                <li class="active"><a href="${path}/help/csmain" id="poster">자주묻는질문(FAQ)</a></li>
-                <li><a href="${path}/help/notice" id="perf">공지사항</a></li>
-                <li><a href="${path}/help/qnalist" id="refund">1:1문의</a></li>
-            </ul>
-        </div>
+         <ul class="nav nav-pills nav-fill">
+            <li class="nav-item">
+              <a class="nav-link" href="${path}/help/csmain" id="poster">자주묻는질문(FAQ)</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="${path}/help/notice" id="perf">공지사항</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="${path}/help/qnalist" id="refund">Q&A</a>
+            </li>
+          </ul>
         
               <h3>공지사항</h3>
         

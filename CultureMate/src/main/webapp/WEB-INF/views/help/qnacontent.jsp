@@ -37,7 +37,7 @@
                    <select name="qnaType">
                        <option selected>문의유형선택</option>
                            <option value="공연">공연</option>
-                           <option value="메이트">메이트 게시판</option>
+                           <option value="메이트">메이트/티켓나눔 게시판</option>
                       
                    </select>
            </div>
@@ -48,6 +48,8 @@
            <div class="qnaname">
                <label style="font-size: large;"  >문의제목</label>
                <input type="text"  name="qnaTitle">
+               <label>비공개</label>
+               <input type="checkbox" value='N' name="qnaOpenStatus" id="qnaOpenStatus">
            </div>
 
       
@@ -55,7 +57,7 @@
                <textarea name="qnaContent" cols="90" rows="15" placeholder="내용을 입력해주세요."></textarea>
            </div>
       </div>
-      
+       
            <hr>
 
       <div class="qnaagree">

@@ -5,17 +5,22 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 <link rel="stylesheet" href="${path}/resources/css/cscenter.css">
-
+<script src="https://kit.fontawesome.com/4d8c9a2b0b.js" crossorigin="anonymous"></script>
 <div class="col">
 	<p>고객센터</p>
-	<ul class="nav nav-pills">
-		<li class="nav-item"><a class="nav-link active" 
-			href="${path}/help/csmain">자주묻는질문 & FAQ</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="${path}/help/notice ">공지사항</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="${path}/help/qnalist">1:1문의</a></li>
-	</ul>
+	
+	<ul class="nav nav-pills nav-fill">
+    <li class="nav-item">
+    <a class="nav-link" href="${path}/help/csmain">자주묻는질문(FAQ)</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="${path}/help/notice ">공지사항</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link active" href="${path}/help/qnalist">Q&A</a>
+    </li>
+    </ul>
+    
       <h5>나의 문의내역</h5>
       
       <nav>
@@ -49,9 +54,19 @@
              <c:out value="${qnalist.qnaType}"/>
              </td>
              <td>
-              <a href="${path}/help/qnaview?qnaId=${qnalist.qnaId}">
-              <c:out value="${qnalist.qnaTitle}"/>
-              </a>
+              <c:if test="${qnalist.qnaOpenStatus eq 'N'}" >
+                <c:choose>
+                <c:when test="${qnalist.userId eq loginMember.userId || loginMember.userRole eq 'ROLE_ADMIN'}">
+                   <a href="${path}/help/qnaview?qnaId=${qnalist.qnaId}"><i class="fas fa-lock"></i> <c:out value="${qnalist.qnaTitle}"/></a>
+                </c:when>
+                <c:otherwise><i class="fas fa-lock"></i> 비밀글은 작성자와 관리자만 볼 수 있습니다.</c:otherwise>
+                </c:choose>
+             </c:if>
+             <c:if test="${qnalist.qnaOpenStatus eq 'Y'}" >
+                <a href="${path}/help/qnaview?qnaId=${qnalist.qnaId}">
+                 <i class="fas fa-lock-open"></i> <c:out value="${qnalist.qnaTitle}"/>
+                </a>
+             </c:if>
              </td>
              <td>
               <c:out value="${qnalist.userId}"/>

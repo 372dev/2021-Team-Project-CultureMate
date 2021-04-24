@@ -65,7 +65,7 @@ public class QnaBoardController {
 	@RequestMapping(value = "/qnacontent", method = {RequestMethod.POST})
 	public ModelAndView qnacontent (
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember, QnaBoard qnaboard,
-			HttpServletRequest request,
+			HttpServletRequest request, @RequestParam("qnaOpenStatus") String qnaOpenStatus,
 			ModelAndView model) {
 
 		int result =0;
