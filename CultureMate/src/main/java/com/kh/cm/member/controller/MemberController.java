@@ -380,9 +380,11 @@ public class MemberController {
 			log.info(member.toString());
 
 			try {
-				service.findPwd(userId, email, phone);
-				model.addObject("msg", "임시 비밀번호가 이메일로 발송되었습니다. :)");
-				model.addObject("location", "/");
+				if(member != null) {
+					service.findPwd(userId, email, phone);
+					model.addObject("msg", "임시 비밀번호가 이메일로 발송되었습니다. :)");
+					model.addObject("location", "/");
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addObject("msg", "해당하는 회원 정보가 없습니다.");
