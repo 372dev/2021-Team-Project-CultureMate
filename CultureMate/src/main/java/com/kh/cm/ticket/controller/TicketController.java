@@ -132,7 +132,7 @@ public class TicketController {
 		}
 		
 		System.out.println("controller_success_model : " + model);
-		showreviewservice.setreserve(ticket);
+		//showreviewservice.setreserve(ticket);
 		return model;
 	}
 
