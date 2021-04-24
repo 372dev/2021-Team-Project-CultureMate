@@ -72,7 +72,7 @@
 		background:#9db81f;
 		color: white;
 		position:relative;
-		top:-31px;
+		top:-28.5px;
 	}
     .shareButton{
      	height:35px;
@@ -233,13 +233,15 @@ table#tbl-comment sub.comment-date {
 			    			<br>
 			    			<span style="font-size:9pt;"><c:out value="${shareReply.shareReplyContent}"></c:out></span>
 			    		</td>
-			    		<td>			    		
-		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
+			    		<td>
+			    		<c:if test="${ !empty loginMember}">			    		
 		    		    	<input class="shareReplyId" type="hidden" name="shareReplyId" value="${shareReply.shareReplyId }">
 		    		    	<input type="hidden" name="shareId" id="shareId" value="${shareReply.shareId }">
+		    		     <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">	
 		    		    	<a href="javascript:deleteShareReply(${shareReply.shareReplyId })" ><span style="font-size:7pt;color:gray;float:right;"><i class="fas fa-times"></i>삭제</span></a>
+		    		     </c:if>	
 		    		    	<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;margin-right:5px;"><i class="fas fa-pencil-alt"></i>답글</span></a>
-		    				
+		    		    	
 		    				<script type="text/javascript">
 		    				$("#btn-reWrite").on("click", () => {
 		    					//	var mateReplyId = $("#mateReplyId").val();
@@ -259,7 +261,7 @@ table#tbl-comment sub.comment-date {
 		    				}
 		    				</script>
 		    			</c:if>
-			    		</td>
+			    	  </td>
 			    	</tr>
 			    	</c:if>	
 	    		    <c:if test="${shareReply.shareReplyId != shareReply.shareReplyGroup }">			    				

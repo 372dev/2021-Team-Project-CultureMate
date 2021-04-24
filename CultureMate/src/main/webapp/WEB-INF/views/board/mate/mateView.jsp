@@ -79,7 +79,7 @@
 	background: #9db81f;
 	color: white;
 	position:relative;
-	top:-31px;
+	top:-28.5px;
 }
   #mateButton{
    height:35px;
@@ -213,12 +213,14 @@ table#tbl-comment sub.comment-date {
 			    			<span style="font-size:9pt;"><c:out value="${mateReply.mateReplyContent}"></c:out></span>
 			    		</td>
 			    		<td>
-		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
+		    			<c:if test="${ !empty loginMember}">	    		   
 		    		    	<input type="hidden" class="mateReplyId" name="mateReplyId" value="${mateReply.mateReplyId }">
 		    		    	<input type="hidden" name="mateId" id="mateId" value="${mateReply.mateId }">
-	    			    <a href="javascript:deleteMateReply(${mateReply.mateReplyId })" ><span style="font-size:7pt;color:gray;float:right;"><i class="fas fa-times"></i>삭제</span></a>
-		    			<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;margin-right:5px;"><i class="fas fa-pencil-alt"></i>답글</span></a>
-		    			</c:if>
+		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == mateReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">	
+	    			    	<a href="javascript:deleteMateReply(${mateReply.mateReplyId })" ><span style="font-size:7pt;color:gray;float:right;"><i class="fas fa-times"></i>삭제</span></a>
+	 					</c:if>	 					 	
+		    			<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;margin-right:5px;"><i class="fas fa-pencil-alt"></i>답글</span></a>		    			
+		    			
 		    			<script type="text/javascript">
 		    				$("#btn-reWrite").on("click", () => {
 		    						var mateReplyId = $("#mateReplyId").val();
@@ -240,6 +242,7 @@ table#tbl-comment sub.comment-date {
 		    				}
 		    				
 		    				</script>
+		    		      </c:if>
 			    		</td>
 			    	</tr>
 			    	</c:if>
