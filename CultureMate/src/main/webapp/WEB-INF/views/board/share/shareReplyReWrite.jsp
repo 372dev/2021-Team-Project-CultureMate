@@ -10,12 +10,9 @@
 #replyReWrite-container {
 	text-align: center;
 	margin:0 auto;
-	font-family: 'Do Hyeon', sans-serif;
 }
 
 </style>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 	<div id="replyReWrite-container">
 		
 		<form id="reWriteFrm" name="reWriteFrm" action="${path}/share/reply/reWrite" method="post">

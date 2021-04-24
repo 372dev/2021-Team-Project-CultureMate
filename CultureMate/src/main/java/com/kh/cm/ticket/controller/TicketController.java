@@ -121,13 +121,18 @@ public class TicketController {
 			int ticket_num = ticket.getTicket_num();
 			model.addObject("ticket_num", ticket_num);
 			
+			ticketservice.createQR(String.valueOf(ticket.getTicket_num()), request);
+			log.info("qr 생성");
+			ticketservice.sendTicket(ticket, loginMember.getEmail(), request);
+			log.info("티켓 발송");
+			
 		} else {
 			model.addObject("msg", "결제가 정상적으로 이루어지지 않았습니다.");
 			model.addObject("location", "${path}/ticket/ticketing/fail");
 		}
 		
 		System.out.println("controller_success_model : " + model);
-		showreviewservice.setreserve(ticket);
+		//showreviewservice.setreserve(ticket);
 		return model;
 	}
 
@@ -339,24 +344,4 @@ public class TicketController {
 		return "ticket/TeamIntro";
 
 	}
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

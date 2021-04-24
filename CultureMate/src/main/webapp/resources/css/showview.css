@@ -1,0 +1,459 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+.titleFont {
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+.btnFont {
+	font-family: 'Jua', sans-serif;
+}
+
+.dot {
+	cursor: pointer;
+	height: 13px;
+	width: 13px;
+	margin: 0 2px;
+	background-color: #bbb;
+	border-radius: 50%;
+	display: inline-block;
+	transition: background-color 0.6s ease;
+	}
+	
+	.a{
+		border: solid 1px;
+		min-height: 500px;
+	}
+	
+	.b{
+		border: solid 1px;
+	}
+	
+	.rn-03 {
+    margin-top: 40px;
+    overflow: hidden;
+    padding-bottom: 50px;
+    position: relative;
+   
+}
+
+.rn-03-left {
+    float: left;
+    width: 35%;
+}
+	
+	.rn-03-right {
+    width: 35%;
+    float: left;
+    margin-left: 50px;
+    border-right: solid 1px;
+}
+	
+	.rn-03-right .rn-product-area1 {
+    border-bottom: 1px solid #000;
+    position: relative;
+   
+}
+
+ .rn-product-imgbox {
+    width: 430px;
+    height: 600px;
+    position: relative;
+}
+
+.rn-03-right dt {
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+    float: left;
+    line-height: 35px;
+}
+	
+	.rn-03-right dd {
+    font-size: 15px;
+    color: #333;
+    clear: right;
+    margin: 0 0 3px 86px;
+    line-height: 35px;
+    position: relative;
+}
+	
+.rn-03-right .rn-product-area3 {
+    min-height: 174px;
+}
+
+.title{
+	border-bottom: solid 3px;
+	width: 1181px;
+	font-family: DO HYEON;
+}
+
+.bls_tbbk {
+    margin-bottom: 0;
+	
+}
+
+.bls_tbbk {
+    margin: 30px 0 20px;
+}
+
+.bls_tbls.c3 {
+    margin-right: -1%;
+    width: 100%;
+    border-bottom: solid 3px; 
+}
+
+.bls_tbls {
+    overflow: hidden;
+    text-align: center;
+}
+
+.bls_tbls.c3 > li {
+    width: 25%;
+}
+
+.bls_tbls > li {
+    float: left;
+    width: 10%;
+}
+
+.bls_tbls > li > p > a {
+    font-size: 17px;
+    color: black;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 4px;
+    font-weight: 700;
+}
+
+.bls_tbls > li.on > p > a {
+    color: #9db81f;
+    font-family: 'notokr-medium';
+}
+
+.bls_tbls > li > p {
+    display: table;
+    width: 100%;
+    box-sizing: border-box;
+    height: 59px;
+    border-left: none;
+}
+
+.bls_tbls > li.on > p {
+    border-top: 4px solid #9db81f;
+}
+
+ul, ol, li, dl, dt, dd {
+    list-style: none;
+    padding: 0;
+}
+
+.bxo_vcb {
+    margin-top: 35px;
+    overflow: auto;
+}
+
+.detailArea{
+	text-align: center;
+}
+
+
+#plcMap{
+	 box-sizing: content-box;
+}
+
+.box{
+	font-size: 13px;
+
+	
+}
+
+.pt{
+	width: 100%;
+}
+
+.pt th{
+	border: solid 1px;
+	min-width: 50px;
+	padding: 10px;
+}
+
+.pt td{
+border: solid 1px;
+padding: 10px;
+}
+
+
+
+
+.rn{
+	position: absolute;
+    width: 238px;padding: 10px;
+    padding-left: 1px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+    font-family: 'Noto Sans KR',sans-serif;
+}
+
+.rn-1{
+    margin-left: 240px;
+    clear: right;
+    font-size: 14px;
+    line-height: 28px;
+    color: #555;
+    padding: 0 0 85px 3px;
+    letter-spacing: -0.03em;
+}
+
+.rn-2{
+    padding: 33px 0 15px 0;
+    margin-left: -3px;
+}
+
+.re-ta{
+	padding: 33px 0 15px 0;
+    margin-left: -3px;
+}
+
+.re-ta table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.re-ta table th {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+ 	background: #9db81f;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    padding: 8px;
+}
+
+.re-ta table td {
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    padding: 6px 0 5px 0;
+    vertical-align: middle;
+}
+
+div#comment-container {
+  height: 200px;
+  background: #e6f0b6;
+  padding: 20px;
+}
+
+div#comment-container button#btn-insert {
+  width: 100px;
+  height: 100px;
+  color: black;
+  background-color: white;
+  position: relative;
+  top: -45px;
+}
+
+/*댓글테이블*/
+table#tbl-comment {
+  border-collapse: collapse;
+  clear: both;
+  width: 100%;
+  border-top: solid 3px; 
+}
+
+table#tbl-comment tr td {
+  border-bottom: 1px solid;
+  text-align: left;
+  width: 1000px;
+  padding-top: 15px;
+}
+
+table#tbl-comment sub.comment-writer {
+  color: black;
+  font-size: 14px;
+}
+
+table#tbl-comment sub.comment-date {
+   color: black;
+  font-size: 14px;
+}
+
+#star a{ text-decoration: none; color: gray; } #star a.on{ color: red; }
+
+#ustar a{ text-decoration: none; color: gray; } #ustar a.on{ color: red; }
+
+
+a#btn-insert {
+   margin-bottom: 30px;
+    width: 97.55px;
+    height: 97.55px;
+    line-height: 97.55px;
+    font-size: 20px;
+    background-color: #9db81f;
+    color: white;
+}
+
+.disable { background-color: gray;  }
+
+#deletereply{
+	float: right;
+}
+
+#updatereply{
+	float: right;
+}
+
+div#datepicker {
+    width: 20%;
+    float: left;
+    margin-left: 50px;
+    margin-top: 70px;
+}
+
+#re-button{
+ margin-left: 110px;
+ margin-top: 50px;
+}
+
+#today_text {
+    text-align: center;
+    border-top: solid;
+    padding-top: 50px;
+    font-family: 'Do Hyeon';
+}
+
+.text_today {
+	display: inline-block;
+    top: 35px;
+    transform: translateX(-50%);
+    font-family: var(--font);
+    font-size: 25px;
+    text-align: center;
+   
+}
+
+#today {
+    width: 100%;
+    height: 350px;
+   text-align: center;
+    display: inline-block;
+}
+
+#today .list {
+    text-align: center;
+    width: 250px;
+    height: 330px;
+}
+
+#price_default{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 18px;
+	font-weight: 300;
+	margin: 5px 0 0 86px;
+}
+
+#price_before{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 18px;
+	font-weight: 300;
+	color: gray;
+	text-decoration: line-through;
+	margin: 5px 0 0 86px;
+}
+
+#price_after{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 18px;
+	font-weight: 500;
+	margin: 5px 0 0 86px;
+}
+
+#ticketing{
+	width: 220px;
+    margin-top: 20px;
+    margin-left: 50px;
+    background-color: #9db81f;
+    border: solid 0px;
+}
+
+.rn-0904-tt1 {
+     width: 43px;
+    height: 17px;
+    line-height: 19px;
+    border: 1px solid #ec7d2c;
+    border-radius: 30px;
+    color: #ec7d2c;
+    font-size: 12px;
+    text-align: center;
+    margin-right: 10px;
+    font-weight: 700;
+    padding: 2px;
+}
+
+.rn-0904-tt2 {
+     width: 43px;
+    height: 17px;
+    line-height: 19px;
+    border: 1px solid #0061a8;
+    border-radius: 30px;
+    color: #0061a8;
+    font-size: 12px;
+    text-align: center;
+    margin-right: 10px;
+    font-weight: 700;
+    padding: 2px;
+}
+
+span#showreview {
+    font-size: 30px;
+    font-weight: 600;
+    border-bottom: solid;
+}
+
+.tib {
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+td#replytd {
+    padding: 5px;
+}
+
+textarea#reviewContent {
+}
+
+
+#noreply{
+	text-align: center;
+	margin-top: 30px;
+}
+
+.hhh {
+    font-family: 'Do Hyeon';
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #FF8C00;
+    border: solid 0px;
+}
+
+.recontent{
+	float: left;
+}
+
+a#mateBtn {
+    width: 220px;
+    margin-top: 20px;
+    margin-left: 50px;
+    background-color: #9db81f;
+    border: solid 0px;
+    text-align: center;
+}
+
+section {
+    font-family: 'Noto Sans KR';
+}

@@ -319,13 +319,20 @@ public class MemberController {
 		// 내가 쓴 리뷰 조회
 		@RequestMapping(value="/member/myReviews", method = {RequestMethod.GET})
 		public ModelAndView myReviewsGet(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+				@RequestParam(value="page", required=false, defaultValue="1") int page,
+				@RequestParam(value="listlimit", required=false, defaultValue="10") int listLimit,
 				ModelAndView model) {
 			log.info("내가 쓴 리뷰 글 페이지 get 요청");
 			
 			
 			System.out.println("나의 아이디" + loginMember.getId());
 			
-			List<ShowReview> review = showreview.findMyRevuew(loginMember.getId());
+			int reviewCount = showreview.getReviewCount(loginMember.getId());
+			log.info("나의 댓글 갯수" + reviewCount);
+			
+			PageInfo pageInfo = new PageInfo(page, 10, reviewCount, listLimit);
+			
+			List<ShowReview> review = showreview.findMyRevuew(pageInfo, loginMember.getId());
 			
 			if(review.size() < 1) {
 				System.out.println("작성된 리뷰 없음");
@@ -336,6 +343,7 @@ public class MemberController {
 			}
 			
 			model.addObject("review", review);
+			model.addObject("pageInfo", pageInfo);
 			model.setViewName("member/myReviews");
 			
 			return model;
@@ -361,24 +369,26 @@ public class MemberController {
 		}
 
 		// 비밀번호 찾기
-		@SuppressWarnings("unused")
 		@RequestMapping(value="/member/findPassword", method = {RequestMethod.POST})
 		@ResponseBody
 		public ModelAndView findPassword(ModelAndView model, @ModelAttribute Member member,
 				@RequestParam("inputId_1") String userId, @RequestParam("inputEmail_2") String email, 
-				@RequestParam("inputPhone_2") String phone) throws Exception {
+				@RequestParam("inputPhone_2") String phone){
 			
 			member = memberDao.selectMember(userId);
 			
 			log.info(member.toString());
-			
-			if(member != null) {
-				service.findPwd(userId, email, phone);
-				model.addObject("msg", "임시 비밀번호가 이메일로 발송되었습니다. :)");
+
+			try {
+				if(member != null) {
+					service.findPwd(userId, email, phone);
+					model.addObject("msg", "임시 비밀번호가 이메일로 발송되었습니다. :)");
+					model.addObject("location", "/");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addObject("msg", "해당하는 회원 정보가 없습니다.");
 				model.addObject("location", "/");
-			} else {
-				model.addObject("msg", "등록하신 회원 정보가 없습니다. :<");
-				model.addObject("location", "/member/findIdAndPwd");
 			}
 			
 			model.setViewName("common/msg");

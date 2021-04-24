@@ -8,7 +8,6 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
- 		 font-family: 'Do Hyeon', sans-serif;
 	}
     #shareUpdate-container{ 
         text-align: center;
@@ -19,6 +18,7 @@
     }
     #shareTitle{
         text-align: left;
+        font-family: 'Do Hyeon', sans-serif;
     }
      #share-Title > a{
    	color: black;
@@ -103,7 +103,7 @@
 					             <c:if test="${share.shareOpen == '나눔완료'}">selected</c:if>>나눔완료</option>
 					    </select>
 					</td>
-		            <td><input style="border-radius:5px;height:28px;border:1px solid" type="text" name="shareTitle" id="shareTitle" value="${share.shareTitle }" ></td>		            
+		            <td><input style="border-radius:5px;height:28px;border:1px solid" type="text" name="shareTitle" value="${share.shareTitle }" ></td>		            
 		            <td>
 		        		<input style="border-radius:5px;height:28px;border:1px solid;width:80px;" type="text" name="userNick" id="userNick" value="${loginMember.userNick }" readonly>
 		        	</td>          

@@ -14,7 +14,7 @@
 	     min-height: 800px;
 	     width: 1280px;
 	     margin: 0 auto;
- 		 font-family: 'Do Hyeon', sans-serif;
+ 		
 	}
     #shareView-container{ 
         text-align: center;
@@ -25,6 +25,7 @@
     }
     #share-Title{
         text-align: left;
+        font-family: 'Do Hyeon', sans-serif;
     }
      #share-Title > a{
    	color: black;
@@ -71,7 +72,7 @@
 		background:#9db81f;
 		color: white;
 		position:relative;
-		top:-31px;
+		top:-28.5px;
 	}
     .shareButton{
      	height:35px;
@@ -87,7 +88,7 @@
   
 /*댓글테이블*/
 table#tbl-comment {
-	width:460px; 
+	width:500px; 
 	margin:0 auto; 
 	border-collapse:collapse; 
 	clear:both; 
@@ -115,8 +116,8 @@ table#tbl-comment sub.comment-writer {
 	color:#6c757d; 
 	font-size:9pt;
 	top:8px;
+	
 }
-
 table#tbl-comment sub.comment-date {
 	vertical-align: top;
 	color:lightgray;
@@ -127,16 +128,17 @@ table#tbl-comment sub.comment-date {
 	font-size: 7pt;
 }
 .level2 >td> sub {
-	margin-left:30px;
 	font-size: 7pt;
+}
+.level2 >td> sub.comment-writer {
+	margin-left:15px;
 }
    
 </style>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/0fe4d45686.js"
+		crossorigin="anonymous"></script>
 <section id="shareSection">
 <div id="shareView-container">
 		        <div id="share-Title">
@@ -227,18 +229,19 @@ table#tbl-comment sub.comment-date {
 			    	<tr class="level1">     	
 			    		<td>
 			    			<sub class="comment-writer">${shareReply.userNick}</sub>
-			    			<sub class="comment-Id">${shareReply.shareReplyId}</sub>
 			    			<sub class="comment-date"><fmt:formatDate value="${shareReply.shareReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
 			    			<span style="font-size:9pt;"><c:out value="${shareReply.shareReplyContent}"></c:out></span>
 			    		</td>
-			    		<td>			    		
-		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
+			    		<td>
+			    		<c:if test="${ !empty loginMember}">			    		
 		    		    	<input class="shareReplyId" type="hidden" name="shareReplyId" value="${shareReply.shareReplyId }">
 		    		    	<input type="hidden" name="shareId" id="shareId" value="${shareReply.shareId }">
-		    		    	<a href="javascript:deleteShareReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>
-		    		    	<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;margin-right:5px;top:10px;" class=" glyphicon glyphicon-pencil">답글</span></a>
-		    				
+		    		     <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">	
+		    		    	<a href="javascript:deleteShareReply(${shareReply.shareReplyId })" ><span style="font-size:7pt;color:gray;float:right;"><i class="fas fa-times"></i>삭제</span></a>
+		    		     </c:if>	
+		    		    	<a href="javascript:" id="btn-reWrite"><span style="font-size:7pt;color:gray;float:right;margin-right:5px;"><i class="fas fa-pencil-alt"></i>답글</span></a>
+		    		    	
 		    				<script type="text/javascript">
 		    				$("#btn-reWrite").on("click", () => {
 		    					//	var mateReplyId = $("#mateReplyId").val();
@@ -250,36 +253,35 @@ table#tbl-comment sub.comment-date {
 		    						window.open(url, title, status);
 		    				});
 		    				
-		    				function deleteShareReply(){
+		    				function deleteShareReply(no){
 		    					let shareReplyId = $(".shareReplyId").val();
 		    					if(confirm("댓글을 삭제 하시겠습니까?")){
-		    						location.href = '${path}/share/reply/delete?shareId=' + <%=share.getShareId()%> + '&shareReplyId=' + shareReplyId;
+		    						location.href = '${path}/share/reply/delete?shareId=' + <%=share.getShareId()%> + '&shareReplyId=' + no;
 		    					}
 		    				}
 		    				</script>
 		    			</c:if>
-			    		</td>
+			    	  </td>
 			    	</tr>
 			    	</c:if>	
 	    		    <c:if test="${shareReply.shareReplyId != shareReply.shareReplyGroup }">			    				
 			    	<tr class="level2">	    	
 			    		<td>
-			    			<sub class="comment-writer" >RE:${shareReply.userNick}</sub>
-			    			<sub class="comment-Id">RE:${shareReply.shareReplyId}</sub>
+			    			<sub class="comment-writer">RE:${shareReply.userNick}</sub>
 			    			<sub class="comment-date"><fmt:formatDate value="${shareReply.shareReplyCreateDate}" pattern="yy/MM/dd HH:mm:ss"/></sub> 
 			    			<br>
-			    			<span style="margin-left:30px;font-size:9pt;">→<c:out value="${shareReply.shareReplyContent}"></c:out></span>
+			    			<span style="margin-left:15px;font-size:9pt;">→<c:out value="${shareReply.shareReplyContent}"></c:out></span>
 			    		</td>			    		
 			    		<td>
 		    		    <c:if test="${ !empty loginMember && (loginMember.userNick == shareReply.userNick || loginMember.userRole == 'ROLE_ADMIN')}">
 		    		    	<input type="hidden" name="shareReplyId" id="shareReplyId" value="${shareReply.shareReplyId }">
 		    		    	<input type="hidden" name="shareId" id="shareId" value="${shareReply.shareId }">
-		    				<a href="javascript:deleteShareReReply()" ><span style="font-size:7pt;color:gray;float:right;top:10px;" class="glyphicon glyphicon-remove">삭제</span></a>	    				
+		    				<a href="javascript:deleteShareReReply(${shareReply.shareReplyId })" ><span style="font-size:7pt;color:gray;float:right;"><i class="fas fa-times"></i>삭제</span></a>	    				
 		    				<script type="text/javascript">
-		    				function deleteShareReReply(){
+		    				function deleteShareReReply(no){
 		    					let shareReplyId = $("#shareReplyId").val();
 		    					if(confirm("댓글을 삭제 하시겠습니까?")){
-		    						location.replace('${path}/share/reply/delete?shareId='+ <%=share.getShareId()%>+ '&shareReplyId=' + shareReplyId);
+		    						location.replace('${path}/share/reply/delete?shareId='+ <%=share.getShareId()%>+ '&shareReplyId=' + no);
 		    					}
 		    				}
 		    		    	</script>
@@ -293,26 +295,25 @@ table#tbl-comment sub.comment-date {
 		    <div id="pageBar">
 		    <c:if test="${!empty shareReplies}">
 			<!-- 맨 처음으로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=1'"><span class="glyphicon glyphicon-menu-left"></span><span class="glyphicon glyphicon-menu-left"></span></button>
-			
+			<button type="button" class="btn btn-light btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=1'"><i class="fas fa-angle-double-left"></i></button>	
 			<!-- 이전 페이지로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.prvePage}'"><span class="glyphicon glyphicon-menu-left"></span></button>
+			<button type="button" class="btn btn-light btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.prvePage}'"><i class="fas fa-angle-left"></i></button>
 
 			<!--  10개 페이지 목록 -->
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
 				<c:if test="${status.current == pageInfo.currentPage}">
-					<button type="button" class="btn btn-default btn-xs" disabled><c:out value="${status.current}"/></button>
+					<button type="button" style="height:25px;font-size:7pt;font-weight:bold;"  class="btn btn-light btn-sm" disabled><c:out value="${status.current}"/></button>
    				</c:if>
 				<c:if test="${status.current != pageInfo.currentPage}">
-					<button type="button" class="btn btn-default btn-xs" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${status.current}'"><c:out value="${status.current}"/></button>
+					<button type="button" style="height:25px;font-size:7pt;font-weight:bold;"  class="btn btn-light btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${status.current}'"><c:out value="${status.current}"/></button>
    				</c:if>
 			</c:forEach>
 			
 			<!-- 다음 페이지로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.nextPage}'"><span class="glyphicon glyphicon-menu-right"></span></button>
+			<button type="button"  class="btn btn-light btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.nextPage}'"><i class="fas fa-angle-right"></i></button>
 			
 			<!-- 맨 끝으로 -->
-			<button type="button" class="btn btn-default btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.maxPage}'"><span class="glyphicon glyphicon-menu-right"></span><span class="glyphicon glyphicon-menu-right"></span></button>
+			<button type="button"  class="btn btn-light btn-sm" onclick="location.href='${path}/share/view?shareId=${share.shareId }&page=${pageInfo.maxPage}'"><i class="fas fa-angle-double-right"></i></button>
 		</c:if>
 	  </div>	
 	</div>
