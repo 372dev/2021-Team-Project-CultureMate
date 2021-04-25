@@ -41,7 +41,7 @@
 			   RANK,
 			   STATUS
 		FROM MEMBER
-		WHERE STATUS = 'Y' OR STATUS = 'N'
+        WHERE STATUS = #{status}
 	</sql>
 	
 	
@@ -169,7 +169,7 @@
 		<include refid="searchkeyword"></include>
 		ORDER BY ID DESC
 	</select>
-	
+
 	<insert id="insertMember" parameterType="Member" useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
 		INSERT INTO MEMBER (
 			   ID,

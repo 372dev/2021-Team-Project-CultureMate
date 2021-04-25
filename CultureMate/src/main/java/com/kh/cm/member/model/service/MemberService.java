@@ -51,6 +51,10 @@ public interface MemberService {
 	// 검색한 리스트 불러오기
 	List<Member> memberSearchList(PageInfo pageInfo);
 
+	List<Member> getrankList();
+
+//	List<Member> getrankList();
+
 
 
 	

@@ -9,6 +9,7 @@ h1{
 	line-height: 70px;
 	font-size: 25px;
 	border-radius: 5px;
+	text-indent: 20px;
 
 }
  .nav-item {
@@ -25,6 +26,8 @@ h1{
         
   #searchBtn{
  background-color: #6C757D;
+ border-radius: 5px;
+ color: White;
  
  }
  .table-responsive{
@@ -72,19 +75,19 @@ h1{
 	border:1px solid #ccc;
 }
 .page_nation .pprev {
-	background:#f8f8f8 url('img/page_pprev.png') no-repeat center center;
+	background:#f8f8f8 no-repeat center center;
 	margin-left:0;
 }
 .page_nation .prev {
-	background:#f8f8f8 url('img/page_prev.png') no-repeat center center;
+	background:#f8f8f8 no-repeat center center;
 	margin-right:7px;
 }
 .page_nation .next {
-	background:#f8f8f8 url('img/page_next.png') no-repeat center center;
+	background:#f8f8f8 no-repeat center center;
 	margin-left:7px;
 }
 .page_nation .nnext {
-	background:#f8f8f8 url('img/page_nnext.png') no-repeat center center;
+	background:#f8f8f8 no-repeat center center;
 	margin-right:0;
 }
 .page_nation a.active {
@@ -106,7 +109,7 @@ h1{
           <a class="nav-link" href="${path}/admin/showbook">공연에약관리</a>
           </li>
           <li class="nav-item">
-          <a class="nav-link" href="${path}/admin/adminpage2">통계관리</a>
+          <a class="nav-link" href="${path}/admin/statistics">통계관리</a>
           </li>
           </ul>
 
@@ -181,10 +184,10 @@ h1{
    <div id="pageBar" class="page_wrap">
        <div class="page_nation">
 			<!-- 맨 처음으로 -->
-			<a onclick="location.href='${path}/admin/adminpage?page=1'"  class="arrow pprev">&lt;&lt;</a>
+			<a href ="'${path}/admin/adminpage?page=1'"  class="arrow pprev">&lt;&lt;</a>
 			
 			<!-- 이전 페이지로 -->
-			<a onclick="location.href='${path}/admin/adminpage?page=${pageInfo.prvePage}'" class="arrow prev">&lt;</a>
+			<a href="'${path}/admin/adminpage?page=${pageInfo.prvePage}'" class="arrow prev">&lt;</a>
 
 			<!--  10개 페이지 목록 -->
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" step="1" varStatus="status">
@@ -192,7 +195,7 @@ h1{
 					<a disabled class="active"><c:out value="${status.current}"/></a>
    				</c:if>
 				<c:if test="${status.current != pageInfo.currentPage}">
-					<a onclick="location.href='${path}/admin/adminpage?page=${status.current}'" class="active"><c:out value="${status.current}"/></a>
+					<a href="'${path}/admin/adminpage?page=${status.current}'" class="active"><c:out value="${status.current}"/></a>
    				</c:if>
 			</c:forEach>
 			
