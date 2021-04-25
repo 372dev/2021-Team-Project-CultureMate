@@ -7,6 +7,7 @@ h1{
 	line-height: 70px;
 	font-size: 25px;
 	border-radius: 5px;
+    text-indent: 20px;
 
 }
 .nav-item {
@@ -21,6 +22,8 @@ h1{
         }
  #searchBtn{
  background-color: #6C757D;
+ border-radius: 5px;
+ color: White;
  
  }
  
@@ -69,19 +72,19 @@ h1{
 	border:1px solid #ccc;
 }
 .page_nation .pprev {
-	background:#f8f8f8 url('img/page_pprev.png') no-repeat center center;
+	background:#f8f8f8 no-repeat center center;
 	margin-left:0;
 }
 .page_nation .prev {
-	background:#f8f8f8 url('img/page_prev.png') no-repeat center center;
+	background:#f8f8f8 no-repeat center center;
 	margin-right:7px;
 }
 .page_nation .next {
-	background:#f8f8f8 url('img/page_next.png') no-repeat center center;
+	background:#f8f8f8 no-repeat center center;
 	margin-left:7px;
 }
 .page_nation .nnext {
-	background:#f8f8f8 url('img/page_nnext.png') no-repeat center center;
+	background:#f8f8f8 no-repeat center center;
 	margin-right:0;
 }
 .page_nation a.active {

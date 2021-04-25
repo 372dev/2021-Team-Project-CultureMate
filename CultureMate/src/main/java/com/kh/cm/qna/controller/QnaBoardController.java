@@ -177,6 +177,7 @@ public class QnaBoardController {
 				hm.put("replyWriterNo", replyVo.get(i).getReplyWriterNo());
 				hm.put("qnaReContent", replyVo.get(i).getQnaReContent());
 				hm.put("createDate", replyVo.get(i).getReplyCreateDate().substring(0, 10));
+				hm.put("qnaReId", replyVo.get(i).getQnaReId());
 				System.out.println("1=" + replyVo.get(i).getUserId());
 				System.out.println("2=" + replyVo.get(i).getReplyWriterNo());
 				System.out.println("3=" + replyVo.get(i).getQnaReContent());
@@ -251,5 +252,17 @@ public class QnaBoardController {
 		return model;
 	}
 	
+	@RequestMapping(value="/delReply", method = {RequestMethod.GET})
+	@ResponseBody
+	public int delReply(@RequestParam("qnaReId")int qnaReId, ModelAndView model, @SessionAttribute(name="loginMember", required = false)  Member loginMember,
+			HttpServletRequest request) {
+		
+		System.out.println(qnaReId);
+        System.out.println("삭제 함수 실행");
+        
+        service.delReply(qnaReId);
+      
+        return qnaReId;
+	}
 	
 }

@@ -1,9 +1,10 @@
 package com.kh.cm.member.controller;
 
 
+
 import java.util.Collection;
 import java.util.List;
-
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,7 +28,6 @@ import com.kh.cm.member.model.service.MemberService;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.share.model.vo.Share;
 import com.kh.cm.ticket.model.dao.TicketDao;
-import com.kh.cm.ticket.model.vo.Ticket;
 import com.kh.cm.mkshow.model.service.ShowReviewService;
 import com.kh.cm.mkshow.model.vo.ShowReview;
 
@@ -519,5 +519,51 @@ public class MemberController {
 	        
 			return model;
 		}
+		
+		@RequestMapping(value = "/admin/statistics", method = {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+		@ResponseBody
+		public ModelAndView getRankList(ModelAndView model) {
+			
+			List<Member> list = service.getrankList();
+			
+			model.addObject("list", list);
+			model.setViewName("/admin/statistics");
+			
+			System.out.println("리스트 사이즈 : " + list.size());
+			
+			String str = "[";
+			str += "['회원Id', '등급'],";
+			
+			int num =0;
+			for(Member member : list) {
+				
+				str += "['";
+				str += member.getUserId();
+				str += "' , ";
+				str += member.getRank();
+				str += " ]";
+				
+				num ++;
+				if(num<list.size()) {
+					str +=",";
+				}
+				
+			}
+			str += "]";
+			model.addObject("str",str);
+			return model;
+			
+			
+		}
+//		public String getRankList(Locale locale, ModelAndView model) {
+//			
+//			Gson gson = new Gson();
+//			
+//			List<Member> list = service.getrankList();
+//	        
+//	        return gson.toJson(list);
+//			
+//			
+//		}
 		
 }

@@ -1,5 +1,6 @@
 package com.kh.cm.member.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -47,6 +48,10 @@ public interface MemberDao {
 	int selectmemSearchCount(@Param("search") String search, @Param("keyword")String keyword);
 
 	List<Member> selectmemSearchList(RowBounds rowBounds, PageInfo pageInfo);
+
+	List<Member> selectRankLsit();
+
+	
 
 
 	

@@ -204,6 +204,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int adminupdateMember(Member member) {
 		
+		
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		
 		return memberDao.allfindMemberUpdate(member);
@@ -230,6 +231,18 @@ public class MemberServiceImpl implements MemberService {
 		RowBounds rowBounds = new RowBounds(offset, pageInfo.getListLimit());
 		
 		return memberDao.selectmemSearchList(rowBounds, pageInfo);
+	}
+//
+//	@Override
+//	public List<Member> getrankList() {
+//
+//		return memberDao.selectRankLsit();
+//	}
+
+	@Override
+	public List<Member> getrankList() {
+	
+		return memberDao.selectRankLsit();
 	}
 
 

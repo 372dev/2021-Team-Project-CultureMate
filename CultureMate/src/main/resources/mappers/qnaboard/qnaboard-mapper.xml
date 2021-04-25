@@ -96,7 +96,7 @@
 		FROM QNA_REPLY
 		WHERE QNA_ID = #{qnaId} AND STATUS = 'Y'
 		ORDER BY REPLY_CREATE_DATE
-	    </select>
+	    </select>  
 	
 	<!-- 
 	<select id="selectqnaReplyList" parameterType="string" resultMap="qnaboardReplyResultMap">
@@ -157,6 +157,12 @@
 		WHERE 
 			QNA_ID=#{qnaId}	
 	</update>
-  	
+	
+	<update id="delReply" parameterType="_int">
+	  UPDATE QNA_REPLY
+		SET
+		STATUS = 'N'
+		WHERE QNA_RE_ID = #{qnaReId}	
+	</update>
 	
 </mapper>
