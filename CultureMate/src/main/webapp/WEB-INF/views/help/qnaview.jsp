@@ -171,6 +171,8 @@ function delReply(qnaReId) {
 	}else{
 		alert("취소하였습니다.");
 	}
+	
+	
 }
 </script>
 
