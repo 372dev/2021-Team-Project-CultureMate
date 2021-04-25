@@ -317,7 +317,7 @@ public class TicketController {
 			
 			model.addObject("loginMember", ticketservice.findMemberByUserId(member.getUserId()));
 			model.addObject("msg", "예매 취소를 완료했습니다.");
-			model.addObject("location", "/member/ticket");
+			model.addObject("location", "/admin/showbook");
 			model.setViewName("common/msg");
 			
 		} else {

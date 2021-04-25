@@ -43,21 +43,21 @@
 		</div>
 		
 		<div class="container">
-		<form method="post" name="commentInsertForm" id="commentInsertForm">
+		<form method="GET" name="commentInsertForm" id="commentInsertForm">
 		<label for="content">댓글</label>
 			<div class="input-group">
 				<c:if
 					test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
 					<input type="hidden" name="qnaId" id="qnaId" value="${qnaboard.qnaId}" />
+					<input type="hidden" name="userId" id="userId" value="${loginMember.userId}" />
 					<input type="text" class="form-control" id="qnaReContent"
 						name="qnaReContent" placeholder="내용을 입력하세요.">
 					<span class="input-group-btn">
-						<button class="btn btn-default" type="submit" onclick="fn_reply('${qnareply.qnaReId}')"
+						<button class="btn btn-default" type="submit" onclick="fn_reply()"
 							name="commentInsertBtn" id="commentInsertBtn">등록</button>
 					</span>
 				</c:if>
 			</div>
-
 		</form>
 	</div>
 
@@ -69,6 +69,7 @@
 		</div>
 	</div>
 </div>
+
 <script>
 	function updateBoard() {
 		location.href = "${path}/help/qnaupdate?qnaId=${qnaboard.qnaId}";
@@ -80,7 +81,7 @@
 		}
 	}
 	
-	function fn_reply(){
+function fn_reply(){
 		
 		$.ajax({
 			type : 'POST',
@@ -89,16 +90,68 @@
 			success : function(data){
 				if(data == "success")
 			{
-					//getqnaReplyList();
-					$("#qnaReContent").val("");
+					console.log("정상저장?");
+					getqnaReplyList();
+				  $("#qnaReContent").val("");
 			}
 		},
 		error:function(request,status,error){
 		}
 			
 		});
+		
 	}
-</script>
 
+$(function(){
+	
+	getCommentList();
+});
+
+function getCommentList(){
+	console.log("getCommentList 오는거니?");
+$.ajax({
+    type:'GET',
+    url : "<c:url value='/help/replyList.do'/>",
+    dataType : "json",
+    data:$("#commentInsertForm").serialize(),
+    contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+    success : function(data){
+        
+        var html = "";
+        var cCnt = data.length;
+        
+        if(data.length > 0){
+            
+        	for(i=0; i<data.length; i++){
+                html += "<div>";
+                html += "<div><table class='table'><h6><strong>"+data[i].userId+ " | " + data[i].createDate +"</strong>";
+                html += "</h6>";
+                html += data[i].qnaReContent + "<tr><td></td></tr>";
+                html += "</table>"
+                html += "</div>";
+                html += "</div>";
+            }
+            
+        } else {
+            
+            html += "<div>";
+            html += "<div><table class='table'><h6><strong>등록된 댓글이 없습니다.</strong></h6>";
+            html += "</table></div>";
+            html += "</div>";
+            
+        }
+        
+        $("#cCnt").html(cCnt);
+        $("#commentList").html(html);
+        
+    },
+    error:function(request,status,error){
+        
+   }
+    
+});
+}
+	
+</script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

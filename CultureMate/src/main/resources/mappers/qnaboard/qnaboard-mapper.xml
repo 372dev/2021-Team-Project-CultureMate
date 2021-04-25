@@ -57,10 +57,11 @@
 	
 	<resultMap type="qnaReply" id="qnaboardReplyResultMap">
 		<id property="qnaReId" column="QNA_RE_ID"/>
-		<result property="qnaId" column="R_QNA_ID"/>
-		<result property="userId" column="R_USER_ID"/>
+		<result property="qnaId" column="QNA_ID"/>
+		<result property="replyWriterNo" column="REPLY_WRITER_NO"/>
+		<result property="userId" column="USER_ID"/>
 		<result property="qnaReContent" column="QNA_RE_CONTENT"/>
-		<result property="status" column="R_STATUS"/>
+		<result property="status" column="STATUS"/>
 		<result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
 		<result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
 	</resultMap>
@@ -90,6 +91,13 @@
 	      WHERE Q.STATUS='Y' AND Q.QNA_ID=#{qnaId}
 	</select>
 	
+	<select id="selectqnaReplyList" parameterType="int" resultMap="qnaboardReplyResultMap">
+        SELECT *
+		FROM QNA_REPLY
+		WHERE QNA_ID = #{qnaId} AND STATUS = 'Y'
+		ORDER BY REPLY_CREATE_DATE
+	    </select>
+	
 	<!-- 
 	<select id="selectqnaReplyList" parameterType="string" resultMap="qnaboardReplyResultMap">
 	  SELECT *
@@ -109,13 +117,28 @@
   			#{qnaType},
   			#{qnaTitle},
   			#{qnaContent},
-  			DEFAULT,
+  		    #{qnaOpenStatus},
   			DEFAULT,
   			DEFAULT,
   			DEFAULT
-
  		)
   	</insert>
+  	
+  	<insert id="insertqnaReply"  parameterType="map"
+  		useGeneratedKeys="true" keyProperty="qnaReId" keyColumn="QNA_RE_ID">
+  			INSERT INTO QNA_REPLY
+  			VALUES (
+  				SEQ_QNA_RE_ID.NEXTVAL,
+	  			#{qnaId},
+	  			#{replyWriterNo},
+	  			#{qnaReContent},
+	  			DEFAULT,
+	  			DEFAULT,
+	  			DEFAULT,
+	  			#{userId}
+  			)
+  		</insert>
+  		
   	
   	<update id="updateqnaBoard" parameterType="qnaBoard">
 		UPDATE QNA_BOARD 
@@ -126,25 +149,6 @@
 		WHERE 
 			QNA_ID=#{qnaId}
 	</update>	
-  	
-  		<insert id="insertqnaReply"  parameterType="map"
-  		useGeneratedKeys="true" keyProperty="qnaReId" keyColumn="QNA_RE_ID">
-  			INSERT INTO QNA_REPLY
-  			VALUES (
-  				SEQ_QNA_RE_ID.NEXTVAL,
-	  			#{qnaId},
-	  			#{replyWriterNo},
-	  			#{qnaReContent},
-	  			DEFAULT,
-	  			DEFAULT,
-	  			DEFAULT
-  			)
-  		</insert>
-  		
-  		<select id="selectqnaReplyList" parameterType="map" resultMap="qnaboardReplyResultMap">
-		<include refid="qnaReplyListSql"></include>
-		ORDER BY R.QNA_REPLY DESC
-	    </select>
 	
 	<update id="deleteQna" parameterType="_int">
 	  UPDATE QNA_BOARD

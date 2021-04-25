@@ -21,7 +21,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cm.common.util.PageInfo;
-import com.kh.cm.cs.model.vo.CsBoard;
 import com.kh.cm.member.model.vo.Member;
 import com.kh.cm.qna.model.service.QnaBoardService;
 import com.kh.cm.qna.model.vo.QnaBoard;
@@ -68,19 +67,17 @@ public class QnaBoardController {
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember, QnaBoard qnaboard,
 			HttpServletRequest request,
 			ModelAndView model) {
-
 		int result =0;
 		
-		
+		String status = qnaboard.getQnaOpenStatus() != null ? "N" : "Y";
+		qnaboard.setQnaOpenStatus(status);
 		
 		if(loginMember.getUserId().equals(qnaboard.getUserId())) {
 			qnaboard.setQnaWriterNo(loginMember.getId());
-			
 			System.out.println(qnaboard);
 		}
 		
 		result = service.saveqnaBoard(qnaboard);
-		
 		 if (result>0) { 
 			  model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
 			  model.addObject("loaction", "/help/qnalist");
@@ -110,23 +107,34 @@ public class QnaBoardController {
 //	@RequestMapping(value = "qnareply", method = {RequestMethod.POST})
 //	public ModelAndView qnareply(
 //			            @SessionAttribute(name = "loginMember", required = false) Member loginMember,
-//			            @RequestParam int qnaId, @RequestParam int replyWriterNo, @RequestParam String qnaReContent,
+//			            @RequestParam("qnaId") int qnaId, @RequestParam("replyWriterNo") int replyWriterNo, 
+//			            @RequestParam("qnaReContent") String qnaReContent, QnaReply qnareply,
 //			            ModelAndView model) {
 //		int result=0;
 //		
-//		   QnaReply qnareply = new QnaReply();
-//		   
-//		   qnareply.setQnaId(qnaId);
-//		   qnareply.setReplyWriterNo(loginMember.getId());
-//		   qnareply.setQnaReContent(qnaReContent);
+//		if(loginMember.getUserId().equals(qnareply.getUserId())) {
+//			qnareply.setQnaId(qnaId);
+//			qnareply.setQnaReContent(qnaReContent);
+//			qnareply.setReplyWriterNo(loginMember.getId());
+//
+//		   result = service.saveQnaReply(qnareply);
 //		
 //		   System.out.println(qnareply);
 //		   
-//		   result = service.getqnaReply(qnareply);
-//		   
-//		   model.addObject("qnareply", qnareply);
-//		   model.setViewName("help/qnaview");
-//		   
+//		   if(result > 0) {
+//				model.addObject("msg", "댓글이 등록되었습니다.");
+//				model.addObject("location", "/help/qnaview?qnaId=" + qnareply.getQnaId());
+//			} else {
+//				model.addObject("msg", "댓글 등록에 실패했습니다.");
+//				model.addObject("location", "/help/qnalist");
+//			}
+//		} else {
+//			model.addObject("msg", "잘못된 접근입니다.");
+//			model.addObject("location", "/");
+//		}
+//		
+//		model.setViewName("common/msg");
+//				
 //		return model;
 //	}
 	
@@ -135,6 +143,7 @@ public class QnaBoardController {
      public String ajax_addReply(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
     		 @SessionAttribute("loginMember") Member loginMember) {
 		
+			System.out.println("유저아이디??" + qnareply.getUserId());
 		    try {
 		    	qnareply.setReplyWriterNo(loginMember.getId());
 		    	service.addreply(qnareply);
@@ -146,29 +155,39 @@ public class QnaBoardController {
 		return "success";
 	}
 	
-//	@RequestMapping(value = "replyList.do", produces = "applicaion/json; charset=utf-8")
-//	@ResponseBody
-//	public String ajax_replyList(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
-//			                   @SessionAttribute(name = "loginMember", required = false ) Member loginMember) throws Exception{
-//
-//		ArrayList<HashMap> hmList = new ArrayList<HashMap>();
-//		
-//		List<QnaReply> replyVo = service.getqnaReplyList(qnareply.getQnaId());
-//		
-//		if(replyVo.size() > 0) {
-//			for(int i = 0; i < replyVo.size(); i++) {
-//				HashMap<String, Comparable> hm = new HashMap();
-//				hm.put("userId", replyVo.get(i).getUserId());
-//				hm.put("replyWriterNo", replyVo.get(i).getReplyWriterNo());
-//				hm.put("qnaReContent", replyVo.get(i).getQnaReContent());
-//				hmList.add(hm);
-//			}
-//		}
-//		
-//		JSONArray json = new JSONArray(hmList);   
-//		return json.toString();
-//
-//	}
+	@RequestMapping(value = "replyList.do", produces = "applicaion/json; charset=utf-8")
+	@ResponseBody
+	public String ajax_replyList(@ModelAttribute("qnareply") QnaReply qnareply, HttpServletRequest request,
+			                   @SessionAttribute(name = "loginMember", required = false ) Member loginMember
+			                ) throws Exception{
+
+		ArrayList<HashMap> hmList = new ArrayList<HashMap>();
+	
+	     // 게시물 댓글
+        //System.out.println("게시글 아이디 " + qnareply.get);
+		System.out.println("게시글의 어아다" + qnareply.getQnaId());
+		List<QnaReply> replyVo = service.getqnaReplyList(qnareply.getQnaId());
+		
+		System.out.println("댓글 리스트 추출 성공?");
+		
+		if(replyVo.size() > 0) {
+			for(int i = 0; i < replyVo.size(); i++) {
+				HashMap<String, Comparable> hm = new HashMap();
+				hm.put("userId", replyVo.get(i).getUserId());
+				hm.put("replyWriterNo", replyVo.get(i).getReplyWriterNo());
+				hm.put("qnaReContent", replyVo.get(i).getQnaReContent());
+				hm.put("createDate", replyVo.get(i).getReplyCreateDate().substring(0, 10));
+				System.out.println("1=" + replyVo.get(i).getUserId());
+				System.out.println("2=" + replyVo.get(i).getReplyWriterNo());
+				System.out.println("3=" + replyVo.get(i).getQnaReContent());
+				hmList.add(hm);
+			}
+		}
+		
+		JSONArray json = new JSONArray(hmList);   
+		return json.toString();
+
+	}
 	
 	
 	@RequestMapping(value = "/qnaupdate", method = {RequestMethod.GET})

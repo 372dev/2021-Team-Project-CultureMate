@@ -693,7 +693,7 @@ $(function(){
 
 // 댓글 불러오기 
 function getCommentList(){
-	
+	console.log("내댓글불러옴?");
 	$.ajax({
 		type:'GET',
         url : "<c:url value='/review/list.do'/>",
