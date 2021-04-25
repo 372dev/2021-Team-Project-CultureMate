@@ -81,7 +81,7 @@
 									<th>제목</th>
 									<th>작성일</th>
 								</tr>
-					            <c:if test="${postList == null}">
+					            <c:if test="${postList == '[]'}">
 									<tr id="postList-tr">
 										<td colspan="5">
 											조회된 게시글이 없습니다.
