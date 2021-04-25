@@ -5,7 +5,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <style>
      #shareSection {
-	     min-height: 800px;
+	     min-height: 600px;
 	     width: 1280px;
 	     margin: 0 auto;
 	     
@@ -14,7 +14,7 @@
         text-align: center;
 		margin: 0 auto;
 		width: 1000px;
-		height: 950px;
+		height: 600px;
    
     }
     #share-Title{
