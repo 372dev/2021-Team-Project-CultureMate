@@ -251,5 +251,17 @@ public class QnaBoardController {
 		return model;
 	}
 	
+	@RequestMapping(value="/delReply", method = {RequestMethod.GET})
+	@ResponseBody
+	public int delReply(@RequestParam("qnaReId")int qnaReId, ModelAndView model, @SessionAttribute(name="loginMember", required = false)  Member loginMember,
+			HttpServletRequest request) {
+		
+		System.out.println(qnaReId);
+        System.out.println("삭제 함수 실행");
+        
+        service.delReply(qnaReId);
+      
+        return qnaReId;
+	}
 	
 }

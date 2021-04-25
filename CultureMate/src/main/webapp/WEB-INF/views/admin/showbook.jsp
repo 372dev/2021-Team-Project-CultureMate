@@ -7,6 +7,7 @@ h1{
 	line-height: 70px;
 	font-size: 25px;
 	border-radius: 5px;
+    text-indent: 20px;
 
 }
 .nav-item {
@@ -21,6 +22,8 @@ h1{
         }
  #searchBtn{
  background-color: #6C757D;
+ border-radius: 5px;
+ color: White;
  
  }
  

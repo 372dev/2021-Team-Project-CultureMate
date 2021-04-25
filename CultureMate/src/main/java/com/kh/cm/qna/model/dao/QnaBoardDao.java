@@ -27,6 +27,15 @@ public interface QnaBoardDao {
 
 	int insertQnaReply(QnaReply qnareply);
 
+	int delReply(int qnaReId);
+
+	List<QnaReply> findUserId(int no);
+
+	int countReply(int replyWriterNo);
+
+
+
+
 
 
 

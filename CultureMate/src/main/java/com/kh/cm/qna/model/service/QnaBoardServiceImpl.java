@@ -79,6 +79,25 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 		return qnaboardDao.selectqnaReplyList(qnaId);
 	}
 
+	@Override
+	public int delReply(int qnaReId) {
+		
+		return qnaboardDao.delReply(qnaReId);
+	}
+
+	@Override
+	public List<QnaReply> findReplyWriter(int no) {
+		
+		return qnaboardDao.findUserId(no);
+	}
+
+	@Override
+	public int countReview(int replyWriterNo) {
+
+		return qnaboardDao.countReply(replyWriterNo);
+	}
+
+
 
 
 	

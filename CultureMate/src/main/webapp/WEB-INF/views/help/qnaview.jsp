@@ -3,12 +3,10 @@
 
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-<h2>게시판</h2>
-
 <div class="row">
 	<div class="col-xs-2 col-md-2"></div>
 	<div class="col-xs-8 col-md-8">
-		<h2 class="text-center">게시글 보기</h2>
+		<h2 class="text-center">게시글 보기<span id="stats1"></span></h2>
 		<p>&nbsp;</p>
 		<div class="table table-responsive">
 		
@@ -30,11 +28,11 @@
 					<td colspan="3">${qnaboard.qnaContent}</td>
 				</tr>
 				<tr>
-					<th colspan="2"><c:if
-							test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
-							<button type="button" onclick="updateBoard()">수정</button>
-							<button type="button" onclick="deleteBoard()">삭제</button>
-						</c:if>
+					<th colspan="2">
+					<c:if test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
+						<button type="button" onclick="updateBoard()">수정</button>
+						<button type="button" onclick="deleteBoard()">삭제</button>
+					</c:if>
 					<button type="button"
 							onclick="location.replace('${path}/help/qnalist')">목록으로</button>
 					</th>
@@ -126,7 +124,8 @@ $.ajax({
                 html += "<div>";
                 html += "<div><table class='table'><h6><strong>"+data[i].userId+ " | " + data[i].createDate +"</strong>";
                 html += "</h6>";
-                html += data[i].qnaReContent + "<tr><td></td></tr>";
+                html += '<a id="delReply" href="#" onclick="delReply(' + data[i].qnaReId +')"><img alt="삭제" src="${ path }/resources/images/view/trash-fill.svg"></a>';
+                html += data[i].qnaReContent + "<tr><td></td></tr>"
                 html += "</table>"
                 html += "</div>";
                 html += "</div>";
@@ -150,8 +149,29 @@ $.ajax({
    }
     
 });
+
 }
-	
+
+function delReply(qnaReId) {  
+	var rlt = confirm("삭제하시겠습니까?");
+	if(rlt){
+	console.log("del실행" + qnaReId);
+  $.ajax({
+      type : 'GET',
+      url : "<c:url value='/help/delReply?qnaReId=" + qnaReId + "'/>",
+    success : function (data) {
+    	
+    	console.log("삭제쓰");
+    	var html1 = data;
+        $("#stats1").html(html);
+    	getCommentList();
+	}
+  });
+  	alert("삭제되었습니다.");
+	}else{
+		alert("취소하였습니다.");
+	}
+}
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

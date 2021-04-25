@@ -231,6 +231,18 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDao.selectmemSearchList(rowBounds, pageInfo);
 	}
+//
+//	@Override
+//	public List<Member> getrankList() {
+//
+//		return memberDao.selectRankLsit();
+//	}
+
+	@Override
+	public List<Member> getrankList() {
+	
+		return memberDao.selectRankLsit();
+	}
 
 
 
