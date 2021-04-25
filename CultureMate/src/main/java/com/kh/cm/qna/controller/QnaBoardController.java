@@ -177,6 +177,7 @@ public class QnaBoardController {
 				hm.put("replyWriterNo", replyVo.get(i).getReplyWriterNo());
 				hm.put("qnaReContent", replyVo.get(i).getQnaReContent());
 				hm.put("createDate", replyVo.get(i).getReplyCreateDate().substring(0, 10));
+				hm.put("qnaReId", replyVo.get(i).getQnaReId());
 				System.out.println("1=" + replyVo.get(i).getUserId());
 				System.out.println("2=" + replyVo.get(i).getReplyWriterNo());
 				System.out.println("3=" + replyVo.get(i).getQnaReContent());

@@ -121,6 +121,7 @@ $.ajax({
         if(data.length > 0){
             
         	for(i=0; i<data.length; i++){
+        		console.log(data[i]);
                 html += "<div>";
                 html += "<div><table class='table'><h6><strong>"+data[i].userId+ " | " + data[i].createDate +"</strong>";
                 html += "</h6>";
@@ -152,7 +153,7 @@ $.ajax({
 
 }
 
-function delReply(qnaReId) {  
+function delReply(qnaReId) {
 	var rlt = confirm("삭제하시겠습니까?");
 	if(rlt){
 	console.log("del실행" + qnaReId);
@@ -162,7 +163,7 @@ function delReply(qnaReId) {
     success : function (data) {
     	
     	console.log("삭제쓰");
-    	var html1 = data;
+    	var html = data;
         $("#stats1").html(html);
     	getCommentList();
 	}
