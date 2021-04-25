@@ -37,7 +37,7 @@
 			<div class="list-group ">
               <a href="${ path }/member/myPage" class="list-group-item list-group-item-action">회원정보 수정</a>
               <a href="${ path }/member/updatePwd" class="list-group-item list-group-item-action active">비밀번호 변경</a>
-			  <a href="${ path }//member/ticket" class="list-group-item list-group-item-action">예매내역</a>
+			  <a href="${ path }/member/ticket" class="list-group-item list-group-item-action">예매내역</a>
               <a href="${ path }/member/myPosts" class="list-group-item list-group-item-action">내가 쓴 글 조회</a>
               <a href="${ path }/member/myReviews" class="list-group-item list-group-item-action">내가 쓴 리뷰 조회</a>
 			</div>
@@ -93,12 +93,12 @@
 		// 비밀번호 유효성 검사
 		// 1. 정규식 체크
 		$("#newpwd1").blur(function(){
-			if(pwJ.test($("#newpwd1").val())){
+			if(pwJ.test($("#newpwd1").val()) && ($("#newpwd1").val().trim() !== $("#password").val().trim())){
 				console.log('true');
 				$("#pwd_check1").text('');
-			} else if($("#newpwd1").val() == $("#password").val()){
+			} else if(pwJ.test($("#newpwd1").val()) && ($("#newpwd1").val().trim() === $("#password").val().trim())){
 				console.log('same');
-				$("#pwd_check1").text('현재 비밀번호와 동일합니다.');
+				$("#pwd_check1").text("현재 비밀번호와 동일합니다.");
 				$("#pwd_check1").css("color", "red");
 			} else {
 				console.log('false');

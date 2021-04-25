@@ -32,6 +32,7 @@
 	.btn:hover{
 		color: white;
 	}
+]
 </style>
 
 <section>
@@ -49,10 +50,12 @@
               </div>
             </div>
         </form>
-    </div>
-	<a href="${ path }/member/findIdAndPwd" >
-		아이디 | 비밀번호 찾기
-	</a>
+    </div><br>
+    <div style="padding-left: 208px">
+		<a href="${ path }/member/findIdAndPwd" >
+			아이디 | 비밀번호 찾기
+		</a>
+	</div>
 </section>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

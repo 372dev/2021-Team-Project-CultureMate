@@ -61,6 +61,12 @@
                                 </div>
                               </div>
                               <div class="form-group row">
+                                <label for="rank" class="col-4 col-form-label">회원등급</label> 
+                                <div class="col-8">
+                                  <input id="rank" name="rank" value="${ loginMember.rank }" class="form-control here" readonly required="required" type="text">
+                                </div>
+                              </div>
+                              <div class="form-group row">
                                 <label for="password" class="col-4 col-form-label">현재 비밀번호</label> 
                                 <div class="col-8">
                                   <input id="password" name="password" placeholder="현재 비밀번호" class="form-control here" type="password" required>

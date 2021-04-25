@@ -121,13 +121,18 @@ public class TicketController {
 			int ticket_num = ticket.getTicket_num();
 			model.addObject("ticket_num", ticket_num);
 			
+			ticketservice.createQR(String.valueOf(ticket.getTicket_num()), request);
+			log.info("qr 생성");
+			ticketservice.sendTicket(ticket, loginMember.getEmail(), request);
+			log.info("티켓 발송");
+			
 		} else {
 			model.addObject("msg", "결제가 정상적으로 이루어지지 않았습니다.");
 			model.addObject("location", "${path}/ticket/ticketing/fail");
 		}
 		
 		System.out.println("controller_success_model : " + model);
-		showreviewservice.setreserve(ticket);
+		//showreviewservice.setreserve(ticket);
 		return model;
 	}
 
@@ -204,7 +209,7 @@ public class TicketController {
 			}
 			
 			model.addObject("loginMember", ticketservice.findMemberByUserId(loginMember.getUserId()));
-			model.addObject("msg", "예매 취소를 완료했습니다.");
+			model.addObject("msg", "예매 취소를 완료했습니다. 영업일 3일 이내에 결제 취소가 승인됩니다.");
 			model.addObject("location", "/member/ticket");
 			model.setViewName("common/msg");
 			
@@ -312,7 +317,7 @@ public class TicketController {
 			
 			model.addObject("loginMember", ticketservice.findMemberByUserId(member.getUserId()));
 			model.addObject("msg", "예매 취소를 완료했습니다.");
-			model.addObject("location", "/member/ticket");
+			model.addObject("location", "/admin/showbook");
 			model.setViewName("common/msg");
 			
 		} else {
@@ -339,24 +344,4 @@ public class TicketController {
 		return "ticket/TeamIntro";
 
 	}
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
