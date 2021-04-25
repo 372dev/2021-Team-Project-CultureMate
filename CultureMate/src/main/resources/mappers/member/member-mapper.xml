@@ -41,7 +41,7 @@
 			   RANK,
 			   STATUS
 		FROM MEMBER
-		WHERE STATUS = 'Y' OR STATUS = 'N'
+        WHERE STATUS = #{status}
 	</sql>
 	
 	

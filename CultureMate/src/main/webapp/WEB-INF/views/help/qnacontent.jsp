@@ -75,9 +75,12 @@ margin-top: 30px
 #form{
 margin-top: 10px
 }
+.qnaagree{
+  text-align: center;
+}
 </style>
 
-
+<div class="col">
 <p class="csname">고객센터</p>
 
 <ul class="nav nav-pills nav-fill">
@@ -96,6 +99,7 @@ margin-top: 10px
 		<li class="qnalist2"><a href="${path}/help/qnacontent">문의하기</a></li>
 	</ul>
 </nav>
+</div>
 
 <article>
 
@@ -113,7 +117,7 @@ margin-top: 10px
 
 					<select name="qnaType" class="form-control" name="title" id="title"
 						required>
-						<option selected>문의유형선택</option>
+						<option value="">문의유형선택</option>
 						<option value="공연">공연</option>
 						<option value="메이트/티켓나눔">메이트/티켓나눔 게시판</option>
 					</select>
@@ -147,7 +151,7 @@ margin-top: 10px
 
 					<i class="far fa-edit"></i><label for="content">내용</label>
 
-					<textarea class="form-control" rows="5" name="qnaContent"
+					<textarea class="form-control" rows="5" name="qnaContent" style="resize: none; height: 400px;"
 						id="content" placeholder="내용을 입력해 주세요" required></textarea>
 
 				</div>
@@ -156,8 +160,7 @@ margin-top: 10px
 					<pre>
             수집하는 개인정보[(필수)이메일, 문의내용],[(선택)첨부파일]눈 문의 내용처리 및 처리 및
             고객 불만의 해결을위해 사요외며, 관련 법령에 따라 3년간 보관후 삭제됩니다.
-            문의 접수, 처리 및 회신을 위한 필욫최소산의 개인정보이므로 동의를 해주셔야 
-            서비스를 이용하실 수 있습니다.
+            문의 접수, 처리 및 회신을 위한 필욫최소산의 개인정보이므로 동의를 해주셔야 서비스를 이용하실 수 있습니다.
             <input type="checkbox" required> 위, 개인정보 수집 및 이용에 동의합니다.
              
           </pre>
