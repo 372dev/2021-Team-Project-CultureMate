@@ -49,6 +49,7 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/member/**"/>
+			<mapping path="/help/**"/>
 			
 			<exclude-mapping path="/member/enroll"/>
 			<exclude-mapping path="/member/idCheck"/>
@@ -56,6 +57,12 @@
 			<exclude-mapping path="/member/findIdAndPwd"/>
 			<exclude-mapping path="/member/findId"/>
 			<exclude-mapping path="/member/findPassword"/>
+			<exclude-mapping path="/help/csfaqview"/>
+			<exclude-mapping path="/help/csmain"/>
+			<exclude-mapping path="/help/cswrite"/>
+			<exclude-mapping path="/help/notice"/>
+			<exclude-mapping path="/help/qnalist"/>
+			<exclude-mapping path="/help/qnaview"/>
 
 			<beans:bean id="loginCheckInterceptor" class="com.kh.cm.common.interceptor.LoginCheckInterceptor" ></beans:bean>
 		</interceptor>
