@@ -752,7 +752,7 @@ function getCommentList(){
             		if(data[i].reserve == 'Y'){
             			html += '<sub class="rn-0904-tt1">관람평</sub>'; 
             		}else{
-            			html += '<sub class="rn-0904-tt1">기대평</sub>'; 
+            			html += '<sub class="rn-0904-tt2">기대평</sub>'; 
             		}
              		
              		html += '<sub class="comment-writer">' +data[i].userNick+ ' | </sub>'; 
