@@ -204,6 +204,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int adminupdateMember(Member member) {
 		
+		
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		
 		return memberDao.allfindMemberUpdate(member);
