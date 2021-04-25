@@ -69,12 +69,12 @@ public class QnaBoardController {
 			ModelAndView model) {
 		int result =0;
 		
+		String status = qnaboard.getQnaOpenStatus() != null ? "N" : "Y";
+		qnaboard.setQnaOpenStatus(status);
+		
 		if(loginMember.getUserId().equals(qnaboard.getUserId())) {
 			qnaboard.setQnaWriterNo(loginMember.getId());
-			
 			System.out.println(qnaboard);
-			String status = qnaboard != null ? "N" : "Y";
-			qnaboard.setQnaOpenStatus(status);
 		}
 		
 		result = service.saveqnaBoard(qnaboard);
