@@ -204,7 +204,8 @@ public class TicketController {
 			}
 			
 			model.addObject("loginMember", ticketservice.findMemberByUserId(loginMember.getUserId()));
-			model.addObject("msg", "예매 취소를 완료했습니다.");
+			model.addObject("msg", "예매 취소를 완료했습니다. \n 결제하신 금액은 "
+					+ "영업일 3일이내에 취소가 승인됩니다.");
 			model.addObject("location", "/member/ticket");
 			model.setViewName("common/msg");
 			
