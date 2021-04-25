@@ -12,6 +12,7 @@
 			   USER_ROLE,
 			   DATE_BIRTH,
 			   GENDER,
+			   EMAIL,
 			   PHONE,
 			   POSTCODE,
 			   ADDRESS,
@@ -72,6 +73,7 @@
 		<result property="userRole" column="USER_ROLE" />
 		<result property="dateBirth" column="DATE_BIRTH" />
 		<result property="gender" column="GENDER" />
+		<result property="email" column="EMAIL" />
 		<result property="phone" column="PHONE" />
 		<result property="postcode" column="POSTCODE" />
 		<result property="address" column="ADDRESS" />
