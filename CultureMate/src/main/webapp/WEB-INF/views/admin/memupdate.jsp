@@ -6,7 +6,26 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
+<style>
+.card{
+ left: 20%
+}
 
+#update_submit{
+	background-color: #9DB81F;
+	border:0;
+	outline: 0;
+	}
+	
+#revert{
+	background-color: #FF8C00;
+	}
+.btn:hover{
+color:white;
+	}
+	
+	
+</style>
 <div class="container">
 	<div class="row">
 	     <div class="col-md-9">
@@ -36,7 +55,7 @@
                               <div class="form-group row">
                                 <label for="userName" class="col-4 col-form-label">이름</label> 
                                 <div class="col-8">
-                                  <input id="userName" name="userName" value="${ member.userName }" class="form-control here" readonly required="required" type="text">
+                                  <input id="userName" name="userName" value="${ member.userName }" class="form-control here" required="required" type="text">
                                 </div>
                               </div>
                               <div class="form-group row">
@@ -48,7 +67,7 @@
                               <div class="form-group row">
                                 <label for="rank" class="col-4 col-form-label">등급</label> 
                                 <div class="col-8">
-                                  <input id="rank" name="rank" placeholder="등급" value="${ member.rank }" class="form-control here" required="required" type="text">
+                                  <input id="rank" name="rank" placeholder="등급"  class="form-control here" value="${ member.rank }" required="required" type="text">
                                 </div>
                               </div>
                               <div class="form-group row">
@@ -75,7 +94,7 @@
                               </div> 
                               <div class="form-group" align="center">
                               	<button type="submit" class="btn btn-primary" id="update_submit">수정</button>
-                              	<button type="reset" class="btn btn-default">취소</button>
+                              	<button type="reset" class="btn btn-default"id="revert">취소</button>
                               </div>
                             </form>
 		                </div>

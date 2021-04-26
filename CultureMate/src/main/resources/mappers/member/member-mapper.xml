@@ -18,32 +18,11 @@
 			   ADDRESS,
 			   DETAIL_ADDR,
 			   EXTRA_ADDR,
-			   RANK
-		FROM MEMBER
-		WHERE STATUS = 'Y'
-	</sql>
-	
-	<sql id="selectSearchSql">
-		SELECT ID,
-			   USER_ID,
-			   PASSWORD,
-			   USER_NICK,
-			   USER_NAME,
-			   USER_ROLE,
-			   DATE_BIRTH,
-			   EMAIL,
-			   GENDER,
-			   PHONE,
-			   POSTCODE,
-			   ADDRESS,
-			   DETAIL_ADDR,
-			   EXTRA_ADDR,
 			   RANK,
 			   STATUS
 		FROM MEMBER
-        WHERE STATUS = #{status}
+		WHERE STATUS = 'Y'
 	</sql>
-	
 	
 	<sql id="searchkeyword">		
 		<if test='search != null and search.equals("userId")'>
@@ -133,6 +112,7 @@
 			   RANK,
 			   STATUS
 		FROM MEMBER
+		WHERE USER_ROLE NOT IN('ROLE_ADMIN')
 		ORDER BY ID DESC
 	</select>
 	

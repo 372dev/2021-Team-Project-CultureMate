@@ -112,24 +112,21 @@ h1{
 
       <div class="box"> 
         <table   class = "membertable" border="1" > 
-            <tr> 
+         <tr> 
            <div id="memberSearch">
 	        <form name="form1" method="post" action="${path}/admin/showList">
-		   <select name="search" style="border-radius: 5px; width:100px;height:30px;">
+		      <select name="search" style="border-radius: 5px; width:100px;height:30px;">
             	<option value="prfnm" ${pageInfo.search eq 'prfnm'? 'selected' : '' }>
             		공연명</option>
             	<option value="userId" ${pageInfo.search eq 'userId'? 'selected' : '' }>
             		<span>아이디</span></option>
-	 		</select> 
-	 		 <input type="text" name="keyword" placeholder="입력" value="${pageInfo.keyword }" style="border-radius: 5px; width:200px;height:30px;">
+	 		   </select> 
+	 		   <input type="text" name="keyword" placeholder="입력" value="${pageInfo.keyword }" style="border-radius: 5px; width:200px;height:30px;">
 		     <input class="searchBtn" id="searchBtn" type="submit" onclick="$('form1').submit()" value="검색"></input>      
 	       </form>     
-            </tr> 
-              </table> 
+          </tr> 
+         </table> 
       </div>
-
-      
-
 
 <div class="table-responsive">
   <table class="table table-hover" >

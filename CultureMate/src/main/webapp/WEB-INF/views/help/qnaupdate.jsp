@@ -1,80 +1,162 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<link rel="stylesheet" href="${path}/resources/css/cscenter.css">
-    <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+    <script src="https://kit.fontawesome.com/4d8c9a2b0b.js"
+	crossorigin="anonymous"></script>
+<style>
+.csname {
+	background-color: #9DB81F;
+	line-height: 70px;
+	font-size: 25px;
+	border-radius: 5px;
+	text-indent: 20px;
+	margin: 20px 0px;
+	
+}
+
+nav {
+	width: 100%;
+	background: white;
+	border: 1px solid black;
+	margin-top: 30px;
+	/* border-right: none; */
+}
+
+nav ul {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+
+nav ul li {
+	list-style: none;
+	float: left;
+	text-align: center;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #ccc;
+	width: 16.6667%; /* fallback for non-calc() browsers */
+	width: calc(100%/ 6);
+	box-sizing: border-box;
+	inline-size: 50%;
+}
+
+nav ul li:first-child {
+	border-left: none;
+}
+
+nav ul li a {
+	display: block;
+	text-decoration: none;
+	color: #616161;
+	padding: 10px 0;
+}
+
+.qnalist {
+	margin-top: 30px;
+}
+
+#btnSave {
+	background-color: #9DB81F;
+}
+
+#btnList {
+	background-color: #6C757D;
+}
+
+.nav-item {
+	display: inline-block;
+	inline-size: 30%;
+	border: 1px solid #EDEDED;
+	border-radius: 5px;
+}
+article{
+margin-top: 30px
+}
+#form{
+margin-top: 10px
+}
+.qnaagree{
+  text-align: center;
+}
+</style>
 
 <div class="col">
-	<p>고객센터</p>
-	<form action='${path}/help/qnaupdate' method="post" enctype="multipart/form-data">
-	<ul class="nav nav-pills">
-		<li class="nav-item"><a class="nav-link active" 
-			href="${path}/help/csmain">자주묻는질문 & FAQ</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="${path}/help/notice ">공지사항</a></li>
-		<li class="nav-item"><a class="nav-link"
-			href="${path}/help/qnalist">1:1문의</a></li>
+<p class="csname">고객센터</p>
+
+<ul class="nav nav-pills nav-fill">
+	<li class="nav-item"><a class="nav-link"
+		href="${path}/help/csmain">자주묻는질문(FAQ)</a></li>
+	<li class="nav-item"><a class="nav-link"
+		href="${path}/help/notice ">공지사항</a></li>
+	<li class="nav-item"><a class="nav-link active"
+		style="background-color: #6C757D;" href="${path}/help/qnalist">Q&A</a>
+	</li>
+</ul>
+
+<nav class="qnalsit">
+	<ul class="qnaul">
+		<li class="qnalist1"><a href="${path}/help/qnalist">Q&A 게시판</a></li>
+		<li class="qnalist2"><a href="${path}/help/qnacontent">문의하기</a></li>
 	</ul>
-    
-      <nav>
-        <ul>
-          <li><a href="${path}/help/qnalist">문의내역</a></li>
-          <li><a href="${path}/help/qnacontent">문의하기</a></li>
-          
-        </ul>
-      </nav>
+</nav>
+</div>
 
-       <hr>
+<article>
 
-       <h3>1:1 문의 수정</h3>
-       
- 
-       <div class="cs_qna">
-           <div class="qnalist">
-              <input type="hidden" name="qnaId" value = "${qnaboard.qnaId}">
-           
-               <label style="font-size: large;">문의유형</label>
-              
-                   <select name="qnaType">
-                       <option selected  value="${qnaboard.qnaType}">문의유형선택</option>
-                           <option value="공연">공연</option>
-                           <option value="메이트">메이트 게시판</option>
-                      
-                   </select>
-           </div>
-            <div>
-					<lable style="font-size: large;">작성자</label>
-					<input type="text" name="userId" value="${ loginMember.userId}" readonly>
-           </div>
-           <div class="qnaname">
-               <label style="font-size: large;">문의제목</label>
-               <input type="text"  name="qnaTitle" value="${ qnaboard.qnaTitle}">
-           </div>
+	<div class="container" role="main">
 
-      
-           <div id="msgBody" class="qnacontent">
-               <textarea name="qnaContent" cols="90" rows="15"><c:out value="${ qnaboard.qnaContent}"/></textarea>
-           </div>
-      </div>
-      
-           <hr>
+	<h4>문의 수정</h4>
+	   <form method="post" action='${path}/help/qnacontent'>
+		   <div name="form" id="form" role="form">
+			  <div class="mb-3">
+                <input type="hidden" name="qnaId" value = "${qnaboard.qnaId}">
+				   <i class="far fa-edit"></i><label for="title">문의유형</label> 
+				   <i class="fas fa-lock" size=1x></i><label>비공개</label> 
+				    <input type="checkbox" value='N' name="qnaOpenStatus" id="qnaOpenStatus">
+					  <select name="qnaType" class="form-control" name="title" id="title" required>
+						<option value="${qnaboard.qnaType}">문의유형선택</option>
+						<option value="공연">공연</option>
+						<option value="메이트/티켓나눔">메이트/티켓나눔 게시판</option>
+					  </select>
+				 </div>
 
-      <div class="qnaagree">
-        <pre>
-          수집하는 개인정보[(필수)이메일, 문의내용],[(선택)첨부파일]눈 문의 내용처리 및 처리 및
-          고객 불만의 해결을위해 사요외며, 관련 법령에 따라 3년간 보관후 삭제됩니다.
-          문의 접수, 처리 및 회신을 위한 필욫최소산의 개인정보이므로 동의를 해주셔야 
-          서비스를 이용하실 수 있습니다.
-          <input type="checkbox"> 위, 개인정보 수집 및 이용에 동의합니다.
-           
-        </pre>
-      </div>
-   
-           <div class="qnabtn">
-           <input type="submit" value="수정완료">
-           <button type="button" onclick="location.replace('${path}/help/qnalist')">목록으로</button>
-          </div>
-       </div>
+		      <div class="mb-3">
+				 <i class="far fa-edit"></i><label for="title">작성자</label> 
+				  <input	type="text" class="form-control" name="userId" id="userId"
+						    value="${ loginMember.userId }" readonly>
+			  </div>
 
-</form>
-    
+				<div class="mb-3">
+
+					<i class="far fa-edit"></i><label for="reg_id">문의제목</label> <input
+						type="text" class="form-control" name="qnaTitle" id="qnaTitle" value="${ qnaboard.qnaTitle}"
+						required>
+				</div>
+
+				<div class="mb-3">
+					<i class="far fa-edit"></i><label for="content">내용</label>
+					<textarea class="form-control" rows="5" name="qnaContent" style="resize: none; height: 300px;"
+						id="content" placeholder="내용을 입력해 주세요" required>
+					 <c:out value="${ qnaboard.qnaContent}"/>	
+					</textarea>
+				</div>
+	
+			<div class="qnaagree">
+			   <pre>
+	            수집하는 개인정보[(필수)이메일, 문의내용],[(선택)첨부파일]눈 문의 내용처리 및 처리 및
+	            고객 불만의 해결을위해 사요외며, 관련 법령에 따라 3년간 보관후 삭제됩니다.
+	            문의 접수, 처리 및 회신을 위한 필욫최소산의 개인정보이므로 동의를 해주셔야 서비스를 이용하실 수 있습니다.
+	            <input type="checkbox" required> 위, 개인정보 수집 및 이용에 동의합니다.
+	          </pre>
+			</div>
+
+			<div align="center">
+				<input type="submit" value="수정완료" class="btn" id="btnSave"> 
+				<input type="reset" value="취소" class="btn" id="btnList">
+			</div>
+	   </form>
+	</div>
+
+</article>
+
     <%@ include file="/WEB-INF/views/common/footer.jsp"%>

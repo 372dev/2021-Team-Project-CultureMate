@@ -56,11 +56,11 @@ nav ul li a {
 }
 
 #btnSave {
-	background-color: #9DB81F
+	background-color: #9DB81F;
 }
 
 #btnList {
-	background-color: #6C757D
+	background-color: #6C757D;
 }
 
 .nav-item {
@@ -151,7 +151,7 @@ margin-top: 10px
 
 					<i class="far fa-edit"></i><label for="content">내용</label>
 
-					<textarea class="form-control" rows="5" name="qnaContent" style="resize: none; height: 400px;"
+					<textarea class="form-control" rows="5" name="qnaContent" style="resize: none; height: 300px;"
 						id="content" placeholder="내용을 입력해 주세요" required></textarea>
 
 				</div>
@@ -170,8 +170,8 @@ margin-top: 10px
 
 
 				<div align="center">
-					<input type="submit" value="등록" class="btn" id="btnSave"> <input
-						type="reset" value="취소" class="btn" id="btnList">
+					<input type="submit" value="등록" class="btn" id="btnSave"> 
+					<input type="reset" value="취소" class="btn" id="btnList">
 				</div>
 		</form>
 	</div>
