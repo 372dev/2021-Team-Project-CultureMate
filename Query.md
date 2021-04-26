@@ -126,9 +126,6 @@ COMMIT;
 ## TICKET 테이블
 
 ```sql
-DROP TABLE TICKET;
-
-DROP SEQUENCE SEQ_TICKET_NO;
 
 CREATE TABLE TICKET(
     TICKET_NUM NUMBER NOT NULL,
@@ -160,9 +157,6 @@ COMMENT ON COLUMN "TICKET"."TICKET_STATUS" IS '상태';
 
 CREATE SEQUENCE SEQ_TICKET_NO;
 
-COMMIT;
-
-ROLLBACK;
 ```
 -----------------------------------------------------------------------
 
