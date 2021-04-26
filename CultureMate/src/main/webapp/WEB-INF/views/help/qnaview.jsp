@@ -2,7 +2,23 @@
 	pageEncoding="UTF-8"%>
 
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<style>
+#btnSave {
+	background-color: #9DB81F;
+	color: white;
+}
 
+#btnList {
+	background-color: #9DB81F;
+	color: white;
+}
+
+#list{
+background-color: #6C757D;
+color: white;
+}
+
+</style>
 <div class="row">
 	<div class="col-xs-2 col-md-2"></div>
 	<div class="col-xs-8 col-md-8">
@@ -15,7 +31,7 @@
 					<th class="success">작성자</th>
 					<td>${qnaboard.userId}</td>
 					<th class="success">작성일</th>
-					<td>${qnaboard.qnaCreateDate}</td>
+					<td><fmt:formatDate value="${qnaboard.qnaCreateDate}"  pattern="yy/MM/dd HH:mm:ss"/></td>
 				</tr>
 
 				<tr>
@@ -30,11 +46,11 @@
 				<tr>
 					<th colspan="2">
 					<c:if test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
-						<button type="button" onclick="updateBoard()">수정</button>
-						<button type="button" onclick="deleteBoard()">삭제</button>
+						<button type="button" onclick="updateBoard()"  class="btn btn-default btn-sm" id="btnSave">수정</button>
+						<button type="button" onclick="deleteBoard()" class="btn btn-default btn-sm" id="btnList">삭제</button>
 					</c:if>
 					<button type="button"
-							onclick="location.replace('${path}/help/qnalist')">목록으로</button>
+							onclick="location.replace('${path}/help/qnalist')" class="btn btn-default btn-sm" id="list">목록으로</button>
 					</th>
 				</tr>
 			</table>
@@ -42,10 +58,10 @@
 		
 		<div class="container">
 		<form method="GET" name="commentInsertForm" id="commentInsertForm">
-		<label for="content">댓글</label>
 			<div class="input-group">
 				<c:if
 					test="${ !empty loginMember && (loginMember.userId == qnaboard.userId || loginMember.userRole == 'ROLE_ADMIN')}">
+					<label for="content">댓글</label>
 					<input type="hidden" name="qnaId" id="qnaId" value="${qnaboard.qnaId}" />
 					<input type="hidden" name="userId" id="userId" value="${loginMember.userId}" />
 					<input type="text" class="form-control" id="qnaReContent"

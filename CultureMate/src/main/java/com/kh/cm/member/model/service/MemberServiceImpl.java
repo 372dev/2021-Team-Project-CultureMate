@@ -203,11 +203,13 @@ public class MemberServiceImpl implements MemberService {
 	// 관리자가 멤버 정보수정
 	@Override
 	public int adminupdateMember(Member member) {
+          int result = 0;
 		
+		passwordEncoder.encode(member.getPassword());
 		
-		member.setPassword(passwordEncoder.encode(member.getPassword()));
+		result = memberDao.allfindMemberUpdate(member);
 		
-		return memberDao.allfindMemberUpdate(member);
+		return result;
 	}
 
 	// 관리자가 멤버삭제

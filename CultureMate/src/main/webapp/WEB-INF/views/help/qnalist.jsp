@@ -96,7 +96,6 @@
 	border:1px solid #42454c;
 }
 
-
 </style>
 
 <div class="col">
@@ -116,7 +115,7 @@
     
       <nav class="qnalsit">
         <ul class="qnaul">
-          <li class="qnalist1"><a href="${path}/help/qnalist">Q&A 게시판</a></li>
+          <li class="qnalist1"><a class="nav-link active" href="${path}/help/qnalist">Q&A 게시판</a></li>
           <li class="qnalist2"><a href="${path}/help/qnacontent">문의하기</a></li>
         </ul>
       </nav>

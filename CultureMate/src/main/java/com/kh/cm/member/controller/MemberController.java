@@ -420,7 +420,7 @@ public class MemberController {
 			return model;
 			
 		}
-		
+		// 검색 리스트 조회
 		@RequestMapping(value = "/admin/list.do", method = {RequestMethod.POST})
 		public ModelAndView memberAllSerch(
 				@RequestParam(value="page", required=false, defaultValue="1") int page,
