@@ -79,6 +79,8 @@ COMMENT ON COLUMN BOXOFFICE.PRFNM IS '공연명';
 COMMENT ON COLUMN BOXOFFICE.RNUM IS '순위';
 COMMENT ON COLUMN BOXOFFICE.SEATCNT IS '좌석수';
 COMMENT ON COLUMN BOXOFFICE.POSTER IS '포스터';
+
+COMMIT;
 ```
 
 -----------------------------------------------------------------------
