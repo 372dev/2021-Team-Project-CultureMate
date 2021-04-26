@@ -106,7 +106,7 @@ h1{
           <a class="nav-link active" style="background-color: #9DB81F;" href="${path}/admin/adminpage">회원조회</a>
           </li>
           <li class="nav-item">
-          <a class="nav-link" href="${path}/admin/showbook">공연에약관리</a>
+          <a class="nav-link" href="${path}/admin/showbook">공연예약관리</a>
           </li>
           <li class="nav-item">
           <a class="nav-link" href="${path}/admin/statistics">통계관리</a>
